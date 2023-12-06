@@ -21,16 +21,36 @@
 ]]></content>
   </entry>
   <entry>
-    <title>test</title>
-    <url>/2023/12/06/test/</url>
-    <content><![CDATA[]]></content>
+    <title>hexo+github搭网站</title>
+    <url>/2023/12/06/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/</url>
+    <content><![CDATA[<p>由于心血来潮，决定自己搭网站。又所谓<em>拿来主义</em>，对于别人的好东西就要拿来，在此记录我参考过的网站</p>
+<span id="more"></span>
+
+<h2 id="手把手从0-1"><a href="#手把手从0-1" class="headerlink" title="手把手从0-1"></a>手把手从0-1</h2><p><a href="https://www.jianshu.com/p/85f455afcfcf">https://www.jianshu.com/p/85f455afcfcf</a></p>
+<h2 id="使用主题next"><a href="#使用主题next" class="headerlink" title="使用主题next"></a>使用主题next</h2><p><a href="https://zhuanlan.zhihu.com/p/150737388">https://zhuanlan.zhihu.com/p/150737388</a></p>
+]]></content>
       <categories>
-        <category>java</category>
+        <category>综述</category>
       </categories>
       <tags>
-        <tag>tag1</tag>
-        <tag>tag2</tag>
-        <tag>tag3</tag>
+        <tag>网站</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>学习硬件安全的网站</title>
+    <url>/2023/12/06/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/</url>
+    <content><![CDATA[<p>作为一名信息安全的学生，由于更喜欢与真实的世界打交道，选择了深入了解硬件安全。这里就将用来记录一些关于<em>硬件安全</em>的学习网站</p>
+<span id="more"></span>
+
+<h2 id="包含多层面的安全技术，其中又IoT安全"><a href="#包含多层面的安全技术，其中又IoT安全" class="headerlink" title="包含多层面的安全技术，其中又IoT安全"></a>包含多层面的安全技术，其中又IoT安全</h2><p><a href="https://paper.seebug.org/">https://paper.seebug.org/</a></p>
+<h2 id="keystone的官方文档"><a href="#keystone的官方文档" class="headerlink" title="keystone的官方文档"></a>keystone的官方文档</h2><p><a href="http://docs.keystone-enclave.org/en/latest/">http://docs.keystone-enclave.org/en/latest/</a></p>
+]]></content>
+      <categories>
+        <category>综述</category>
+      </categories>
+      <tags>
+        <tag>安全</tag>
+        <tag>硬件</tag>
       </tags>
   </entry>
 </search>
