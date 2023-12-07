@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>riscv的学习</title>
-    <url>/2023/12/07/riscv%E7%9A%84%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<p>RISC-V是由伯克利大学开发的一款开源架构，作为对课内的补充，在此记录学习过程</p>
-<span id="more"></span>
-<h2 id="完结-循序渐进，学习开发一个RISC-V上的操作系统-汪辰-2021春"><a href="#完结-循序渐进，学习开发一个RISC-V上的操作系统-汪辰-2021春" class="headerlink" title="[完结] 循序渐进，学习开发一个RISC-V上的操作系统 - 汪辰 - 2021春"></a>[完结] 循序渐进，学习开发一个RISC-V上的操作系统 - 汪辰 - 2021春</h2><iframe src="//player.bilibili.com/player.html?aid=459886905&bvid=BV1Q5411w7z5&cid=319792271&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
-
-<h2 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h2><h4 id="安全中断（riscv架构）"><a href="#安全中断（riscv架构）" class="headerlink" title="安全中断（riscv架构）"></a>安全中断（riscv架构）</h4><p><a href="https://zhuanlan.zhihu.com/p/669734854">https://zhuanlan.zhihu.com/p/669734854</a></p>
-<h4 id="安全相关论文"><a href="#安全相关论文" class="headerlink" title="安全相关论文"></a>安全相关论文</h4><p><a href="https://s.wanfangdata.com.cn/patent?q=%E5%8F%91%E6%98%8E%E4%BA%BA/%E8%AE%BE%E8%AE%A1%E4%BA%BA:%22%E5%A4%8F%E8%99%9E%E6%96%8C%22&p=1">https://s.wanfangdata.com.cn/patent?q=%E5%8F%91%E6%98%8E%E4%BA%BA%2F%E8%AE%BE%E8%AE%A1%E4%BA%BA%3A%22%E5%A4%8F%E8%99%9E%E6%96%8C%22&amp;p=1</a></p>
-]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>riscv</tag>
-        <tag>安全</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hello World</title>
     <url>/2023/12/06/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -54,6 +36,24 @@
       </categories>
       <tags>
         <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>riscv的学习</title>
+    <url>/2023/12/07/riscv%E7%9A%84%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<p>RISC-V是由伯克利大学开发的一款开源架构，作为对课内的补充，在此记录学习过程</p>
+<span id="more"></span>
+<h2 id="完结-循序渐进，学习开发一个RISC-V上的操作系统-汪辰-2021春"><a href="#完结-循序渐进，学习开发一个RISC-V上的操作系统-汪辰-2021春" class="headerlink" title="[完结] 循序渐进，学习开发一个RISC-V上的操作系统 - 汪辰 - 2021春"></a>[完结] 循序渐进，学习开发一个RISC-V上的操作系统 - 汪辰 - 2021春</h2><iframe src="//player.bilibili.com/player.html?aid=459886905&bvid=BV1Q5411w7z5&cid=319792271&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+<h2 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h2><h4 id="安全中断（riscv架构）"><a href="#安全中断（riscv架构）" class="headerlink" title="安全中断（riscv架构）"></a>安全中断（riscv架构）</h4><p><a href="https://zhuanlan.zhihu.com/p/669734854">https://zhuanlan.zhihu.com/p/669734854</a></p>
+<h4 id="安全相关论文"><a href="#安全相关论文" class="headerlink" title="安全相关论文"></a>安全相关论文</h4><p><a href="https://s.wanfangdata.com.cn/patent?q=%E5%8F%91%E6%98%8E%E4%BA%BA/%E8%AE%BE%E8%AE%A1%E4%BA%BA:%22%E5%A4%8F%E8%99%9E%E6%96%8C%22&p=1">https://s.wanfangdata.com.cn/patent?q=%E5%8F%91%E6%98%8E%E4%BA%BA%2F%E8%AE%BE%E8%AE%A1%E4%BA%BA%3A%22%E5%A4%8F%E8%99%9E%E6%96%8C%22&amp;p=1</a></p>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>riscv</tag>
+        <tag>安全</tag>
       </tags>
   </entry>
   <entry>
