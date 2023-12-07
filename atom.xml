@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Hexo</title>
+  
+  
+  <link href="http://example.com/atom.xml" rel="self"/>
+  
+  <link href="http://example.com/"/>
+  <updated>2023-12-07T05:49:54.925Z</updated>
+  <id>http://example.com/</id>
+  
+  <author>
+    <name>John Doe</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>学习硬件安全的网站</title>
+    <link href="http://example.com/2023/12/06/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/"/>
+    <id>http://example.com/2023/12/06/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/</id>
+    <published>2023-12-06T08:50:38.000Z</published>
+    <updated>2023-12-07T05:49:54.925Z</updated>
+    
+    <content type="html"><![CDATA[<p>作为一名信息安全的学生，由于更喜欢与真实的世界打交道，选择了深入了解硬件安全。这里就将用来记录一些关于<em>硬件安全</em>的学习网站</p><span id="more"></span><h2 id="黑客平台"><a href="#黑客平台" class="headerlink" title="黑客平台"></a>黑客平台</h2><h4 id="包含多层面的安全技术，其中有IoT安全"><a href="#包含多层面的安全技术，其中有IoT安全" class="headerlink" title="包含多层面的安全技术，其中有IoT安全"></a>包含多层面的安全技术，其中有IoT安全</h4><p><a href="https://paper.seebug.org/">https://paper.seebug.org/</a></p><h2 id="keystone"><a href="#keystone" class="headerlink" title="keystone"></a>keystone</h2><h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><p><a href="http://docs.keystone-enclave.org/en/latest/">http://docs.keystone-enclave.org/en/latest/</a></p><h4 id="【TEE自学随笔】keystone代码略读"><a href="#【TEE自学随笔】keystone代码略读" class="headerlink" title="【TEE自学随笔】keystone代码略读"></a>【TEE自学随笔】keystone代码略读</h4><p><a href="https://blog.csdn.net/BOWS7RING/article/details/116906211?spm=1001.2014.3001.5502">https://blog.csdn.net/BOWS7RING/article/details/116906211?spm=1001.2014.3001.5502</a></p><h2 id="trustzone"><a href="#trustzone" class="headerlink" title="trustzone"></a>trustzone</h2><h4 id="ARM-A64架构TrustZone学习"><a href="#ARM-A64架构TrustZone学习" class="headerlink" title="ARM A64架构TrustZone学习"></a>ARM A64架构TrustZone学习</h4><p><a href="https://blog.csdn.net/pslyunhai3255/article/details/129229732">https://blog.csdn.net/pslyunhai3255/article/details/129229732</a></p><h2 id="侧信道攻击"><a href="#侧信道攻击" class="headerlink" title="侧信道攻击"></a>侧信道攻击</h2><h4 id="RISC-V-CPU侧信道攻击原理与实践"><a href="#RISC-V-CPU侧信道攻击原理与实践" class="headerlink" title="RISC-V CPU侧信道攻击原理与实践"></a>RISC-V CPU侧信道攻击原理与实践</h4><p><a href="https://www.zhihu.com/people/shawn-82-88-4">https://www.zhihu.com/people/shawn-82-88-4</a></p><h2 id="vivado"><a href="#vivado" class="headerlink" title="vivado"></a>vivado</h2><h4 id="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"><a href="#手把手教你蜂鸟e203移植（以Nexys4DDR为例）" class="headerlink" title="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"></a>手把手教你蜂鸟e203移植（以Nexys4DDR为例）</h4><p><a href="https://www.cnblogs.com/Qzzz/p/17201475.html">https://www.cnblogs.com/Qzzz/p/17201475.html</a></p><p><img src="/images/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/IMG_7006.JPG" alt="Alt text"></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;作为一名信息安全的学生，由于更喜欢与真实的世界打交道，选择了深入了解硬件安全。这里就将用来记录一些关于&lt;em&gt;硬件安全&lt;/em&gt;的学习网站&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="综述" scheme="http://example.com/categories/%E7%BB%BC%E8%BF%B0/"/>
+    
+    
+    <category term="安全" scheme="http://example.com/tags/%E5%AE%89%E5%85%A8/"/>
+    
+    <category term="硬件" scheme="http://example.com/tags/%E7%A1%AC%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hexo+github搭网站</title>
+    <link href="http://example.com/2023/12/06/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/"/>
+    <id>http://example.com/2023/12/06/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/</id>
+    <published>2023-12-06T08:20:38.000Z</published>
+    <updated>2023-12-07T03:59:42.661Z</updated>
+    
+    <content type="html"><![CDATA[<p>由于心血来潮，决定自己搭网站。又所谓<em>拿来主义</em>，对于别人的好东西就要拿来，在此记录我参考过的网站</p><span id="more"></span><h2 id="手把手从0-1"><a href="#手把手从0-1" class="headerlink" title="手把手从0-1"></a>手把手从0-1</h2><p><a href="https://www.jianshu.com/p/85f455afcfcf">https://www.jianshu.com/p/85f455afcfcf</a></p><h2 id="使用主题next"><a href="#使用主题next" class="headerlink" title="使用主题next"></a>使用主题next</h2><p><a href="https://zhuanlan.zhihu.com/p/150737388">https://zhuanlan.zhihu.com/p/150737388</a></p><h2 id="RSS订阅功能"><a href="#RSS订阅功能" class="headerlink" title="RSS订阅功能"></a>RSS订阅功能</h2><p><a href="https://segmentfault.com/a/1190000012647294">https://segmentfault.com/a/1190000012647294</a></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;由于心血来潮，决定自己搭网站。又所谓&lt;em&gt;拿来主义&lt;/em&gt;，对于别人的好东西就要拿来，在此记录我参考过的网站&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="综述" scheme="http://example.com/categories/%E7%BB%BC%E8%BF%B0/"/>
+    
+    
+    <category term="网站" scheme="http://example.com/tags/%E7%BD%91%E7%AB%99/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://example.com/2023/12/06/hello-world/"/>
+    <id>http://example.com/2023/12/06/hello-world/</id>
+    <published>2023-12-06T08:12:12.874Z</published>
+    <updated>2023-12-06T14:03:20.460Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><span id="more"></span><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
+  
+</feed>
