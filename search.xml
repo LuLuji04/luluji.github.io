@@ -41,7 +41,9 @@
   <entry>
     <title>riscv的学习</title>
     <url>/2023/12/07/riscv%E7%9A%84%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h2 id="完结-循序渐进，学习开发一个RISC-V上的操作系统-汪辰-2021春"><a href="#完结-循序渐进，学习开发一个RISC-V上的操作系统-汪辰-2021春" class="headerlink" title="[完结] 循序渐进，学习开发一个RISC-V上的操作系统 - 汪辰 - 2021春"></a>[完结] 循序渐进，学习开发一个RISC-V上的操作系统 - 汪辰 - 2021春</h2><iframe src="//player.bilibili.com/player.html?aid=459886905&bvid=BV1Q5411w7z5&cid=319792271&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+    <content><![CDATA[<p>RISC-V是由伯克利大学开发的一款开源架构，作为对课内的补充，在此记录学习过程</p>
+<span id="more"></span>
+<h2 id="完结-循序渐进，学习开发一个RISC-V上的操作系统-汪辰-2021春"><a href="#完结-循序渐进，学习开发一个RISC-V上的操作系统-汪辰-2021春" class="headerlink" title="[完结] 循序渐进，学习开发一个RISC-V上的操作系统 - 汪辰 - 2021春"></a>[完结] 循序渐进，学习开发一个RISC-V上的操作系统 - 汪辰 - 2021春</h2><iframe src="//player.bilibili.com/player.html?aid=459886905&bvid=BV1Q5411w7z5&cid=319792271&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
 
 <h4 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h4>]]></content>
       <categories>
