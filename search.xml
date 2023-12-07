@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>学习硬件安全的网站</title>
+    <url>/2023/12/06/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/</url>
+    <content><![CDATA[<p>作为一名信息安全的学生，由于更喜欢与真实的世界打交道，选择了深入了解硬件安全。这里就将用来记录一些关于<em>硬件安全</em>的学习网站</p>
+<span id="more"></span>
+
+<h2 id="黑客平台"><a href="#黑客平台" class="headerlink" title="黑客平台"></a>黑客平台</h2><h4 id="包含多层面的安全技术，其中有IoT安全"><a href="#包含多层面的安全技术，其中有IoT安全" class="headerlink" title="包含多层面的安全技术，其中有IoT安全"></a>包含多层面的安全技术，其中有IoT安全</h4><p><a href="https://paper.seebug.org/">https://paper.seebug.org/</a></p>
+<h2 id="keystone"><a href="#keystone" class="headerlink" title="keystone"></a>keystone</h2><h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><p><a href="http://docs.keystone-enclave.org/en/latest/">http://docs.keystone-enclave.org/en/latest/</a></p>
+<h4 id="【TEE自学随笔】keystone代码略读"><a href="#【TEE自学随笔】keystone代码略读" class="headerlink" title="【TEE自学随笔】keystone代码略读"></a>【TEE自学随笔】keystone代码略读</h4><p><a href="https://blog.csdn.net/BOWS7RING/article/details/116906211?spm=1001.2014.3001.5502">https://blog.csdn.net/BOWS7RING/article/details/116906211?spm=1001.2014.3001.5502</a></p>
+<h2 id="trustzone"><a href="#trustzone" class="headerlink" title="trustzone"></a>trustzone</h2><h4 id="ARM-A64架构TrustZone学习"><a href="#ARM-A64架构TrustZone学习" class="headerlink" title="ARM A64架构TrustZone学习"></a>ARM A64架构TrustZone学习</h4><p><a href="https://blog.csdn.net/pslyunhai3255/article/details/129229732">https://blog.csdn.net/pslyunhai3255/article/details/129229732</a></p>
+<h2 id="侧信道攻击"><a href="#侧信道攻击" class="headerlink" title="侧信道攻击"></a>侧信道攻击</h2><h4 id="RISC-V-CPU侧信道攻击原理与实践"><a href="#RISC-V-CPU侧信道攻击原理与实践" class="headerlink" title="RISC-V CPU侧信道攻击原理与实践"></a>RISC-V CPU侧信道攻击原理与实践</h4><p><a href="https://www.zhihu.com/people/shawn-82-88-4">https://www.zhihu.com/people/shawn-82-88-4</a></p>
+<h2 id="vivado"><a href="#vivado" class="headerlink" title="vivado"></a>vivado</h2><h4 id="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"><a href="#手把手教你蜂鸟e203移植（以Nexys4DDR为例）" class="headerlink" title="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"></a>手把手教你蜂鸟e203移植（以Nexys4DDR为例）</h4><p><a href="https://www.cnblogs.com/Qzzz/p/17201475.html">https://www.cnblogs.com/Qzzz/p/17201475.html</a></p>
+<p><img src="/images/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/IMG_7006.JPG" alt="Alt text"></p>
+]]></content>
+      <categories>
+        <category>综述</category>
+      </categories>
+      <tags>
+        <tag>安全</tag>
+        <tag>硬件</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2023/12/06/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -35,28 +57,6 @@
       </categories>
       <tags>
         <tag>网站</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>学习硬件安全的网站</title>
-    <url>/2023/12/06/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/</url>
-    <content><![CDATA[<p>作为一名信息安全的学生，由于更喜欢与真实的世界打交道，选择了深入了解硬件安全。这里就将用来记录一些关于<em>硬件安全</em>的学习网站</p>
-<span id="more"></span>
-
-<h2 id="黑客平台"><a href="#黑客平台" class="headerlink" title="黑客平台"></a>黑客平台</h2><h4 id="包含多层面的安全技术，其中有IoT安全"><a href="#包含多层面的安全技术，其中有IoT安全" class="headerlink" title="包含多层面的安全技术，其中有IoT安全"></a>包含多层面的安全技术，其中有IoT安全</h4><p><a href="https://paper.seebug.org/">https://paper.seebug.org/</a></p>
-<h2 id="keystone"><a href="#keystone" class="headerlink" title="keystone"></a>keystone</h2><h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><p><a href="http://docs.keystone-enclave.org/en/latest/">http://docs.keystone-enclave.org/en/latest/</a></p>
-<h4 id="【TEE自学随笔】keystone代码略读"><a href="#【TEE自学随笔】keystone代码略读" class="headerlink" title="【TEE自学随笔】keystone代码略读"></a>【TEE自学随笔】keystone代码略读</h4><p><a href="https://blog.csdn.net/BOWS7RING/article/details/116906211?spm=1001.2014.3001.5502">https://blog.csdn.net/BOWS7RING/article/details/116906211?spm=1001.2014.3001.5502</a></p>
-<h2 id="trustzone"><a href="#trustzone" class="headerlink" title="trustzone"></a>trustzone</h2><h4 id="ARM-A64架构TrustZone学习"><a href="#ARM-A64架构TrustZone学习" class="headerlink" title="ARM A64架构TrustZone学习"></a>ARM A64架构TrustZone学习</h4><p><a href="https://blog.csdn.net/pslyunhai3255/article/details/129229732">https://blog.csdn.net/pslyunhai3255/article/details/129229732</a></p>
-<h2 id="侧信道攻击"><a href="#侧信道攻击" class="headerlink" title="侧信道攻击"></a>侧信道攻击</h2><h4 id="RISC-V-CPU侧信道攻击原理与实践"><a href="#RISC-V-CPU侧信道攻击原理与实践" class="headerlink" title="RISC-V CPU侧信道攻击原理与实践"></a>RISC-V CPU侧信道攻击原理与实践</h4><p><a href="https://www.zhihu.com/people/shawn-82-88-4">https://www.zhihu.com/people/shawn-82-88-4</a></p>
-<h2 id="vivado"><a href="#vivado" class="headerlink" title="vivado"></a>vivado</h2><h4 id="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"><a href="#手把手教你蜂鸟e203移植（以Nexys4DDR为例）" class="headerlink" title="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"></a>手把手教你蜂鸟e203移植（以Nexys4DDR为例）</h4><p><a href="https://www.cnblogs.com/Qzzz/p/17201475.html">https://www.cnblogs.com/Qzzz/p/17201475.html</a></p>
-<p><img src="/images/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/IMG_7006.JPG" alt="Alt text"></p>
-]]></content>
-      <categories>
-        <category>综述</category>
-      </categories>
-      <tags>
-        <tag>安全</tag>
-        <tag>硬件</tag>
       </tags>
   </entry>
 </search>
