@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>hexo+github搭网站</title>
+    <url>/2023/12/06/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/</url>
+    <content><![CDATA[<p>由于心血来潮，决定自己搭网站。又所谓<em>拿来主义</em>，对于别人的好东西就要拿来，在此记录我参考过的网站</p>
+<span id="more"></span>
+
+<h2 id="手把手从0-1"><a href="#手把手从0-1" class="headerlink" title="手把手从0-1"></a>手把手从0-1</h2><p><a href="https://www.jianshu.com/p/85f455afcfcf">https://www.jianshu.com/p/85f455afcfcf</a></p>
+<h2 id="使用主题next"><a href="#使用主题next" class="headerlink" title="使用主题next"></a>使用主题next</h2><p><a href="https://zhuanlan.zhihu.com/p/150737388">https://zhuanlan.zhihu.com/p/150737388</a></p>
+<h2 id="RSS订阅功能"><a href="#RSS订阅功能" class="headerlink" title="RSS订阅功能"></a>RSS订阅功能</h2><p><a href="https://segmentfault.com/a/1190000012647294">https://segmentfault.com/a/1190000012647294</a></p>
+<h2 id="Hexo博客Next主题bilibili视频Markdown插入文章"><a href="#Hexo博客Next主题bilibili视频Markdown插入文章" class="headerlink" title="Hexo博客Next主题bilibili视频Markdown插入文章"></a>Hexo博客Next主题bilibili视频Markdown插入文章</h2><p><a href="https://www.freesion.com/article/9552475946/">https://www.freesion.com/article/9552475946/</a></p>
+<h2 id="HEXO-基本使用（讲解文章格式的）"><a href="#HEXO-基本使用（讲解文章格式的）" class="headerlink" title="HEXO 基本使用（讲解文章格式的）"></a>HEXO 基本使用（讲解文章格式的）</h2><p><a href="https://blog.csdn.net/xq151750111/article/details/133043466">https://blog.csdn.net/xq151750111/article/details/133043466</a></p>
+<h2 id="Hexo教程，看这一篇就够了-How-to系列（有空研读一下）"><a href="#Hexo教程，看这一篇就够了-How-to系列（有空研读一下）" class="headerlink" title="Hexo教程，看这一篇就够了- How to系列（有空研读一下）"></a>Hexo教程，看这一篇就够了- How to系列（有空研读一下）</h2><p><a href="https://blog.csdn.net/cat_bayi/article/details/128725230">https://blog.csdn.net/cat_bayi/article/details/128725230</a></p>
+<p><img src="/images/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/IMG_7006.JPG" alt="Alt text"></p>
+]]></content>
+      <categories>
+        <category>综述</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2023/12/06/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -19,24 +40,6 @@
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>hexo+github搭网站</title>
-    <url>/2023/12/06/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/</url>
-    <content><![CDATA[<p>由于心血来潮，决定自己搭网站。又所谓<em>拿来主义</em>，对于别人的好东西就要拿来，在此记录我参考过的网站</p>
-<span id="more"></span>
-
-<h2 id="手把手从0-1"><a href="#手把手从0-1" class="headerlink" title="手把手从0-1"></a>手把手从0-1</h2><p><a href="https://www.jianshu.com/p/85f455afcfcf">https://www.jianshu.com/p/85f455afcfcf</a></p>
-<h2 id="使用主题next"><a href="#使用主题next" class="headerlink" title="使用主题next"></a>使用主题next</h2><p><a href="https://zhuanlan.zhihu.com/p/150737388">https://zhuanlan.zhihu.com/p/150737388</a></p>
-<h2 id="RSS订阅功能"><a href="#RSS订阅功能" class="headerlink" title="RSS订阅功能"></a>RSS订阅功能</h2><p><a href="https://segmentfault.com/a/1190000012647294">https://segmentfault.com/a/1190000012647294</a></p>
-<h2 id="Hexo博客Next主题bilibili视频Markdown插入文章"><a href="#Hexo博客Next主题bilibili视频Markdown插入文章" class="headerlink" title="Hexo博客Next主题bilibili视频Markdown插入文章"></a>Hexo博客Next主题bilibili视频Markdown插入文章</h2><p><a href="https://www.freesion.com/article/9552475946/">https://www.freesion.com/article/9552475946/</a></p>
-]]></content>
-      <categories>
-        <category>综述</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-      </tags>
   </entry>
   <entry>
     <title>riscv的学习</title>
@@ -68,7 +71,9 @@
 <h4 id="一文知悉RISC-V可信执行环境：Keystone"><a href="#一文知悉RISC-V可信执行环境：Keystone" class="headerlink" title="一文知悉RISC-V可信执行环境：Keystone"></a>一文知悉RISC-V可信执行环境：Keystone</h4><p><a href="https://blog.csdn.net/weixin_45264425/article/details/134326170">https://blog.csdn.net/weixin_45264425/article/details/134326170</a></p>
 <h2 id="trustzone"><a href="#trustzone" class="headerlink" title="trustzone"></a>trustzone</h2><h4 id="ARM-A64架构TrustZone学习"><a href="#ARM-A64架构TrustZone学习" class="headerlink" title="ARM A64架构TrustZone学习"></a>ARM A64架构TrustZone学习</h4><p><a href="https://blog.csdn.net/pslyunhai3255/article/details/129229732">https://blog.csdn.net/pslyunhai3255/article/details/129229732</a></p>
 <h2 id="侧信道攻击"><a href="#侧信道攻击" class="headerlink" title="侧信道攻击"></a>侧信道攻击</h2><h4 id="RISC-V-CPU侧信道攻击原理与实践"><a href="#RISC-V-CPU侧信道攻击原理与实践" class="headerlink" title="RISC-V CPU侧信道攻击原理与实践"></a>RISC-V CPU侧信道攻击原理与实践</h4><p><a href="https://www.zhihu.com/people/shawn-82-88-4">https://www.zhihu.com/people/shawn-82-88-4</a></p>
-<h2 id="vivado"><a href="#vivado" class="headerlink" title="vivado"></a>vivado</h2><h4 id="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"><a href="#手把手教你蜂鸟e203移植（以Nexys4DDR为例）" class="headerlink" title="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"></a>手把手教你蜂鸟e203移植（以Nexys4DDR为例）</h4><p><a href="https://www.cnblogs.com/Qzzz/p/17201475.html">https://www.cnblogs.com/Qzzz/p/17201475.html</a></p>
+<h2 id="数字ic"><a href="#数字ic" class="headerlink" title="数字ic"></a>数字ic</h2><h4 id="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"><a href="#手把手教你蜂鸟e203移植（以Nexys4DDR为例）" class="headerlink" title="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"></a>手把手教你蜂鸟e203移植（以Nexys4DDR为例）</h4><p><a href="https://www.cnblogs.com/Qzzz/p/17201475.html">https://www.cnblogs.com/Qzzz/p/17201475.html</a></p>
+<h4 id="数字IC基础学这些就够了"><a href="#数字IC基础学这些就够了" class="headerlink" title="数字IC基础学这些就够了"></a>数字IC基础学这些就够了</h4><p><a href="https://zhuanlan.zhihu.com/p/670736813">https://zhuanlan.zhihu.com/p/670736813</a></p>
+<h2 id="体系结构"><a href="#体系结构" class="headerlink" title="体系结构"></a>体系结构</h2><h4 id="计算机体系结构学习路线"><a href="#计算机体系结构学习路线" class="headerlink" title="计算机体系结构学习路线"></a>计算机体系结构学习路线</h4><p><a href="https://zhuanlan.zhihu.com/p/654821469">https://zhuanlan.zhihu.com/p/654821469</a></p>
 <p><img src="/images/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/IMG_7006.JPG" alt="Alt text"></p>
 ]]></content>
       <categories>
@@ -77,6 +82,30 @@
       <tags>
         <tag>安全</tag>
         <tag>硬件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>人工智能</title>
+    <url>/2023/12/08/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</url>
+    <content><![CDATA[<span id="more"></span>
+
+
+<h2 id="1-大模型网站"><a href="#1-大模型网站" class="headerlink" title="1.大模型网站"></a>1.大模型网站</h2><h4 id="ChatGPT"><a href="#ChatGPT" class="headerlink" title="ChatGPT"></a>ChatGPT</h4><p><a href="https://chat.openai.com/">https://chat.openai.com/</a></p>
+<h4 id="文心一言"><a href="#文心一言" class="headerlink" title="文心一言"></a>文心一言</h4><p><a href="https://yiyan.baidu.com/">https://yiyan.baidu.com/</a><br>飞桨AI(调用文心一言)<br><a href="https://aistudio.baidu.com/cooperate/erniebotsdk">https://aistudio.baidu.com/cooperate/erniebotsdk</a></p>
+<h4 id="智谱AI"><a href="#智谱AI" class="headerlink" title="智谱AI"></a>智谱AI</h4><p><a href="https://open.bigmodel.cn/">https://open.bigmodel.cn/</a></p>
+<h4 id="星火大模型"><a href="#星火大模型" class="headerlink" title="星火大模型"></a>星火大模型</h4><p><a href="https://xinghuo.xfyun.cn/">https://xinghuo.xfyun.cn/</a></p>
+<h2 id="2-调用API-python"><a href="#2-调用API-python" class="headerlink" title="2.调用API(python)"></a>2.调用API(python)</h2><h4 id="用飞桨AI调用文心大模型"><a href="#用飞桨AI调用文心大模型" class="headerlink" title="用飞桨AI调用文心大模型"></a>用飞桨AI调用文心大模型</h4><p><a href="https://zhuanlan.zhihu.com/p/661241466">https://zhuanlan.zhihu.com/p/661241466</a></p>
+<h4 id="智谱AI官方调用文档"><a href="#智谱AI官方调用文档" class="headerlink" title="智谱AI官方调用文档"></a>智谱AI官方调用文档</h4><p><a href="https://open.bigmodel.cn/dev/api#chatglm_turbo">https://open.bigmodel.cn/dev/api#chatglm_turbo</a></p>
+<h4 id="星火大模型-1"><a href="#星火大模型-1" class="headerlink" title="星火大模型"></a>星火大模型</h4><p><a href="https://zhuanlan.zhihu.com/p/671067886">https://zhuanlan.zhihu.com/p/671067886</a></p>
+<h2 id="3-debug"><a href="#3-debug" class="headerlink" title="3.debug"></a>3.debug</h2><h4 id="python文件名不能与包名重复"><a href="#python文件名不能与包名重复" class="headerlink" title="python文件名不能与包名重复"></a>python文件名不能与包名重复</h4><p><a href="https://blog.csdn.net/long_songs/article/details/129070598">https://blog.csdn.net/long_songs/article/details/129070598</a></p>
+<h4 id="windows中为终端设置代理"><a href="#windows中为终端设置代理" class="headerlink" title="windows中为终端设置代理"></a>windows中为终端设置代理</h4><p><a href="https://blog.csdn.net/csj777/article/details/129536997">https://blog.csdn.net/csj777/article/details/129536997</a></p>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>ai</tag>
+        <tag>开发</tag>
       </tags>
   </entry>
 </search>
