@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-12-09T09:48:09.492Z</updated>
+  <updated>2023-12-09T10:32:47.414Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,18 +21,12 @@
     <link href="http://example.com/2023/12/08/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
     <id>http://example.com/2023/12/08/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</id>
     <published>2023-12-08T10:11:10.000Z</published>
-    <updated>2023-12-09T09:48:09.492Z</updated>
+    <updated>2023-12-09T10:32:47.414Z</updated>
     
-    <content type="html"><![CDATA[<span id="more"></span><h2 id="1-大模型网站"><a href="#1-大模型网站" class="headerlink" title="1.大模型网站"></a>1.大模型网站</h2><h4 id="ChatGPT"><a href="#ChatGPT" class="headerlink" title="ChatGPT"></a>ChatGPT</h4><p><a href="https://chat.openai.com/">https://chat.openai.com/</a></p><h4 id="文心一言"><a href="#文心一言" class="headerlink" title="文心一言"></a>文心一言</h4><p><a href="https://yiyan.baidu.com/">https://yiyan.baidu.com/</a><br>飞桨AI(调用文心一言)<br><a href="https://aistudio.baidu.com/cooperate/erniebotsdk">https://aistudio.baidu.com/cooperate/erniebotsdk</a></p><h4 id="智谱AI"><a href="#智谱AI" class="headerlink" title="智谱AI"></a>智谱AI</h4><p><a href="https://open.bigmodel.cn/">https://open.bigmodel.cn/</a></p><h4 id="星火大模型"><a href="#星火大模型" class="headerlink" title="星火大模型"></a>星火大模型</h4><p><a href="https://xinghuo.xfyun.cn/">https://xinghuo.xfyun.cn/</a></p><h2 id="2-调用API-python"><a href="#2-调用API-python" class="headerlink" title="2.调用API(python)"></a>2.调用API(python)</h2><h4 id="用飞桨AI调用文心大模型"><a href="#用飞桨AI调用文心大模型" class="headerlink" title="用飞桨AI调用文心大模型"></a>用飞桨AI调用文心大模型</h4><p><a href="https://zhuanlan.zhihu.com/p/661241466">https://zhuanlan.zhihu.com/p/661241466</a></p><h4 id="智谱AI官方调用文档"><a href="#智谱AI官方调用文档" class="headerlink" title="智谱AI官方调用文档"></a>智谱AI官方调用文档</h4><p><a href="https://open.bigmodel.cn/dev/api#chatglm_turbo">https://open.bigmodel.cn/dev/api#chatglm_turbo</a></p><h4 id="星火大模型-1"><a href="#星火大模型-1" class="headerlink" title="星火大模型"></a>星火大模型</h4><p><a href="https://zhuanlan.zhihu.com/p/671067886">https://zhuanlan.zhihu.com/p/671067886</a></p><h2 id="3-debug"><a href="#3-debug" class="headerlink" title="3.debug"></a>3.debug</h2><h4 id="python文件名不能与包名重复"><a href="#python文件名不能与包名重复" class="headerlink" title="python文件名不能与包名重复"></a>python文件名不能与包名重复</h4><p><a href="https://blog.csdn.net/long_songs/article/details/129070598">https://blog.csdn.net/long_songs/article/details/129070598</a></p><h4 id="windows中为终端设置代理"><a href="#windows中为终端设置代理" class="headerlink" title="windows中为终端设置代理"></a>windows中为终端设置代理</h4><p><a href="https://blog.csdn.net/csj777/article/details/129536997">https://blog.csdn.net/csj777/article/details/129536997</a></p>]]></content>
+    <content type="html"><![CDATA[<p>为应付期末人工智能论文，记录一下有用的网站，以防忘记</p><span id="more"></span><h2 id="1-大模型网站"><a href="#1-大模型网站" class="headerlink" title="1.大模型网站"></a>1.大模型网站</h2><h4 id="ChatGPT"><a href="#ChatGPT" class="headerlink" title="ChatGPT"></a>ChatGPT</h4><p><a href="https://chat.openai.com/">https://chat.openai.com/</a></p><h4 id="文心一言"><a href="#文心一言" class="headerlink" title="文心一言"></a>文心一言</h4><p><a href="https://yiyan.baidu.com/">https://yiyan.baidu.com/</a><br>飞桨AI(调用文心一言)<br><a href="https://aistudio.baidu.com/cooperate/erniebotsdk">https://aistudio.baidu.com/cooperate/erniebotsdk</a></p><h4 id="智谱AI"><a href="#智谱AI" class="headerlink" title="智谱AI"></a>智谱AI</h4><p><a href="https://open.bigmodel.cn/">https://open.bigmodel.cn/</a></p><h4 id="星火大模型"><a href="#星火大模型" class="headerlink" title="星火大模型"></a>星火大模型</h4><p><a href="https://xinghuo.xfyun.cn/">https://xinghuo.xfyun.cn/</a></p><h2 id="2-调用API-python"><a href="#2-调用API-python" class="headerlink" title="2.调用API(python)"></a>2.调用API(python)</h2><h4 id="用飞桨AI调用文心大模型"><a href="#用飞桨AI调用文心大模型" class="headerlink" title="用飞桨AI调用文心大模型"></a>用飞桨AI调用文心大模型</h4><p><a href="https://zhuanlan.zhihu.com/p/661241466">https://zhuanlan.zhihu.com/p/661241466</a></p><h4 id="智谱AI官方调用文档"><a href="#智谱AI官方调用文档" class="headerlink" title="智谱AI官方调用文档"></a>智谱AI官方调用文档</h4><p><a href="https://open.bigmodel.cn/dev/api#chatglm_turbo">https://open.bigmodel.cn/dev/api#chatglm_turbo</a></p><h4 id="星火大模型-1"><a href="#星火大模型-1" class="headerlink" title="星火大模型"></a>星火大模型</h4><p><a href="https://zhuanlan.zhihu.com/p/671067886">https://zhuanlan.zhihu.com/p/671067886</a></p><h2 id="3-debug"><a href="#3-debug" class="headerlink" title="3.debug"></a>3.debug</h2><h4 id="python文件名不能与包名重复"><a href="#python文件名不能与包名重复" class="headerlink" title="python文件名不能与包名重复"></a>python文件名不能与包名重复</h4><p><a href="https://blog.csdn.net/long_songs/article/details/129070598">https://blog.csdn.net/long_songs/article/details/129070598</a></p><h4 id="windows中为终端设置代理"><a href="#windows中为终端设置代理" class="headerlink" title="windows中为终端设置代理"></a>windows中为终端设置代理</h4><p><a href="https://blog.csdn.net/csj777/article/details/129536997">https://blog.csdn.net/csj777/article/details/129536997</a></p>]]></content>
     
     
-      
-      
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-
-
-&lt;h2 id=&quot;1-大模型网站&quot;&gt;&lt;a href=&quot;#1-大模型网站&quot; class=&quot;headerlink&quot; title=&quot;1.大模型网站&quot;&gt;&lt;/a&gt;1.大模型网站&lt;/h2&gt;&lt;h4 id=&quot;ChatGPT&quot;&gt;&lt;a href=&quot;#</summary>
-      
+    <summary type="html">&lt;p&gt;为应付期末人工智能论文，记录一下有用的网站，以防忘记&lt;/p&gt;</summary>
     
     
     
