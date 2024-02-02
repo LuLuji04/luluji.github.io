@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-12-17T13:30:06.395Z</updated>
+  <updated>2024-02-02T07:23:34.211Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,13 +17,64 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>linux的常用命令</title>
+    <link href="http://example.com/2024/02/02/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+    <id>http://example.com/2024/02/02/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</id>
+    <published>2024-02-02T07:17:23.000Z</published>
+    <updated>2024-02-02T07:23:34.211Z</updated>
+    
+    <content type="html"><![CDATA[<span id="more"></span><h2 id="重启网络（显示wifi图标）"><a href="#重启网络（显示wifi图标）" class="headerlink" title="重启网络（显示wifi图标）"></a>重启网络（显示wifi图标）</h2><p>$ sudo nmcli network off<br>$ sudo nmcli network on</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
+&lt;h2 id=&quot;重启网络（显示wifi图标）&quot;&gt;&lt;a href=&quot;#重启网络（显示wifi图标）&quot; class=&quot;headerlink&quot; title=&quot;重启网络（显示wifi图标）&quot;&gt;&lt;/a&gt;重启网络（显示wifi图标）&lt;/h2&gt;&lt;</summary>
+      
+    
+    
+    
+    <category term="学习" scheme="http://example.com/categories/%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="开发" scheme="http://example.com/tags/%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>配置vivado</title>
+    <link href="http://example.com/2023/12/26/%E9%85%8D%E7%BD%AEvivado/"/>
+    <id>http://example.com/2023/12/26/%E9%85%8D%E7%BD%AEvivado/</id>
+    <published>2023-12-26T08:07:25.000Z</published>
+    <updated>2023-12-26T08:27:56.508Z</updated>
+    
+    <content type="html"><![CDATA[<span id="more"></span><h2 id="VSCode关联VIVADO编辑Verilog"><a href="#VSCode关联VIVADO编辑Verilog" class="headerlink" title="VSCode关联VIVADO编辑Verilog"></a>VSCode关联VIVADO编辑Verilog</h2><p><a href="https://blog.csdn.net/wd12306/article/details/128929552">https://blog.csdn.net/wd12306/article/details/128929552</a></p><h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>导入的文件可以不在{projectdir}\newcounter\newcounter.srcs中，<br><img src="/../images/%E9%85%8D%E7%BD%AEvivado/image.png" alt="Alt text"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
+
+&lt;h2 id=&quot;VSCode关联VIVADO编辑Verilog&quot;&gt;&lt;a href=&quot;#VSCode关联VIVADO编辑Verilog&quot; class=&quot;headerlink&quot; title=&quot;VSCode关联VIVADO编辑Veril</summary>
+      
+    
+    
+    
+    <category term="学习" scheme="http://example.com/categories/%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="硬件，开发" scheme="http://example.com/tags/%E7%A1%AC%E4%BB%B6%EF%BC%8C%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
+  
+  <entry>
     <title>人工智能</title>
     <link href="http://example.com/2023/12/08/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
     <id>http://example.com/2023/12/08/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</id>
     <published>2023-12-08T10:11:10.000Z</published>
-    <updated>2023-12-17T13:30:06.395Z</updated>
+    <updated>2023-12-24T08:49:54.867Z</updated>
     
-    <content type="html"><![CDATA[<p>为应付期末人工智能论文，记录一下有用的网站，以防忘记</p><span id="more"></span><h2 id="1-大模型网站"><a href="#1-大模型网站" class="headerlink" title="1.大模型网站"></a>1.大模型网站</h2><h4 id="ChatGPT"><a href="#ChatGPT" class="headerlink" title="ChatGPT"></a>ChatGPT</h4><p><a href="https://chat.openai.com/">https://chat.openai.com/</a></p><h4 id="文心一言"><a href="#文心一言" class="headerlink" title="文心一言"></a>文心一言</h4><p><a href="https://yiyan.baidu.com/">https://yiyan.baidu.com/</a><br>飞桨AI(调用文心一言)<br><a href="https://aistudio.baidu.com/cooperate/erniebotsdk">https://aistudio.baidu.com/cooperate/erniebotsdk</a></p><h4 id="智谱AI"><a href="#智谱AI" class="headerlink" title="智谱AI"></a>智谱AI</h4><p><a href="https://open.bigmodel.cn/">https://open.bigmodel.cn/</a></p><h4 id="星火大模型"><a href="#星火大模型" class="headerlink" title="星火大模型"></a>星火大模型</h4><p><a href="https://xinghuo.xfyun.cn/">https://xinghuo.xfyun.cn/</a></p><h2 id="2-调用API-python"><a href="#2-调用API-python" class="headerlink" title="2.调用API(python)"></a>2.调用API(python)</h2><h4 id="用飞桨AI调用文心大模型"><a href="#用飞桨AI调用文心大模型" class="headerlink" title="用飞桨AI调用文心大模型"></a>用飞桨AI调用文心大模型</h4><p><a href="https://zhuanlan.zhihu.com/p/661241466">https://zhuanlan.zhihu.com/p/661241466</a></p><h4 id="智谱AI官方调用文档"><a href="#智谱AI官方调用文档" class="headerlink" title="智谱AI官方调用文档"></a>智谱AI官方调用文档</h4><p><a href="https://open.bigmodel.cn/dev/api#chatglm_turbo">https://open.bigmodel.cn/dev/api#chatglm_turbo</a></p><h4 id="星火大模型-1"><a href="#星火大模型-1" class="headerlink" title="星火大模型"></a>星火大模型</h4><p><a href="https://zhuanlan.zhihu.com/p/671067886">https://zhuanlan.zhihu.com/p/671067886</a></p><h2 id="3-prompt"><a href="#3-prompt" class="headerlink" title="3.prompt"></a>3.prompt</h2><h4 id="大模型时代的科研基础之：Prompt-Engineering"><a href="#大模型时代的科研基础之：Prompt-Engineering" class="headerlink" title="大模型时代的科研基础之：Prompt Engineering"></a>大模型时代的科研基础之：Prompt Engineering</h4><iframe src="//player.bilibili.com/player.html?aid=313877142&bvid=BV13P41197c6&cid=1137176592&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>可以当作研究过程写进论文<h2 id="3-评估模型好坏的方法"><a href="#3-评估模型好坏的方法" class="headerlink" title="3.评估模型好坏的方法"></a>3.评估模型好坏的方法</h2><h4 id="干货分享！如何评估-大型语言模型（LLMs）的输出质量？评估方法大盘点！"><a href="#干货分享！如何评估-大型语言模型（LLMs）的输出质量？评估方法大盘点！" class="headerlink" title="干货分享！如何评估 大型语言模型（LLMs）的输出质量？评估方法大盘点！"></a>干货分享！如何评估 大型语言模型（LLMs）的输出质量？评估方法大盘点！</h4><p><a href="https://zhuanlan.zhihu.com/p/660777460">https://zhuanlan.zhihu.com/p/660777460</a></p><h4 id="【Mo-人工智能技术博客】联邦学习鲁棒性及相关论文分享"><a href="#【Mo-人工智能技术博客】联邦学习鲁棒性及相关论文分享" class="headerlink" title="【Mo 人工智能技术博客】联邦学习鲁棒性及相关论文分享"></a>【Mo 人工智能技术博客】联邦学习鲁棒性及相关论文分享</h4><p><a href="https://zhuanlan.zhihu.com/p/337048283">https://zhuanlan.zhihu.com/p/337048283</a></p><h4 id="《大模型时代的科研》之2-Prompt-Engineering-提示词工程"><a href="#《大模型时代的科研》之2-Prompt-Engineering-提示词工程" class="headerlink" title="《大模型时代的科研》之2: Prompt Engineering (提示词工程)"></a>《大模型时代的科研》之2: Prompt Engineering (提示词工程)</h4><p>这个是在讲怎么构造好的prompt,与本次论文关系不大<br><a href="https://zhuanlan.zhihu.com/p/631922240">https://zhuanlan.zhihu.com/p/631922240</a></p><h4 id="大模型鲁棒不鲁棒，PromptBench测一测-首个大语言模型提示鲁棒性的评测基准PromptBench"><a href="#大模型鲁棒不鲁棒，PromptBench测一测-首个大语言模型提示鲁棒性的评测基准PromptBench" class="headerlink" title="大模型鲁棒不鲁棒，PromptBench测一测: 首个大语言模型提示鲁棒性的评测基准PromptBench"></a>大模型鲁棒不鲁棒，PromptBench测一测: 首个大语言模型提示鲁棒性的评测基准PromptBench</h4><p><a href="https://zhuanlan.zhihu.com/p/637219127">https://zhuanlan.zhihu.com/p/637219127</a></p><h2 id="4-debug"><a href="#4-debug" class="headerlink" title="4.debug"></a>4.debug</h2><h4 id="python文件名不能与包名重复"><a href="#python文件名不能与包名重复" class="headerlink" title="python文件名不能与包名重复"></a>python文件名不能与包名重复</h4><p><a href="https://blog.csdn.net/long_songs/article/details/129070598">https://blog.csdn.net/long_songs/article/details/129070598</a></p><h4 id="windows中为终端设置代理"><a href="#windows中为终端设置代理" class="headerlink" title="windows中为终端设置代理"></a>windows中为终端设置代理</h4><p><a href="https://blog.csdn.net/csj777/article/details/129536997">https://blog.csdn.net/csj777/article/details/129536997</a></p><h4 id="python同步遍历两个列表"><a href="#python同步遍历两个列表" class="headerlink" title="python同步遍历两个列表"></a>python同步遍历两个列表</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for prompt, reference in zip(test_accuarcy_cases, test_accuarcy_reference):</span><br><span class="line">#balbala</span><br><span class="line">#</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<p>为应付期末人工智能论文，记录一下有用的网站，以防忘记</p><span id="more"></span><h2 id="1-大模型网站"><a href="#1-大模型网站" class="headerlink" title="1.大模型网站"></a>1.大模型网站</h2><h4 id="ChatGPT"><a href="#ChatGPT" class="headerlink" title="ChatGPT"></a>ChatGPT</h4><p><a href="https://chat.openai.com/">https://chat.openai.com/</a><br><a href="https://openai.com/">https://openai.com/</a></p><h4 id="文心一言"><a href="#文心一言" class="headerlink" title="文心一言"></a>文心一言</h4><p><a href="https://yiyan.baidu.com/">https://yiyan.baidu.com/</a><br>飞桨AI(调用文心一言)<br><a href="https://aistudio.baidu.com/cooperate/erniebotsdk">https://aistudio.baidu.com/cooperate/erniebotsdk</a></p><h4 id="智谱AI"><a href="#智谱AI" class="headerlink" title="智谱AI"></a>智谱AI</h4><p><a href="https://open.bigmodel.cn/">https://open.bigmodel.cn/</a></p><h4 id="星火大模型"><a href="#星火大模型" class="headerlink" title="星火大模型"></a>星火大模型</h4><p><a href="https://xinghuo.xfyun.cn/">https://xinghuo.xfyun.cn/</a></p><h2 id="2-调用API-python"><a href="#2-调用API-python" class="headerlink" title="2.调用API(python)"></a>2.调用API(python)</h2><h4 id="用飞桨AI调用文心大模型"><a href="#用飞桨AI调用文心大模型" class="headerlink" title="用飞桨AI调用文心大模型"></a>用飞桨AI调用文心大模型</h4><p><a href="https://zhuanlan.zhihu.com/p/661241466">https://zhuanlan.zhihu.com/p/661241466</a></p><h4 id="智谱AI官方调用文档"><a href="#智谱AI官方调用文档" class="headerlink" title="智谱AI官方调用文档"></a>智谱AI官方调用文档</h4><p><a href="https://open.bigmodel.cn/dev/api#chatglm_turbo">https://open.bigmodel.cn/dev/api#chatglm_turbo</a></p><h4 id="星火大模型-1"><a href="#星火大模型-1" class="headerlink" title="星火大模型"></a>星火大模型</h4><p><a href="https://zhuanlan.zhihu.com/p/671067886">https://zhuanlan.zhihu.com/p/671067886</a></p><h2 id="3-prompt"><a href="#3-prompt" class="headerlink" title="3.prompt"></a>3.prompt</h2><h4 id="大模型时代的科研基础之：Prompt-Engineering"><a href="#大模型时代的科研基础之：Prompt-Engineering" class="headerlink" title="大模型时代的科研基础之：Prompt Engineering"></a>大模型时代的科研基础之：Prompt Engineering</h4><iframe src="//player.bilibili.com/player.html?aid=313877142&bvid=BV13P41197c6&cid=1137176592&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>可以当作研究过程写进论文<h2 id="4-评估模型好坏的方法"><a href="#4-评估模型好坏的方法" class="headerlink" title="4.评估模型好坏的方法"></a>4.评估模型好坏的方法</h2><h4 id="干货分享！如何评估-大型语言模型（LLMs）的输出质量？评估方法大盘点！"><a href="#干货分享！如何评估-大型语言模型（LLMs）的输出质量？评估方法大盘点！" class="headerlink" title="干货分享！如何评估 大型语言模型（LLMs）的输出质量？评估方法大盘点！"></a>干货分享！如何评估 大型语言模型（LLMs）的输出质量？评估方法大盘点！</h4><p><a href="https://zhuanlan.zhihu.com/p/660777460">https://zhuanlan.zhihu.com/p/660777460</a></p><h4 id="【Mo-人工智能技术博客】联邦学习鲁棒性及相关论文分享"><a href="#【Mo-人工智能技术博客】联邦学习鲁棒性及相关论文分享" class="headerlink" title="【Mo 人工智能技术博客】联邦学习鲁棒性及相关论文分享"></a>【Mo 人工智能技术博客】联邦学习鲁棒性及相关论文分享</h4><p><a href="https://zhuanlan.zhihu.com/p/337048283">https://zhuanlan.zhihu.com/p/337048283</a></p><h4 id="《大模型时代的科研》之2-Prompt-Engineering-提示词工程"><a href="#《大模型时代的科研》之2-Prompt-Engineering-提示词工程" class="headerlink" title="《大模型时代的科研》之2: Prompt Engineering (提示词工程)"></a>《大模型时代的科研》之2: Prompt Engineering (提示词工程)</h4><p>这个是在讲怎么构造好的prompt,与本次论文关系不大<br><a href="https://zhuanlan.zhihu.com/p/631922240">https://zhuanlan.zhihu.com/p/631922240</a></p><h4 id="大模型鲁棒不鲁棒，PromptBench测一测-首个大语言模型提示鲁棒性的评测基准PromptBench"><a href="#大模型鲁棒不鲁棒，PromptBench测一测-首个大语言模型提示鲁棒性的评测基准PromptBench" class="headerlink" title="大模型鲁棒不鲁棒，PromptBench测一测: 首个大语言模型提示鲁棒性的评测基准PromptBench"></a>大模型鲁棒不鲁棒，PromptBench测一测: 首个大语言模型提示鲁棒性的评测基准PromptBench</h4><p><a href="https://zhuanlan.zhihu.com/p/637219127">https://zhuanlan.zhihu.com/p/637219127</a></p><h2 id="5-debug"><a href="#5-debug" class="headerlink" title="5.debug"></a>5.debug</h2><h4 id="python文件名不能与包名重复"><a href="#python文件名不能与包名重复" class="headerlink" title="python文件名不能与包名重复"></a>python文件名不能与包名重复</h4><p><a href="https://blog.csdn.net/long_songs/article/details/129070598">https://blog.csdn.net/long_songs/article/details/129070598</a></p><h4 id="windows中为终端设置代理"><a href="#windows中为终端设置代理" class="headerlink" title="windows中为终端设置代理"></a>windows中为终端设置代理</h4><p><a href="https://blog.csdn.net/qq_43651168/article/details/131074308">https://blog.csdn.net/qq_43651168/article/details/131074308</a></p><h4 id="python同步遍历两个列表"><a href="#python同步遍历两个列表" class="headerlink" title="python同步遍历两个列表"></a>python同步遍历两个列表</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for prompt, reference in zip(test_accuarcy_cases, test_accuarcy_reference):</span><br><span class="line">#balbala</span><br><span class="line">#</span><br></pre></td></tr></table></figure><h2 id="6-短信接收"><a href="#6-短信接收" class="headerlink" title="6.短信接收"></a>6.短信接收</h2><p><a href="https://sms-activate.org/cn">https://sms-activate.org/cn</a></p>]]></content>
     
     
     <summary type="html">&lt;p&gt;为应付期末人工智能论文，记录一下有用的网站，以防忘记&lt;/p&gt;</summary>
@@ -33,9 +84,9 @@
     <category term="学习" scheme="http://example.com/categories/%E5%AD%A6%E4%B9%A0/"/>
     
     
-    <category term="ai" scheme="http://example.com/tags/ai/"/>
-    
     <category term="开发" scheme="http://example.com/tags/%E5%BC%80%E5%8F%91/"/>
+    
+    <category term="ai" scheme="http://example.com/tags/ai/"/>
     
   </entry>
   
@@ -90,9 +141,9 @@
     <link href="http://example.com/2023/12/06/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/"/>
     <id>http://example.com/2023/12/06/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/</id>
     <published>2023-12-06T08:20:38.000Z</published>
-    <updated>2023-12-09T10:24:18.318Z</updated>
+    <updated>2024-02-02T07:21:27.695Z</updated>
     
-    <content type="html"><![CDATA[<p>由于心血来潮，决定自己搭网站。又所谓<em>拿来主义</em>，对于别人的好东西就要拿来，在此记录我参考过的网站</p><span id="more"></span><h2 id="手把手从0-1"><a href="#手把手从0-1" class="headerlink" title="手把手从0-1"></a>手把手从0-1</h2><p><a href="https://www.jianshu.com/p/85f455afcfcf">https://www.jianshu.com/p/85f455afcfcf</a></p><h2 id="使用主题next"><a href="#使用主题next" class="headerlink" title="使用主题next"></a>使用主题next</h2><p><a href="https://zhuanlan.zhihu.com/p/150737388">https://zhuanlan.zhihu.com/p/150737388</a></p><h2 id="RSS订阅功能"><a href="#RSS订阅功能" class="headerlink" title="RSS订阅功能"></a>RSS订阅功能</h2><p><a href="https://segmentfault.com/a/1190000012647294">https://segmentfault.com/a/1190000012647294</a></p><h2 id="Hexo博客Next主题bilibili视频Markdown插入文章"><a href="#Hexo博客Next主题bilibili视频Markdown插入文章" class="headerlink" title="Hexo博客Next主题bilibili视频Markdown插入文章"></a>Hexo博客Next主题bilibili视频Markdown插入文章</h2><p><a href="https://www.freesion.com/article/9552475946/">https://www.freesion.com/article/9552475946/</a></p><h2 id="HEXO-基本使用（讲解文章格式的）"><a href="#HEXO-基本使用（讲解文章格式的）" class="headerlink" title="HEXO 基本使用（讲解文章格式的）"></a>HEXO 基本使用（讲解文章格式的）</h2><p><a href="https://blog.csdn.net/xq151750111/article/details/133043466">https://blog.csdn.net/xq151750111/article/details/133043466</a></p><h2 id="Hexo教程，看这一篇就够了-How-to系列（有空研读一下）"><a href="#Hexo教程，看这一篇就够了-How-to系列（有空研读一下）" class="headerlink" title="Hexo教程，看这一篇就够了- How to系列（有空研读一下）"></a>Hexo教程，看这一篇就够了- How to系列（有空研读一下）</h2><p><a href="https://blog.csdn.net/cat_bayi/article/details/128725230">https://blog.csdn.net/cat_bayi/article/details/128725230</a></p><p><img src="/images/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/IMG_7006.JPG" alt="Alt text"></p>]]></content>
+    <content type="html"><![CDATA[<p>由于心血来潮，决定自己搭网站。又所谓<em>拿来主义</em>，对于别人的好东西就要拿来，在此记录我参考过的网站</p><span id="more"></span><h2 id="手把手从0-1"><a href="#手把手从0-1" class="headerlink" title="手把手从0-1"></a>手把手从0-1</h2><p><a href="https://www.jianshu.com/p/85f455afcfcf">https://www.jianshu.com/p/85f455afcfcf</a></p><p>创建<br>$ hexo new post(default)&#x2F;draft&#x2F;page [文章名]<br>清除缓存<br>$ hexo clean<br>远端生效<br>$ hexo d -g</p><h2 id="使用主题next"><a href="#使用主题next" class="headerlink" title="使用主题next"></a>使用主题next</h2><p><a href="https://zhuanlan.zhihu.com/p/150737388">https://zhuanlan.zhihu.com/p/150737388</a></p><h2 id="RSS订阅功能"><a href="#RSS订阅功能" class="headerlink" title="RSS订阅功能"></a>RSS订阅功能</h2><p><a href="https://segmentfault.com/a/1190000012647294">https://segmentfault.com/a/1190000012647294</a></p><h2 id="Hexo博客Next主题bilibili视频Markdown插入文章"><a href="#Hexo博客Next主题bilibili视频Markdown插入文章" class="headerlink" title="Hexo博客Next主题bilibili视频Markdown插入文章"></a>Hexo博客Next主题bilibili视频Markdown插入文章</h2><p><a href="https://www.freesion.com/article/9552475946/">https://www.freesion.com/article/9552475946/</a></p><h2 id="HEXO-基本使用（讲解文章格式的）"><a href="#HEXO-基本使用（讲解文章格式的）" class="headerlink" title="HEXO 基本使用（讲解文章格式的）"></a>HEXO 基本使用（讲解文章格式的）</h2><p><a href="https://blog.csdn.net/xq151750111/article/details/133043466">https://blog.csdn.net/xq151750111/article/details/133043466</a></p><h2 id="Hexo教程，看这一篇就够了-How-to系列（有空研读一下）"><a href="#Hexo教程，看这一篇就够了-How-to系列（有空研读一下）" class="headerlink" title="Hexo教程，看这一篇就够了- How to系列（有空研读一下）"></a>Hexo教程，看这一篇就够了- How to系列（有空研读一下）</h2><p><a href="https://blog.csdn.net/cat_bayi/article/details/128725230">https://blog.csdn.net/cat_bayi/article/details/128725230</a></p><p><img src="/images/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/IMG_7006.JPG" alt="Alt text"></p>]]></content>
     
     
     <summary type="html">&lt;p&gt;由于心血来潮，决定自己搭网站。又所谓&lt;em&gt;拿来主义&lt;/em&gt;，对于别人的好东西就要拿来，在此记录我参考过的网站&lt;/p&gt;</summary>
