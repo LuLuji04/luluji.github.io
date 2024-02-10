@@ -278,9 +278,9 @@
 <h2 id=""><a href="#" class="headerlink" title="|"></a>|</h2><p>管道（|）是一个Shell特性，它允许你将一个命令的输出作为另一个命令的输入。与-exec不同，管道通常与xargs命令一起使用，xargs可以将标准输入（stdin）转换为命令行参数。</p>
 <p>查找当前目录及子目录下所有.log文件，并使用grep命令在它们中搜索”error”字符串：<br>$ find . -type f -name “*.log” | xargs grep “error”</p>
 <p>性能：使用-exec时，find会为每个找到的文件启动一个新的进程来执行指定的命令。而管道到xargs的方式会尝试减少进程的数量，通过将多个文件名作为单个命令的参数来提高效率。<br>安全性：-exec直接由find处理，可以安全地处理文件名中的特殊字符。而使用管道到xargs时，如果不加-0选项（并且find使用-print0），可能会遇到文件名中包含空格、换行符等特殊字符的问题。<br>灵活性：管道允许你利用Shell的特性组合多个命令，可以实现更复杂的处理流程。<br>选择使用-exec还是管道（配合xargs），取决于具体的任务需求、对性能的考量以及对特殊文件名的处理需求。</p>
-<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>查看所有Git配置项：<br>$ git config –list<br>user.name&#x3D;LuLuji04<br>user.email&#x3D;<a href="mailto:&#x6c;&#x69;&#x75;&#x79;&#x75;&#106;&#105;&#48;&#49;&#x30;&#x40;&#49;&#x32;&#54;&#x2e;&#99;&#x6f;&#x6d;">&#x6c;&#x69;&#x75;&#x79;&#x75;&#106;&#105;&#48;&#49;&#x30;&#x40;&#49;&#x32;&#54;&#x2e;&#99;&#x6f;&#x6d;</a><br>https.proxy&#x3D;192.168.3.11:7890<br>credential.helper&#x3D;store<br>http.proxy&#x3D;192.168.3.11:7890<br>core.editor&#x3D;vim<br>color.ui&#x3D;true</p>
+<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>查看所有Git配置项：<br>$ git config –list<br>user.name&#x3D;LuLuji04<br>user.email&#x3D;<a href="mailto:&#x6c;&#x69;&#x75;&#121;&#117;&#106;&#105;&#x30;&#x31;&#48;&#64;&#49;&#50;&#x36;&#x2e;&#99;&#111;&#x6d;">&#x6c;&#x69;&#x75;&#121;&#117;&#106;&#105;&#x30;&#x31;&#48;&#64;&#49;&#50;&#x36;&#x2e;&#99;&#111;&#x6d;</a><br>https.proxy&#x3D;192.168.3.11:7890<br>credential.helper&#x3D;store<br>http.proxy&#x3D;192.168.3.11:7890<br>core.editor&#x3D;vim<br>color.ui&#x3D;true</p>
 <p>查看特定配置项的值，如user.name：<br>$ git config user.name</p>
-<p>$ git config –global user.name “Your Name”<br>$ git config –global user.email “<a href="mailto:&#x79;&#x6f;&#117;&#114;&#x65;&#109;&#x61;&#x69;&#108;&#64;&#101;&#x78;&#x61;&#x6d;&#112;&#108;&#101;&#46;&#x63;&#111;&#109;">&#x79;&#x6f;&#117;&#114;&#x65;&#109;&#x61;&#x69;&#108;&#64;&#101;&#x78;&#x61;&#x6d;&#112;&#108;&#101;&#46;&#x63;&#111;&#109;</a>“</p>
+<p>$ git config –global user.name “Your Name”<br>$ git config –global user.email “<a href="mailto:&#x79;&#x6f;&#x75;&#x72;&#x65;&#109;&#x61;&#105;&#108;&#x40;&#x65;&#120;&#97;&#109;&#x70;&#x6c;&#101;&#46;&#99;&#x6f;&#109;">&#x79;&#x6f;&#x75;&#x72;&#x65;&#109;&#x61;&#105;&#108;&#x40;&#x65;&#120;&#97;&#109;&#x70;&#x6c;&#101;&#46;&#99;&#x6f;&#109;</a>“</p>
 
     </div>
 
@@ -394,7 +394,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
