@@ -1,27 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2023/12/06/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<span id="more"></span>
-
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>cpps的特性</title>
+    <title>cpp的特性</title>
     <url>/2024/02/10/cpp%E7%9A%84%E7%89%B9%E6%80%A7/</url>
     <content><![CDATA[<span id="more"></span>
 
@@ -106,6 +86,48 @@ ret:led1
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2023/12/06/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<span id="more"></span>
+
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>hexo+github搭网站</title>
+    <url>/2023/12/06/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/</url>
+    <content><![CDATA[<p>由于心血来潮，决定自己搭网站。又所谓<em>拿来主义</em>，对于别人的好东西就要拿来，在此记录我参考过的网站</p>
+<span id="more"></span>
+
+<h2 id="手把手从0-1"><a href="#手把手从0-1" class="headerlink" title="手把手从0-1"></a>手把手从0-1</h2><p><a href="https://www.jianshu.com/p/85f455afcfcf">https://www.jianshu.com/p/85f455afcfcf</a></p>
+<p>创建<br>$ hexo new post(default)&#x2F;draft&#x2F;page [文章名]<br>清除缓存<br>$ hexo clean<br>远端生效<br>$ hexo d -g</p>
+<h2 id="使用主题next"><a href="#使用主题next" class="headerlink" title="使用主题next"></a>使用主题next</h2><p><a href="https://zhuanlan.zhihu.com/p/150737388">https://zhuanlan.zhihu.com/p/150737388</a></p>
+<h2 id="RSS订阅功能"><a href="#RSS订阅功能" class="headerlink" title="RSS订阅功能"></a>RSS订阅功能</h2><p><a href="https://segmentfault.com/a/1190000012647294">https://segmentfault.com/a/1190000012647294</a></p>
+<h2 id="Hexo博客Next主题bilibili视频Markdown插入文章"><a href="#Hexo博客Next主题bilibili视频Markdown插入文章" class="headerlink" title="Hexo博客Next主题bilibili视频Markdown插入文章"></a>Hexo博客Next主题bilibili视频Markdown插入文章</h2><p><a href="https://www.freesion.com/article/9552475946/">https://www.freesion.com/article/9552475946/</a></p>
+<h2 id="HEXO-基本使用（讲解文章格式的）"><a href="#HEXO-基本使用（讲解文章格式的）" class="headerlink" title="HEXO 基本使用（讲解文章格式的）"></a>HEXO 基本使用（讲解文章格式的）</h2><p><a href="https://blog.csdn.net/xq151750111/article/details/133043466">https://blog.csdn.net/xq151750111/article/details/133043466</a></p>
+<h2 id="Hexo教程，看这一篇就够了-How-to系列（有空研读一下）"><a href="#Hexo教程，看这一篇就够了-How-to系列（有空研读一下）" class="headerlink" title="Hexo教程，看这一篇就够了- How to系列（有空研读一下）"></a>Hexo教程，看这一篇就够了- How to系列（有空研读一下）</h2><p><a href="https://blog.csdn.net/cat_bayi/article/details/128725230">https://blog.csdn.net/cat_bayi/article/details/128725230</a></p>
+<p><img src="/images/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/IMG_7006.JPG" alt="Alt text"></p>
+]]></content>
+      <categories>
+        <category>综述</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>linux的常用命令</title>
     <url>/2024/02/02/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<span id="more"></span>
@@ -138,9 +160,25 @@ ret:led1
 <h2 id=""><a href="#" class="headerlink" title="|"></a>|</h2><p>管道（|）是一个Shell特性，它允许你将一个命令的输出作为另一个命令的输入。与-exec不同，管道通常与xargs命令一起使用，xargs可以将标准输入（stdin）转换为命令行参数。</p>
 <p>查找当前目录及子目录下所有.log文件，并使用grep命令在它们中搜索”error”字符串：<br>$ find . -type f -name “*.log” | xargs grep “error”</p>
 <p>性能：使用-exec时，find会为每个找到的文件启动一个新的进程来执行指定的命令。而管道到xargs的方式会尝试减少进程的数量，通过将多个文件名作为单个命令的参数来提高效率。<br>安全性：-exec直接由find处理，可以安全地处理文件名中的特殊字符。而使用管道到xargs时，如果不加-0选项（并且find使用-print0），可能会遇到文件名中包含空格、换行符等特殊字符的问题。<br>灵活性：管道允许你利用Shell的特性组合多个命令，可以实现更复杂的处理流程。<br>选择使用-exec还是管道（配合xargs），取决于具体的任务需求、对性能的考量以及对特殊文件名的处理需求。</p>
-<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>查看所有Git配置项：<br>$ git config –list<br>user.name&#x3D;LuLuji04<br>user.email&#x3D;<a href="mailto:&#108;&#x69;&#117;&#x79;&#117;&#106;&#105;&#48;&#49;&#48;&#x40;&#49;&#x32;&#54;&#46;&#99;&#111;&#x6d;">&#108;&#x69;&#117;&#x79;&#117;&#106;&#105;&#48;&#49;&#48;&#x40;&#49;&#x32;&#54;&#46;&#99;&#111;&#x6d;</a><br>https.proxy&#x3D;192.168.3.11:7890<br>credential.helper&#x3D;store<br>http.proxy&#x3D;192.168.3.11:7890<br>core.editor&#x3D;vim<br>color.ui&#x3D;true</p>
+<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>查看所有Git配置项：<br>$ git config –list<br>user.name&#x3D;LuLuji04<br>user.email&#x3D;<a href="mailto:&#x6c;&#x69;&#x75;&#x79;&#x75;&#106;&#105;&#48;&#49;&#x30;&#x40;&#49;&#x32;&#54;&#x2e;&#99;&#x6f;&#x6d;">&#x6c;&#x69;&#x75;&#x79;&#x75;&#106;&#105;&#48;&#49;&#x30;&#x40;&#49;&#x32;&#54;&#x2e;&#99;&#x6f;&#x6d;</a><br>https.proxy&#x3D;192.168.3.11:7890<br>credential.helper&#x3D;store<br>http.proxy&#x3D;192.168.3.11:7890<br>core.editor&#x3D;vim<br>color.ui&#x3D;true</p>
 <p>查看特定配置项的值，如user.name：<br>$ git config user.name</p>
-<p>$ git config –global user.name “Your Name”<br>$ git config –global user.email “<a href="mailto:&#x79;&#x6f;&#117;&#114;&#x65;&#109;&#x61;&#x69;&#108;&#x40;&#101;&#120;&#x61;&#x6d;&#x70;&#108;&#101;&#46;&#99;&#x6f;&#109;">&#x79;&#x6f;&#117;&#114;&#x65;&#109;&#x61;&#x69;&#108;&#x40;&#101;&#120;&#x61;&#x6d;&#x70;&#108;&#101;&#46;&#99;&#x6f;&#109;</a>“</p>
+<p>$ git config –global user.name “Your Name”<br>$ git config –global user.email “<a href="mailto:&#x79;&#x6f;&#117;&#114;&#x65;&#109;&#x61;&#x69;&#108;&#64;&#101;&#x78;&#x61;&#x6d;&#112;&#108;&#101;&#46;&#x63;&#111;&#109;">&#x79;&#x6f;&#117;&#114;&#x65;&#109;&#x61;&#x69;&#108;&#64;&#101;&#x78;&#x61;&#x6d;&#112;&#108;&#101;&#46;&#x63;&#111;&#109;</a>“</p>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>开发</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>makefile的常用操作</title>
+    <url>/2024/02/10/makefile%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<p>如何将多个对象文件（.o文件，由${OBJS}变量表示）链接成一个可执行文件（os.elf），然后将该可执行文件转换成二进制格式的镜像文件（os.bin）<br>os.elf: ${OBJS}<br>    ${CC} ${CFLAGS} -T os.ld -o os.elf $^<br>    ${OBJCOPY} -O binary os.elf os.bin</p>
+<p>-T os.ld：指定链接脚本os.ld。链接脚本用于控制链接过程，如指定各个段（如代码段、数据段）的位置。<br>-o os.elf：指定输出文件的名称为os.elf。<br>$^：这是Makefile的自动变量，表示所有的依赖项，这里指${OBJS}变量中列出的所有对象文件。</p>
+<p>${OBJCOPY}：这是GNU Binutils工具集中objcopy程序的变量，用于进行文件格式转换。<br>-O binary：指定输出格式为二进制。objcopy可以将ELF格式（或其他格式）的文件转换为纯二进制格式，这对于裸机程序来说是必需的，因为硬件通常直接执行二进制代码。<br>os.elf：输入文件，即上一步生成的ELF格式的可执行文件。<br>os.bin：输出文件，转换成二进制格式后的文件名。</p>
 ]]></content>
       <categories>
         <category>学习</category>
@@ -178,44 +216,6 @@ ret:led1
       </tags>
   </entry>
   <entry>
-    <title>hexo+github搭网站</title>
-    <url>/2023/12/06/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/</url>
-    <content><![CDATA[<p>由于心血来潮，决定自己搭网站。又所谓<em>拿来主义</em>，对于别人的好东西就要拿来，在此记录我参考过的网站</p>
-<span id="more"></span>
-
-<h2 id="手把手从0-1"><a href="#手把手从0-1" class="headerlink" title="手把手从0-1"></a>手把手从0-1</h2><p><a href="https://www.jianshu.com/p/85f455afcfcf">https://www.jianshu.com/p/85f455afcfcf</a></p>
-<p>创建<br>$ hexo new post(default)&#x2F;draft&#x2F;page [文章名]<br>清除缓存<br>$ hexo clean<br>远端生效<br>$ hexo d -g</p>
-<h2 id="使用主题next"><a href="#使用主题next" class="headerlink" title="使用主题next"></a>使用主题next</h2><p><a href="https://zhuanlan.zhihu.com/p/150737388">https://zhuanlan.zhihu.com/p/150737388</a></p>
-<h2 id="RSS订阅功能"><a href="#RSS订阅功能" class="headerlink" title="RSS订阅功能"></a>RSS订阅功能</h2><p><a href="https://segmentfault.com/a/1190000012647294">https://segmentfault.com/a/1190000012647294</a></p>
-<h2 id="Hexo博客Next主题bilibili视频Markdown插入文章"><a href="#Hexo博客Next主题bilibili视频Markdown插入文章" class="headerlink" title="Hexo博客Next主题bilibili视频Markdown插入文章"></a>Hexo博客Next主题bilibili视频Markdown插入文章</h2><p><a href="https://www.freesion.com/article/9552475946/">https://www.freesion.com/article/9552475946/</a></p>
-<h2 id="HEXO-基本使用（讲解文章格式的）"><a href="#HEXO-基本使用（讲解文章格式的）" class="headerlink" title="HEXO 基本使用（讲解文章格式的）"></a>HEXO 基本使用（讲解文章格式的）</h2><p><a href="https://blog.csdn.net/xq151750111/article/details/133043466">https://blog.csdn.net/xq151750111/article/details/133043466</a></p>
-<h2 id="Hexo教程，看这一篇就够了-How-to系列（有空研读一下）"><a href="#Hexo教程，看这一篇就够了-How-to系列（有空研读一下）" class="headerlink" title="Hexo教程，看这一篇就够了- How to系列（有空研读一下）"></a>Hexo教程，看这一篇就够了- How to系列（有空研读一下）</h2><p><a href="https://blog.csdn.net/cat_bayi/article/details/128725230">https://blog.csdn.net/cat_bayi/article/details/128725230</a></p>
-<p><img src="/images/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/IMG_7006.JPG" alt="Alt text"></p>
-]]></content>
-      <categories>
-        <category>综述</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>makefile的常用操作</title>
-    <url>/2024/02/10/makefile%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<p>如何将多个对象文件（.o文件，由${OBJS}变量表示）链接成一个可执行文件（os.elf），然后将该可执行文件转换成二进制格式的镜像文件（os.bin）<br>os.elf: ${OBJS}<br>    ${CC} ${CFLAGS} -T os.ld -o os.elf $^<br>    ${OBJCOPY} -O binary os.elf os.bin</p>
-<p>-T os.ld：指定链接脚本os.ld。链接脚本用于控制链接过程，如指定各个段（如代码段、数据段）的位置。<br>-o os.elf：指定输出文件的名称为os.elf。<br>$^：这是Makefile的自动变量，表示所有的依赖项，这里指${OBJS}变量中列出的所有对象文件。</p>
-<p>${OBJCOPY}：这是GNU Binutils工具集中objcopy程序的变量，用于进行文件格式转换。<br>-O binary：指定输出格式为二进制。objcopy可以将ELF格式（或其他格式）的文件转换为纯二进制格式，这对于裸机程序来说是必需的，因为硬件通常直接执行二进制代码。<br>os.elf：输入文件，即上一步生成的ELF格式的可执行文件。<br>os.bin：输出文件，转换成二进制格式后的文件名。</p>
-]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>vscode的常用操作</title>
     <url>/2024/02/07/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<span id="more"></span>
@@ -228,31 +228,6 @@ ret:led1
       </categories>
       <tags>
         <tag>开发</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>学习硬件安全的网站</title>
-    <url>/2023/12/06/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/</url>
-    <content><![CDATA[<p>作为一名信息安全的学生，由于更喜欢与真实的世界打交道，选择了深入了解硬件安全。这里就将用来记录一些关于<em>硬件安全</em>的学习网站</p>
-<span id="more"></span>
-
-<h2 id="黑客平台"><a href="#黑客平台" class="headerlink" title="黑客平台"></a>黑客平台</h2><h4 id="包含多层面的安全技术，其中有IoT安全"><a href="#包含多层面的安全技术，其中有IoT安全" class="headerlink" title="包含多层面的安全技术，其中有IoT安全"></a>包含多层面的安全技术，其中有IoT安全</h4><p><a href="https://paper.seebug.org/">https://paper.seebug.org/</a></p>
-<h2 id="keystone"><a href="#keystone" class="headerlink" title="keystone"></a>keystone</h2><h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><p><a href="http://docs.keystone-enclave.org/en/latest/">http://docs.keystone-enclave.org/en/latest/</a></p>
-<h4 id="【TEE自学随笔】keystone代码略读"><a href="#【TEE自学随笔】keystone代码略读" class="headerlink" title="【TEE自学随笔】keystone代码略读"></a>【TEE自学随笔】keystone代码略读</h4><p><a href="https://blog.csdn.net/BOWS7RING/article/details/116906211?spm=1001.2014.3001.5502">https://blog.csdn.net/BOWS7RING/article/details/116906211?spm=1001.2014.3001.5502</a></p>
-<h4 id="一文知悉RISC-V可信执行环境：Keystone"><a href="#一文知悉RISC-V可信执行环境：Keystone" class="headerlink" title="一文知悉RISC-V可信执行环境：Keystone"></a>一文知悉RISC-V可信执行环境：Keystone</h4><p><a href="https://blog.csdn.net/weixin_45264425/article/details/134326170">https://blog.csdn.net/weixin_45264425/article/details/134326170</a></p>
-<h2 id="trustzone"><a href="#trustzone" class="headerlink" title="trustzone"></a>trustzone</h2><h4 id="ARM-A64架构TrustZone学习"><a href="#ARM-A64架构TrustZone学习" class="headerlink" title="ARM A64架构TrustZone学习"></a>ARM A64架构TrustZone学习</h4><p><a href="https://blog.csdn.net/pslyunhai3255/article/details/129229732">https://blog.csdn.net/pslyunhai3255/article/details/129229732</a></p>
-<h2 id="侧信道攻击"><a href="#侧信道攻击" class="headerlink" title="侧信道攻击"></a>侧信道攻击</h2><h4 id="RISC-V-CPU侧信道攻击原理与实践"><a href="#RISC-V-CPU侧信道攻击原理与实践" class="headerlink" title="RISC-V CPU侧信道攻击原理与实践"></a>RISC-V CPU侧信道攻击原理与实践</h4><p><a href="https://www.zhihu.com/people/shawn-82-88-4">https://www.zhihu.com/people/shawn-82-88-4</a></p>
-<h2 id="数字ic"><a href="#数字ic" class="headerlink" title="数字ic"></a>数字ic</h2><h4 id="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"><a href="#手把手教你蜂鸟e203移植（以Nexys4DDR为例）" class="headerlink" title="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"></a>手把手教你蜂鸟e203移植（以Nexys4DDR为例）</h4><p><a href="https://www.cnblogs.com/Qzzz/p/17201475.html">https://www.cnblogs.com/Qzzz/p/17201475.html</a></p>
-<h4 id="数字IC基础学这些就够了"><a href="#数字IC基础学这些就够了" class="headerlink" title="数字IC基础学这些就够了"></a>数字IC基础学这些就够了</h4><p><a href="https://zhuanlan.zhihu.com/p/670736813">https://zhuanlan.zhihu.com/p/670736813</a></p>
-<h4 id="国产安全芯片，请关注他们！"><a href="#国产安全芯片，请关注他们！" class="headerlink" title="国产安全芯片，请关注他们！"></a>国产安全芯片，请关注他们！</h4><p><a href="https://zhuanlan.zhihu.com/p/627643776">https://zhuanlan.zhihu.com/p/627643776</a></p>
-<h2 id="体系结构"><a href="#体系结构" class="headerlink" title="体系结构"></a>体系结构</h2><h4 id="计算机体系结构学习路线"><a href="#计算机体系结构学习路线" class="headerlink" title="计算机体系结构学习路线"></a>计算机体系结构学习路线</h4><p><a href="https://zhuanlan.zhihu.com/p/654821469">https://zhuanlan.zhihu.com/p/654821469</a></p>
-]]></content>
-      <categories>
-        <category>综述</category>
-      </categories>
-      <tags>
-        <tag>安全</tag>
-        <tag>硬件</tag>
       </tags>
   </entry>
   <entry>
@@ -304,6 +279,31 @@ ret:led1
       <tags>
         <tag>开发</tag>
         <tag>ai</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>学习硬件安全的网站</title>
+    <url>/2023/12/06/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/</url>
+    <content><![CDATA[<p>作为一名信息安全的学生，由于更喜欢与真实的世界打交道，选择了深入了解硬件安全。这里就将用来记录一些关于<em>硬件安全</em>的学习网站</p>
+<span id="more"></span>
+
+<h2 id="黑客平台"><a href="#黑客平台" class="headerlink" title="黑客平台"></a>黑客平台</h2><h4 id="包含多层面的安全技术，其中有IoT安全"><a href="#包含多层面的安全技术，其中有IoT安全" class="headerlink" title="包含多层面的安全技术，其中有IoT安全"></a>包含多层面的安全技术，其中有IoT安全</h4><p><a href="https://paper.seebug.org/">https://paper.seebug.org/</a></p>
+<h2 id="keystone"><a href="#keystone" class="headerlink" title="keystone"></a>keystone</h2><h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><p><a href="http://docs.keystone-enclave.org/en/latest/">http://docs.keystone-enclave.org/en/latest/</a></p>
+<h4 id="【TEE自学随笔】keystone代码略读"><a href="#【TEE自学随笔】keystone代码略读" class="headerlink" title="【TEE自学随笔】keystone代码略读"></a>【TEE自学随笔】keystone代码略读</h4><p><a href="https://blog.csdn.net/BOWS7RING/article/details/116906211?spm=1001.2014.3001.5502">https://blog.csdn.net/BOWS7RING/article/details/116906211?spm=1001.2014.3001.5502</a></p>
+<h4 id="一文知悉RISC-V可信执行环境：Keystone"><a href="#一文知悉RISC-V可信执行环境：Keystone" class="headerlink" title="一文知悉RISC-V可信执行环境：Keystone"></a>一文知悉RISC-V可信执行环境：Keystone</h4><p><a href="https://blog.csdn.net/weixin_45264425/article/details/134326170">https://blog.csdn.net/weixin_45264425/article/details/134326170</a></p>
+<h2 id="trustzone"><a href="#trustzone" class="headerlink" title="trustzone"></a>trustzone</h2><h4 id="ARM-A64架构TrustZone学习"><a href="#ARM-A64架构TrustZone学习" class="headerlink" title="ARM A64架构TrustZone学习"></a>ARM A64架构TrustZone学习</h4><p><a href="https://blog.csdn.net/pslyunhai3255/article/details/129229732">https://blog.csdn.net/pslyunhai3255/article/details/129229732</a></p>
+<h2 id="侧信道攻击"><a href="#侧信道攻击" class="headerlink" title="侧信道攻击"></a>侧信道攻击</h2><h4 id="RISC-V-CPU侧信道攻击原理与实践"><a href="#RISC-V-CPU侧信道攻击原理与实践" class="headerlink" title="RISC-V CPU侧信道攻击原理与实践"></a>RISC-V CPU侧信道攻击原理与实践</h4><p><a href="https://www.zhihu.com/people/shawn-82-88-4">https://www.zhihu.com/people/shawn-82-88-4</a></p>
+<h2 id="数字ic"><a href="#数字ic" class="headerlink" title="数字ic"></a>数字ic</h2><h4 id="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"><a href="#手把手教你蜂鸟e203移植（以Nexys4DDR为例）" class="headerlink" title="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"></a>手把手教你蜂鸟e203移植（以Nexys4DDR为例）</h4><p><a href="https://www.cnblogs.com/Qzzz/p/17201475.html">https://www.cnblogs.com/Qzzz/p/17201475.html</a></p>
+<h4 id="数字IC基础学这些就够了"><a href="#数字IC基础学这些就够了" class="headerlink" title="数字IC基础学这些就够了"></a>数字IC基础学这些就够了</h4><p><a href="https://zhuanlan.zhihu.com/p/670736813">https://zhuanlan.zhihu.com/p/670736813</a></p>
+<h4 id="国产安全芯片，请关注他们！"><a href="#国产安全芯片，请关注他们！" class="headerlink" title="国产安全芯片，请关注他们！"></a>国产安全芯片，请关注他们！</h4><p><a href="https://zhuanlan.zhihu.com/p/627643776">https://zhuanlan.zhihu.com/p/627643776</a></p>
+<h2 id="体系结构"><a href="#体系结构" class="headerlink" title="体系结构"></a>体系结构</h2><h4 id="计算机体系结构学习路线"><a href="#计算机体系结构学习路线" class="headerlink" title="计算机体系结构学习路线"></a>计算机体系结构学习路线</h4><p><a href="https://zhuanlan.zhihu.com/p/654821469">https://zhuanlan.zhihu.com/p/654821469</a></p>
+]]></content>
+      <categories>
+        <category>综述</category>
+      </categories>
+      <tags>
+        <tag>安全</tag>
+        <tag>硬件</tag>
       </tags>
   </entry>
   <entry>
