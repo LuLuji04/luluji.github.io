@@ -20,21 +20,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="RISC-V是由伯克利大学开发的一款开源架构，作为对课内的补充，在此记录学习过程">
+  <meta name="description" content="如何将多个对象文件（.o文件，由${OBJS}变量表示）链接成一个可执行文件（os.elf），然后将该可执行文件转换成二进制格式的镜像文件（os.bin）os.elf: ${OBJS}    ${CC} ${CFLAGS} -T os.ld -o os.elf $^    ${OBJCOPY} -O binary os.elf os.bin -T os.ld：指定链接脚本os.ld。链接脚本用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="riscv的学习">
-<meta property="og:url" content="http://example.com/2023/12/07/riscv%E7%9A%84%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:title" content="makefile的常用操作">
+<meta property="og:url" content="http://example.com/2024/02/10/makefile%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="myBlog">
-<meta property="og:description" content="RISC-V是由伯克利大学开发的一款开源架构，作为对课内的补充，在此记录学习过程">
+<meta property="og:description" content="如何将多个对象文件（.o文件，由${OBJS}变量表示）链接成一个可执行文件（os.elf），然后将该可执行文件转换成二进制格式的镜像文件（os.bin）os.elf: ${OBJS}    ${CC} ${CFLAGS} -T os.ld -o os.elf $^    ${OBJCOPY} -O binary os.elf os.bin -T os.ld：指定链接脚本os.ld。链接脚本用">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-12-07T08:08:04.000Z">
-<meta property="article:modified_time" content="2024-02-10T16:15:27.231Z">
+<meta property="article:published_time" content="2024-02-10T15:53:00.000Z">
+<meta property="article:modified_time" content="2024-02-10T15:55:08.980Z">
 <meta property="article:author" content="luluji">
-<meta property="article:tag" content="riscv">
-<meta property="article:tag" content="安全">
+<meta property="article:tag" content="开发">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2023/12/07/riscv%E7%9A%84%E5%AD%A6%E4%B9%A0/">
+<link rel="canonical" href="http://example.com/2024/02/10/makefile%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">
 
 
 <script id="page-configurations">
@@ -47,7 +46,7 @@
   };
 </script>
 
-  <title>riscv的学习 | myBlog</title>
+  <title>makefile的常用操作 | myBlog</title>
   
 
 
@@ -196,7 +195,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/07/riscv%E7%9A%84%E5%AD%A6%E4%B9%A0/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/02/10/makefile%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
@@ -209,7 +208,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          riscv的学习
+          makefile的常用操作
         </h1>
 
         <div class="post-meta">
@@ -218,16 +217,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2023-12-07 16:08:04" itemprop="dateCreated datePublished" datetime="2023-12-07T16:08:04+08:00">2023-12-07</time>
+              <time title="创建时间：2024-02-10 23:53:00 / 修改时间：23:55:08" itemprop="dateCreated datePublished" datetime="2024-02-10T23:53:00+08:00">2024-02-10</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-02-11 00:15:27" itemprop="dateModified" datetime="2024-02-11T00:15:27+08:00">2024-02-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -249,22 +242,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>RISC-V是由伯克利大学开发的一款开源架构，作为对课内的补充，在此记录学习过程</p>
-<span id="more"></span>
-<h2 id="1-完结-循序渐进，学习开发一个RISC-V上的操作系统-汪辰-2021春"><a href="#1-完结-循序渐进，学习开发一个RISC-V上的操作系统-汪辰-2021春" class="headerlink" title="1.[完结] 循序渐进，学习开发一个RISC-V上的操作系统 - 汪辰 - 2021春"></a>1.[完结] 循序渐进，学习开发一个RISC-V上的操作系统 - 汪辰 - 2021春</h2><iframe src="//player.bilibili.com/player.html?aid=459886905&bvid=BV1Q5411w7z5&cid=319792271&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+        <span id="more"></span>
 
-<h2 id="2-笔记"><a href="#2-笔记" class="headerlink" title="2.笔记"></a>2.笔记</h2><h4 id="安全中断（riscv架构）"><a href="#安全中断（riscv架构）" class="headerlink" title="安全中断（riscv架构）"></a>安全中断（riscv架构）</h4><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/669734854">https://zhuanlan.zhihu.com/p/669734854</a></p>
-<h4 id="安全相关论文"><a href="#安全相关论文" class="headerlink" title="安全相关论文"></a>安全相关论文</h4><p><a target="_blank" rel="noopener" href="https://s.wanfangdata.com.cn/patent?q=%E5%8F%91%E6%98%8E%E4%BA%BA/%E8%AE%BE%E8%AE%A1%E4%BA%BA:%22%E5%A4%8F%E8%99%9E%E6%96%8C%22&p=1">https://s.wanfangdata.com.cn/patent?q=%E5%8F%91%E6%98%8E%E4%BA%BA%2F%E8%AE%BE%E8%AE%A1%E4%BA%BA%3A%22%E5%A4%8F%E8%99%9E%E6%96%8C%22&amp;p=1</a></p>
-<h4 id="标准扩展"><a href="#标准扩展" class="headerlink" title="标准扩展"></a>标准扩展</h4><p>RISC-V指令集架构（ISA）是模块化的，由基础整数指令集（如RV32I、RV64I）和一系列可选的扩展组成。这些扩展使得RISC-V能够灵活地适应不同的应用需求，从简单的嵌入式设备到复杂的服务器系统。截至我最后更新的信息（2023年4月），以下是RISC-V常见的一些扩展：</p>
-<p>标准扩展<br>M - 整数乘法和除法扩展，为整数算术提供乘法、除法和取模运算指令。<br>A - 原子指令扩展，支持原子内存访问操作，用于构建多线程和并发程序。<br>F - 单精度浮点扩展，提供32位单精度浮点运算指令。<br>D - 双精度浮点扩展，提供64位双精度浮点运算指令。<br>C - 压缩指令扩展，提供更短的指令格式，以减小代码大小和提高性能。<br>G - 通用扩展，一个便捷的缩写，包含了I、M、A、F、D和C扩展，适用于需要通用计算能力的应用。<br>Q - 四精度浮点扩展，提供128位四精度浮点运算指令。<br>L - 十进制浮点扩展，提供十进制浮点运算指令。<br>B - 位操作扩展，提供位操作和位字段操作指令，用于提高位操作的效率。<br>J - 动态跳转扩展，提供更灵活的跳转和分支指令。<br>T - 事务内存扩展，提供硬件事务内存支持，用于改进并发程序的性能和简化并发控制。<br>P - DSP扩展，提供数字信号处理（DSP）相关指令，优化多媒体处理等应用。<br>V - 向量扩展，为数据并行计算提供支持，通过向量操作指令优化大规模数据处理性能。<br>特殊扩展<br>Z系列扩展，为特定的功能或用途定义的细粒度扩展。例如：<br>Zifencei - 指令流水线栅栏指令扩展，用于同步指令和数据流水线。<br>Zmmul - 仅包含乘法指令的整数乘法扩展子集。<br>Zicsr - 控制和状态寄存器（CSR）指令扩展，为访问CSR提供指令。<br>注意</p>
-<p>eg<br>COMMON_CFLAGS +&#x3D; -march&#x3D;rv32im -mabi&#x3D;ilp32   # overwrite<br>这样的设置指示编译器生成适用于具有整数、乘法和除法指令集的RISC-V 32位架构的代码，使用ilp32ABI，其中整数、长整型和指针都是32位的。</p>
-<h4 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h4><h6 id="riscv64-linux-gnu-gcc-g"><a href="#riscv64-linux-gnu-gcc-g" class="headerlink" title="riscv64-linux-gnu-gcc&#x2F;-g++"></a>riscv64-linux-gnu-gcc&#x2F;-g++</h6><p>目标环境：它生成的代码是为了在支持Linux的RISC-V 64位系统上运行。<br>命名解释：<br>linux-gnu：表示目标操作系统是Linux，使用GNU的libc（glibc）。<br>适用场景：开发Linux应用程序或者在RISC-V 64位Linux系统上运行的任何软件。<br>Installation (glib)<br>.&#x2F;configure –prefix&#x3D;&#x2F;opt&#x2F;riscv<br>make linux</p>
-<h6 id="riscv64-unknown-elf-gcc-g"><a href="#riscv64-unknown-elf-gcc-g" class="headerlink" title="riscv64-unknown-elf-gcc&#x2F;-g++"></a>riscv64-unknown-elf-gcc&#x2F;-g++</h6><p>目标环境：它生成的代码适用于没有标准操作系统支持的环境，如嵌入式系统或特定的硬件。<br>unknown-elf：表示目标环境是未知的，通常用于裸机或特定的运行时环境，使用ELF（Executable and Linkable Format）作为二进制格式。<br>适用场景：开发嵌入式系统、固件、或需要直接与硬件交互的程序</p>
-<p>Installation (Newlib)<br>.&#x2F;configure –prefix&#x3D;&#x2F;opt&#x2F;riscv #指定安装路径。rm -rf &#x2F;opt&#x2F;riscv<br>make</p>
-<h6 id="riscv64-unknown-linux-gnu-gcc"><a href="#riscv64-unknown-linux-gnu-gcc" class="headerlink" title="riscv64-unknown-linux-gnu-gcc"></a>riscv64-unknown-linux-gnu-gcc</h6><p>目标系统：与riscv64-linux-gnu-gcc相同，也是面向运行Linux的RISC-V 64位架构。<br>“unknown”：unknown部分通常是目标三元组（target triple）中的供应商字段。在这里，unknown表示没有特定的供应商信息。这是交叉编译工具链的常见约定，用于表示工具链是针对通用或未指定供应商的目标系统。<br>GNU前缀：同样表示目标系统使用GNU的libc。<br>用途：用途与riscv64-linux-gnu-gcc相同，用于编译能在RISC-V 64位Linux系统上运行的程序。</p>
-<p>g++：表示这是GCC的C++编译器。</p>
-<p>$ riscv64-linux-gnu-gcc –help<br>  –help                   Display this information.<br>  –target-help            Display target specific command line options.<br>  –help&#x3D;{common|optimizers|params|target|warnings|[^]{joined|separate|undocumented}}[,…].<br>                           Display specific types of command line options</p>
-<h2 id="trap"><a href="#trap" class="headerlink" title="trap"></a>trap</h2><p>trap-&gt;{<br>    interupt-&gt;{<br>        software interupt<br>        timer interupt (可用于抢占式多任务)<br>        external interupt<br>    }<br>    exception-&gt;{<br>        除零之类的<br>        ecall (可用于切换模式，执行M-mode指令)<br>    }<br>}</p>
+<p>如何将多个对象文件（.o文件，由${OBJS}变量表示）链接成一个可执行文件（os.elf），然后将该可执行文件转换成二进制格式的镜像文件（os.bin）<br>os.elf: ${OBJS}<br>    ${CC} ${CFLAGS} -T os.ld -o os.elf $^<br>    ${OBJCOPY} -O binary os.elf os.bin</p>
+<p>-T os.ld：指定链接脚本os.ld。链接脚本用于控制链接过程，如指定各个段（如代码段、数据段）的位置。<br>-o os.elf：指定输出文件的名称为os.elf。<br>$^：这是Makefile的自动变量，表示所有的依赖项，这里指${OBJS}变量中列出的所有对象文件。</p>
+<p>${OBJCOPY}：这是GNU Binutils工具集中objcopy程序的变量，用于进行文件格式转换。<br>-O binary：指定输出格式为二进制。objcopy可以将ELF格式（或其他格式）的文件转换为纯二进制格式，这对于裸机程序来说是必需的，因为硬件通常直接执行二进制代码。<br>os.elf：输入文件，即上一步生成的ELF格式的可执行文件。<br>os.bin：输出文件，转换成二进制格式后的文件名。</p>
 
     </div>
 
@@ -274,8 +256,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/riscv/" rel="tag"># riscv</a>
-              <a href="/tags/%E5%AE%89%E5%85%A8/" rel="tag"># 安全</a>
+              <a href="/tags/%E5%BC%80%E5%8F%91/" rel="tag"># 开发</a>
           </div>
 
         
@@ -284,12 +265,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/12/06/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/" rel="prev" title="学习硬件安全的网站">
-      <i class="fa fa-chevron-left"></i> 学习硬件安全的网站
+    <a href="/2024/02/07/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" rel="prev" title="vscode的常用操作">
+      <i class="fa fa-chevron-left"></i> vscode的常用操作
     </a></div>
       <div class="post-nav-item">
-    <a href="/2023/12/08/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" rel="next" title="人工智能">
-      人工智能 <i class="fa fa-chevron-right"></i>
+    <a href="/2024/02/10/cpp%E7%9A%84%E7%89%B9%E6%80%A7/" rel="next" title="cpps的特性">
+      cpps的特性 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -350,7 +331,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%AE%8C%E7%BB%93-%E5%BE%AA%E5%BA%8F%E6%B8%90%E8%BF%9B%EF%BC%8C%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AARISC-V%E4%B8%8A%E7%9A%84%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%B1%AA%E8%BE%B0-2021%E6%98%A5"><span class="nav-number">1.</span> <span class="nav-text">1.[完结] 循序渐进，学习开发一个RISC-V上的操作系统 - 汪辰 - 2021春</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%AC%94%E8%AE%B0"><span class="nav-number">2.</span> <span class="nav-text">2.笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E4%B8%AD%E6%96%AD%EF%BC%88riscv%E6%9E%B6%E6%9E%84%EF%BC%89"><span class="nav-number">2.0.1.</span> <span class="nav-text">安全中断（riscv架构）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87"><span class="nav-number">2.0.2.</span> <span class="nav-text">安全相关论文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E5%87%86%E6%89%A9%E5%B1%95"><span class="nav-number">2.0.3.</span> <span class="nav-text">标准扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91"><span class="nav-number">2.0.4.</span> <span class="nav-text">编译</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#riscv64-linux-gnu-gcc-g"><span class="nav-number">2.0.4.0.1.</span> <span class="nav-text">riscv64-linux-gnu-gcc&#x2F;-g++</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#riscv64-unknown-elf-gcc-g"><span class="nav-number">2.0.4.0.2.</span> <span class="nav-text">riscv64-unknown-elf-gcc&#x2F;-g++</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#riscv64-unknown-linux-gnu-gcc"><span class="nav-number">2.0.4.0.3.</span> <span class="nav-text">riscv64-unknown-linux-gnu-gcc</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#trap"><span class="nav-number">3.</span> <span class="nav-text">trap</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -489,7 +469,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog-comment',
       owner       : 'luluji04',
       admin       : ['luluji04'],
-      id          : '7af69573fe3127520451ee784b1989ff',
+      id          : '4dbd5ba8e97e40164d525a68f40cab6f',
         language: 'zh-CN',
       distractionFreeMode: true
     });

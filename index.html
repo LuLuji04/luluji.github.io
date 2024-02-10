@@ -191,7 +191,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/02/02/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/02/10/cpp%E7%9A%84%E7%89%B9%E6%80%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
@@ -205,7 +205,90 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2024/02/02/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">linux的常用命令</a>
+            <a href="/2024/02/10/cpp%E7%9A%84%E7%89%B9%E6%80%A7/" class="post-title-link" itemprop="url">cpps的特性</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-02-10 23:56:45" itemprop="dateCreated datePublished" datetime="2024-02-10T23:56:45+08:00">2024-02-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-02-11 00:00:17" itemprop="dateModified" datetime="2024-02-11T00:00:17+08:00">2024-02-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <span id="more"></span>
+
+<h2 id="attribute"><a href="#attribute" class="headerlink" title="attribute"></a><strong>attribute</strong></h2><p><strong>attribute__的基本语法是在声明的末尾添加__attribute</strong>((属性名))，其中“属性名”可以是一个或多个指定给编译器的属性，属性之间用逗号分隔。<br>eg:<br>unused：告诉编译器某个变量或函数可能未被使用，以避免编译时出现未使用警告。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">static __attribute__((unused))</span><br><span class="line">int ioctl(int fd, unsigned long req, void *value)</span><br><span class="line">&#123;</span><br><span class="line">	int ret = sys_ioctl(fd, req, value);</span><br><span class="line"></span><br><span class="line">	if (ret &lt; 0) &#123;</span><br><span class="line">		SET_ERRNO(-ret);</span><br><span class="line">		ret = -1;</span><br><span class="line">	&#125;</span><br><span class="line">	return ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>noinline：阻止编译器内联某个函数，即使开启了优化。<br>void my_function(void) <strong>attribute</strong>((noinline));</p>
+<p>pure：指示函数是“纯”的，即函数的返回值仅依赖于输入参数且没有副作用，这允许编译器进行更多的优化。</p>
+<p>aligned(x)：强制变量或类型实例按照x字节对齐。</p>
+<p>constructor 和 destructor：分别指示函数应在main函数执行前和执行后调用。</p>
+<h2 id="virtual"><a href="#virtual" class="headerlink" title="virtual"></a>virtual</h2><p>在C++中，virtual uintptr_t initUTM(size_t size);声明了一个虚拟成员函数initUTM，这个函数预期在一个类中被声明，并且可能在派生类中被重写。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">class Base &#123;</span><br><span class="line">public:</span><br><span class="line">    virtual void print() &#123;</span><br><span class="line">        std::cout &lt;&lt; &quot;Base class print function&quot; &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">class Derived : public Base &#123;</span><br><span class="line">public:</span><br><span class="line">    void print() override &#123;  // 使用override确保重写</span><br><span class="line">        std::cout &lt;&lt; &quot;Derived class print function&quot; &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">int main() &#123;</span><br><span class="line">    Base* b = new Derived();</span><br><span class="line">    b-&gt;print();  // 输出：Derived class print function</span><br><span class="line">    </span><br><span class="line">    delete b;  // 清理资源</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/02/10/makefile%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/02/10/makefile%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">makefile的常用操作</a>
         </h2>
 
         <div class="post-meta">
@@ -216,7 +299,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2024-02-02 15:17:23 / 修改时间：15:23:34" itemprop="dateCreated datePublished" datetime="2024-02-02T15:17:23+08:00">2024-02-02</time>
+              <time title="创建时间：2024-02-10 23:53:00 / 修改时间：23:55:08" itemprop="dateCreated datePublished" datetime="2024-02-10T23:53:00+08:00">2024-02-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -240,7 +323,313 @@
 
       
           <span id="more"></span>
+
+<p>如何将多个对象文件（.o文件，由${OBJS}变量表示）链接成一个可执行文件（os.elf），然后将该可执行文件转换成二进制格式的镜像文件（os.bin）<br>os.elf: ${OBJS}<br>    ${CC} ${CFLAGS} -T os.ld -o os.elf $^<br>    ${OBJCOPY} -O binary os.elf os.bin</p>
+<p>-T os.ld：指定链接脚本os.ld。链接脚本用于控制链接过程，如指定各个段（如代码段、数据段）的位置。<br>-o os.elf：指定输出文件的名称为os.elf。<br>$^：这是Makefile的自动变量，表示所有的依赖项，这里指${OBJS}变量中列出的所有对象文件。</p>
+<p>${OBJCOPY}：这是GNU Binutils工具集中objcopy程序的变量，用于进行文件格式转换。<br>-O binary：指定输出格式为二进制。objcopy可以将ELF格式（或其他格式）的文件转换为纯二进制格式，这对于裸机程序来说是必需的，因为硬件通常直接执行二进制代码。<br>os.elf：输入文件，即上一步生成的ELF格式的可执行文件。<br>os.bin：输出文件，转换成二进制格式后的文件名。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/02/07/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/02/07/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">vscode的常用操作</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-02-07 12:22:12 / 修改时间：12:23:15" itemprop="dateCreated datePublished" datetime="2024-02-07T12:22:12+08:00">2024-02-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <span id="more"></span>
+
+
+<p>A: 你本地新增的文件（服务器上没有）.<br>C: 文件的一个新拷贝.<br>D: 你本地删除的文件（服务器上还在）.<br>M: 文件的内容或者mode被修改了.<br>R: 文件名被修改了。<br>T: 文件的类型被修改了。<br>U: 文件没有被合并(你需要完成合并才能进行提交)。<br>X: 未知状态(很可能是遇到git的bug了，你可以向git提交bug report)。<br>在man git diff-files中可以查到这些标志的说明。<br>这些状态标志在git的源代码的diff.h文件中被定义。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/02/05/c%E8%AF%AD%E8%A8%80%E7%9A%84%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/02/05/c%E8%AF%AD%E8%A8%80%E7%9A%84%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">c语言的常用函数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-02-05 20:28:18" itemprop="dateCreated datePublished" datetime="2024-02-05T20:28:18+08:00">2024-02-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-02-10 23:56:59" itemprop="dateModified" datetime="2024-02-10T23:56:59+08:00">2024-02-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <span id="more"></span>
+
+<h2 id="1-getopt-long"><a href="#1-getopt-long" class="headerlink" title="1.getopt_long"></a>1.getopt_long</h2><h4 id="函数定义："><a href="#函数定义：" class="headerlink" title="函数定义："></a>函数定义：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;getopt.h&gt;</span><br><span class="line">int getopt_long(int argc, char *argv[],</span><br><span class="line">		  const char *optstring,</span><br><span class="line">		  const struct option *longopts, int *longindex);</span><br></pre></td></tr></table></figure>
+<p>函数是用于解析命令行参数的，与函数 getopt() 函数是相似的，它可以处理长选项，即两个短杠”–” 连接的参数选项。而且比 getopt() 多两个参数。</p>
+<h4 id="参数说明："><a href="#参数说明：" class="headerlink" title="参数说明："></a>参数说明：</h4><p>1，argc        一般就是 main 函数里的 argc<br>2，argv    同上<br>3，optstring  要匹配的参数，如：”ha” 或  “h:a” 或 “h:a::”，带一个冒号的表示此选项须带参数，两个冒号的表示是可选参数<br>4，longopts 这个是长选项结构的指针，一般传的是数组<br>5，longindex  如果不为空，它将指向 longopts 的一个元素的位置，即longopts的数组下标</p>
+<h4 id="man手册例子："><a href="#man手册例子：" class="headerlink" title="man手册例子："></a>man手册例子：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;getopt.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;     /* for printf */</span><br><span class="line">#include &lt;stdlib.h&gt;    /* for exit */</span><br><span class="line"> </span><br><span class="line">int main(int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">	int c;</span><br><span class="line">	int digit_optind = 0;</span><br><span class="line"> </span><br><span class="line">	while (1) &#123;</span><br><span class="line">		int this_option_optind = optind ? optind : 1;</span><br><span class="line">		int option_index = 0;</span><br><span class="line">		</span><br><span class="line">		/*长选项的匹配只要匹配到前n个字符相同就会返回，若是模棱两可时会返回？，同时stderr会有相应打印*/</span><br><span class="line">		static struct option long_options[] = &#123;</span><br><span class="line">		   &#123;&quot;add&quot;,     required_argument, 0,  0 &#125;,</span><br><span class="line">		   &#123;&quot;append&quot;,  no_argument,       0,  0 &#125;,</span><br><span class="line">		   &#123;&quot;delete&quot;,  required_argument, 0,  0 &#125;,</span><br><span class="line">		   &#123;&quot;verbose&quot;, no_argument,       0,  0 &#125;,</span><br><span class="line">		   &#123;&quot;create&quot;,  required_argument, 0, &#x27;c&#x27;&#125;,</span><br><span class="line">		   &#123;&quot;file&quot;,    required_argument, 0,  0 &#125;,</span><br><span class="line">		   &#123;0,         0,                 0,  0 &#125;</span><br><span class="line">	   &#125;;</span><br><span class="line">		</span><br><span class="line">		/*短选项跟一个冒号表示有选项参数，两个冒号表示选项参数可选*/</span><br><span class="line">	   c = getopt_long(argc, argv, &quot;abc:d:012&quot;,</span><br><span class="line">					   long_options, &amp;option_index);</span><br><span class="line">	   if (c == -1)</span><br><span class="line">		   break;</span><br><span class="line"> </span><br><span class="line">	   switch (c) &#123;</span><br><span class="line">	   case 0: /* 匹配到长选项时，返回的val，即struct optaion 中的 val，这里为 0 则表示匹配到 add、append, delete, verbose, file时都会跟到这个 case, 而create 则匹配到字符&#x27;c&#x27;*/</span><br><span class="line">			printf(&quot;get option_index = %d, option %s&quot;, option_index, long_options[option_index].name);</span><br><span class="line">			if (optarg)</span><br><span class="line">			   printf(&quot; with arg %s&quot;, optarg);</span><br><span class="line">			printf(&quot;\n&quot;);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;0&#x27;:</span><br><span class="line">	   case &#x27;1&#x27;:</span><br><span class="line">	   case &#x27;2&#x27;:</span><br><span class="line">			if (digit_optind != 0 &amp;&amp; digit_optind != this_option_optind)</span><br><span class="line">			 printf(&quot;digits occur in two different argv-elements.\n&quot;);</span><br><span class="line">			digit_optind = this_option_optind;</span><br><span class="line">			printf(&quot;option %c\n&quot;, c);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;a&#x27;:</span><br><span class="line">			printf(&quot;option a\n&quot;);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;b&#x27;:</span><br><span class="line">			printf(&quot;option b\n&quot;);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;c&#x27;:</span><br><span class="line">			printf(&quot;option c with value &#x27;%s&#x27;\n&quot;, optarg);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;d&#x27;:</span><br><span class="line">			printf(&quot;option d with value &#x27;%s&#x27;\n&quot;, optarg);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;?&#x27;: /*ambiguous 模棱两可的时候返回? 如只输入 --a 则会匹配到 add 和 append*/</span><br><span class="line">			printf(&quot;it&#x27;s ambiguous, please selete one\n&quot;);</span><br><span class="line">			break;</span><br><span class="line">		</span><br><span class="line">	   default:</span><br><span class="line">			printf(&quot;?? getopt returned character code 0%o ??\n&quot;, c);</span><br><span class="line">	   &#125;</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	if (optind &lt; argc) &#123;</span><br><span class="line">		printf(&quot;non-option ARGV-elements: &quot;);</span><br><span class="line">		while (optind &lt; argc)</span><br><span class="line">		   printf(&quot;%s &quot;, argv[optind++]);</span><br><span class="line">		printf(&quot;\n&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	exit(EXIT_SUCCESS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="fread和fwrite"><a href="#fread和fwrite" class="headerlink" title="fread和fwrite"></a>fread和fwrite</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">size_t fread(void *ptr, size_t size, size_t count, FILE *stream);</span><br></pre></td></tr></table></figure>
+<pre><code>ptr：指向读取数据存储的缓冲区。
+size：每个数据项的字节数。
+count：要读取的数据项数。
+stream：文件指针，指向要读取数据的文件。
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">size_t fwrite(const void *ptr, size_t size, size_t count, FILE *stream);</span><br></pre></td></tr></table></figure>
+
+<pre><code>ptr：要写入的数据的指针。
+size：每个数据项的字节数。
+count：要写入的数据项的个数。
+stream：要写入的文件指针。
+</code></pre>
+<h2 id="sscanf"><a href="#sscanf" class="headerlink" title="sscanf"></a>sscanf</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int sscanf(const char* str, const char* format, ...);</span><br></pre></td></tr></table></figure>
+<p>从<strong>字符串</strong>中按照指定的格式解析数据</p>
+<pre><code>str：要解析的输入字符串。
+format：格式字符串，指定了要匹配的格式规则。
+...：可变参数列表，用于接收解析后的数据。
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">char str[20];</span><br><span class="line">sscanf(&quot;Hello, World!&quot;, &quot;%s&quot;, str);//解析字符串，把Hello, World!存到str</span><br></pre></td></tr></table></figure>
+
+<h2 id="命令处理"><a href="#命令处理" class="headerlink" title="命令处理"></a>命令处理</h2><h4 id="strtok-r"><a href="#strtok-r" class="headerlink" title="strtok_r"></a>strtok_r</h4><p>首先需要将字符串切分为指令和参数形式，需要用到strtok_r函数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">char *strtok_r(char * __restrict__ _Str, const char * __restrict__ _Delim, char ** __restrict__ __last);</span><br><span class="line">SS</span><br><span class="line">char *cmd;//表示命令</span><br><span class="line">char *paras;//表示命令后的参数</span><br><span class="line"> </span><br><span class="line">cmd = strtok_r(str, &quot;,&quot;, &amp;paras);</span><br><span class="line">printf(&quot;cmd:%srn&quot;, cmd);//获得字符串的第一串字符cmd:led</span><br><span class="line">printf(&quot;paras:%srn&quot;, paras);//获取后续字符串paras:100,0,80,15</span><br></pre></td></tr></table></figure>
+
+<h4 id="strstr"><a href="#strstr" class="headerlink" title="strstr"></a>strstr</h4><p>对于得到参数指令字符串，我们可能还需要判断该指令是否有效，即计算机之前是否存储了该字符串，可以通过字符串匹配数组中对应字符串的方式来模拟这个测试。需要用到strstr函数，其函数定义为：<br>我们可以先自定义一个用来查询的字符串数组funname[5]，然后依次进行匹配比较。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">    char *funname[5] = &#123;&quot;music&quot;, &quot;play&quot;, &quot;A_led1&quot;, &quot;led2&quot;, &quot;led&quot;&#125;;//自定义的函数名称列表</span><br><span class="line">     </span><br><span class="line">char *ret;</span><br><span class="line">int i;</span><br><span class="line">for (i = 0; i &lt; 5;i++)</span><br><span class="line">&#123;</span><br><span class="line">	ret = strstr(funname[i], cmd);</span><br><span class="line">	if(ret!=NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;find cmd in funname[%d]rn&quot;, i);</span><br><span class="line">		printf(&quot;ret:%srn&quot;, ret);</span><br><span class="line">		break;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">if(i==5)</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;can&#x27;t find cmd in funname[]&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试结果：</p>
+<pre><code>find cmd in funname[2]
+ret:led1
+</code></pre>
+<h4 id="strtok"><a href="#strtok" class="headerlink" title="strtok"></a>strtok</h4><p>确定了指令字符串的有效性，接下来就要切分后面的参数了，实际上我们还可以继续使用strtok_r方法，不过，我们可以使用另一个类似的函数strtok，它少一个用来保存切分后字符串的参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">char* para[4];</span><br><span class="line">para[0] = strtok(paras, &quot;,&quot;);</span><br><span class="line">int j= 1;</span><br><span class="line">while(paras != NULL)</span><br><span class="line">&#123;</span><br><span class="line">    para[j++] = strtok(NULL, &quot;,&quot;);</span><br><span class="line">    if(j==4)</span><br><span class="line">        break;</span><br><span class="line">&#125;</span><br><span class="line">printf(&quot;para[0]:%srn&quot;, para[0]);</span><br><span class="line">printf(&quot;para[1]:%srn&quot;, para[1]);</span><br><span class="line">printf(&quot;para[2]:%srn&quot;, para[2]);</span><br><span class="line">printf(&quot;para[3]:%srn&quot;, para[3]);</span><br></pre></td></tr></table></figure>
+<pre><code>第一次切割时，第一个参数（也就是str）不能是NULL
+第一次切割时，函数将找到str中第一个分割符，将它替换为\0
+同时strtok函数将保存这 个\0在整个字符串中的位置。
+
+第二次、第三次...第n次使用strtok函数切割同一个字符串时。
+第一个参数为NULL
+此时函数将从上一个保存的\0的位置开始往后切割，直到遇到下一个分割符或\0
+</code></pre>
+<h4 id="atoi"><a href="#atoi" class="headerlink" title="atoi"></a>atoi</h4><p>上面分离的参数数字是字符串型，实际使用时可能需要其对应的整数形式，我们可以使用atoi函数进行转换:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int atoi(const char *_Str);</span><br></pre></td></tr></table></figure>
+<pre><code>参数：数字形式的字符串
+返回值：对应的整形数值，若不能转换，返回0
+</code></pre>
+<h2 id="strcmp-str1-str2"><a href="#strcmp-str1-str2" class="headerlink" title="strcmp(str1,str2)"></a>strcmp(str1,str2)</h2><p>若str1&#x3D;str2，则返回0<br>strcmp()函数首先将str1字符串的第一个字符的ACSII值减去str2第一个字符的ACSII值(自左向右逐个字符相比，直到出现不同的字符或遇’\0’为止)<br>若差值为零则继续比较下去；若差值不为零，则返回差值。</p>
+<h2 id="struct-enum-union"><a href="#struct-enum-union" class="headerlink" title="struct,enum,union"></a>struct,enum,union</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_60192898/article/details/127602638">https://blog.csdn.net/qq_60192898/article/details/127602638</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/02/02/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/02/02/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">linux的常用命令</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-02-02 15:17:23" itemprop="dateCreated datePublished" datetime="2024-02-02T15:17:23+08:00">2024-02-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-02-11 00:31:01" itemprop="dateModified" datetime="2024-02-11T00:31:01+08:00">2024-02-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <span id="more"></span>
+
+<h2 id="Linux根目录"><a href="#Linux根目录" class="headerlink" title="Linux根目录"></a>Linux根目录</h2><p>Linux根目录(<code>/</code>)是文件系统的最顶层目录，它包含了系统的所有其他文件和目录。每个位于根目录下的目录都有其特定的用途和约定。以下是Linux根目录下常见目录的简要说明：</p>
+<h3 id="bin"><a href="#bin" class="headerlink" title="/bin"></a><code>/bin</code></h3><p>包含用户和系统操作所需的重要可执行文件（命令），如<code>ls</code>、<code>cp</code>等。这些命令对于系统的基本功能至关重要。</p>
+<h3 id="boot"><a href="#boot" class="headerlink" title="/boot"></a><code>/boot</code></h3><p>存放启动Linux系统时使用的文件，包括Linux内核文件（通常是<code>vmlinuz</code>）、引导加载程序（如GRUB）的配置文件以及初始化RAM磁盘（initrd）。</p>
+<h3 id="dev"><a href="#dev" class="headerlink" title="/dev"></a><code>/dev</code></h3><p>包含设备文件，这些文件代表系统中的硬件设备，允许程序和脚本与这些设备进行交互，如硬盘（<code>/dev/sda</code>）、终端（<code>/dev/tty</code>）等。</p>
+<h3 id="etc"><a href="#etc" class="headerlink" title="/etc"></a><code>/etc</code></h3><p>存放系统全局配置文件，如启动脚本、网络配置文件以及各种服务和程序的配置文件。</p>
+<h3 id="home"><a href="#home" class="headerlink" title="/home"></a><code>/home</code></h3><p>用户的主目录，通常每个用户在<code>/home</code>下有一个与其用户名同名的目录，用于存放个人文件、配置文件等。</p>
+<h3 id="lib"><a href="#lib" class="headerlink" title="/lib"></a><code>/lib</code></h3><p>包含系统和应用程序运行所需的共享库文件和内核模块。共享库类似于Windows中的DLL文件。</p>
+<h3 id="media和-mnt"><a href="#media和-mnt" class="headerlink" title="/media和/mnt"></a><code>/media</code>和<code>/mnt</code></h3><p><code>/media</code>通常用于挂载可移除媒体，如CD-ROMs、USB驱动器等，而<code>/mnt</code>经常被用作临时挂载文件系统的点。</p>
+<h3 id="opt"><a href="#opt" class="headerlink" title="/opt"></a><code>/opt</code></h3><p>用于安装“可选”的软件和第三方应用程序，这些应用程序通常以包的形式独立于系统默认的软件管理。</p>
+<h3 id="proc"><a href="#proc" class="headerlink" title="/proc"></a><code>/proc</code></h3><p>一个虚拟的文件系统，提供对内核和进程信息的接口，如系统内存、配置参数（通过文件系统接口访问）。</p>
+<h3 id="root"><a href="#root" class="headerlink" title="/root"></a><code>/root</code></h3><p>超级用户（root用户）的主目录，类似于普通用户的<code>/home/用户名</code>目录，但位于根目录下。</p>
+<h3 id="sbin"><a href="#sbin" class="headerlink" title="/sbin"></a><code>/sbin</code></h3><p>包含系统管理和维护的重要可执行文件，通常只有root用户才能运行这些命令，如<code>fdisk</code>、<code>ifconfig</code>等。</p>
+<h3 id="srv"><a href="#srv" class="headerlink" title="/srv"></a><code>/srv</code></h3><p>用于存放一些服务启动之后需要的数据，这些服务直接提供给系统外部使用。</p>
+<h3 id="sys"><a href="#sys" class="headerlink" title="/sys"></a><code>/sys</code></h3><p>像<code>/proc</code>一样，<code>/sys</code>也是一个虚拟的文件系统，提供了内核对象的接口，它允许内核和用户空间通信，以及配置内核。</p>
+<h3 id="tmp"><a href="#tmp" class="headerlink" title="/tmp"></a><code>/tmp</code></h3><p>用于存放临时文件，任何用户都可以在此目录下创建和删除文件。系统可能在重启时清除此目录下的文件。</p>
+<h3 id="usr"><a href="#usr" class="headerlink" title="/usr"></a><code>/usr</code></h3><p>包含用户级别的应用程序和文件，<code>/usr</code>目录下包含了许多子目录，如<code>/usr/bin</code>、<code>/usr/lib</code>、<code>/usr/local</code>等，用于存放非必需的应用程序、库文件、文档等。</p>
+<h3 id="var"><a href="#var" class="headerlink" title="/var"></a><code>/var</code></h3><p>用于存放经常变化的文件，如日志文件（<code>/var/log</code>）、包和数据库文件（<code>/var/lib</code>）、临时电子邮件文件（<code>/var/mail</code>）等。</p>
+<p>这些目录构成了Linux文件系统的标准布局，不同的发行版可能会有轻微的变化或扩展。</p>
 <h2 id="重启网络（显示wifi图标）"><a href="#重启网络（显示wifi图标）" class="headerlink" title="重启网络（显示wifi图标）"></a>重启网络（显示wifi图标）</h2><p>$ sudo nmcli network off<br>$ sudo nmcli network on</p>
+<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><h4 id="find"><a href="#find" class="headerlink" title="find"></a>find</h4><p>查找特定名称的文件：<br>$ find &#x2F;path&#x2F;to&#x2F;search -name “filename.txt”<br>文件：<br>-type f<br>30天内被修改过<br>-mtime -30<br>处理深度：<br>可以通过-maxdepth和-mindepth选项控制搜索的深度。</p>
+<h4 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h4><p>在文件中搜索文本：<br>$ grep “search pattern” filename</p>
+<p>递归搜索目录中的所有文件：<br>$ grep -r “search pattern” &#x2F;path&#x2F;to&#x2F;search<br>忽略大小写地搜索文本:<br>-i<br>显示匹配行的行号：<br>-n</p>
+<h2 id="exec"><a href="#exec" class="headerlink" title="exec"></a>exec</h2><p>-exec后面跟着要执行的命令，然后是{}，它代表当前处理的文件名，最后以;结束</p>
+<p>查找名为config.php的文件，并使用chmod命令更改它们的权限：<br>$ find &#x2F;path&#x2F;to&#x2F;search -type f -name “config.php” -exec chmod 644 {} ;</p>
+<p>使用;来终结-exec命令是必须的，因为没有它，find命令就不知道-exec选项的参数在哪里结束。</p>
+<h2 id=""><a href="#" class="headerlink" title="|"></a>|</h2><p>管道（|）是一个Shell特性，它允许你将一个命令的输出作为另一个命令的输入。与-exec不同，管道通常与xargs命令一起使用，xargs可以将标准输入（stdin）转换为命令行参数。</p>
+<p>查找当前目录及子目录下所有.log文件，并使用grep命令在它们中搜索”error”字符串：<br>$ find . -type f -name “*.log” | xargs grep “error”</p>
+<p>性能：使用-exec时，find会为每个找到的文件启动一个新的进程来执行指定的命令。而管道到xargs的方式会尝试减少进程的数量，通过将多个文件名作为单个命令的参数来提高效率。<br>安全性：-exec直接由find处理，可以安全地处理文件名中的特殊字符。而使用管道到xargs时，如果不加-0选项（并且find使用-print0），可能会遇到文件名中包含空格、换行符等特殊字符的问题。<br>灵活性：管道允许你利用Shell的特性组合多个命令，可以实现更复杂的处理流程。<br>选择使用-exec还是管道（配合xargs），取决于具体的任务需求、对性能的考量以及对特殊文件名的处理需求。</p>
+<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>查看所有Git配置项：<br>$ git config –list<br>user.name&#x3D;LuLuji04<br>user.email&#x3D;<a href="mailto:&#108;&#x69;&#117;&#x79;&#117;&#106;&#105;&#48;&#49;&#48;&#x40;&#49;&#x32;&#54;&#46;&#99;&#111;&#x6d;">&#108;&#x69;&#117;&#x79;&#117;&#106;&#105;&#48;&#49;&#48;&#x40;&#49;&#x32;&#54;&#46;&#99;&#111;&#x6d;</a><br>https.proxy&#x3D;192.168.3.11:7890<br>credential.helper&#x3D;store<br>http.proxy&#x3D;192.168.3.11:7890<br>core.editor&#x3D;vim<br>color.ui&#x3D;true</p>
+<p>查看特定配置项的值，如user.name：<br>$ git config user.name</p>
+<p>$ git config –global user.name “Your Name”<br>$ git config –global user.email “<a href="mailto:&#x79;&#x6f;&#117;&#114;&#x65;&#109;&#x61;&#x69;&#108;&#x40;&#101;&#120;&#x61;&#x6d;&#x70;&#108;&#101;&#46;&#99;&#x6f;&#109;">&#x79;&#x6f;&#117;&#114;&#x65;&#109;&#x61;&#x69;&#108;&#x40;&#101;&#120;&#x61;&#x6d;&#x70;&#108;&#101;&#46;&#99;&#x6f;&#109;</a>“</p>
 
       
     </div>
@@ -362,7 +751,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-02-02 15:26:19" itemprop="dateModified" datetime="2024-02-02T15:26:19+08:00">2024-02-02</time>
+                <time title="修改时间：2024-02-02 15:28:16" itemprop="dateModified" datetime="2024-02-02T15:28:16+08:00">2024-02-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -524,7 +913,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-12-10 13:07:09" itemprop="dateModified" datetime="2023-12-10T13:07:09+08:00">2023-12-10</time>
+                <time title="修改时间：2024-02-11 00:15:27" itemprop="dateModified" datetime="2024-02-11T00:15:27+08:00">2024-02-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -651,155 +1040,11 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/06/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/06/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/" class="post-title-link" itemprop="url">hexo+github搭网站</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-12-06 16:20:38" itemprop="dateCreated datePublished" datetime="2023-12-06T16:20:38+08:00">2023-12-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-02-02 15:21:27" itemprop="dateModified" datetime="2024-02-02T15:21:27+08:00">2024-02-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BB%BC%E8%BF%B0/" itemprop="url" rel="index"><span itemprop="name">综述</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>由于心血来潮，决定自己搭网站。又所谓<em>拿来主义</em>，对于别人的好东西就要拿来，在此记录我参考过的网站</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/12/06/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/06/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/06/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-12-06 16:12:12 / 修改时间：22:03:20" itemprop="dateCreated datePublished" datetime="2023-12-06T16:12:12+08:00">2023-12-06</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/12/06/hello-world/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
 
 
 
@@ -866,7 +1111,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
