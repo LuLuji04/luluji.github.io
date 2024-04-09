@@ -27,12 +27,14 @@
 <meta property="og:site_name" content="myBlog">
 <meta property="og:description" content="RISC-V是由伯克利大学开发的一款开源架构，作为对课内的补充，在此记录学习过程">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/riscv%E7%9A%84%E5%AD%A6%E4%B9%A0/image.png">
 <meta property="article:published_time" content="2023-12-07T08:08:04.000Z">
-<meta property="article:modified_time" content="2024-02-10T16:15:27.231Z">
+<meta property="article:modified_time" content="2024-02-25T03:49:56.754Z">
 <meta property="article:author" content="luluji">
 <meta property="article:tag" content="riscv">
 <meta property="article:tag" content="安全">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/riscv%E7%9A%84%E5%AD%A6%E4%B9%A0/image.png">
 
 <link rel="canonical" href="http://example.com/2023/12/07/riscv%E7%9A%84%E5%AD%A6%E4%B9%A0/">
 
@@ -226,7 +228,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-02-11 00:15:27" itemprop="dateModified" datetime="2024-02-11T00:15:27+08:00">2024-02-11</time>
+                <time title="修改时间：2024-02-25 11:49:56" itemprop="dateModified" datetime="2024-02-25T11:49:56+08:00">2024-02-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +258,9 @@
 <h2 id="2-笔记"><a href="#2-笔记" class="headerlink" title="2.笔记"></a>2.笔记</h2><h4 id="安全中断（riscv架构）"><a href="#安全中断（riscv架构）" class="headerlink" title="安全中断（riscv架构）"></a>安全中断（riscv架构）</h4><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/669734854">https://zhuanlan.zhihu.com/p/669734854</a></p>
 <h4 id="安全相关论文"><a href="#安全相关论文" class="headerlink" title="安全相关论文"></a>安全相关论文</h4><p><a target="_blank" rel="noopener" href="https://s.wanfangdata.com.cn/patent?q=%E5%8F%91%E6%98%8E%E4%BA%BA/%E8%AE%BE%E8%AE%A1%E4%BA%BA:%22%E5%A4%8F%E8%99%9E%E6%96%8C%22&p=1">https://s.wanfangdata.com.cn/patent?q=%E5%8F%91%E6%98%8E%E4%BA%BA%2F%E8%AE%BE%E8%AE%A1%E4%BA%BA%3A%22%E5%A4%8F%E8%99%9E%E6%96%8C%22&amp;p=1</a></p>
 <h4 id="标准扩展"><a href="#标准扩展" class="headerlink" title="标准扩展"></a>标准扩展</h4><p>RISC-V指令集架构（ISA）是模块化的，由基础整数指令集（如RV32I、RV64I）和一系列可选的扩展组成。这些扩展使得RISC-V能够灵活地适应不同的应用需求，从简单的嵌入式设备到复杂的服务器系统。截至我最后更新的信息（2023年4月），以下是RISC-V常见的一些扩展：</p>
-<p>标准扩展<br>M - 整数乘法和除法扩展，为整数算术提供乘法、除法和取模运算指令。<br>A - 原子指令扩展，支持原子内存访问操作，用于构建多线程和并发程序。<br>F - 单精度浮点扩展，提供32位单精度浮点运算指令。<br>D - 双精度浮点扩展，提供64位双精度浮点运算指令。<br>C - 压缩指令扩展，提供更短的指令格式，以减小代码大小和提高性能。<br>G - 通用扩展，一个便捷的缩写，包含了I、M、A、F、D和C扩展，适用于需要通用计算能力的应用。<br>Q - 四精度浮点扩展，提供128位四精度浮点运算指令。<br>L - 十进制浮点扩展，提供十进制浮点运算指令。<br>B - 位操作扩展，提供位操作和位字段操作指令，用于提高位操作的效率。<br>J - 动态跳转扩展，提供更灵活的跳转和分支指令。<br>T - 事务内存扩展，提供硬件事务内存支持，用于改进并发程序的性能和简化并发控制。<br>P - DSP扩展，提供数字信号处理（DSP）相关指令，优化多媒体处理等应用。<br>V - 向量扩展，为数据并行计算提供支持，通过向量操作指令优化大规模数据处理性能。<br>特殊扩展<br>Z系列扩展，为特定的功能或用途定义的细粒度扩展。例如：<br>Zifencei - 指令流水线栅栏指令扩展，用于同步指令和数据流水线。<br>Zmmul - 仅包含乘法指令的整数乘法扩展子集。<br>Zicsr - 控制和状态寄存器（CSR）指令扩展，为访问CSR提供指令。<br>注意</p>
+<p>标准扩展<br>I - 基本整数指令集<br>M - 整数乘法和除法扩展，为整数算术提供乘法、除法和取模运算指令。<br>A - 原子指令扩展，支持原子内存访问操作，用于构建多线程和并发程序。<br>F - 单精度浮点扩展，提供32位单精度浮点运算指令。<br>D - 双精度浮点扩展，提供64位双精度浮点运算指令。<br>C - 压缩指令扩展，提供更短的指令格式，以减小代码大小和提高性能。<br>G - 通用扩展，一个便捷的缩写，包含了I、M、A、F、D和C扩展，适用于需要通用计算能力的应用。<br>Q - 四精度浮点扩展，提供128位四精度浮点运算指令。<br>H - 表示半精度浮点指令。<br>L - 十进制浮点扩展，提供十进制浮点运算指令。<br>B - 位操作扩展，提供位操作和位字段操作指令，用于提高位操作的效率。<br>J - 动态跳转扩展，提供更灵活的跳转和分支指令。<br>T - 事务内存扩展，提供硬件事务内存支持，用于改进并发程序的性能和简化并发控制。<br>P - DSP扩展，提供数字信号处理（DSP）相关指令，优化多媒体处理等应用。<br>V - 向量扩展，为数据并行计算提供支持，通过向量操作指令优化大规模数据处理性能。<br>特殊扩展<br>Z系列扩展，为特定的功能或用途定义的细粒度扩展。例如：<br>Zifencei - 指令流水线栅栏指令扩展，用于同步指令和数据流水线。<br>Zmmul - 仅包含乘法指令的整数乘法扩展子集。<br>Zicsr - 控制和状态寄存器（CSR）指令扩展，为访问CSR提供指令。<br>注意</p>
+<p>ilp32&#x2F;lp64<br>i：int类型为32位。<br>l：long类型为32位。<br>p：指针类型为32位。</p>
+<p>ilp32d和lp64d：在ilp32和lp64的基础上增加了对双精度浮点数的支持。<br>ilp32f和lp64f：在ilp32和lp64的基础上增加了对单精度浮点数的支持。</p>
 <p>eg<br>COMMON_CFLAGS +&#x3D; -march&#x3D;rv32im -mabi&#x3D;ilp32   # overwrite<br>这样的设置指示编译器生成适用于具有整数、乘法和除法指令集的RISC-V 32位架构的代码，使用ilp32ABI，其中整数、长整型和指针都是32位的。</p>
 <h4 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h4><h6 id="riscv64-linux-gnu-gcc-g"><a href="#riscv64-linux-gnu-gcc-g" class="headerlink" title="riscv64-linux-gnu-gcc&#x2F;-g++"></a>riscv64-linux-gnu-gcc&#x2F;-g++</h6><p>目标环境：它生成的代码是为了在支持Linux的RISC-V 64位系统上运行。<br>命名解释：<br>linux-gnu：表示目标操作系统是Linux，使用GNU的libc（glibc）。<br>适用场景：开发Linux应用程序或者在RISC-V 64位Linux系统上运行的任何软件。<br>Installation (glib)<br>.&#x2F;configure –prefix&#x3D;&#x2F;opt&#x2F;riscv<br>make linux</p>
 <h6 id="riscv64-unknown-elf-gcc-g"><a href="#riscv64-unknown-elf-gcc-g" class="headerlink" title="riscv64-unknown-elf-gcc&#x2F;-g++"></a>riscv64-unknown-elf-gcc&#x2F;-g++</h6><p>目标环境：它生成的代码适用于没有标准操作系统支持的环境，如嵌入式系统或特定的硬件。<br>unknown-elf：表示目标环境是未知的，通常用于裸机或特定的运行时环境，使用ELF（Executable and Linkable Format）作为二进制格式。<br>适用场景：开发嵌入式系统、固件、或需要直接与硬件交互的程序</p>
@@ -264,7 +268,49 @@
 <h6 id="riscv64-unknown-linux-gnu-gcc"><a href="#riscv64-unknown-linux-gnu-gcc" class="headerlink" title="riscv64-unknown-linux-gnu-gcc"></a>riscv64-unknown-linux-gnu-gcc</h6><p>目标系统：与riscv64-linux-gnu-gcc相同，也是面向运行Linux的RISC-V 64位架构。<br>“unknown”：unknown部分通常是目标三元组（target triple）中的供应商字段。在这里，unknown表示没有特定的供应商信息。这是交叉编译工具链的常见约定，用于表示工具链是针对通用或未指定供应商的目标系统。<br>GNU前缀：同样表示目标系统使用GNU的libc。<br>用途：用途与riscv64-linux-gnu-gcc相同，用于编译能在RISC-V 64位Linux系统上运行的程序。</p>
 <p>g++：表示这是GCC的C++编译器。</p>
 <p>$ riscv64-linux-gnu-gcc –help<br>  –help                   Display this information.<br>  –target-help            Display target specific command line options.<br>  –help&#x3D;{common|optimizers|params|target|warnings|[^]{joined|separate|undocumented}}[,…].<br>                           Display specific types of command line options</p>
-<h2 id="trap"><a href="#trap" class="headerlink" title="trap"></a>trap</h2><p>trap-&gt;{<br>    interupt-&gt;{<br>        software interupt<br>        timer interupt (可用于抢占式多任务)<br>        external interupt<br>    }<br>    exception-&gt;{<br>        除零之类的<br>        ecall (可用于切换模式，执行M-mode指令)<br>    }<br>}</p>
+<p>这些列出的工具都是RISC-V工具链的一部分，专门用于RISC-V架构的嵌入式开发。这个工具链提供了从代码编译到程序调试所需的全部工具。下面是对每个工具的简要说明：</p>
+<h2 id="编译和链接工具"><a href="#编译和链接工具" class="headerlink" title="编译和链接工具"></a>编译和链接工具</h2><ul>
+<li><strong>riscv64-unknown-elf-gcc</strong>: GNU C 编译器，用于编译C语言源文件。</li>
+<li><strong>riscv64-unknown-elf-g++ &#x2F; riscv64-unknown-elf-c++</strong>: GNU C++ 编译器，用于编译C++语言源文件。</li>
+<li><strong>riscv64-unknown-elf-as</strong>: 汇编器，用于将汇编语言源文件转换为机器代码。</li>
+<li><strong>riscv64-unknown-elf-ld &#x2F; riscv64-unknown-elf-ld.bfd</strong>: 链接器，用于将多个对象文件和库文件链接成一个可执行文件或库文件。</li>
+<li><strong>riscv64-unknown-elf-ar</strong>: 归档工具，用于创建、修改和提取静态库文件。</li>
+<li><strong>riscv64-unknown-elf-ranlib</strong>: 生成静态库的索引，以提高链接时的查找速度。</li>
+</ul>
+<h3 id="调试和分析工具"><a href="#调试和分析工具" class="headerlink" title="调试和分析工具"></a>调试和分析工具</h3><ul>
+<li><strong>riscv64-unknown-elf-gdb</strong>: GNU 调试器，用于调试程序。</li>
+<li><strong>riscv64-unknown-elf-gprof</strong>: 性能分析工具，用于收集程序运行时的性能数据。</li>
+<li><strong>riscv64-unknown-elf-addr2line</strong>: 将地址转换为文件名和行号，有助于调试。</li>
+<li><strong>riscv64-unknown-elf-objdump</strong>: 显示二进制文件的信息，如反汇编输出。</li>
+<li><strong>riscv64-unknown-elf-readelf</strong>: 显示ELF格式文件的信息。</li>
+<li><strong>riscv64-unknown-elf-size</strong>: 显示目标文件或归档文件中各个部分的大小。</li>
+<li><strong>riscv64-unknown-elf-strings</strong>: 从二进制文件中提取可打印的字符串。</li>
+<li><strong>riscv64-unknown-elf-strip</strong>: 从目标文件中移除符号信息，减小文件大小。</li>
+<li><strong>riscv64-unknown-elf-nm</strong>: 列出目标文件中的符号。</li>
+<li><strong>riscv64-unknown-elf-objcopy</strong>: 复制和转换目标文件的格式。</li>
+<li><strong>riscv64-unknown-elf-c++filt</strong>: 用于美化C++符号名称。</li>
+</ul>
+<h3 id="其他工具"><a href="#其他工具" class="headerlink" title="其他工具"></a>其他工具</h3><ul>
+<li><strong>riscv64-unknown-elf-cpp</strong>: C预处理器。</li>
+<li><strong>riscv64-unknown-elf-elfedit</strong>: 修改ELF文件的工具。</li>
+<li><strong>riscv64-unknown-elf-gcc-ar &#x2F; riscv64-unknown-elf-gcc-nm &#x2F; riscv64-unknown-elf-gcc-ranlib</strong>: 这些是为了与LTO(Link Time Optimization，链接时优化)一起使用而特别设计的GCC工具。</li>
+<li><strong>riscv64-unknown-elf-gcov &#x2F; riscv64-unknown-elf-gcov-dump &#x2F; riscv64-unknown-elf-gcov-tool</strong>: 覆盖率测试工具，用于分析程序的代码覆盖率。</li>
+<li><strong>riscv64-unknown-elf-lto-dump</strong>: 用于检查LTO生成的中间文件。</li>
+</ul>
+<p>这些工具使得RISC-V嵌入式开发者能够编译、链接、调试和分析他们的代码，以及对生成的程序进行各种操作和优化。</p>
+<h2 id="trap"><a href="#trap" class="headerlink" title="trap"></a>trap</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">trap-&gt;&#123;</span><br><span class="line">	interupt-&gt;&#123;</span><br><span class="line">		software interupt</span><br><span class="line">		timer interupt (可用于抢占式多任务)</span><br><span class="line">		external interupt</span><br><span class="line">	&#125;</span><br><span class="line">	exception-&gt;&#123;</span><br><span class="line">		除零之类的</span><br><span class="line">		ecall (可用于切换模式，执行M-mode指令)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="RISC-V-安全拓展与可信执行-任老师"><a href="#RISC-V-安全拓展与可信执行-任老师" class="headerlink" title="RISC-V 安全拓展与可信执行 - 任老师"></a>RISC-V 安全拓展与可信执行 - 任老师</h2><iframe src="//player.bilibili.com/player.html?aid=274925919&bvid=BV1pF41117op&cid=1240016606&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+####  pmp
+页表 - s-mode
+pmp生效于 s-mode,u-mode
+若无pmp，则s-mode可以访问任何内存
+
+<p>pmp（i）的i越小,优先级越高<br>TOR,NA4,NATOR</p>
+<p>DMA<br><img src="/../images/riscv%E7%9A%84%E5%AD%A6%E4%B9%A0/image.png" alt="alt text"></p>
+<h4 id="iopmp"><a href="#iopmp" class="headerlink" title="iopmp"></a>iopmp</h4><p>使用PMP（Physical Memory Protection）限制MMIO访问，可能会有overlapping 攻击</p>
+<p>kernel ROP攻击:<br>SMAP,SMEP防护</p>
+<p>covert channel:<br>mstateen (stable enable)</p>
 
     </div>
 
@@ -350,7 +396,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%AE%8C%E7%BB%93-%E5%BE%AA%E5%BA%8F%E6%B8%90%E8%BF%9B%EF%BC%8C%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AARISC-V%E4%B8%8A%E7%9A%84%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%B1%AA%E8%BE%B0-2021%E6%98%A5"><span class="nav-number">1.</span> <span class="nav-text">1.[完结] 循序渐进，学习开发一个RISC-V上的操作系统 - 汪辰 - 2021春</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%AC%94%E8%AE%B0"><span class="nav-number">2.</span> <span class="nav-text">2.笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E4%B8%AD%E6%96%AD%EF%BC%88riscv%E6%9E%B6%E6%9E%84%EF%BC%89"><span class="nav-number">2.0.1.</span> <span class="nav-text">安全中断（riscv架构）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87"><span class="nav-number">2.0.2.</span> <span class="nav-text">安全相关论文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E5%87%86%E6%89%A9%E5%B1%95"><span class="nav-number">2.0.3.</span> <span class="nav-text">标准扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91"><span class="nav-number">2.0.4.</span> <span class="nav-text">编译</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#riscv64-linux-gnu-gcc-g"><span class="nav-number">2.0.4.0.1.</span> <span class="nav-text">riscv64-linux-gnu-gcc&#x2F;-g++</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#riscv64-unknown-elf-gcc-g"><span class="nav-number">2.0.4.0.2.</span> <span class="nav-text">riscv64-unknown-elf-gcc&#x2F;-g++</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#riscv64-unknown-linux-gnu-gcc"><span class="nav-number">2.0.4.0.3.</span> <span class="nav-text">riscv64-unknown-linux-gnu-gcc</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#trap"><span class="nav-number">3.</span> <span class="nav-text">trap</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%AE%8C%E7%BB%93-%E5%BE%AA%E5%BA%8F%E6%B8%90%E8%BF%9B%EF%BC%8C%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AARISC-V%E4%B8%8A%E7%9A%84%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%B1%AA%E8%BE%B0-2021%E6%98%A5"><span class="nav-number">1.</span> <span class="nav-text">1.[完结] 循序渐进，学习开发一个RISC-V上的操作系统 - 汪辰 - 2021春</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%AC%94%E8%AE%B0"><span class="nav-number">2.</span> <span class="nav-text">2.笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E4%B8%AD%E6%96%AD%EF%BC%88riscv%E6%9E%B6%E6%9E%84%EF%BC%89"><span class="nav-number">2.0.1.</span> <span class="nav-text">安全中断（riscv架构）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87"><span class="nav-number">2.0.2.</span> <span class="nav-text">安全相关论文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E5%87%86%E6%89%A9%E5%B1%95"><span class="nav-number">2.0.3.</span> <span class="nav-text">标准扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91"><span class="nav-number">2.0.4.</span> <span class="nav-text">编译</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#riscv64-linux-gnu-gcc-g"><span class="nav-number">2.0.4.0.1.</span> <span class="nav-text">riscv64-linux-gnu-gcc&#x2F;-g++</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#riscv64-unknown-elf-gcc-g"><span class="nav-number">2.0.4.0.2.</span> <span class="nav-text">riscv64-unknown-elf-gcc&#x2F;-g++</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#riscv64-unknown-linux-gnu-gcc"><span class="nav-number">2.0.4.0.3.</span> <span class="nav-text">riscv64-unknown-linux-gnu-gcc</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%92%8C%E9%93%BE%E6%8E%A5%E5%B7%A5%E5%85%B7"><span class="nav-number">3.</span> <span class="nav-text">编译和链接工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E5%92%8C%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7"><span class="nav-number">3.1.</span> <span class="nav-text">调试和分析工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%B7%A5%E5%85%B7"><span class="nav-number">3.2.</span> <span class="nav-text">其他工具</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#trap"><span class="nav-number">4.</span> <span class="nav-text">trap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RISC-V-%E5%AE%89%E5%85%A8%E6%8B%93%E5%B1%95%E4%B8%8E%E5%8F%AF%E4%BF%A1%E6%89%A7%E8%A1%8C-%E4%BB%BB%E8%80%81%E5%B8%88"><span class="nav-number">5.</span> <span class="nav-text">RISC-V 安全拓展与可信执行 - 任老师</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#iopmp"><span class="nav-number">5.0.1.</span> <span class="nav-text">iopmp</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -366,7 +412,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -379,7 +425,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
