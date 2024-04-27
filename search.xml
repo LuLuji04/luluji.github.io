@@ -1,6 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>buildroot的使用</title>
+    <url>/2024/02/18/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<span id="more"></span>
+<p>在使用Buildroot构建嵌入式Linux系统时，<code>BR2_EXTERNAL</code>是一个重要的机制，它允许用户将自定义的配置、包（packages）、板级支持包（board support packages，简称BSPs）、以及其他构建脚本和文件集成到Buildroot构建过程中，而不必直接修改Buildroot的主树。这种机制非常有用，因为它使得维护自定义修改和跟踪Buildroot官方更新变得更加容易。</p>
+<h3 id="使用BR2-EXTERNAL的优势"><a href="#使用BR2-EXTERNAL的优势" class="headerlink" title="使用BR2_EXTERNAL的优势"></a>使用BR2_EXTERNAL的优势</h3><ul>
+<li><strong>模块化</strong>：允许将自定义内容和Buildroot主树分开，便于管理。</li>
+<li><strong>易于维护</strong>：更新Buildroot版本时，可以避免合并冲突，简化维护工作。</li>
+<li><strong>重用性</strong>：相同的自定义配置和包可以轻松地在多个项目之间共享和重用。</li>
+</ul>
+<h3 id="如何使用BR2-EXTERNAL"><a href="#如何使用BR2-EXTERNAL" class="headerlink" title="如何使用BR2_EXTERNAL"></a>如何使用BR2_EXTERNAL</h3><ol>
+<li><p><strong>创建外部树结构</strong>：首先，你需要创建一个目录作为你的外部树，这个目录将包含你的自定义配置和文件。外部树的推荐目录结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">your-external-tree/</span><br><span class="line">├── Config.in</span><br><span class="line">├── external.desc</span><br><span class="line">├── external.mk</span><br><span class="line">├── configs/</span><br><span class="line">├── board/</span><br><span class="line">├── package/</span><br><span class="line">└── fs/</span><br></pre></td></tr></table></figure>
+<p>其中<code>configs/</code>用于存放自定义的配置文件，<code>package/</code>用于存放自定义的软件包描述文件，<code>board/</code>可能包含板级特定文件，如启动脚本和覆盖层。</p>
+</li>
+<li><p><strong>设置BR2_EXTERNAL环境变量</strong>：在运行Buildroot的<code>make menuconfig</code>之前，通过环境变量<code>BR2_EXTERNAL</code>指向你的外部树目录。这可以通过在命令行中直接设置，或者添加到你的shell配置文件中：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export BR2_EXTERNAL=/path/to/your-external-tree</span><br></pre></td></tr></table></figure>
+<p>或者，在make命令中直接指定：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">make BR2_EXTERNAL=/path/to/your-external-tree menuconfig</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>使用自定义配置和包</strong>：一旦设置了<code>BR2_EXTERNAL</code>，Buildroot构建系统将自动识别外部树中的配置和包。你可以在<code>make menuconfig</code>中选择这些包，或者使用外部树中定义的配置作为构建的起点。</p>
+</li>
+<li><p><strong>构建系统</strong>：使用你的配置构建系统。如果一切设置正确，Buildroot将包含你的外部树中的自定义内容进行构建。</p>
+</li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li><strong>多个外部树</strong>：从Buildroot 2016.11版本开始，<code>BR2_EXTERNAL</code>支持指定多个外部树路径，使用冒号(<code>:</code>)分隔。</li>
+<li><strong>版本兼容性</strong>：在使用<code>BR2_EXTERNAL</code>时，要确保外部树中的自定义内容与Buildroot的版本兼容。</li>
+</ul>
+<p>通过使用<code>BR2_EXTERNAL</code>，你可以灵活地扩展Buildroot，添加自定义功能和支持，同时保持与Buildroot主树的清晰分离，这对于项目的长期维护和升级非常有益。</p>
+<p>当使用<code>BR2_EXTERNAL</code>机制在Buildroot中引入外部树时，你需要在外部树的根目录创建一些特定的文件和目录来定义你的自定义配置、板级支持包、软件包和文件系统扩展。以下是如何组织和编写这些文件的一些基本指导：</p>
+<h3 id="1-Config-in"><a href="#1-Config-in" class="headerlink" title="1. Config.in"></a>1. Config.in</h3><p><code>Config.in</code>是一个Kconfig文件，它定义了在Buildroot配置界面中出现的选项。这个文件通常用来引入外部软件包的配置选项或者特定的配置界面。</p>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">menu <span class="string">&quot;My Custom Options&quot;</span></span><br><span class="line"></span><br><span class="line">config BR2_PACKAGE_MY_CUSTOM_PACKAGE</span><br><span class="line">    bool <span class="string">&quot;My custom package&quot;</span></span><br><span class="line">    help</span><br><span class="line">      This option will enable my custom package.</span><br><span class="line"></span><br><span class="line">endmenu</span><br></pre></td></tr></table></figure>
+
+<p>此文件中定义的选项可以在Buildroot的配置界面中找到，并允许用户启用或禁用特定功能。</p>
+<h3 id="2-external-desc"><a href="#2-external-desc" class="headerlink" title="2. external.desc"></a>2. external.desc</h3><p><code>external.desc</code>是Buildroot 2020.02版本后引入的新文件，用于描述外部树的元数据，如名称和描述。这个文件不是必需的，但有助于识别外部树。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">name: my-external-tree</span><br><span class="line">description: My custom external tree for Buildroot</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-external-mk"><a href="#3-external-mk" class="headerlink" title="3. external.mk"></a>3. external.mk</h3><p><code>external.mk</code>是Makefile片段，用于包含外部软件包的构建规则。这个文件会被Buildroot构建系统自动包含。</p>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Example of including a custom package</span></span><br><span class="line"><span class="keyword">ifeq</span> (<span class="variable">$(BR2_PACKAGE_MY_CUSTOM_PACKAGE)</span>,y)</span><br><span class="line"><span class="keyword">include</span> package/my_custom_package/my_custom_package.mk</span><br><span class="line"><span class="keyword">endif</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-configs"><a href="#4-configs" class="headerlink" title="4. configs&#x2F;"></a>4. configs&#x2F;</h3><p><code>configs/</code>目录包含预定义的Buildroot配置文件，这些文件可以通过<code>make &lt;config_name&gt;_defconfig</code>命令使用。这些配置文件通常用于快速配置Buildroot以使用特定的板级支持包或软件包组合。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Example of a custom defconfig file</span><br><span class="line">BR2_PACKAGE_MY_CUSTOM_PACKAGE=y</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-board"><a href="#5-board" class="headerlink" title="5. board&#x2F;"></a>5. board&#x2F;</h3><p><code>board/</code>目录包含特定于板级的文件，如启动脚本、内核配置片段或根文件系统覆盖层。</p>
+<h3 id="6-package"><a href="#6-package" class="headerlink" title="6. package&#x2F;"></a>6. package&#x2F;</h3><p><code>package/</code>目录包含自定义软件包的描述和构建规则。每个软件包目录下通常包含两个文件：<code>Config.in</code>和<code>&lt;package_name&gt;.mk</code>。</p>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># package/my_custom_package/Config.in</span></span><br><span class="line">config BR2_PACKAGE_MY_CUSTOM_PACKAGE</span><br><span class="line">    bool <span class="string">&quot;My custom package&quot;</span></span><br><span class="line">    help</span><br><span class="line">      My custom package description.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># package/my_custom_package/my_custom_package.mk</span></span><br><span class="line">MY_CUSTOM_PACKAGE_VERSION = 1.0</span><br><span class="line">MY_CUSTOM_PACKAGE_SITE = <span class="variable">$(TOPDIR)</span>/path/to/my_custom_package/source</span><br><span class="line">MY_CUSTOM_PACKAGE_LICENSE = GPL-2.0+</span><br><span class="line"></span><br><span class="line"><span class="keyword">define</span> MY_CUSTOM_PACKAGE_BUILD_CMDS</span><br><span class="line">    <span class="variable">$(MAKE)</span> CC=<span class="string">&quot;<span class="variable">$(TARGET_CC)</span>&quot;</span> -C $(@D)</span><br><span class="line"><span class="keyword">endef</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">define</span> MY_CUSTOM_PACKAGE_INSTALL_TARGET_CMDS</span><br><span class="line">    <span class="variable">$(INSTALL)</span> -D -m 0755 $(@D)/my_custom_package <span class="variable">$(TARGET_DIR)</span>/usr/bin</span><br><span class="line"><span class="keyword">endef</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$(<span class="built_in">eval</span> $(generic-package)</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-fs"><a href="#7-fs" class="headerlink" title="7. fs&#x2F;"></a>7. fs&#x2F;</h3><p><code>fs/</code>目录用于添加自定义文件系统支持。这里可以放置生成特定类型文件系统镜像的脚本和配置。</p>
+<p>这些文件和目录为你提供了一个框架来扩展Buildroot，添加自定义板级支持、软件包和配置。确保遵循Buildroot的文档和现有的样板（boilerplate）代码来正确实现这些自定义扩展。</p>
+]]></content>
+  </entry>
+  <entry>
     <title>cpp的特性</title>
     <url>/2024/02/10/cpp%E7%9A%84%E7%89%B9%E6%80%A7/</url>
     <content><![CDATA[<span id="more"></span>
@@ -14,6 +68,131 @@
 <h2 id="virtual"><a href="#virtual" class="headerlink" title="virtual"></a>virtual</h2><p>在C++中，virtual uintptr_t initUTM(size_t size);声明了一个虚拟成员函数initUTM，这个函数预期在一个类中被声明，并且可能在派生类中被重写。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">class Base &#123;</span><br><span class="line">public:</span><br><span class="line">    virtual void print() &#123;</span><br><span class="line">        std::cout &lt;&lt; &quot;Base class print function&quot; &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">class Derived : public Base &#123;</span><br><span class="line">public:</span><br><span class="line">    void print() override &#123;  // 使用override确保重写</span><br><span class="line">        std::cout &lt;&lt; &quot;Derived class print function&quot; &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">int main() &#123;</span><br><span class="line">    Base* b = new Derived();</span><br><span class="line">    b-&gt;print();  // 输出：Derived class print function</span><br><span class="line">    </span><br><span class="line">    delete b;  // 清理资源</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>开发</tag>
+        <tag>C/C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>c语言中的宏</title>
+    <url>/2024/02/26/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%AE%8F/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<p>在C语言中，预处理器提供了几个特殊的宏用于宏定义中，这些特殊的宏包括<code>__VA_ARGS__</code>、<code>__FILE__</code>、<code>__LINE__</code>、<code>__DATE__</code>、<code>__TIME__</code>和<code>__func__</code>。下面是对它们的简要说明：</p>
+<h3 id="VA-ARGS"><a href="#VA-ARGS" class="headerlink" title="__VA_ARGS__"></a><code>__VA_ARGS__</code></h3><ul>
+<li><code>__VA_ARGS__</code>是一个预处理器宏，用于在宏定义中代替可变数量的参数。这主要用于可变参数宏（Variadic Macros）的定义中，允许宏接受任意数量的参数。</li>
+<li>示例：  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> DEBUG(fmt, ...) fprintf(stderr, fmt, __VA_ARGS__)</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="FILE"><a href="#FILE" class="headerlink" title="__FILE__"></a><code>__FILE__</code></h3><ul>
+<li><code>__FILE__</code>是一个预定义宏，它在编译时被替换为当前源代码文件的名称（一个字符串常量）。</li>
+<li>示例使用场景：用于生成包含文件名的错误消息。</li>
+</ul>
+<h3 id="LINE"><a href="#LINE" class="headerlink" title="__LINE__"></a><code>__LINE__</code></h3><ul>
+<li><code>__LINE__</code>是一个预定义宏，它在编译时被替换为当前源代码行号（一个整型常量）。</li>
+<li>示例使用场景：同样用于生成错误消息，指明错误发生的具体行。</li>
+</ul>
+<h3 id="DATE-和-TIME"><a href="#DATE-和-TIME" class="headerlink" title="__DATE__ 和 __TIME__"></a><code>__DATE__</code> 和 <code>__TIME__</code></h3><ul>
+<li><code>__DATE__</code>和<code>__TIME__</code>是预定义宏，分别在编译时被替换为编译日期和时间的字符串常量。</li>
+<li>示例使用场景：用于记录程序的编译日期和时间，可能用于显示版本信息。</li>
+</ul>
+<h3 id="func"><a href="#func" class="headerlink" title="__func__"></a><code>__func__</code></h3><ul>
+<li><code>__func__</code>是一个特殊的预定义标识符，它在函数的作用域内被认为是一个字符串常量，包含当前函数的名称。</li>
+<li>注意：虽然<code>__func__</code>在C99标准中引入，有时被视为预处理器的一部分，但它实际上是一个自动变量。</li>
+<li>示例使用场景：用于在日志消息中包含当前函数的名称。</li>
+</ul>
+<p>这些宏和标识符在调试、日志记录和错误处理中特别有用，因为它们可以提供执行到达代码特定点时的上下文信息。</p>
+<p>除了前面提到的预处理器宏外，C语言的预处理器还提供了一些其他有用的操作符，比如<code>##</code>和<code>#</code>。这些操作符在宏定义中扮演特殊的角色，使得宏更加灵活和强大。</p>
+<h3 id="操作符（Token-Pasting-Operator）"><a href="#操作符（Token-Pasting-Operator）" class="headerlink" title="## 操作符（Token Pasting Operator）"></a><code>##</code> 操作符（Token Pasting Operator）</h3><ul>
+<li><code>##</code>操作符用于宏定义中，用于连接两个令牌（Token）。它允许在宏展开时动态地创建标识符或关键字。</li>
+<li>使用<code>##</code>可以合并宏参数和其他令牌，生成新的标识符。</li>
+<li>示例：  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> CONCAT(a, b) a##b</span></span><br><span class="line">CONCAT(hello, World) <span class="comment">// 展开为 helloWorld</span></span><br></pre></td></tr></table></figure></li>
+<li>在这个例子中，<code>CONCAT</code>宏将它的两个参数<code>a</code>和<code>b</code>连接起来，形成一个新的标识符<code>helloWorld</code>。</li>
+</ul>
+<h3 id="操作符（Stringizing-Operator）"><a href="#操作符（Stringizing-Operator）" class="headerlink" title="# 操作符（Stringizing Operator）"></a><code>#</code> 操作符（Stringizing Operator）</h3><ul>
+<li><code>#</code>操作符用于宏定义中，将一个宏参数转换成字符串字面量。</li>
+<li>当宏展开时，跟在<code>#</code>后面的宏参数会被转换为一个字符串，参数的文本形式被引号包围。</li>
+<li>示例：  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> TO_STRING(x) #x</span></span><br><span class="line">TO_STRING(<span class="number">123</span>) <span class="comment">// 展开为 &quot;123&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>在这个例子中，<code>TO_STRING</code>宏将它的参数<code>x</code>转换为一个字符串字面量。</li>
+</ul>
+<h3 id="Pragma-操作符"><a href="#Pragma-操作符" class="headerlink" title="_Pragma 操作符"></a><code>_Pragma</code> 操作符</h3><ul>
+<li>C99引入了<code>_Pragma</code>操作符，允许在宏中生成编译指令（pragma）。这是一种将编译器特定的指令（如优化级别或警告控制）以可移植的方式嵌入源代码的方法。</li>
+<li>示例：  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> PRAGMA_COMPILATION_WARNING(x) <span class="keyword">_Pragma</span>(#x)</span></span><br><span class="line">PRAGMA_COMPILATION_WARNING(GCC diagnostic ignored <span class="string">&quot;-Wformat&quot;</span>)</span><br></pre></td></tr></table></figure></li>
+<li>在这个例子中，<code>PRAGMA_COMPILATION_WARNING</code>宏允许动态地插入一个编译指令来忽略特定的警告。</li>
+</ul>
+<p>这些预处理器功能为C语言提供了极大的灵活性，使得宏不仅仅是简单的文本替换工具，而是可以执行复杂的代码生成任务和条件编译。使用这些特性时需要小心，因为过度使用或不当使用可能会使代码难以阅读和维护。</p>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>开发</tag>
+        <tag>C/C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>c语言的常用函数</title>
+    <url>/2024/02/05/c%E8%AF%AD%E8%A8%80%E7%9A%84%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h2 id="1-getopt-long"><a href="#1-getopt-long" class="headerlink" title="1.getopt_long"></a>1.getopt_long</h2><h4 id="函数定义："><a href="#函数定义：" class="headerlink" title="函数定义："></a>函数定义：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;getopt.h&gt;</span><br><span class="line">int getopt_long(int argc, char *argv[],</span><br><span class="line">		  const char *optstring,</span><br><span class="line">		  const struct option *longopts, int *longindex);</span><br></pre></td></tr></table></figure>
+<p>函数是用于解析命令行参数的，与函数 getopt() 函数是相似的，它可以处理长选项，即两个短杠”–” 连接的参数选项。而且比 getopt() 多两个参数。</p>
+<h4 id="参数说明："><a href="#参数说明：" class="headerlink" title="参数说明："></a>参数说明：</h4><p>1，argc        一般就是 main 函数里的 argc<br>2，argv    同上<br>3，optstring  要匹配的参数，如：”ha” 或  “h:a” 或 “h:a::”，带一个冒号的表示此选项须带参数，两个冒号的表示是可选参数<br>4，longopts 这个是长选项结构的指针，一般传的是数组<br>5，longindex  如果不为空，它将指向 longopts 的一个元素的位置，即longopts的数组下标</p>
+<h4 id="man手册例子："><a href="#man手册例子：" class="headerlink" title="man手册例子："></a>man手册例子：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;getopt.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;     /* for printf */</span><br><span class="line">#include &lt;stdlib.h&gt;    /* for exit */</span><br><span class="line"> </span><br><span class="line">int main(int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">	int c;</span><br><span class="line">	int digit_optind = 0;</span><br><span class="line"> </span><br><span class="line">	while (1) &#123;</span><br><span class="line">		int this_option_optind = optind ? optind : 1;</span><br><span class="line">		int option_index = 0;</span><br><span class="line">		</span><br><span class="line">		/*长选项的匹配只要匹配到前n个字符相同就会返回，若是模棱两可时会返回？，同时stderr会有相应打印*/</span><br><span class="line">		static struct option long_options[] = &#123;</span><br><span class="line">		   &#123;&quot;add&quot;,     required_argument, 0,  0 &#125;,</span><br><span class="line">		   &#123;&quot;append&quot;,  no_argument,       0,  0 &#125;,</span><br><span class="line">		   &#123;&quot;delete&quot;,  required_argument, 0,  0 &#125;,</span><br><span class="line">		   &#123;&quot;verbose&quot;, no_argument,       0,  0 &#125;,</span><br><span class="line">		   &#123;&quot;create&quot;,  required_argument, 0, &#x27;c&#x27;&#125;,</span><br><span class="line">		   &#123;&quot;file&quot;,    required_argument, 0,  0 &#125;,</span><br><span class="line">		   &#123;0,         0,                 0,  0 &#125;</span><br><span class="line">	   &#125;;</span><br><span class="line">		</span><br><span class="line">		/*短选项跟一个冒号表示有选项参数，两个冒号表示选项参数可选*/</span><br><span class="line">	   c = getopt_long(argc, argv, &quot;abc:d:012&quot;,</span><br><span class="line">					   long_options, &amp;option_index);</span><br><span class="line">	   if (c == -1)</span><br><span class="line">		   break;</span><br><span class="line"> </span><br><span class="line">	   switch (c) &#123;</span><br><span class="line">	   case 0: /* 匹配到长选项时，返回的val，即struct optaion 中的 val，这里为 0 则表示匹配到 add、append, delete, verbose, file时都会跟到这个 case, 而create 则匹配到字符&#x27;c&#x27;*/</span><br><span class="line">			printf(&quot;get option_index = %d, option %s&quot;, option_index, long_options[option_index].name);</span><br><span class="line">			if (optarg)</span><br><span class="line">			   printf(&quot; with arg %s&quot;, optarg);</span><br><span class="line">			printf(&quot;\n&quot;);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;0&#x27;:</span><br><span class="line">	   case &#x27;1&#x27;:</span><br><span class="line">	   case &#x27;2&#x27;:</span><br><span class="line">			if (digit_optind != 0 &amp;&amp; digit_optind != this_option_optind)</span><br><span class="line">			 printf(&quot;digits occur in two different argv-elements.\n&quot;);</span><br><span class="line">			digit_optind = this_option_optind;</span><br><span class="line">			printf(&quot;option %c\n&quot;, c);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;a&#x27;:</span><br><span class="line">			printf(&quot;option a\n&quot;);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;b&#x27;:</span><br><span class="line">			printf(&quot;option b\n&quot;);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;c&#x27;:</span><br><span class="line">			printf(&quot;option c with value &#x27;%s&#x27;\n&quot;, optarg);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;d&#x27;:</span><br><span class="line">			printf(&quot;option d with value &#x27;%s&#x27;\n&quot;, optarg);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;?&#x27;: /*ambiguous 模棱两可的时候返回? 如只输入 --a 则会匹配到 add 和 append*/</span><br><span class="line">			printf(&quot;it&#x27;s ambiguous, please selete one\n&quot;);</span><br><span class="line">			break;</span><br><span class="line">		</span><br><span class="line">	   default:</span><br><span class="line">			printf(&quot;?? getopt returned character code 0%o ??\n&quot;, c);</span><br><span class="line">	   &#125;</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	if (optind &lt; argc) &#123;</span><br><span class="line">		printf(&quot;non-option ARGV-elements: &quot;);</span><br><span class="line">		while (optind &lt; argc)</span><br><span class="line">		   printf(&quot;%s &quot;, argv[optind++]);</span><br><span class="line">		printf(&quot;\n&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	exit(EXIT_SUCCESS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="fread和fwrite"><a href="#fread和fwrite" class="headerlink" title="fread和fwrite"></a>fread和fwrite</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">size_t fread(void *ptr, size_t size, size_t count, FILE *stream);</span><br></pre></td></tr></table></figure>
+<pre><code>ptr：指向读取数据存储的缓冲区。
+size：每个数据项的字节数。
+count：要读取的数据项数。
+stream：文件指针，指向要读取数据的文件。
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">size_t fwrite(const void *ptr, size_t size, size_t count, FILE *stream);</span><br></pre></td></tr></table></figure>
+
+<pre><code>ptr：要写入的数据的指针。
+size：每个数据项的字节数。
+count：要写入的数据项的个数。
+stream：要写入的文件指针。
+</code></pre>
+<h2 id="sscanf"><a href="#sscanf" class="headerlink" title="sscanf"></a>sscanf</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int sscanf(const char* str, const char* format, ...);</span><br></pre></td></tr></table></figure>
+<p>从<strong>字符串</strong>中按照指定的格式解析数据</p>
+<pre><code>str：要解析的输入字符串。
+format：格式字符串，指定了要匹配的格式规则。
+...：可变参数列表，用于接收解析后的数据。
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">char str[20];</span><br><span class="line">sscanf(&quot;Hello, World!&quot;, &quot;%s&quot;, str);//解析字符串，把Hello, World!存到str</span><br></pre></td></tr></table></figure>
+
+<h2 id="命令处理"><a href="#命令处理" class="headerlink" title="命令处理"></a>命令处理</h2><h4 id="strtok-r"><a href="#strtok-r" class="headerlink" title="strtok_r"></a>strtok_r</h4><p>首先需要将字符串切分为指令和参数形式，需要用到strtok_r函数。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">char *strtok_r(char * __restrict__ _Str, const char * __restrict__ _Delim, char ** __restrict__ __last);</span><br><span class="line">SS</span><br><span class="line">char *cmd;//表示命令</span><br><span class="line">char *paras;//表示命令后的参数</span><br><span class="line"> </span><br><span class="line">cmd = strtok_r(str, &quot;,&quot;, &amp;paras);</span><br><span class="line">printf(&quot;cmd:%srn&quot;, cmd);//获得字符串的第一串字符cmd:led</span><br><span class="line">printf(&quot;paras:%srn&quot;, paras);//获取后续字符串paras:100,0,80,15</span><br></pre></td></tr></table></figure>
+
+<h4 id="strstr"><a href="#strstr" class="headerlink" title="strstr"></a>strstr</h4><p>对于得到参数指令字符串，我们可能还需要判断该指令是否有效，即计算机之前是否存储了该字符串，可以通过字符串匹配数组中对应字符串的方式来模拟这个测试。需要用到strstr函数，其函数定义为：<br>我们可以先自定义一个用来查询的字符串数组funname[5]，然后依次进行匹配比较。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">    char *funname[5] = &#123;&quot;music&quot;, &quot;play&quot;, &quot;A_led1&quot;, &quot;led2&quot;, &quot;led&quot;&#125;;//自定义的函数名称列表</span><br><span class="line">     </span><br><span class="line">char *ret;</span><br><span class="line">int i;</span><br><span class="line">for (i = 0; i &lt; 5;i++)</span><br><span class="line">&#123;</span><br><span class="line">	ret = strstr(funname[i], cmd);</span><br><span class="line">	if(ret!=NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;find cmd in funname[%d]rn&quot;, i);</span><br><span class="line">		printf(&quot;ret:%srn&quot;, ret);</span><br><span class="line">		break;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">if(i==5)</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;can&#x27;t find cmd in funname[]&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试结果：</p>
+<pre><code>find cmd in funname[2]
+ret:led1
+</code></pre>
+<h4 id="strtok"><a href="#strtok" class="headerlink" title="strtok"></a>strtok</h4><p>确定了指令字符串的有效性，接下来就要切分后面的参数了，实际上我们还可以继续使用strtok_r方法，不过，我们可以使用另一个类似的函数strtok，它少一个用来保存切分后字符串的参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">char* para[4];</span><br><span class="line">para[0] = strtok(paras, &quot;,&quot;);</span><br><span class="line">int j= 1;</span><br><span class="line">while(paras != NULL)</span><br><span class="line">&#123;</span><br><span class="line">    para[j++] = strtok(NULL, &quot;,&quot;);</span><br><span class="line">    if(j==4)</span><br><span class="line">        break;</span><br><span class="line">&#125;</span><br><span class="line">printf(&quot;para[0]:%srn&quot;, para[0]);</span><br><span class="line">printf(&quot;para[1]:%srn&quot;, para[1]);</span><br><span class="line">printf(&quot;para[2]:%srn&quot;, para[2]);</span><br><span class="line">printf(&quot;para[3]:%srn&quot;, para[3]);</span><br></pre></td></tr></table></figure>
+<pre><code>第一次切割时，第一个参数（也就是str）不能是NULL
+第一次切割时，函数将找到str中第一个分割符，将它替换为\0
+同时strtok函数将保存这 个\0在整个字符串中的位置。
+
+第二次、第三次...第n次使用strtok函数切割同一个字符串时。
+第一个参数为NULL
+此时函数将从上一个保存的\0的位置开始往后切割，直到遇到下一个分割符或\0
+</code></pre>
+<h4 id="atoi"><a href="#atoi" class="headerlink" title="atoi"></a>atoi</h4><p>上面分离的参数数字是字符串型，实际使用时可能需要其对应的整数形式，我们可以使用atoi函数进行转换:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int atoi(const char *_Str);</span><br></pre></td></tr></table></figure>
+<pre><code>参数：数字形式的字符串
+返回值：对应的整形数值，若不能转换，返回0
+</code></pre>
+<h2 id="strcmp-str1-str2"><a href="#strcmp-str1-str2" class="headerlink" title="strcmp(str1,str2)"></a>strcmp(str1,str2)</h2><p>若str1&#x3D;str2，则返回0<br>strcmp()函数首先将str1字符串的第一个字符的ACSII值减去str2第一个字符的ACSII值(自左向右逐个字符相比，直到出现不同的字符或遇’\0’为止)<br>若差值为零则继续比较下去；若差值不为零，则返回差值。</p>
+<h2 id="struct-enum-union"><a href="#struct-enum-union" class="headerlink" title="struct,enum,union"></a>struct,enum,union</h2><p><a href="https://blog.csdn.net/qq_60192898/article/details/127602638">https://blog.csdn.net/qq_60192898/article/details/127602638</a></p>
+<h2 id="fseek"><a href="#fseek" class="headerlink" title="fseek"></a>fseek</h2><p>fseek函数的原型定义在&lt;stdio.h&gt;头文件中，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int fseek(FILE *stream, long offset, int whence);</span><br></pre></td></tr></table></figure>
+<p>stream：指向FILE对象的指针，代表一个打开的文件流。<br>offset：相对于whence参数指定的位置的偏移量，以字节为单位。根据whence的值，偏移量可以是正数也可以是负数。<br>whence：设置偏移量的起点。它通常是以下三个常量之一：<br>SEEK_SET：文件的开头。<br>SEEK_CUR：文件的当前位置。<br>SEEK_END：文件的末尾。<br>返回值<br>fseek函数将文件位置指示器移动到文件末尾（SEEK_END），偏移量为0。这是为了找出文件的总大小。<br>ftell函数返回当前文件位置指示器的位置，因为我们已经使用fseek移动到了文件末尾，</p>
+<p>eg:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FILE *fp = fopen(img_file, &quot;rb&quot;);</span><br><span class="line">Assert(fp, &quot;Can not open &#x27;%s&#x27;&quot;, img_file);</span><br><span class="line"></span><br><span class="line">fseek(fp, 0, SEEK_END);</span><br><span class="line">long size = ftell(fp);</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>学习</category>
       </categories>
@@ -98,80 +277,26 @@
       </tags>
   </entry>
   <entry>
-    <title>c语言中的宏</title>
-    <url>/2024/02/26/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%AE%8F/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<p>在C语言中，预处理器提供了几个特殊的宏用于宏定义中，这些特殊的宏包括<code>__VA_ARGS__</code>、<code>__FILE__</code>、<code>__LINE__</code>、<code>__DATE__</code>、<code>__TIME__</code>和<code>__func__</code>。下面是对它们的简要说明：</p>
-<h3 id="VA-ARGS"><a href="#VA-ARGS" class="headerlink" title="__VA_ARGS__"></a><code>__VA_ARGS__</code></h3><ul>
-<li><code>__VA_ARGS__</code>是一个预处理器宏，用于在宏定义中代替可变数量的参数。这主要用于可变参数宏（Variadic Macros）的定义中，允许宏接受任意数量的参数。</li>
-<li>示例：  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> DEBUG(fmt, ...) fprintf(stderr, fmt, __VA_ARGS__)</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="FILE"><a href="#FILE" class="headerlink" title="__FILE__"></a><code>__FILE__</code></h3><ul>
-<li><code>__FILE__</code>是一个预定义宏，它在编译时被替换为当前源代码文件的名称（一个字符串常量）。</li>
-<li>示例使用场景：用于生成包含文件名的错误消息。</li>
-</ul>
-<h3 id="LINE"><a href="#LINE" class="headerlink" title="__LINE__"></a><code>__LINE__</code></h3><ul>
-<li><code>__LINE__</code>是一个预定义宏，它在编译时被替换为当前源代码行号（一个整型常量）。</li>
-<li>示例使用场景：同样用于生成错误消息，指明错误发生的具体行。</li>
-</ul>
-<h3 id="DATE-和-TIME"><a href="#DATE-和-TIME" class="headerlink" title="__DATE__ 和 __TIME__"></a><code>__DATE__</code> 和 <code>__TIME__</code></h3><ul>
-<li><code>__DATE__</code>和<code>__TIME__</code>是预定义宏，分别在编译时被替换为编译日期和时间的字符串常量。</li>
-<li>示例使用场景：用于记录程序的编译日期和时间，可能用于显示版本信息。</li>
-</ul>
-<h3 id="func"><a href="#func" class="headerlink" title="__func__"></a><code>__func__</code></h3><ul>
-<li><code>__func__</code>是一个特殊的预定义标识符，它在函数的作用域内被认为是一个字符串常量，包含当前函数的名称。</li>
-<li>注意：虽然<code>__func__</code>在C99标准中引入，有时被视为预处理器的一部分，但它实际上是一个自动变量。</li>
-<li>示例使用场景：用于在日志消息中包含当前函数的名称。</li>
-</ul>
-<p>这些宏和标识符在调试、日志记录和错误处理中特别有用，因为它们可以提供执行到达代码特定点时的上下文信息。</p>
-<p>除了前面提到的预处理器宏外，C语言的预处理器还提供了一些其他有用的操作符，比如<code>##</code>和<code>#</code>。这些操作符在宏定义中扮演特殊的角色，使得宏更加灵活和强大。</p>
-<h3 id="操作符（Token-Pasting-Operator）"><a href="#操作符（Token-Pasting-Operator）" class="headerlink" title="## 操作符（Token Pasting Operator）"></a><code>##</code> 操作符（Token Pasting Operator）</h3><ul>
-<li><code>##</code>操作符用于宏定义中，用于连接两个令牌（Token）。它允许在宏展开时动态地创建标识符或关键字。</li>
-<li>使用<code>##</code>可以合并宏参数和其他令牌，生成新的标识符。</li>
-<li>示例：  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> CONCAT(a, b) a##b</span></span><br><span class="line">CONCAT(hello, World) <span class="comment">// 展开为 helloWorld</span></span><br></pre></td></tr></table></figure></li>
-<li>在这个例子中，<code>CONCAT</code>宏将它的两个参数<code>a</code>和<code>b</code>连接起来，形成一个新的标识符<code>helloWorld</code>。</li>
-</ul>
-<h3 id="操作符（Stringizing-Operator）"><a href="#操作符（Stringizing-Operator）" class="headerlink" title="# 操作符（Stringizing Operator）"></a><code>#</code> 操作符（Stringizing Operator）</h3><ul>
-<li><code>#</code>操作符用于宏定义中，将一个宏参数转换成字符串字面量。</li>
-<li>当宏展开时，跟在<code>#</code>后面的宏参数会被转换为一个字符串，参数的文本形式被引号包围。</li>
-<li>示例：  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> TO_STRING(x) #x</span></span><br><span class="line">TO_STRING(<span class="number">123</span>) <span class="comment">// 展开为 &quot;123&quot;</span></span><br></pre></td></tr></table></figure></li>
-<li>在这个例子中，<code>TO_STRING</code>宏将它的参数<code>x</code>转换为一个字符串字面量。</li>
-</ul>
-<h3 id="Pragma-操作符"><a href="#Pragma-操作符" class="headerlink" title="_Pragma 操作符"></a><code>_Pragma</code> 操作符</h3><ul>
-<li>C99引入了<code>_Pragma</code>操作符，允许在宏中生成编译指令（pragma）。这是一种将编译器特定的指令（如优化级别或警告控制）以可移植的方式嵌入源代码的方法。</li>
-<li>示例：  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> PRAGMA_COMPILATION_WARNING(x) <span class="keyword">_Pragma</span>(#x)</span></span><br><span class="line">PRAGMA_COMPILATION_WARNING(GCC diagnostic ignored <span class="string">&quot;-Wformat&quot;</span>)</span><br></pre></td></tr></table></figure></li>
-<li>在这个例子中，<code>PRAGMA_COMPILATION_WARNING</code>宏允许动态地插入一个编译指令来忽略特定的警告。</li>
-</ul>
-<p>这些预处理器功能为C语言提供了极大的灵活性，使得宏不仅仅是简单的文本替换工具，而是可以执行复杂的代码生成任务和条件编译。使用这些特性时需要小心，因为过度使用或不当使用可能会使代码难以阅读和维护。</p>
-]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
-        <tag>C/C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2023/12/06/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+    <title>hexo+github搭网站</title>
+    <url>/2023/12/06/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/</url>
+    <content><![CDATA[<p>由于心血来潮，决定自己搭网站。又所谓<em>拿来主义</em>，对于别人的好东西就要拿来，在此记录我参考过的网站</p>
 <span id="more"></span>
 
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h2 id="手把手从0-1"><a href="#手把手从0-1" class="headerlink" title="手把手从0-1"></a>手把手从0-1</h2><p><a href="https://www.jianshu.com/p/85f455afcfcf">https://www.jianshu.com/p/85f455afcfcf</a></p>
+<p>创建<br>$ hexo new post(default)&#x2F;draft&#x2F;page [文章名]<br>清除缓存<br>$ hexo clean<br>远端生效<br>$ hexo d -g</p>
+<h2 id="使用主题next"><a href="#使用主题next" class="headerlink" title="使用主题next"></a>使用主题next</h2><p><a href="https://zhuanlan.zhihu.com/p/150737388">https://zhuanlan.zhihu.com/p/150737388</a></p>
+<h2 id="RSS订阅功能"><a href="#RSS订阅功能" class="headerlink" title="RSS订阅功能"></a>RSS订阅功能</h2><p><a href="https://segmentfault.com/a/1190000012647294">https://segmentfault.com/a/1190000012647294</a></p>
+<h2 id="Hexo博客Next主题bilibili视频Markdown插入文章"><a href="#Hexo博客Next主题bilibili视频Markdown插入文章" class="headerlink" title="Hexo博客Next主题bilibili视频Markdown插入文章"></a>Hexo博客Next主题bilibili视频Markdown插入文章</h2><p><a href="https://www.freesion.com/article/9552475946/">https://www.freesion.com/article/9552475946/</a></p>
+<h2 id="HEXO-基本使用（讲解文章格式的）"><a href="#HEXO-基本使用（讲解文章格式的）" class="headerlink" title="HEXO 基本使用（讲解文章格式的）"></a>HEXO 基本使用（讲解文章格式的）</h2><p><a href="https://blog.csdn.net/xq151750111/article/details/133043466">https://blog.csdn.net/xq151750111/article/details/133043466</a></p>
+<h2 id="Hexo教程，看这一篇就够了-How-to系列（有空研读一下）"><a href="#Hexo教程，看这一篇就够了-How-to系列（有空研读一下）" class="headerlink" title="Hexo教程，看这一篇就够了- How to系列（有空研读一下）"></a>Hexo教程，看这一篇就够了- How to系列（有空研读一下）</h2><p><a href="https://blog.csdn.net/cat_bayi/article/details/128725230">https://blog.csdn.net/cat_bayi/article/details/128725230</a></p>
+<p><img src="/images/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/IMG_7006.JPG" alt="Alt text"></p>
 ]]></content>
+      <categories>
+        <category>综述</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+      </tags>
   </entry>
   <entry>
     <title>git的使用</title>
@@ -226,76 +351,17 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
 </li>
 </ul>
 <p>在协同工作流中，<code>git remote</code>命令是非常重要的，它使得开发者能够与远程仓库交互，共享代码和协作。例如，<code>origin</code>通常是克隆仓库时自动创建的默认远程仓库名称，代表了克隆来源的仓库。通过管理远程仓库，您可以轻松地同步本地更改到远程服务器，或者拉取他人的更改到您的本地仓库中。</p>
+<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>luluji@luluji-virtual-machine:~&#x2F;nuttxspace$ git clone <a href="https://github.com/apache/nuttx.git">https://github.com/apache/nuttx.git</a> nuttx<br>正克隆到 ‘nuttx’…<br>fatal: 无法访问 ‘<a href="https://github.com/apache/nuttx.git/'%EF%BC%9Agnutls_handshake()">https://github.com/apache/nuttx.git/&#39;：gnutls_handshake()</a> failed: Error in the pull function.</p>
+<p>通过安装这些库解决了：<br>sudo apt -y install build-essential nghttp2 libnghttp2-dev libssl-dev</p>
 ]]></content>
   </entry>
   <entry>
-    <title>c语言的常用函数</title>
-    <url>/2024/02/05/c%E8%AF%AD%E8%A8%80%E7%9A%84%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/</url>
+    <title>mysql</title>
+    <url>/2024/03/24/mysql/</url>
     <content><![CDATA[<span id="more"></span>
 
-<h2 id="1-getopt-long"><a href="#1-getopt-long" class="headerlink" title="1.getopt_long"></a>1.getopt_long</h2><h4 id="函数定义："><a href="#函数定义：" class="headerlink" title="函数定义："></a>函数定义：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;getopt.h&gt;</span><br><span class="line">int getopt_long(int argc, char *argv[],</span><br><span class="line">		  const char *optstring,</span><br><span class="line">		  const struct option *longopts, int *longindex);</span><br></pre></td></tr></table></figure>
-<p>函数是用于解析命令行参数的，与函数 getopt() 函数是相似的，它可以处理长选项，即两个短杠”–” 连接的参数选项。而且比 getopt() 多两个参数。</p>
-<h4 id="参数说明："><a href="#参数说明：" class="headerlink" title="参数说明："></a>参数说明：</h4><p>1，argc        一般就是 main 函数里的 argc<br>2，argv    同上<br>3，optstring  要匹配的参数，如：”ha” 或  “h:a” 或 “h:a::”，带一个冒号的表示此选项须带参数，两个冒号的表示是可选参数<br>4，longopts 这个是长选项结构的指针，一般传的是数组<br>5，longindex  如果不为空，它将指向 longopts 的一个元素的位置，即longopts的数组下标</p>
-<h4 id="man手册例子："><a href="#man手册例子：" class="headerlink" title="man手册例子："></a>man手册例子：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;getopt.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;     /* for printf */</span><br><span class="line">#include &lt;stdlib.h&gt;    /* for exit */</span><br><span class="line"> </span><br><span class="line">int main(int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">	int c;</span><br><span class="line">	int digit_optind = 0;</span><br><span class="line"> </span><br><span class="line">	while (1) &#123;</span><br><span class="line">		int this_option_optind = optind ? optind : 1;</span><br><span class="line">		int option_index = 0;</span><br><span class="line">		</span><br><span class="line">		/*长选项的匹配只要匹配到前n个字符相同就会返回，若是模棱两可时会返回？，同时stderr会有相应打印*/</span><br><span class="line">		static struct option long_options[] = &#123;</span><br><span class="line">		   &#123;&quot;add&quot;,     required_argument, 0,  0 &#125;,</span><br><span class="line">		   &#123;&quot;append&quot;,  no_argument,       0,  0 &#125;,</span><br><span class="line">		   &#123;&quot;delete&quot;,  required_argument, 0,  0 &#125;,</span><br><span class="line">		   &#123;&quot;verbose&quot;, no_argument,       0,  0 &#125;,</span><br><span class="line">		   &#123;&quot;create&quot;,  required_argument, 0, &#x27;c&#x27;&#125;,</span><br><span class="line">		   &#123;&quot;file&quot;,    required_argument, 0,  0 &#125;,</span><br><span class="line">		   &#123;0,         0,                 0,  0 &#125;</span><br><span class="line">	   &#125;;</span><br><span class="line">		</span><br><span class="line">		/*短选项跟一个冒号表示有选项参数，两个冒号表示选项参数可选*/</span><br><span class="line">	   c = getopt_long(argc, argv, &quot;abc:d:012&quot;,</span><br><span class="line">					   long_options, &amp;option_index);</span><br><span class="line">	   if (c == -1)</span><br><span class="line">		   break;</span><br><span class="line"> </span><br><span class="line">	   switch (c) &#123;</span><br><span class="line">	   case 0: /* 匹配到长选项时，返回的val，即struct optaion 中的 val，这里为 0 则表示匹配到 add、append, delete, verbose, file时都会跟到这个 case, 而create 则匹配到字符&#x27;c&#x27;*/</span><br><span class="line">			printf(&quot;get option_index = %d, option %s&quot;, option_index, long_options[option_index].name);</span><br><span class="line">			if (optarg)</span><br><span class="line">			   printf(&quot; with arg %s&quot;, optarg);</span><br><span class="line">			printf(&quot;\n&quot;);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;0&#x27;:</span><br><span class="line">	   case &#x27;1&#x27;:</span><br><span class="line">	   case &#x27;2&#x27;:</span><br><span class="line">			if (digit_optind != 0 &amp;&amp; digit_optind != this_option_optind)</span><br><span class="line">			 printf(&quot;digits occur in two different argv-elements.\n&quot;);</span><br><span class="line">			digit_optind = this_option_optind;</span><br><span class="line">			printf(&quot;option %c\n&quot;, c);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;a&#x27;:</span><br><span class="line">			printf(&quot;option a\n&quot;);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;b&#x27;:</span><br><span class="line">			printf(&quot;option b\n&quot;);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;c&#x27;:</span><br><span class="line">			printf(&quot;option c with value &#x27;%s&#x27;\n&quot;, optarg);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;d&#x27;:</span><br><span class="line">			printf(&quot;option d with value &#x27;%s&#x27;\n&quot;, optarg);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;?&#x27;: /*ambiguous 模棱两可的时候返回? 如只输入 --a 则会匹配到 add 和 append*/</span><br><span class="line">			printf(&quot;it&#x27;s ambiguous, please selete one\n&quot;);</span><br><span class="line">			break;</span><br><span class="line">		</span><br><span class="line">	   default:</span><br><span class="line">			printf(&quot;?? getopt returned character code 0%o ??\n&quot;, c);</span><br><span class="line">	   &#125;</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	if (optind &lt; argc) &#123;</span><br><span class="line">		printf(&quot;non-option ARGV-elements: &quot;);</span><br><span class="line">		while (optind &lt; argc)</span><br><span class="line">		   printf(&quot;%s &quot;, argv[optind++]);</span><br><span class="line">		printf(&quot;\n&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	exit(EXIT_SUCCESS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="fread和fwrite"><a href="#fread和fwrite" class="headerlink" title="fread和fwrite"></a>fread和fwrite</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">size_t fread(void *ptr, size_t size, size_t count, FILE *stream);</span><br></pre></td></tr></table></figure>
-<pre><code>ptr：指向读取数据存储的缓冲区。
-size：每个数据项的字节数。
-count：要读取的数据项数。
-stream：文件指针，指向要读取数据的文件。
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">size_t fwrite(const void *ptr, size_t size, size_t count, FILE *stream);</span><br></pre></td></tr></table></figure>
-
-<pre><code>ptr：要写入的数据的指针。
-size：每个数据项的字节数。
-count：要写入的数据项的个数。
-stream：要写入的文件指针。
-</code></pre>
-<h2 id="sscanf"><a href="#sscanf" class="headerlink" title="sscanf"></a>sscanf</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int sscanf(const char* str, const char* format, ...);</span><br></pre></td></tr></table></figure>
-<p>从<strong>字符串</strong>中按照指定的格式解析数据</p>
-<pre><code>str：要解析的输入字符串。
-format：格式字符串，指定了要匹配的格式规则。
-...：可变参数列表，用于接收解析后的数据。
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">char str[20];</span><br><span class="line">sscanf(&quot;Hello, World!&quot;, &quot;%s&quot;, str);//解析字符串，把Hello, World!存到str</span><br></pre></td></tr></table></figure>
-
-<h2 id="命令处理"><a href="#命令处理" class="headerlink" title="命令处理"></a>命令处理</h2><h4 id="strtok-r"><a href="#strtok-r" class="headerlink" title="strtok_r"></a>strtok_r</h4><p>首先需要将字符串切分为指令和参数形式，需要用到strtok_r函数。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">char *strtok_r(char * __restrict__ _Str, const char * __restrict__ _Delim, char ** __restrict__ __last);</span><br><span class="line">SS</span><br><span class="line">char *cmd;//表示命令</span><br><span class="line">char *paras;//表示命令后的参数</span><br><span class="line"> </span><br><span class="line">cmd = strtok_r(str, &quot;,&quot;, &amp;paras);</span><br><span class="line">printf(&quot;cmd:%srn&quot;, cmd);//获得字符串的第一串字符cmd:led</span><br><span class="line">printf(&quot;paras:%srn&quot;, paras);//获取后续字符串paras:100,0,80,15</span><br></pre></td></tr></table></figure>
-
-<h4 id="strstr"><a href="#strstr" class="headerlink" title="strstr"></a>strstr</h4><p>对于得到参数指令字符串，我们可能还需要判断该指令是否有效，即计算机之前是否存储了该字符串，可以通过字符串匹配数组中对应字符串的方式来模拟这个测试。需要用到strstr函数，其函数定义为：<br>我们可以先自定义一个用来查询的字符串数组funname[5]，然后依次进行匹配比较。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">    char *funname[5] = &#123;&quot;music&quot;, &quot;play&quot;, &quot;A_led1&quot;, &quot;led2&quot;, &quot;led&quot;&#125;;//自定义的函数名称列表</span><br><span class="line">     </span><br><span class="line">char *ret;</span><br><span class="line">int i;</span><br><span class="line">for (i = 0; i &lt; 5;i++)</span><br><span class="line">&#123;</span><br><span class="line">	ret = strstr(funname[i], cmd);</span><br><span class="line">	if(ret!=NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;find cmd in funname[%d]rn&quot;, i);</span><br><span class="line">		printf(&quot;ret:%srn&quot;, ret);</span><br><span class="line">		break;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">if(i==5)</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;can&#x27;t find cmd in funname[]&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>测试结果：</p>
-<pre><code>find cmd in funname[2]
-ret:led1
-</code></pre>
-<h4 id="strtok"><a href="#strtok" class="headerlink" title="strtok"></a>strtok</h4><p>确定了指令字符串的有效性，接下来就要切分后面的参数了，实际上我们还可以继续使用strtok_r方法，不过，我们可以使用另一个类似的函数strtok，它少一个用来保存切分后字符串的参数：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">char* para[4];</span><br><span class="line">para[0] = strtok(paras, &quot;,&quot;);</span><br><span class="line">int j= 1;</span><br><span class="line">while(paras != NULL)</span><br><span class="line">&#123;</span><br><span class="line">    para[j++] = strtok(NULL, &quot;,&quot;);</span><br><span class="line">    if(j==4)</span><br><span class="line">        break;</span><br><span class="line">&#125;</span><br><span class="line">printf(&quot;para[0]:%srn&quot;, para[0]);</span><br><span class="line">printf(&quot;para[1]:%srn&quot;, para[1]);</span><br><span class="line">printf(&quot;para[2]:%srn&quot;, para[2]);</span><br><span class="line">printf(&quot;para[3]:%srn&quot;, para[3]);</span><br></pre></td></tr></table></figure>
-<pre><code>第一次切割时，第一个参数（也就是str）不能是NULL
-第一次切割时，函数将找到str中第一个分割符，将它替换为\0
-同时strtok函数将保存这 个\0在整个字符串中的位置。
-
-第二次、第三次...第n次使用strtok函数切割同一个字符串时。
-第一个参数为NULL
-此时函数将从上一个保存的\0的位置开始往后切割，直到遇到下一个分割符或\0
-</code></pre>
-<h4 id="atoi"><a href="#atoi" class="headerlink" title="atoi"></a>atoi</h4><p>上面分离的参数数字是字符串型，实际使用时可能需要其对应的整数形式，我们可以使用atoi函数进行转换:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int atoi(const char *_Str);</span><br></pre></td></tr></table></figure>
-<pre><code>参数：数字形式的字符串
-返回值：对应的整形数值，若不能转换，返回0
-</code></pre>
-<h2 id="strcmp-str1-str2"><a href="#strcmp-str1-str2" class="headerlink" title="strcmp(str1,str2)"></a>strcmp(str1,str2)</h2><p>若str1&#x3D;str2，则返回0<br>strcmp()函数首先将str1字符串的第一个字符的ACSII值减去str2第一个字符的ACSII值(自左向右逐个字符相比，直到出现不同的字符或遇’\0’为止)<br>若差值为零则继续比较下去；若差值不为零，则返回差值。</p>
-<h2 id="struct-enum-union"><a href="#struct-enum-union" class="headerlink" title="struct,enum,union"></a>struct,enum,union</h2><p><a href="https://blog.csdn.net/qq_60192898/article/details/127602638">https://blog.csdn.net/qq_60192898/article/details/127602638</a></p>
-<h2 id="fseek"><a href="#fseek" class="headerlink" title="fseek"></a>fseek</h2><p>fseek函数的原型定义在&lt;stdio.h&gt;头文件中，如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int fseek(FILE *stream, long offset, int whence);</span><br></pre></td></tr></table></figure>
-<p>stream：指向FILE对象的指针，代表一个打开的文件流。<br>offset：相对于whence参数指定的位置的偏移量，以字节为单位。根据whence的值，偏移量可以是正数也可以是负数。<br>whence：设置偏移量的起点。它通常是以下三个常量之一：<br>SEEK_SET：文件的开头。<br>SEEK_CUR：文件的当前位置。<br>SEEK_END：文件的末尾。<br>返回值<br>fseek函数将文件位置指示器移动到文件末尾（SEEK_END），偏移量为0。这是为了找出文件的总大小。<br>ftell函数返回当前文件位置指示器的位置，因为我们已经使用fseek移动到了文件末尾，</p>
-<p>eg:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FILE *fp = fopen(img_file, &quot;rb&quot;);</span><br><span class="line">Assert(fp, &quot;Can not open &#x27;%s&#x27;&quot;, img_file);</span><br><span class="line"></span><br><span class="line">fseek(fp, 0, SEEK_END);</span><br><span class="line">long size = ftell(fp);</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
-        <tag>C/C++</tag>
-      </tags>
+<p><a href="https://www.zhihu.com/question/620270343">https://www.zhihu.com/question/620270343</a></p>
+]]></content>
   </entry>
   <entry>
     <title>linux的常用命令</title>
@@ -332,9 +398,9 @@ ret:led1
 <p>xargs主要用于将标准输入数据转换为命令行参数。在你的场景中，由于grep可以直接从标准输入读取数据进行搜索，实际上不需要xargs来实现这一功能。<br>qemu-system-riscv64 -help | grep “machine”</p>
 <p>查找当前目录及子目录下所有.log文件，并使用grep命令在它们中搜索”error”字符串：<br>$ find . -type f -name “*.log” | xargs grep “error”<br>xargs命令的-0（或–null）选项期望输入项以null字符（\0）分隔，这通常与find … -print0命令一起使用。</p>
 <p>性能：使用-exec时，find会为每个找到的文件启动一个新的进程来执行指定的命令。而管道到xargs的方式会尝试减少进程的数量，通过将多个文件名作为单个命令的参数来提高效率。<br>安全性：-exec直接由find处理，可以安全地处理文件名中的特殊字符。而使用管道到xargs时，如果不加-0选项（并且find使用-print0），可能会遇到文件名中包含空格、换行符等特殊字符的问题。<br>灵活性：管道允许你利用Shell的特性组合多个命令，可以实现更复杂的处理流程。<br>选择使用-exec还是管道（配合xargs），取决于具体的任务需求、对性能的考量以及对特殊文件名的处理需求。</p>
-<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>查看所有Git配置项：<br>$ git config –list<br>user.name&#x3D;LuLuji04<br>user.email&#x3D;<a href="mailto:&#x6c;&#105;&#x75;&#121;&#117;&#106;&#105;&#48;&#x31;&#48;&#64;&#49;&#50;&#x36;&#46;&#99;&#x6f;&#109;">&#x6c;&#105;&#x75;&#121;&#117;&#106;&#105;&#48;&#x31;&#48;&#64;&#49;&#50;&#x36;&#46;&#99;&#x6f;&#109;</a><br>https.proxy&#x3D;192.168.3.11:7890<br>credential.helper&#x3D;store<br>http.proxy&#x3D;192.168.3.11:7890<br>core.editor&#x3D;vim<br>color.ui&#x3D;true</p>
+<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>查看所有Git配置项：<br>$ git config –list<br>user.name&#x3D;LuLuji04<br>user.email&#x3D;<a href="mailto:&#108;&#105;&#x75;&#x79;&#117;&#x6a;&#x69;&#x30;&#x31;&#48;&#64;&#49;&#50;&#54;&#46;&#x63;&#111;&#109;">&#108;&#105;&#x75;&#x79;&#117;&#x6a;&#x69;&#x30;&#x31;&#48;&#64;&#49;&#50;&#54;&#46;&#x63;&#111;&#109;</a><br>https.proxy&#x3D;192.168.3.11:7890<br>credential.helper&#x3D;store<br>http.proxy&#x3D;192.168.3.11:7890<br>core.editor&#x3D;vim<br>color.ui&#x3D;true</p>
 <p>查看特定配置项的值，如user.name：<br>$ git config user.name</p>
-<p>$ git config –global user.name “Your Name”<br>$ git config –global user.email “<a href="mailto:&#x79;&#111;&#117;&#x72;&#x65;&#x6d;&#x61;&#105;&#x6c;&#x40;&#101;&#120;&#x61;&#109;&#x70;&#x6c;&#x65;&#46;&#x63;&#111;&#109;">&#x79;&#111;&#117;&#x72;&#x65;&#x6d;&#x61;&#105;&#x6c;&#x40;&#101;&#120;&#x61;&#109;&#x70;&#x6c;&#x65;&#46;&#x63;&#111;&#109;</a>“</p>
+<p>$ git config –global user.name “Your Name”<br>$ git config –global user.email “<a href="mailto:&#121;&#111;&#x75;&#114;&#101;&#109;&#97;&#105;&#108;&#x40;&#101;&#x78;&#97;&#x6d;&#112;&#108;&#101;&#x2e;&#x63;&#x6f;&#109;">&#121;&#111;&#x75;&#114;&#101;&#109;&#97;&#105;&#108;&#x40;&#101;&#x78;&#97;&#x6d;&#112;&#108;&#101;&#x2e;&#x63;&#x6f;&#109;</a>“</p>
 <h2 id="man"><a href="#man" class="headerlink" title="man"></a>man</h2><p>man 手册的数字编号</p>
 <p>man 1 kill、man 2 kill，这些命令都是查看 kill 命令的手册，但是文档却大不相同。</p>
 <p>因为 kill 是一个命令行的工具，which kill 看到 &#x2F;usr&#x2F;bin&#x2F;kill 是一个二进制文件；其实，也有一个系统调用叫做 kill。</p>
@@ -397,6 +463,26 @@ ret:led1
       <tags>
         <tag>开发</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2023/12/06/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<span id="more"></span>
+
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
   </entry>
   <entry>
     <title>makefile的常用操作</title>
@@ -472,6 +558,7 @@ ret:led1
 <h3 id="2-使用通配符自动获取文件列表"><a href="#2-使用通配符自动获取文件列表" class="headerlink" title="2. 使用通配符自动获取文件列表"></a>2. 使用通配符自动获取文件列表</h3><p>使用<code>wildcard</code>函数自动获取目录下的文件列表，避免手动列出。</p>
 <figure class="highlight make"><table><tr><td class="code"><pre><span class="line">SRCS := <span class="variable">$(<span class="built_in">wildcard</span> src/*.c)</span></span><br><span class="line">OBJS := $(SRCS:.c=.o)</span><br></pre></td></tr></table></figure>
 
+<p>$(wildcard .config)是一个Makefile函数，用于查找当前目录下名为.config的文件。如果找到文件，则返回文件的完整路径；如果没有找到，则返回空。</p>
 <h3 id="3-自动变量简化规则"><a href="#3-自动变量简化规则" class="headerlink" title="3. 自动变量简化规则"></a>3. 自动变量简化规则</h3><p>使用自动变量简化规则的书写。例如<code>$@</code>代表规则的目标，<code>$&lt;</code>代表第一个依赖，<code>$^</code>代表所有依赖。</p>
 <figure class="highlight make"><table><tr><td class="code"><pre><span class="line"><span class="section">app: <span class="variable">$(OBJS)</span></span></span><br><span class="line">	<span class="variable">$(CC)</span> -o <span class="variable">$@</span> <span class="variable">$^</span></span><br></pre></td></tr></table></figure>
 
@@ -529,34 +616,37 @@ ret:led1
       </tags>
   </entry>
   <entry>
-    <title>hexo+github搭网站</title>
-    <url>/2023/12/06/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/</url>
-    <content><![CDATA[<p>由于心血来潮，决定自己搭网站。又所谓<em>拿来主义</em>，对于别人的好东西就要拿来，在此记录我参考过的网站</p>
-<span id="more"></span>
+    <title>x86的学习</title>
+    <url>/2024/04/16/x86%E7%9A%84%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<span id="more"></span>
 
-<h2 id="手把手从0-1"><a href="#手把手从0-1" class="headerlink" title="手把手从0-1"></a>手把手从0-1</h2><p><a href="https://www.jianshu.com/p/85f455afcfcf">https://www.jianshu.com/p/85f455afcfcf</a></p>
-<p>创建<br>$ hexo new post(default)&#x2F;draft&#x2F;page [文章名]<br>清除缓存<br>$ hexo clean<br>远端生效<br>$ hexo d -g</p>
-<h2 id="使用主题next"><a href="#使用主题next" class="headerlink" title="使用主题next"></a>使用主题next</h2><p><a href="https://zhuanlan.zhihu.com/p/150737388">https://zhuanlan.zhihu.com/p/150737388</a></p>
-<h2 id="RSS订阅功能"><a href="#RSS订阅功能" class="headerlink" title="RSS订阅功能"></a>RSS订阅功能</h2><p><a href="https://segmentfault.com/a/1190000012647294">https://segmentfault.com/a/1190000012647294</a></p>
-<h2 id="Hexo博客Next主题bilibili视频Markdown插入文章"><a href="#Hexo博客Next主题bilibili视频Markdown插入文章" class="headerlink" title="Hexo博客Next主题bilibili视频Markdown插入文章"></a>Hexo博客Next主题bilibili视频Markdown插入文章</h2><p><a href="https://www.freesion.com/article/9552475946/">https://www.freesion.com/article/9552475946/</a></p>
-<h2 id="HEXO-基本使用（讲解文章格式的）"><a href="#HEXO-基本使用（讲解文章格式的）" class="headerlink" title="HEXO 基本使用（讲解文章格式的）"></a>HEXO 基本使用（讲解文章格式的）</h2><p><a href="https://blog.csdn.net/xq151750111/article/details/133043466">https://blog.csdn.net/xq151750111/article/details/133043466</a></p>
-<h2 id="Hexo教程，看这一篇就够了-How-to系列（有空研读一下）"><a href="#Hexo教程，看这一篇就够了-How-to系列（有空研读一下）" class="headerlink" title="Hexo教程，看这一篇就够了- How to系列（有空研读一下）"></a>Hexo教程，看这一篇就够了- How to系列（有空研读一下）</h2><p><a href="https://blog.csdn.net/cat_bayi/article/details/128725230">https://blog.csdn.net/cat_bayi/article/details/128725230</a></p>
-<p><img src="/images/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/IMG_7006.JPG" alt="Alt text"></p>
+<h2 id="ebp和-esp"><a href="#ebp和-esp" class="headerlink" title="%ebp和%esp"></a>%ebp和%esp</h2><p><a href="https://blog.csdn.net/qq_41683305/article/details/104249224">https://blog.csdn.net/qq_41683305/article/details/104249224</a></p>
+<h2 id="分段机制"><a href="#分段机制" class="headerlink" title="分段机制"></a>分段机制</h2><p><a href="https://blog.csdn.net/cc_net/article/details/24726287">https://blog.csdn.net/cc_net/article/details/24726287</a></p>
+<h2 id="RPL-CPL-DPL"><a href="#RPL-CPL-DPL" class="headerlink" title="RPL CPL DPL"></a>RPL CPL DPL</h2><p><a href="https://blog.csdn.net/qq_37414405/article/details/84535145">https://blog.csdn.net/qq_37414405/article/details/84535145</a></p>
+<h2 id="xv6启动"><a href="#xv6启动" class="headerlink" title="xv6启动"></a>xv6启动</h2><p><a href="https://zhuanlan.zhihu.com/p/164684999">https://zhuanlan.zhihu.com/p/164684999</a></p>
 ]]></content>
       <categories>
-        <category>综述</category>
+        <category>学习</category>
       </categories>
       <tags>
-        <tag>网络</tag>
+        <tag>开发</tag>
+        <tag>x86</tag>
       </tags>
   </entry>
   <entry>
-    <title>mysql</title>
-    <url>/2024/03/24/mysql/</url>
+    <title>vscode的常用操作</title>
+    <url>/2024/02/07/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<span id="more"></span>
 
-<p><a href="https://www.zhihu.com/question/620270343">https://www.zhihu.com/question/620270343</a></p>
+
+<p>A: 你本地新增的文件（服务器上没有）.<br>C: 文件的一个新拷贝.<br>D: 你本地删除的文件（服务器上还在）.<br>M: 文件的内容或者mode被修改了.<br>R: 文件名被修改了。<br>T: 文件的类型被修改了。<br>U: 文件没有被合并(你需要完成合并才能进行提交)。<br>X: 未知状态(很可能是遇到git的bug了，你可以向git提交bug report)。<br>在man git diff-files中可以查到这些标志的说明。<br>这些状态标志在git的源代码的diff.h文件中被定义。</p>
 ]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>开发</tag>
+      </tags>
   </entry>
   <entry>
     <title>riscv启动</title>
@@ -674,18 +764,18 @@ pmp生效于 s-mode,u-mode
       </tags>
   </entry>
   <entry>
-    <title>vscode的常用操作</title>
-    <url>/2024/02/07/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
+    <title>内存检测</title>
+    <url>/2024/04/16/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/</url>
     <content><![CDATA[<span id="more"></span>
-
-
-<p>A: 你本地新增的文件（服务器上没有）.<br>C: 文件的一个新拷贝.<br>D: 你本地删除的文件（服务器上还在）.<br>M: 文件的内容或者mode被修改了.<br>R: 文件名被修改了。<br>T: 文件的类型被修改了。<br>U: 文件没有被合并(你需要完成合并才能进行提交)。<br>X: 未知状态(很可能是遇到git的bug了，你可以向git提交bug report)。<br>在man git diff-files中可以查到这些标志的说明。<br>这些状态标志在git的源代码的diff.h文件中被定义。</p>
+<h2 id="nuttx"><a href="#nuttx" class="headerlink" title="nuttx"></a>nuttx</h2><p><a href="https://nuttx.apache.org/docs/latest/">https://nuttx.apache.org/docs/latest/</a></p>
+<h2 id="kfence"><a href="#kfence" class="headerlink" title="kfence"></a>kfence</h2><p><a href="https://www.cnblogs.com/sky-heaven/p/16527927.html">https://www.cnblogs.com/sky-heaven/p/16527927.html</a></p>
 ]]></content>
       <categories>
         <category>学习</category>
       </categories>
       <tags>
         <tag>开发</tag>
+        <tag>系统</tag>
       </tags>
   </entry>
   <entry>
@@ -714,97 +804,11 @@ pmp生效于 s-mode,u-mode
       </tags>
   </entry>
   <entry>
-    <title>buildroot的使用</title>
-    <url>/2024/02/18/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>在使用Buildroot构建嵌入式Linux系统时，<code>BR2_EXTERNAL</code>是一个重要的机制，它允许用户将自定义的配置、包（packages）、板级支持包（board support packages，简称BSPs）、以及其他构建脚本和文件集成到Buildroot构建过程中，而不必直接修改Buildroot的主树。这种机制非常有用，因为它使得维护自定义修改和跟踪Buildroot官方更新变得更加容易。</p>
-<h3 id="使用BR2-EXTERNAL的优势"><a href="#使用BR2-EXTERNAL的优势" class="headerlink" title="使用BR2_EXTERNAL的优势"></a>使用BR2_EXTERNAL的优势</h3><ul>
-<li><strong>模块化</strong>：允许将自定义内容和Buildroot主树分开，便于管理。</li>
-<li><strong>易于维护</strong>：更新Buildroot版本时，可以避免合并冲突，简化维护工作。</li>
-<li><strong>重用性</strong>：相同的自定义配置和包可以轻松地在多个项目之间共享和重用。</li>
-</ul>
-<h3 id="如何使用BR2-EXTERNAL"><a href="#如何使用BR2-EXTERNAL" class="headerlink" title="如何使用BR2_EXTERNAL"></a>如何使用BR2_EXTERNAL</h3><ol>
-<li><p><strong>创建外部树结构</strong>：首先，你需要创建一个目录作为你的外部树，这个目录将包含你的自定义配置和文件。外部树的推荐目录结构如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">your-external-tree/</span><br><span class="line">├── Config.in</span><br><span class="line">├── external.desc</span><br><span class="line">├── external.mk</span><br><span class="line">├── configs/</span><br><span class="line">├── board/</span><br><span class="line">├── package/</span><br><span class="line">└── fs/</span><br></pre></td></tr></table></figure>
-<p>其中<code>configs/</code>用于存放自定义的配置文件，<code>package/</code>用于存放自定义的软件包描述文件，<code>board/</code>可能包含板级特定文件，如启动脚本和覆盖层。</p>
-</li>
-<li><p><strong>设置BR2_EXTERNAL环境变量</strong>：在运行Buildroot的<code>make menuconfig</code>之前，通过环境变量<code>BR2_EXTERNAL</code>指向你的外部树目录。这可以通过在命令行中直接设置，或者添加到你的shell配置文件中：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export BR2_EXTERNAL=/path/to/your-external-tree</span><br></pre></td></tr></table></figure>
-<p>或者，在make命令中直接指定：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">make BR2_EXTERNAL=/path/to/your-external-tree menuconfig</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>使用自定义配置和包</strong>：一旦设置了<code>BR2_EXTERNAL</code>，Buildroot构建系统将自动识别外部树中的配置和包。你可以在<code>make menuconfig</code>中选择这些包，或者使用外部树中定义的配置作为构建的起点。</p>
-</li>
-<li><p><strong>构建系统</strong>：使用你的配置构建系统。如果一切设置正确，Buildroot将包含你的外部树中的自定义内容进行构建。</p>
-</li>
-</ol>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
-<li><strong>多个外部树</strong>：从Buildroot 2016.11版本开始，<code>BR2_EXTERNAL</code>支持指定多个外部树路径，使用冒号(<code>:</code>)分隔。</li>
-<li><strong>版本兼容性</strong>：在使用<code>BR2_EXTERNAL</code>时，要确保外部树中的自定义内容与Buildroot的版本兼容。</li>
-</ul>
-<p>通过使用<code>BR2_EXTERNAL</code>，你可以灵活地扩展Buildroot，添加自定义功能和支持，同时保持与Buildroot主树的清晰分离，这对于项目的长期维护和升级非常有益。</p>
-<p>当使用<code>BR2_EXTERNAL</code>机制在Buildroot中引入外部树时，你需要在外部树的根目录创建一些特定的文件和目录来定义你的自定义配置、板级支持包、软件包和文件系统扩展。以下是如何组织和编写这些文件的一些基本指导：</p>
-<h3 id="1-Config-in"><a href="#1-Config-in" class="headerlink" title="1. Config.in"></a>1. Config.in</h3><p><code>Config.in</code>是一个Kconfig文件，它定义了在Buildroot配置界面中出现的选项。这个文件通常用来引入外部软件包的配置选项或者特定的配置界面。</p>
-<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">menu <span class="string">&quot;My Custom Options&quot;</span></span><br><span class="line"></span><br><span class="line">config BR2_PACKAGE_MY_CUSTOM_PACKAGE</span><br><span class="line">    bool <span class="string">&quot;My custom package&quot;</span></span><br><span class="line">    help</span><br><span class="line">      This option will enable my custom package.</span><br><span class="line"></span><br><span class="line">endmenu</span><br></pre></td></tr></table></figure>
-
-<p>此文件中定义的选项可以在Buildroot的配置界面中找到，并允许用户启用或禁用特定功能。</p>
-<h3 id="2-external-desc"><a href="#2-external-desc" class="headerlink" title="2. external.desc"></a>2. external.desc</h3><p><code>external.desc</code>是Buildroot 2020.02版本后引入的新文件，用于描述外部树的元数据，如名称和描述。这个文件不是必需的，但有助于识别外部树。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">name: my-external-tree</span><br><span class="line">description: My custom external tree for Buildroot</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-external-mk"><a href="#3-external-mk" class="headerlink" title="3. external.mk"></a>3. external.mk</h3><p><code>external.mk</code>是Makefile片段，用于包含外部软件包的构建规则。这个文件会被Buildroot构建系统自动包含。</p>
-<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Example of including a custom package</span></span><br><span class="line"><span class="keyword">ifeq</span> (<span class="variable">$(BR2_PACKAGE_MY_CUSTOM_PACKAGE)</span>,y)</span><br><span class="line"><span class="keyword">include</span> package/my_custom_package/my_custom_package.mk</span><br><span class="line"><span class="keyword">endif</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="4-configs"><a href="#4-configs" class="headerlink" title="4. configs&#x2F;"></a>4. configs&#x2F;</h3><p><code>configs/</code>目录包含预定义的Buildroot配置文件，这些文件可以通过<code>make &lt;config_name&gt;_defconfig</code>命令使用。这些配置文件通常用于快速配置Buildroot以使用特定的板级支持包或软件包组合。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Example of a custom defconfig file</span><br><span class="line">BR2_PACKAGE_MY_CUSTOM_PACKAGE=y</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-board"><a href="#5-board" class="headerlink" title="5. board&#x2F;"></a>5. board&#x2F;</h3><p><code>board/</code>目录包含特定于板级的文件，如启动脚本、内核配置片段或根文件系统覆盖层。</p>
-<h3 id="6-package"><a href="#6-package" class="headerlink" title="6. package&#x2F;"></a>6. package&#x2F;</h3><p><code>package/</code>目录包含自定义软件包的描述和构建规则。每个软件包目录下通常包含两个文件：<code>Config.in</code>和<code>&lt;package_name&gt;.mk</code>。</p>
-<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># package/my_custom_package/Config.in</span></span><br><span class="line">config BR2_PACKAGE_MY_CUSTOM_PACKAGE</span><br><span class="line">    bool <span class="string">&quot;My custom package&quot;</span></span><br><span class="line">    help</span><br><span class="line">      My custom package description.</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># package/my_custom_package/my_custom_package.mk</span></span><br><span class="line">MY_CUSTOM_PACKAGE_VERSION = 1.0</span><br><span class="line">MY_CUSTOM_PACKAGE_SITE = <span class="variable">$(TOPDIR)</span>/path/to/my_custom_package/source</span><br><span class="line">MY_CUSTOM_PACKAGE_LICENSE = GPL-2.0+</span><br><span class="line"></span><br><span class="line"><span class="keyword">define</span> MY_CUSTOM_PACKAGE_BUILD_CMDS</span><br><span class="line">    <span class="variable">$(MAKE)</span> CC=<span class="string">&quot;<span class="variable">$(TARGET_CC)</span>&quot;</span> -C $(@D)</span><br><span class="line"><span class="keyword">endef</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">define</span> MY_CUSTOM_PACKAGE_INSTALL_TARGET_CMDS</span><br><span class="line">    <span class="variable">$(INSTALL)</span> -D -m 0755 $(@D)/my_custom_package <span class="variable">$(TARGET_DIR)</span>/usr/bin</span><br><span class="line"><span class="keyword">endef</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$(<span class="built_in">eval</span> $(generic-package)</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="7-fs"><a href="#7-fs" class="headerlink" title="7. fs&#x2F;"></a>7. fs&#x2F;</h3><p><code>fs/</code>目录用于添加自定义文件系统支持。这里可以放置生成特定类型文件系统镜像的脚本和配置。</p>
-<p>这些文件和目录为你提供了一个框架来扩展Buildroot，添加自定义板级支持、软件包和配置。确保遵循Buildroot的文档和现有的样板（boilerplate）代码来正确实现这些自定义扩展。</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>操作系统</title>
-    <url>/2024/03/05/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<p>SISD<br>MISD：可靠性<br>MIMD</p>
-<p>多处理器：多个芯片<br>多核：多个执行单元</p>
-<p>多处理器结构<br>超线程结构：一个处理器多个线程环境<br>多核结构：多个cache（缓冲）<br>多核超线程结构</p>
-<p>特权指令：只供操作系统使用<br>设置定时器<br>清除内存<br>发起陷入指令<br>关中断<br>修改设备状态信息<br>用户与内核态切换<br>访问I&#x2F;O设备</p>
-<p>SGX加密，用户内存加密隔离</p>
-<p>切换步骤：保存处理器现场，根据终端号设置程序计数器，转换PSW</p>
-<p>psw：程序状态字寄存器<br>pc，条件码，</p>
-<p>程序：堆栈，函数：栈帧</p>
-<p>海光的amd zen</p>
-<p>内存管理寄存器{<br>    段描述符{<br>    GDTR 全局描述符寄存器<br>    } + ip<br>    IDTR：中断描述符寄存器 + 偏移<br>    TR：<br>}</p>
-<p>psw：EFLAG和ip</p>
-<p>bios在flash</p>
-<p>启动规范<br>legacy bios<br>uefi</p>
-<p>bios-&gt;bootloader</p>
-<p>同步中断：异常，非法指令（page fault，内存错误，除零错误）<br>异步中断：中断，硬件设备<br>系统调用：应用程序</p>
-<p>出错：page fault,重新执行<br>陷入：用于调试，下一指令</p>
-<p>异常在内核中：挂了</p>
-<p>关中断保证指令的原子性</p>
-<h2 id="安装openeuler"><a href="#安装openeuler" class="headerlink" title="安装openeuler"></a>安装openeuler</h2><p><a href="https://blog.51cto.com/shuchaoyang/6604107">https://blog.51cto.com/shuchaoyang/6604107</a></p>
-<h2 id="安装新内核"><a href="#安装新内核" class="headerlink" title="安装新内核"></a>安装新内核</h2><p><a href="https://blog.csdn.net/m0_51683653/article/details/124133370">https://blog.csdn.net/m0_51683653/article/details/124133370</a></p>
-<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>arch&#x2F;x86&#x2F;entry&#x2F;thunk_64.o: warning: objtool: missing symbol table<br><a href="https://www.spinics.net/lists/kernel/msg3797871.html">https://www.spinics.net/lists/kernel/msg3797871.html</a></p>
-<h2 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h2><p><a href="https://blog.csdn.net/MengMengDeXiaoJi/article/details/136821507">https://blog.csdn.net/MengMengDeXiaoJi/article/details/136821507</a></p>
-<h2 id="内核模块"><a href="#内核模块" class="headerlink" title="内核模块"></a>内核模块</h2><p><a href="https://blog.csdn.net/m0_74282605/article/details/135866888">https://blog.csdn.net/m0_74282605/article/details/135866888</a></p>
-<h2 id="list宏"><a href="#list宏" class="headerlink" title="list宏"></a>list宏</h2><p><a href="https://blog.csdn.net/weixin_44498318/article/details/132275727">https://blog.csdn.net/weixin_44498318/article/details/132275727</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>虚拟机配置</title>
-    <url>/2024/04/01/%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE/</url>
+    <title>编译原理</title>
+    <url>/2024/04/09/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</url>
     <content><![CDATA[<span id="more"></span>
 
-<h2 id="配置静态ip"><a href="#配置静态ip" class="headerlink" title="配置静态ip"></a>配置静态ip</h2><p><a href="https://blog.csdn.net/Un1qu3/article/details/126155766">https://blog.csdn.net/Un1qu3/article/details/126155766</a><br><a href="https://blog.csdn.net/Conquer_l/article/details/124989551">https://blog.csdn.net/Conquer_l/article/details/124989551</a><br><a href="https://blog.csdn.net/lk142500/article/details/88386651">https://blog.csdn.net/lk142500/article/details/88386651</a><br><img src="/2146089-20200911223717884-1559586693.png" alt="alt text"><br><a href="https://www.cnblogs.com/yansunda/p/13654632.html">https://www.cnblogs.com/yansunda/p/13654632.html</a></p>
-<p>vim &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-eth33<br>sudo systemctl restart NetworkManager</p>
-<p>1:查看防火状态<br>systemctl status firewalld<br>service  iptables status<br>2:暂时关闭防火墙<br>systemctl stop firewalld<br>service  iptables stop<br>3:永久关闭防火墙<br>systemctl disable firewalld<br>chkconfig iptables off<br>4:重启防火墙<br>systemctl enable firewalld<br>service iptables restart<br>5:永久关闭后重启<br>chkconfig iptables on  </p>
-<p>关闭selinux<br>暂时：<br>setenforce 0<br>永久：<br>输入命令 <code>vi /etc/selinux/config</code>。<br>在打开的文件中，找到 <code>SELINUX=</code> 这一行，将其从 <code>enforcing</code> 或 <code>permissive</code> 修改为 <code>disabled</code>。</p>
-<p>arp -a<br>展示运行过的ping</p>
+<p><a href="https://blog.csdn.net/qq_40618816/article/details/105094138/">https://blog.csdn.net/qq_40618816/article/details/105094138/</a></p>
 ]]></content>
   </entry>
   <entry>
@@ -818,6 +822,34 @@ pmp生效于 s-mode,u-mode
 <h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
       <categories>
         <category>综述</category>
+      </categories>
+      <tags>
+        <tag>开发</tag>
+        <tag>硬件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>虚拟机配置</title>
+    <url>/2024/04/01/%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h2 id="配置静态ip"><a href="#配置静态ip" class="headerlink" title="配置静态ip"></a>配置静态ip</h2><h4 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h4><p><a href="https://blog.csdn.net/Un1qu3/article/details/126155766">https://blog.csdn.net/Un1qu3/article/details/126155766</a><br><a href="https://blog.csdn.net/Conquer_l/article/details/124989551">https://blog.csdn.net/Conquer_l/article/details/124989551</a><br><a href="https://blog.csdn.net/lk142500/article/details/88386651">https://blog.csdn.net/lk142500/article/details/88386651</a><br><img src="/2146089-20200911223717884-1559586693.png" alt="alt text"><br><a href="https://www.cnblogs.com/yansunda/p/13654632.html">https://www.cnblogs.com/yansunda/p/13654632.html</a></p>
+<p>vim &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-eth33<br>sudo systemctl restart NetworkManager</p>
+<h4 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h4><p><a href="https://blog.csdn.net/weixin_58305495/article/details/130554393">https://blog.csdn.net/weixin_58305495/article/details/130554393</a></p>
+<p>1:查看防火状态<br>systemctl status firewalld<br>service  iptables status<br>2:暂时关闭防火墙<br>systemctl stop firewalld<br>service  iptables stop<br>3:永久关闭防火墙<br>systemctl disable firewalld<br>chkconfig iptables off<br>4:重启防火墙<br>systemctl enable firewalld<br>service iptables restart<br>5:永久关闭后重启<br>chkconfig iptables on  </p>
+<p>关闭selinux<br>暂时：<br>setenforce 0<br>永久：<br>输入命令 <code>vi /etc/selinux/config</code>。<br>在打开的文件中，找到 <code>SELINUX=</code> 这一行，将其从 <code>enforcing</code> 或 <code>permissive</code> 修改为 <code>disabled</code>。</p>
+<p>arp -a<br>展示运行过的ping</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>计算机组成原理</title>
+    <url>/2024/04/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<p><a href="https://blog.csdn.net/qq_62325622/article/details/134804522?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-134804522-blog-124206736.235%5Ev43%5Epc_blog_bottom_relevance_base9&spm=1001.2101.3001.4242.1&utm_relevant_index=3">https://blog.csdn.net/qq_62325622/article/details/134804522?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-134804522-blog-124206736.235^v43^pc_blog_bottom_relevance_base9&amp;spm=1001.2101.3001.4242.1&amp;utm_relevant_index=3</a></p>
+]]></content>
+      <categories>
+        <category>学习</category>
       </categories>
       <tags>
         <tag>开发</tag>
@@ -859,8 +891,8 @@ pmp生效于 s-mode,u-mode
       </tags>
   </entry>
   <entry>
-    <title>配置vivado</title>
-    <url>/2023/12/26/%E9%85%8D%E7%BD%AEvivado/</url>
+    <title>配置高级软件</title>
+    <url>/2023/12/26/%E9%85%8D%E7%BD%AE%E9%AB%98%E7%BA%A7%E8%BD%AF%E4%BB%B6/</url>
     <content><![CDATA[<span id="more"></span>
 
 <h2 id="VSCode关联VIVADO编辑Verilog"><a href="#VSCode关联VIVADO编辑Verilog" class="headerlink" title="VSCode关联VIVADO编辑Verilog"></a>VSCode关联VIVADO编辑Verilog</h2><p><a href="https://blog.csdn.net/wd12306/article/details/128929552">https://blog.csdn.net/wd12306/article/details/128929552</a></p>
@@ -873,5 +905,36 @@ pmp生效于 s-mode,u-mode
         <tag>开发</tag>
         <tag>硬件</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>操作系统</title>
+    <url>/2024/03/05/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<p>SISD<br>MISD：可靠性<br>MIMD</p>
+<p>多处理器：多个芯片<br>多核：多个执行单元</p>
+<p>多处理器结构<br>超线程结构：一个处理器多个线程环境<br>多核结构：多个cache（缓冲）<br>多核超线程结构</p>
+<p>特权指令：只供操作系统使用<br>设置定时器<br>清除内存<br>发起陷入指令<br>关中断<br>修改设备状态信息<br>用户与内核态切换<br>访问I&#x2F;O设备</p>
+<p>SGX加密，用户内存加密隔离</p>
+<p>切换步骤：保存处理器现场，根据终端号设置程序计数器，转换PSW</p>
+<p>psw：程序状态字寄存器<br>pc，条件码，</p>
+<p>程序：堆栈，函数：栈帧</p>
+<p>海光的amd zen</p>
+<p>内存管理寄存器{<br>    段描述符{<br>    GDTR 全局描述符寄存器<br>    } + ip<br>    IDTR：中断描述符寄存器 + 偏移<br>    TR：<br>}</p>
+<p>psw：EFLAG和ip</p>
+<p>bios在flash</p>
+<p>启动规范<br>legacy bios<br>uefi</p>
+<p>bios-&gt;bootloader</p>
+<p>同步中断：异常，非法指令（page fault，内存错误，除零错误）<br>异步中断：中断，硬件设备<br>系统调用：应用程序</p>
+<p>出错：page fault,重新执行<br>陷入：用于调试，下一指令</p>
+<p>异常在内核中：挂了</p>
+<p>关中断保证指令的原子性</p>
+<h2 id="安装openeuler"><a href="#安装openeuler" class="headerlink" title="安装openeuler"></a>安装openeuler</h2><p><a href="https://blog.51cto.com/shuchaoyang/6604107">https://blog.51cto.com/shuchaoyang/6604107</a></p>
+<h2 id="安装新内核"><a href="#安装新内核" class="headerlink" title="安装新内核"></a>安装新内核</h2><p><a href="https://blog.csdn.net/m0_51683653/article/details/124133370">https://blog.csdn.net/m0_51683653/article/details/124133370</a></p>
+<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>arch&#x2F;x86&#x2F;entry&#x2F;thunk_64.o: warning: objtool: missing symbol table<br><a href="https://www.spinics.net/lists/kernel/msg3797871.html">https://www.spinics.net/lists/kernel/msg3797871.html</a></p>
+<h2 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h2><p><a href="https://blog.csdn.net/MengMengDeXiaoJi/article/details/136821507">https://blog.csdn.net/MengMengDeXiaoJi/article/details/136821507</a></p>
+<h2 id="内核模块"><a href="#内核模块" class="headerlink" title="内核模块"></a>内核模块</h2><p><a href="https://blog.csdn.net/m0_74282605/article/details/135866888">https://blog.csdn.net/m0_74282605/article/details/135866888</a></p>
+<h2 id="list宏"><a href="#list宏" class="headerlink" title="list宏"></a>list宏</h2><p><a href="https://blog.csdn.net/weixin_44498318/article/details/132275727">https://blog.csdn.net/weixin_44498318/article/details/132275727</a></p>
+]]></content>
   </entry>
 </search>
