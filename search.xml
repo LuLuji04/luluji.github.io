@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>一生一芯相关资料</title>
+    <url>/2023/12/09/ysyx/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99/</url>
+    <content><![CDATA[<p>准备寒假有空研究一下</p>
+<span id="more"></span>
+
+<h2 id="报名参与"><a href="#报名参与" class="headerlink" title="报名参与"></a>报名参与</h2><p><a href="https://ysyx.oscc.cc/signup/">https://ysyx.oscc.cc/signup/</a><br>填写问卷-&gt;进入课程群-&gt;预学习-&gt;申请答辩-&gt;获得专属学号-&gt;.etc</p>
+<h2 id="深圳理工训练营"><a href="#深圳理工训练营" class="headerlink" title="深圳理工训练营"></a>深圳理工训练营</h2><p><a href="https://tqdy06h5fq.feishu.cn/wiki/OWagweHaoiEYKWkCKEAcuMW6nMd">https://tqdy06h5fq.feishu.cn/wiki/OWagweHaoiEYKWkCKEAcuMW6nMd</a></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
+      <categories>
+        <category>综述</category>
+      </categories>
+      <tags>
+        <tag>开发</tag>
+        <tag>硬件</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>buildroot的使用</title>
-    <url>/2024/02/18/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <url>/2024/02/18/tools/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<span id="more"></span>
 <p>在使用Buildroot构建嵌入式Linux系统时，<code>BR2_EXTERNAL</code>是一个重要的机制，它允许用户将自定义的配置、包（packages）、板级支持包（board support packages，简称BSPs）、以及其他构建脚本和文件集成到Buildroot构建过程中，而不必直接修改Buildroot的主树。这种机制非常有用，因为它使得维护自定义修改和跟踪Buildroot官方更新变得更加容易。</p>
 <h3 id="使用BR2-EXTERNAL的优势"><a href="#使用BR2-EXTERNAL的优势" class="headerlink" title="使用BR2_EXTERNAL的优势"></a>使用BR2_EXTERNAL的优势</h3><ul>
@@ -55,230 +72,8 @@
 ]]></content>
   </entry>
   <entry>
-    <title>cpp的特性</title>
-    <url>/2024/02/10/cpp%E7%9A%84%E7%89%B9%E6%80%A7/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h2 id="attribute"><a href="#attribute" class="headerlink" title="attribute"></a><strong>attribute</strong></h2><p><strong>attribute__的基本语法是在声明的末尾添加__attribute</strong>((属性名))，其中“属性名”可以是一个或多个指定给编译器的属性，属性之间用逗号分隔。<br>eg:<br>unused：告诉编译器某个变量或函数可能未被使用，以避免编译时出现未使用警告。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">static __attribute__((unused))</span><br><span class="line">int ioctl(int fd, unsigned long req, void *value)</span><br><span class="line">&#123;</span><br><span class="line">	int ret = sys_ioctl(fd, req, value);</span><br><span class="line"></span><br><span class="line">	if (ret &lt; 0) &#123;</span><br><span class="line">		SET_ERRNO(-ret);</span><br><span class="line">		ret = -1;</span><br><span class="line">	&#125;</span><br><span class="line">	return ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>noinline：阻止编译器内联某个函数，即使开启了优化。<br>void my_function(void) <strong>attribute</strong>((noinline));</p>
-<p>pure：指示函数是“纯”的，即函数的返回值仅依赖于输入参数且没有副作用，这允许编译器进行更多的优化。</p>
-<p>aligned(x)：强制变量或类型实例按照x字节对齐。</p>
-<p>constructor 和 destructor：分别指示函数应在main函数执行前和执行后调用。</p>
-<h2 id="virtual"><a href="#virtual" class="headerlink" title="virtual"></a>virtual</h2><p>在C++中，virtual uintptr_t initUTM(size_t size);声明了一个虚拟成员函数initUTM，这个函数预期在一个类中被声明，并且可能在派生类中被重写。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">class Base &#123;</span><br><span class="line">public:</span><br><span class="line">    virtual void print() &#123;</span><br><span class="line">        std::cout &lt;&lt; &quot;Base class print function&quot; &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">class Derived : public Base &#123;</span><br><span class="line">public:</span><br><span class="line">    void print() override &#123;  // 使用override确保重写</span><br><span class="line">        std::cout &lt;&lt; &quot;Derived class print function&quot; &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">int main() &#123;</span><br><span class="line">    Base* b = new Derived();</span><br><span class="line">    b-&gt;print();  // 输出：Derived class print function</span><br><span class="line">    </span><br><span class="line">    delete b;  // 清理资源</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
-        <tag>C/C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>c语言中的宏</title>
-    <url>/2024/02/26/c%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E5%AE%8F/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<p>在C语言中，预处理器提供了几个特殊的宏用于宏定义中，这些特殊的宏包括<code>__VA_ARGS__</code>、<code>__FILE__</code>、<code>__LINE__</code>、<code>__DATE__</code>、<code>__TIME__</code>和<code>__func__</code>。下面是对它们的简要说明：</p>
-<h3 id="VA-ARGS"><a href="#VA-ARGS" class="headerlink" title="__VA_ARGS__"></a><code>__VA_ARGS__</code></h3><ul>
-<li><code>__VA_ARGS__</code>是一个预处理器宏，用于在宏定义中代替可变数量的参数。这主要用于可变参数宏（Variadic Macros）的定义中，允许宏接受任意数量的参数。</li>
-<li>示例：  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> DEBUG(fmt, ...) fprintf(stderr, fmt, __VA_ARGS__)</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="FILE"><a href="#FILE" class="headerlink" title="__FILE__"></a><code>__FILE__</code></h3><ul>
-<li><code>__FILE__</code>是一个预定义宏，它在编译时被替换为当前源代码文件的名称（一个字符串常量）。</li>
-<li>示例使用场景：用于生成包含文件名的错误消息。</li>
-</ul>
-<h3 id="LINE"><a href="#LINE" class="headerlink" title="__LINE__"></a><code>__LINE__</code></h3><ul>
-<li><code>__LINE__</code>是一个预定义宏，它在编译时被替换为当前源代码行号（一个整型常量）。</li>
-<li>示例使用场景：同样用于生成错误消息，指明错误发生的具体行。</li>
-</ul>
-<h3 id="DATE-和-TIME"><a href="#DATE-和-TIME" class="headerlink" title="__DATE__ 和 __TIME__"></a><code>__DATE__</code> 和 <code>__TIME__</code></h3><ul>
-<li><code>__DATE__</code>和<code>__TIME__</code>是预定义宏，分别在编译时被替换为编译日期和时间的字符串常量。</li>
-<li>示例使用场景：用于记录程序的编译日期和时间，可能用于显示版本信息。</li>
-</ul>
-<h3 id="func"><a href="#func" class="headerlink" title="__func__"></a><code>__func__</code></h3><ul>
-<li><code>__func__</code>是一个特殊的预定义标识符，它在函数的作用域内被认为是一个字符串常量，包含当前函数的名称。</li>
-<li>注意：虽然<code>__func__</code>在C99标准中引入，有时被视为预处理器的一部分，但它实际上是一个自动变量。</li>
-<li>示例使用场景：用于在日志消息中包含当前函数的名称。</li>
-</ul>
-<p>这些宏和标识符在调试、日志记录和错误处理中特别有用，因为它们可以提供执行到达代码特定点时的上下文信息。</p>
-<p>除了前面提到的预处理器宏外，C语言的预处理器还提供了一些其他有用的操作符，比如<code>##</code>和<code>#</code>。这些操作符在宏定义中扮演特殊的角色，使得宏更加灵活和强大。</p>
-<h3 id="操作符（Token-Pasting-Operator）"><a href="#操作符（Token-Pasting-Operator）" class="headerlink" title="## 操作符（Token Pasting Operator）"></a><code>##</code> 操作符（Token Pasting Operator）</h3><ul>
-<li><code>##</code>操作符用于宏定义中，用于连接两个令牌（Token）。它允许在宏展开时动态地创建标识符或关键字。</li>
-<li>使用<code>##</code>可以合并宏参数和其他令牌，生成新的标识符。</li>
-<li>示例：  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> CONCAT(a, b) a##b</span></span><br><span class="line">CONCAT(hello, World) <span class="comment">// 展开为 helloWorld</span></span><br></pre></td></tr></table></figure></li>
-<li>在这个例子中，<code>CONCAT</code>宏将它的两个参数<code>a</code>和<code>b</code>连接起来，形成一个新的标识符<code>helloWorld</code>。</li>
-</ul>
-<h3 id="操作符（Stringizing-Operator）"><a href="#操作符（Stringizing-Operator）" class="headerlink" title="# 操作符（Stringizing Operator）"></a><code>#</code> 操作符（Stringizing Operator）</h3><ul>
-<li><code>#</code>操作符用于宏定义中，将一个宏参数转换成字符串字面量。</li>
-<li>当宏展开时，跟在<code>#</code>后面的宏参数会被转换为一个字符串，参数的文本形式被引号包围。</li>
-<li>示例：  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> TO_STRING(x) #x</span></span><br><span class="line">TO_STRING(<span class="number">123</span>) <span class="comment">// 展开为 &quot;123&quot;</span></span><br></pre></td></tr></table></figure></li>
-<li>在这个例子中，<code>TO_STRING</code>宏将它的参数<code>x</code>转换为一个字符串字面量。</li>
-</ul>
-<h3 id="Pragma-操作符"><a href="#Pragma-操作符" class="headerlink" title="_Pragma 操作符"></a><code>_Pragma</code> 操作符</h3><ul>
-<li>C99引入了<code>_Pragma</code>操作符，允许在宏中生成编译指令（pragma）。这是一种将编译器特定的指令（如优化级别或警告控制）以可移植的方式嵌入源代码的方法。</li>
-<li>示例：  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> PRAGMA_COMPILATION_WARNING(x) <span class="keyword">_Pragma</span>(#x)</span></span><br><span class="line">PRAGMA_COMPILATION_WARNING(GCC diagnostic ignored <span class="string">&quot;-Wformat&quot;</span>)</span><br></pre></td></tr></table></figure></li>
-<li>在这个例子中，<code>PRAGMA_COMPILATION_WARNING</code>宏允许动态地插入一个编译指令来忽略特定的警告。</li>
-</ul>
-<p>这些预处理器功能为C语言提供了极大的灵活性，使得宏不仅仅是简单的文本替换工具，而是可以执行复杂的代码生成任务和条件编译。使用这些特性时需要小心，因为过度使用或不当使用可能会使代码难以阅读和维护。</p>
-]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
-        <tag>C/C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>c语言的常用函数</title>
-    <url>/2024/02/05/c%E8%AF%AD%E8%A8%80%E7%9A%84%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h2 id="1-getopt-long"><a href="#1-getopt-long" class="headerlink" title="1.getopt_long"></a>1.getopt_long</h2><h4 id="函数定义："><a href="#函数定义：" class="headerlink" title="函数定义："></a>函数定义：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;getopt.h&gt;</span><br><span class="line">int getopt_long(int argc, char *argv[],</span><br><span class="line">		  const char *optstring,</span><br><span class="line">		  const struct option *longopts, int *longindex);</span><br></pre></td></tr></table></figure>
-<p>函数是用于解析命令行参数的，与函数 getopt() 函数是相似的，它可以处理长选项，即两个短杠”–” 连接的参数选项。而且比 getopt() 多两个参数。</p>
-<h4 id="参数说明："><a href="#参数说明：" class="headerlink" title="参数说明："></a>参数说明：</h4><p>1，argc        一般就是 main 函数里的 argc<br>2，argv    同上<br>3，optstring  要匹配的参数，如：”ha” 或  “h:a” 或 “h:a::”，带一个冒号的表示此选项须带参数，两个冒号的表示是可选参数<br>4，longopts 这个是长选项结构的指针，一般传的是数组<br>5，longindex  如果不为空，它将指向 longopts 的一个元素的位置，即longopts的数组下标</p>
-<h4 id="man手册例子："><a href="#man手册例子：" class="headerlink" title="man手册例子："></a>man手册例子：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;getopt.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;     /* for printf */</span><br><span class="line">#include &lt;stdlib.h&gt;    /* for exit */</span><br><span class="line"> </span><br><span class="line">int main(int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">	int c;</span><br><span class="line">	int digit_optind = 0;</span><br><span class="line"> </span><br><span class="line">	while (1) &#123;</span><br><span class="line">		int this_option_optind = optind ? optind : 1;</span><br><span class="line">		int option_index = 0;</span><br><span class="line">		</span><br><span class="line">		/*长选项的匹配只要匹配到前n个字符相同就会返回，若是模棱两可时会返回？，同时stderr会有相应打印*/</span><br><span class="line">		static struct option long_options[] = &#123;</span><br><span class="line">		   &#123;&quot;add&quot;,     required_argument, 0,  0 &#125;,</span><br><span class="line">		   &#123;&quot;append&quot;,  no_argument,       0,  0 &#125;,</span><br><span class="line">		   &#123;&quot;delete&quot;,  required_argument, 0,  0 &#125;,</span><br><span class="line">		   &#123;&quot;verbose&quot;, no_argument,       0,  0 &#125;,</span><br><span class="line">		   &#123;&quot;create&quot;,  required_argument, 0, &#x27;c&#x27;&#125;,</span><br><span class="line">		   &#123;&quot;file&quot;,    required_argument, 0,  0 &#125;,</span><br><span class="line">		   &#123;0,         0,                 0,  0 &#125;</span><br><span class="line">	   &#125;;</span><br><span class="line">		</span><br><span class="line">		/*短选项跟一个冒号表示有选项参数，两个冒号表示选项参数可选*/</span><br><span class="line">	   c = getopt_long(argc, argv, &quot;abc:d:012&quot;,</span><br><span class="line">					   long_options, &amp;option_index);</span><br><span class="line">	   if (c == -1)</span><br><span class="line">		   break;</span><br><span class="line"> </span><br><span class="line">	   switch (c) &#123;</span><br><span class="line">	   case 0: /* 匹配到长选项时，返回的val，即struct optaion 中的 val，这里为 0 则表示匹配到 add、append, delete, verbose, file时都会跟到这个 case, 而create 则匹配到字符&#x27;c&#x27;*/</span><br><span class="line">			printf(&quot;get option_index = %d, option %s&quot;, option_index, long_options[option_index].name);</span><br><span class="line">			if (optarg)</span><br><span class="line">			   printf(&quot; with arg %s&quot;, optarg);</span><br><span class="line">			printf(&quot;\n&quot;);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;0&#x27;:</span><br><span class="line">	   case &#x27;1&#x27;:</span><br><span class="line">	   case &#x27;2&#x27;:</span><br><span class="line">			if (digit_optind != 0 &amp;&amp; digit_optind != this_option_optind)</span><br><span class="line">			 printf(&quot;digits occur in two different argv-elements.\n&quot;);</span><br><span class="line">			digit_optind = this_option_optind;</span><br><span class="line">			printf(&quot;option %c\n&quot;, c);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;a&#x27;:</span><br><span class="line">			printf(&quot;option a\n&quot;);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;b&#x27;:</span><br><span class="line">			printf(&quot;option b\n&quot;);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;c&#x27;:</span><br><span class="line">			printf(&quot;option c with value &#x27;%s&#x27;\n&quot;, optarg);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;d&#x27;:</span><br><span class="line">			printf(&quot;option d with value &#x27;%s&#x27;\n&quot;, optarg);</span><br><span class="line">			break;</span><br><span class="line"> </span><br><span class="line">	   case &#x27;?&#x27;: /*ambiguous 模棱两可的时候返回? 如只输入 --a 则会匹配到 add 和 append*/</span><br><span class="line">			printf(&quot;it&#x27;s ambiguous, please selete one\n&quot;);</span><br><span class="line">			break;</span><br><span class="line">		</span><br><span class="line">	   default:</span><br><span class="line">			printf(&quot;?? getopt returned character code 0%o ??\n&quot;, c);</span><br><span class="line">	   &#125;</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	if (optind &lt; argc) &#123;</span><br><span class="line">		printf(&quot;non-option ARGV-elements: &quot;);</span><br><span class="line">		while (optind &lt; argc)</span><br><span class="line">		   printf(&quot;%s &quot;, argv[optind++]);</span><br><span class="line">		printf(&quot;\n&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	exit(EXIT_SUCCESS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="fread和fwrite"><a href="#fread和fwrite" class="headerlink" title="fread和fwrite"></a>fread和fwrite</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">size_t fread(void *ptr, size_t size, size_t count, FILE *stream);</span><br></pre></td></tr></table></figure>
-<pre><code>ptr：指向读取数据存储的缓冲区。
-size：每个数据项的字节数。
-count：要读取的数据项数。
-stream：文件指针，指向要读取数据的文件。
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">size_t fwrite(const void *ptr, size_t size, size_t count, FILE *stream);</span><br></pre></td></tr></table></figure>
-
-<pre><code>ptr：要写入的数据的指针。
-size：每个数据项的字节数。
-count：要写入的数据项的个数。
-stream：要写入的文件指针。
-</code></pre>
-<h2 id="sscanf"><a href="#sscanf" class="headerlink" title="sscanf"></a>sscanf</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int sscanf(const char* str, const char* format, ...);</span><br></pre></td></tr></table></figure>
-<p>从<strong>字符串</strong>中按照指定的格式解析数据</p>
-<pre><code>str：要解析的输入字符串。
-format：格式字符串，指定了要匹配的格式规则。
-...：可变参数列表，用于接收解析后的数据。
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">char str[20];</span><br><span class="line">sscanf(&quot;Hello, World!&quot;, &quot;%s&quot;, str);//解析字符串，把Hello, World!存到str</span><br></pre></td></tr></table></figure>
-
-<h2 id="命令处理"><a href="#命令处理" class="headerlink" title="命令处理"></a>命令处理</h2><h4 id="strtok-r"><a href="#strtok-r" class="headerlink" title="strtok_r"></a>strtok_r</h4><p>首先需要将字符串切分为指令和参数形式，需要用到strtok_r函数。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">char *strtok_r(char * __restrict__ _Str, const char * __restrict__ _Delim, char ** __restrict__ __last);</span><br><span class="line">SS</span><br><span class="line">char *cmd;//表示命令</span><br><span class="line">char *paras;//表示命令后的参数</span><br><span class="line"> </span><br><span class="line">cmd = strtok_r(str, &quot;,&quot;, &amp;paras);</span><br><span class="line">printf(&quot;cmd:%srn&quot;, cmd);//获得字符串的第一串字符cmd:led</span><br><span class="line">printf(&quot;paras:%srn&quot;, paras);//获取后续字符串paras:100,0,80,15</span><br></pre></td></tr></table></figure>
-
-<h4 id="strstr"><a href="#strstr" class="headerlink" title="strstr"></a>strstr</h4><p>对于得到参数指令字符串，我们可能还需要判断该指令是否有效，即计算机之前是否存储了该字符串，可以通过字符串匹配数组中对应字符串的方式来模拟这个测试。需要用到strstr函数，其函数定义为：<br>我们可以先自定义一个用来查询的字符串数组funname[5]，然后依次进行匹配比较。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">    char *funname[5] = &#123;&quot;music&quot;, &quot;play&quot;, &quot;A_led1&quot;, &quot;led2&quot;, &quot;led&quot;&#125;;//自定义的函数名称列表</span><br><span class="line">     </span><br><span class="line">char *ret;</span><br><span class="line">int i;</span><br><span class="line">for (i = 0; i &lt; 5;i++)</span><br><span class="line">&#123;</span><br><span class="line">	ret = strstr(funname[i], cmd);</span><br><span class="line">	if(ret!=NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;find cmd in funname[%d]rn&quot;, i);</span><br><span class="line">		printf(&quot;ret:%srn&quot;, ret);</span><br><span class="line">		break;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">if(i==5)</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;can&#x27;t find cmd in funname[]&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>测试结果：</p>
-<pre><code>find cmd in funname[2]
-ret:led1
-</code></pre>
-<h4 id="strtok"><a href="#strtok" class="headerlink" title="strtok"></a>strtok</h4><p>确定了指令字符串的有效性，接下来就要切分后面的参数了，实际上我们还可以继续使用strtok_r方法，不过，我们可以使用另一个类似的函数strtok，它少一个用来保存切分后字符串的参数：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">char* para[4];</span><br><span class="line">para[0] = strtok(paras, &quot;,&quot;);</span><br><span class="line">int j= 1;</span><br><span class="line">while(paras != NULL)</span><br><span class="line">&#123;</span><br><span class="line">    para[j++] = strtok(NULL, &quot;,&quot;);</span><br><span class="line">    if(j==4)</span><br><span class="line">        break;</span><br><span class="line">&#125;</span><br><span class="line">printf(&quot;para[0]:%srn&quot;, para[0]);</span><br><span class="line">printf(&quot;para[1]:%srn&quot;, para[1]);</span><br><span class="line">printf(&quot;para[2]:%srn&quot;, para[2]);</span><br><span class="line">printf(&quot;para[3]:%srn&quot;, para[3]);</span><br></pre></td></tr></table></figure>
-<pre><code>第一次切割时，第一个参数（也就是str）不能是NULL
-第一次切割时，函数将找到str中第一个分割符，将它替换为\0
-同时strtok函数将保存这 个\0在整个字符串中的位置。
-
-第二次、第三次...第n次使用strtok函数切割同一个字符串时。
-第一个参数为NULL
-此时函数将从上一个保存的\0的位置开始往后切割，直到遇到下一个分割符或\0
-</code></pre>
-<h4 id="atoi"><a href="#atoi" class="headerlink" title="atoi"></a>atoi</h4><p>上面分离的参数数字是字符串型，实际使用时可能需要其对应的整数形式，我们可以使用atoi函数进行转换:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int atoi(const char *_Str);</span><br></pre></td></tr></table></figure>
-<pre><code>参数：数字形式的字符串
-返回值：对应的整形数值，若不能转换，返回0
-</code></pre>
-<h2 id="strcmp-str1-str2"><a href="#strcmp-str1-str2" class="headerlink" title="strcmp(str1,str2)"></a>strcmp(str1,str2)</h2><p>若str1&#x3D;str2，则返回0<br>strcmp()函数首先将str1字符串的第一个字符的ACSII值减去str2第一个字符的ACSII值(自左向右逐个字符相比，直到出现不同的字符或遇’\0’为止)<br>若差值为零则继续比较下去；若差值不为零，则返回差值。</p>
-<h2 id="struct-enum-union"><a href="#struct-enum-union" class="headerlink" title="struct,enum,union"></a>struct,enum,union</h2><p><a href="https://blog.csdn.net/qq_60192898/article/details/127602638">https://blog.csdn.net/qq_60192898/article/details/127602638</a></p>
-<h2 id="fseek"><a href="#fseek" class="headerlink" title="fseek"></a>fseek</h2><p>fseek函数的原型定义在&lt;stdio.h&gt;头文件中，如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int fseek(FILE *stream, long offset, int whence);</span><br></pre></td></tr></table></figure>
-<p>stream：指向FILE对象的指针，代表一个打开的文件流。<br>offset：相对于whence参数指定的位置的偏移量，以字节为单位。根据whence的值，偏移量可以是正数也可以是负数。<br>whence：设置偏移量的起点。它通常是以下三个常量之一：<br>SEEK_SET：文件的开头。<br>SEEK_CUR：文件的当前位置。<br>SEEK_END：文件的末尾。<br>返回值<br>fseek函数将文件位置指示器移动到文件末尾（SEEK_END），偏移量为0。这是为了找出文件的总大小。<br>ftell函数返回当前文件位置指示器的位置，因为我们已经使用fseek移动到了文件末尾，</p>
-<p>eg:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FILE *fp = fopen(img_file, &quot;rb&quot;);</span><br><span class="line">Assert(fp, &quot;Can not open &#x27;%s&#x27;&quot;, img_file);</span><br><span class="line"></span><br><span class="line">fseek(fp, 0, SEEK_END);</span><br><span class="line">long size = ftell(fp);</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
-        <tag>C/C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>c文件之间的调用</title>
-    <url>/2024/02/17/c%E6%96%87%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%9A%84%E8%B0%83%E7%94%A8/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<p>在C语言中，不同的<code>.c</code>文件（编译单元）之间相互调用函数和访问变量需要正确地使用<code>extern</code>、<code>static</code>和<code>inline</code>等关键字。以下是如何在不同方面使用这些关键字来实现跨文件的函数调用和变量访问。</p>
-<h3 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h3><h4 id="跨文件调用函数"><a href="#跨文件调用函数" class="headerlink" title="跨文件调用函数"></a>跨文件调用函数</h4><ul>
-<li><strong>定义函数</strong>：在一个<code>.c</code>文件中定义函数。无需特别声明<code>extern</code>，因为函数默认具有外部链接。</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// file1.c</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">myFunction</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 函数实现</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>声明函数</strong>：在另一个<code>.c</code>文件中调用该函数之前，需要提前声明该函数。通常，这种声明放在头文件中，并在需要调用函数的<code>.c</code>文件中包含这个头文件。</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// file1.h</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">myFunction</span><span class="params">()</span>; <span class="comment">// 函数声明</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// file2.c</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;file1.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    myFunction(); <span class="comment">// 调用file1.c中定义的函数</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="static关键字限制函数的链接性"><a href="#static关键字限制函数的链接性" class="headerlink" title="static关键字限制函数的链接性"></a><code>static</code>关键字限制函数的链接性</h4><ul>
-<li>使用<code>static</code>关键字声明函数，可以使得该函数只在定义它的<code>.c</code>文件中可见，其他文件无法访问。</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// file1.c</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">myStaticFunction</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 这个函数只能在file1.c中调用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="inline关键字"><a href="#inline关键字" class="headerlink" title="inline关键字"></a><code>inline</code>关键字</h4><ul>
-<li>对于小型函数，可以使用<code>inline</code>关键字建议编译器内联该函数。对于跨文件调用，通常将<code>inline</code>函数定义放在头文件中，并且可能需要配合<code>static</code>使用，以避免多重定义。</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// file1.h</span></span><br><span class="line"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">void</span> <span class="title function_">myInlineFunction</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 函数实现</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="变量访问"><a href="#变量访问" class="headerlink" title="变量访问"></a>变量访问</h3><h4 id="跨文件访问全局变量"><a href="#跨文件访问全局变量" class="headerlink" title="跨文件访问全局变量"></a>跨文件访问全局变量</h4><ul>
-<li><strong>定义变量</strong>：在一个<code>.c</code>文件中定义全局变量。如果你希望这个变量能在其他文件中访问，不要使用<code>static</code>关键字。</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// file1.c</span></span><br><span class="line"><span class="type">int</span> myGlobalVar = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>声明变量</strong>：在其他<code>.c</code>文件中访问这个全局变量之前，需要使用<code>extern</code>关键字声明它。同样，这种声明通常放在头文件中。</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// file1.h</span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">int</span> myGlobalVar; <span class="comment">// 声明，不是定义</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// file2.c</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;file1.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">anotherFunction</span><span class="params">()</span> &#123;</span><br><span class="line">    myGlobalVar = <span class="number">5</span>; <span class="comment">// 访问并修改file1.c中定义的全局变量</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="static关键字限制变量的链接性"><a href="#static关键字限制变量的链接性" class="headerlink" title="static关键字限制变量的链接性"></a><code>static</code>关键字限制变量的链接性</h4><ul>
-<li>使用<code>static</code>关键字定义全局变量，可以使得该变量只在定义它的<code>.c</code>文件中可见，其他文件无法访问或修改。</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// file1.c</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> myStaticVar = <span class="number">0</span>; <span class="comment">// 只在file1.c中可见和可用</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li>使用<code>extern</code>声明跨文件访问的全局变量。</li>
-<li>函数默认具有外部链接，可通过在头文件中声明来跨文件访问。如果不希望函数或变量被外部访问，可以使用<code>static</code>限制它们的链接性。</li>
-<li>对于希望内联的小函数，可以使用<code>inline</code>关键字，并且通常需要将其定义放在头文件中。为了避免多重定义问题，可以与<code>static</code>一起使用。</li>
-</ul>
-<h2 id="c调用动态库"><a href="#c调用动态库" class="headerlink" title="c调用动态库"></a>c调用动态库</h2><h3 id="动态加载共享库"><a href="#动态加载共享库" class="headerlink" title="动态加载共享库"></a>动态加载共享库</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> *handle;</span><br><span class="line">handle = dlopen(ref_so_file, RTLD_LAZY);</span><br><span class="line">assert(handle);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>dlopen</code>函数用于加载指定的共享库文件，并返回一个句柄（handle）给该库。如果加载失败，返回<code>NULL</code>。</li>
-<li><code>ref_so_file</code>是一个指向共享库文件名的指针。</li>
-<li><code>RTLD_LAZY</code>表示延迟绑定，意味着符号解析是在第一次使用时进行，而不是在<code>dlopen</code>调用时立即进行。</li>
-<li><code>assert(handle)</code>确保库正确加载，如果<code>handle</code>为<code>NULL</code>，则<code>assert</code>会导致程序终止。</li>
-</ul>
-<h3 id="获取共享库中的符号"><a href="#获取共享库中的符号" class="headerlink" title="获取共享库中的符号"></a>获取共享库中的符号</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">ref_difftest_memcpy = dlsym(handle, <span class="string">&quot;difftest_memcpy&quot;</span>);</span><br><span class="line">assert(ref_difftest_memcpy);</span><br><span class="line"></span><br><span class="line">ref_difftest_regcpy = dlsym(handle, <span class="string">&quot;difftest_regcpy&quot;</span>);</span><br><span class="line">assert(ref_difftest_regcpy);</span><br><span class="line"></span><br><span class="line">ref_difftest_exec = dlsym(handle, <span class="string">&quot;difftest_exec&quot;</span>);</span><br><span class="line">assert(ref_difftest_exec);</span><br><span class="line"></span><br><span class="line">ref_difftest_raise_intr = dlsym(handle, <span class="string">&quot;difftest_raise_intr&quot;</span>);</span><br><span class="line">assert(ref_difftest_raise_intr);</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> (*ref_difftest_init)(<span class="type">int</span>) = dlsym(handle, <span class="string">&quot;difftest_init&quot;</span>);</span><br><span class="line">assert(ref_difftest_init);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>dlsym</code>函数用于获取共享库中指定符号的地址，这里使用<code>handle</code>（从<code>dlopen</code>获得）和符号名（如<code>&quot;difftest_memcpy&quot;</code>）作为参数。如果找不到符号，返回<code>NULL</code>。</li>
-<li>每个<code>ref_difftest_</code>变量都保存了对应函数的地址，可以像普通函数指针那样使用这些变量来调用共享库中的函数。</li>
-<li>使用<code>assert</code>来确保每个符号都成功获取，如果任何<code>dlsym</code>调用返回<code>NULL</code>，则<code>assert</code>会导致程序终止。</li>
-</ul>
-<p>这种技术使得程序能够在运行时动态地加载和使用共享库，提供了极大的灵活性。它允许应用程序在不直接链接到某个库的情况下使用该库的功能，也便于实现插件机制或模块化设计。</p>
-]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
-        <tag>C/C++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo+github搭网站</title>
-    <url>/2023/12/06/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/</url>
+    <url>/2023/12/06/tools/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/</url>
     <content><![CDATA[<p>由于心血来潮，决定自己搭网站。又所谓<em>拿来主义</em>，对于别人的好东西就要拿来，在此记录我参考过的网站</p>
 <span id="more"></span>
 
@@ -299,73 +94,13 @@ ret:led1
       </tags>
   </entry>
   <entry>
-    <title>git的使用</title>
-    <url>/2024/03/02/git%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<span id="more"></span>
-<h2 id="git-config"><a href="#git-config" class="headerlink" title="git config"></a>git config</h2><p>在 Git 中，你可以使用以下命令来查看和修改配置：<br>查看配置</p>
-<pre><code>查看全局配置：
-</code></pre>
-<p>bash<br>git config –global –list</p>
-<pre><code>查看当前仓库的配置：
-</code></pre>
-<p>bash<br>git config –local –list</p>
-<pre><code>查看系统配置：
-</code></pre>
-<p>bash<br>git config –system –list</p>
-<p>如果你只想知道某个特定配置的值，你可以这样做：</p>
-<p>bash<br>git config &lt;配置项名称&gt;</p>
-<p>例如，要查看全局的用户名配置：</p>
-<p>bash<br>git config –global user.name</p>
-<p>修改配置</p>
-<pre><code>设置全局配置：
-    设置用户名：
-
-bash`git config --global user.name &quot;Your Name&quot;`
-
-    设置邮箱：
-
-bash`git config --global user.email &quot;your.email@example.com&quot;`
-
-设置当前仓库的配置：
-</code></pre>
-<p>与全局配置类似，但使用 –local 代替 –global。<br>3. 设置系统配置：</p>
-<p>通常不推荐修改系统配置，除非你有特定的理由。<br>4. 直接编辑配置文件：</p>
-<p>你也可以直接编辑 Git 的配置文件。这些文件通常位于以下位置：</p>
-<ul>
-<li><strong>全局配置</strong>：<code>~/.gitconfig</code>  </li>
-<li><strong>系统配置</strong>：<code>/etc/gitconfig</code>（Linux）或 <code>/usr/local/git/etc/gitconfig</code>（macOS）  </li>
-<li><strong>当前仓库配置</strong>：仓库目录下的 <code>.git/config</code> 文件。使用文本编辑器打开这些文件，然后进行相应的修改。</li>
-</ul>
-<p>注意：当你设置或修改配置时，Git 会尝试从多个级别（系统、全局、本地）获取配置值。如果某个配置项在多个级别都有设置，Git 会优先使用本地仓库的配置，然后是全局配置，最后是系统配置。</p>
-<h2 id="git-remote"><a href="#git-remote" class="headerlink" title="git remote"></a>git remote</h2><p><code>git remote</code>命令在Git中用于管理一组跟踪的远程仓库。它允许您查看、添加、修改和删除与您的本地仓库关联的远程仓库的配置。远程仓库通常是位于互联网或其他网络中的仓库，可以是一个中心仓库，也可以是另一个开发者的仓库，您可以从中拉取（pull）数据或向其推送（push）数据。使用<code>git remote</code>可以进行以下操作：</p>
-<ul>
-<li><p><strong>查看远程仓库</strong>：使用<code>git remote</code>或<code>git remote -v</code>命令可以列出所有已配置的远程仓库。<code>-v</code>（verbose，详细）选项会额外显示每个远程仓库的URL。</p>
-</li>
-<li><p><strong>添加远程仓库</strong>：使用<code>git remote add &lt;name&gt; &lt;url&gt;</code>命令可以添加新的远程仓库，其中<code>&lt;name&gt;</code>是您为远程仓库指定的简短名称（如<code>origin</code>），<code>&lt;url&gt;</code>是远程仓库的URL。</p>
-</li>
-<li><p><strong>更改远程仓库URL</strong>：使用<code>git remote set-url &lt;name&gt; &lt;newurl&gt;</code>命令可以更改已存在的远程仓库的URL。</p>
-</li>
-<li><p><strong>删除远程仓库</strong>：使用<code>git remote remove &lt;name&gt;</code>或<code>git remote rm &lt;name&gt;</code>命令可以删除一个远程仓库的引用。</p>
-</li>
-<li><p><strong>重命名远程仓库</strong>：使用<code>git remote rename &lt;oldname&gt; &lt;newname&gt;</code>命令可以重命名远程仓库的简称。</p>
-</li>
-</ul>
-<p>在协同工作流中，<code>git remote</code>命令是非常重要的，它使得开发者能够与远程仓库交互，共享代码和协作。例如，<code>origin</code>通常是克隆仓库时自动创建的默认远程仓库名称，代表了克隆来源的仓库。通过管理远程仓库，您可以轻松地同步本地更改到远程服务器，或者拉取他人的更改到您的本地仓库中。</p>
-<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>luluji@luluji-virtual-machine:~&#x2F;nuttxspace$ git clone <a href="https://github.com/apache/nuttx.git">https://github.com/apache/nuttx.git</a> nuttx<br>正克隆到 ‘nuttx’…<br>fatal: 无法访问 ‘<a href="https://github.com/apache/nuttx.git/'%EF%BC%9Agnutls_handshake()">https://github.com/apache/nuttx.git/&#39;：gnutls_handshake()</a> failed: Error in the pull function.</p>
-<p>通过安装这些库解决了：<br>sudo apt -y install build-essential nghttp2 libnghttp2-dev libssl-dev</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>mysql</title>
-    <url>/2024/03/24/mysql/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<p><a href="https://www.zhihu.com/question/620270343">https://www.zhihu.com/question/620270343</a></p>
-]]></content>
+    <title>tags</title>
+    <url>/2023/12/07/tools/index/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>linux的常用命令</title>
-    <url>/2024/02/02/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <url>/2024/02/02/tools/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<span id="more"></span>
 
 <h2 id="Linux根目录"><a href="#Linux根目录" class="headerlink" title="Linux根目录"></a>Linux根目录</h2><p>Linux根目录(<code>/</code>)是文件系统的最顶层目录，它包含了系统的所有其他文件和目录。每个位于根目录下的目录都有其特定的用途和约定。以下是Linux根目录下常见目录的简要说明：</p>
@@ -398,9 +133,9 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
 <p>xargs主要用于将标准输入数据转换为命令行参数。在你的场景中，由于grep可以直接从标准输入读取数据进行搜索，实际上不需要xargs来实现这一功能。<br>qemu-system-riscv64 -help | grep “machine”</p>
 <p>查找当前目录及子目录下所有.log文件，并使用grep命令在它们中搜索”error”字符串：<br>$ find . -type f -name “*.log” | xargs grep “error”<br>xargs命令的-0（或–null）选项期望输入项以null字符（\0）分隔，这通常与find … -print0命令一起使用。</p>
 <p>性能：使用-exec时，find会为每个找到的文件启动一个新的进程来执行指定的命令。而管道到xargs的方式会尝试减少进程的数量，通过将多个文件名作为单个命令的参数来提高效率。<br>安全性：-exec直接由find处理，可以安全地处理文件名中的特殊字符。而使用管道到xargs时，如果不加-0选项（并且find使用-print0），可能会遇到文件名中包含空格、换行符等特殊字符的问题。<br>灵活性：管道允许你利用Shell的特性组合多个命令，可以实现更复杂的处理流程。<br>选择使用-exec还是管道（配合xargs），取决于具体的任务需求、对性能的考量以及对特殊文件名的处理需求。</p>
-<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>查看所有Git配置项：<br>$ git config –list<br>user.name&#x3D;LuLuji04<br>user.email&#x3D;<a href="mailto:&#108;&#105;&#x75;&#x79;&#117;&#x6a;&#x69;&#x30;&#x31;&#48;&#64;&#49;&#50;&#54;&#46;&#x63;&#111;&#109;">&#108;&#105;&#x75;&#x79;&#117;&#x6a;&#x69;&#x30;&#x31;&#48;&#64;&#49;&#50;&#54;&#46;&#x63;&#111;&#109;</a><br>https.proxy&#x3D;192.168.3.11:7890<br>credential.helper&#x3D;store<br>http.proxy&#x3D;192.168.3.11:7890<br>core.editor&#x3D;vim<br>color.ui&#x3D;true</p>
+<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>查看所有Git配置项：<br>$ git config –list<br>user.name&#x3D;LuLuji04<br>user.email&#x3D;<a href="mailto:&#108;&#105;&#117;&#x79;&#x75;&#106;&#105;&#x30;&#49;&#x30;&#x40;&#49;&#x32;&#54;&#46;&#x63;&#x6f;&#x6d;">&#108;&#105;&#117;&#x79;&#x75;&#106;&#105;&#x30;&#49;&#x30;&#x40;&#49;&#x32;&#54;&#46;&#x63;&#x6f;&#x6d;</a><br>https.proxy&#x3D;192.168.3.11:7890<br>credential.helper&#x3D;store<br>http.proxy&#x3D;192.168.3.11:7890<br>core.editor&#x3D;vim<br>color.ui&#x3D;true</p>
 <p>查看特定配置项的值，如user.name：<br>$ git config user.name</p>
-<p>$ git config –global user.name “Your Name”<br>$ git config –global user.email “<a href="mailto:&#121;&#111;&#x75;&#114;&#101;&#109;&#97;&#105;&#108;&#x40;&#101;&#x78;&#97;&#x6d;&#112;&#108;&#101;&#x2e;&#x63;&#x6f;&#109;">&#121;&#111;&#x75;&#114;&#101;&#109;&#97;&#105;&#108;&#x40;&#101;&#x78;&#97;&#x6d;&#112;&#108;&#101;&#x2e;&#x63;&#x6f;&#109;</a>“</p>
+<p>$ git config –global user.name “Your Name”<br>$ git config –global user.email “<a href="mailto:&#121;&#x6f;&#x75;&#x72;&#x65;&#109;&#x61;&#105;&#108;&#x40;&#101;&#x78;&#97;&#x6d;&#x70;&#x6c;&#101;&#46;&#x63;&#x6f;&#x6d;">&#121;&#x6f;&#x75;&#x72;&#x65;&#109;&#x61;&#105;&#108;&#x40;&#101;&#x78;&#97;&#x6d;&#x70;&#x6c;&#101;&#46;&#x63;&#x6f;&#x6d;</a>“</p>
 <h2 id="man"><a href="#man" class="headerlink" title="man"></a>man</h2><p>man 手册的数字编号</p>
 <p>man 1 kill、man 2 kill，这些命令都是查看 kill 命令的手册，但是文档却大不相同。</p>
 <p>因为 kill 是一个命令行的工具，which kill 看到 &#x2F;usr&#x2F;bin&#x2F;kill 是一个二进制文件；其实，也有一个系统调用叫做 kill。</p>
@@ -465,28 +200,117 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2023/12/06/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<span id="more"></span>
+    <title>vscode的常用操作</title>
+    <url>/2024/02/07/tools/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<span id="more"></span>
 
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>A: 你本地新增的文件（服务器上没有）.<br>C: 文件的一个新拷贝.<br>D: 你本地删除的文件（服务器上还在）.<br>M: 文件的内容或者mode被修改了.<br>R: 文件名被修改了。<br>T: 文件的类型被修改了。<br>U: 文件没有被合并(你需要完成合并才能进行提交)。<br>X: 未知状态(很可能是遇到git的bug了，你可以向git提交bug report)。<br>在man git diff-files中可以查到这些标志的说明。<br>这些状态标志在git的源代码的diff.h文件中被定义。</p>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>开发</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>配置高级软件</title>
+    <url>/2023/12/26/tools/%E9%85%8D%E7%BD%AE%E9%AB%98%E7%BA%A7%E8%BD%AF%E4%BB%B6/</url>
+    <content><![CDATA[<span id="more"></span>
 
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<h2 id="VSCode关联VIVADO编辑Verilog"><a href="#VSCode关联VIVADO编辑Verilog" class="headerlink" title="VSCode关联VIVADO编辑Verilog"></a>VSCode关联VIVADO编辑Verilog</h2><p><a href="https://blog.csdn.net/wd12306/article/details/128929552">https://blog.csdn.net/wd12306/article/details/128929552</a></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>导入的文件可以不在{projectdir}\newcounter\newcounter.srcs中，<br><img src="/../images/%E9%85%8D%E7%BD%AEvivado/image.png" alt="Alt text"></p>
+<h2 id="vivado加入board和part"><a href="#vivado加入board和part" class="headerlink" title="vivado加入board和part"></a>vivado加入board和part</h2><p><a href="https://support.xilinx.com/s/question/0D52E00006lLBqpSAG/setting-board-file-fails-with-error-board-4971-the-boardpart-definition-was-not-found?language=en_US">https://support.xilinx.com/s/question/0D52E00006lLBqpSAG/setting-board-file-fails-with-error-board-4971-the-boardpart-definition-was-not-found?language=en_US</a></p>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>开发</tag>
+        <tag>硬件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>虚拟机配置</title>
+    <url>/2024/04/01/tools/%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<span id="more"></span>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<h2 id="配置静态ip"><a href="#配置静态ip" class="headerlink" title="配置静态ip"></a>配置静态ip</h2><h4 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h4><p><a href="https://blog.csdn.net/Un1qu3/article/details/126155766">https://blog.csdn.net/Un1qu3/article/details/126155766</a><br><a href="https://blog.csdn.net/Conquer_l/article/details/124989551">https://blog.csdn.net/Conquer_l/article/details/124989551</a><br><a href="https://blog.csdn.net/lk142500/article/details/88386651">https://blog.csdn.net/lk142500/article/details/88386651</a><br><img src="/2146089-20200911223717884-1559586693.png" alt="alt text"><br><a href="https://www.cnblogs.com/yansunda/p/13654632.html">https://www.cnblogs.com/yansunda/p/13654632.html</a></p>
+<p>vim &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-eth33<br>sudo systemctl restart NetworkManager</p>
+<h4 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h4><p><a href="https://blog.csdn.net/weixin_58305495/article/details/130554393">https://blog.csdn.net/weixin_58305495/article/details/130554393</a></p>
+<p>1:查看防火状态<br>systemctl status firewalld<br>service  iptables status<br>2:暂时关闭防火墙<br>systemctl stop firewalld<br>service  iptables stop<br>3:永久关闭防火墙<br>systemctl disable firewalld<br>chkconfig iptables off<br>4:重启防火墙<br>systemctl enable firewalld<br>service iptables restart<br>5:永久关闭后重启<br>chkconfig iptables on  </p>
+<p>关闭selinux<br>暂时：<br>setenforce 0<br>永久：<br>输入命令 <code>vi /etc/selinux/config</code>。<br>在打开的文件中，找到 <code>SELINUX=</code> 这一行，将其从 <code>enforcing</code> 或 <code>permissive</code> 修改为 <code>disabled</code>。</p>
+<p>arp -a<br>展示运行过的ping</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>git的使用</title>
+    <url>/2024/03/02/tools/git%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<span id="more"></span>
+<h2 id="git-config"><a href="#git-config" class="headerlink" title="git config"></a>git config</h2><p>在 Git 中，你可以使用以下命令来查看和修改配置：<br>查看配置</p>
+<pre><code>查看全局配置：
+</code></pre>
+<p>bash<br>git config –global –list</p>
+<pre><code>查看当前仓库的配置：
+</code></pre>
+<p>bash<br>git config –local –list</p>
+<pre><code>查看系统配置：
+</code></pre>
+<p>bash<br>git config –system –list</p>
+<p>如果你只想知道某个特定配置的值，你可以这样做：</p>
+<p>bash<br>git config &lt;配置项名称&gt;</p>
+<p>例如，要查看全局的用户名配置：</p>
+<p>bash<br>git config –global user.name</p>
+<p>修改配置</p>
+<pre><code>设置全局配置：
+    设置用户名：
 
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+bash`git config --global user.name &quot;Your Name&quot;`
+
+    设置邮箱：
+
+bash`git config --global user.email &quot;your.email@example.com&quot;`
+
+设置当前仓库的配置：
+</code></pre>
+<p>与全局配置类似，但使用 –local 代替 –global。<br>3. 设置系统配置：</p>
+<p>通常不推荐修改系统配置，除非你有特定的理由。<br>4. 直接编辑配置文件：</p>
+<p>你也可以直接编辑 Git 的配置文件。这些文件通常位于以下位置：</p>
+<ul>
+<li><strong>全局配置</strong>：<code>~/.gitconfig</code>  </li>
+<li><strong>系统配置</strong>：<code>/etc/gitconfig</code>（Linux）或 <code>/usr/local/git/etc/gitconfig</code>（macOS）  </li>
+<li><strong>当前仓库配置</strong>：仓库目录下的 <code>.git/config</code> 文件。使用文本编辑器打开这些文件，然后进行相应的修改。</li>
+</ul>
+<p>注意：当你设置或修改配置时，Git 会尝试从多个级别（系统、全局、本地）获取配置值。如果某个配置项在多个级别都有设置，Git 会优先使用本地仓库的配置，然后是全局配置，最后是系统配置。</p>
+<h2 id="git-remote"><a href="#git-remote" class="headerlink" title="git remote"></a>git remote</h2><p><code>git remote</code>命令在Git中用于管理一组跟踪的远程仓库。它允许您查看、添加、修改和删除与您的本地仓库关联的远程仓库的配置。远程仓库通常是位于互联网或其他网络中的仓库，可以是一个中心仓库，也可以是另一个开发者的仓库，您可以从中拉取（pull）数据或向其推送（push）数据。使用<code>git remote</code>可以进行以下操作：</p>
+<ul>
+<li><p><strong>查看远程仓库</strong>：使用<code>git remote</code>或<code>git remote -v</code>命令可以列出所有已配置的远程仓库。<code>-v</code>（verbose，详细）选项会额外显示每个远程仓库的URL。</p>
+</li>
+<li><p><strong>添加远程仓库</strong>：使用<code>git remote add &lt;name&gt; &lt;url&gt;</code>命令可以添加新的远程仓库，其中<code>&lt;name&gt;</code>是您为远程仓库指定的简短名称（如<code>origin</code>），<code>&lt;url&gt;</code>是远程仓库的URL。</p>
+</li>
+<li><p><strong>更改远程仓库URL</strong>：使用<code>git remote set-url &lt;name&gt; &lt;newurl&gt;</code>命令可以更改已存在的远程仓库的URL。</p>
+</li>
+<li><p><strong>删除远程仓库</strong>：使用<code>git remote remove &lt;name&gt;</code>或<code>git remote rm &lt;name&gt;</code>命令可以删除一个远程仓库的引用。</p>
+</li>
+<li><p><strong>重命名远程仓库</strong>：使用<code>git remote rename &lt;oldname&gt; &lt;newname&gt;</code>命令可以重命名远程仓库的简称。</p>
+</li>
+</ul>
+<p>在协同工作流中，<code>git remote</code>命令是非常重要的，它使得开发者能够与远程仓库交互，共享代码和协作。例如，<code>origin</code>通常是克隆仓库时自动创建的默认远程仓库名称，代表了克隆来源的仓库。通过管理远程仓库，您可以轻松地同步本地更改到远程服务器，或者拉取他人的更改到您的本地仓库中。</p>
+<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>luluji@luluji-virtual-machine:~&#x2F;nuttxspace$ git clone <a href="https://github.com/apache/nuttx.git">https://github.com/apache/nuttx.git</a> nuttx<br>正克隆到 ‘nuttx’…<br>fatal: 无法访问 ‘<a href="https://github.com/apache/nuttx.git/'%EF%BC%9Agnutls_handshake()">https://github.com/apache/nuttx.git/&#39;：gnutls_handshake()</a> failed: Error in the pull function.</p>
+<p>通过安装这些库解决了：<br>sudo apt -y install build-essential nghttp2 libnghttp2-dev libssl-dev</p>
+<h2 id="顺序"><a href="#顺序" class="headerlink" title="顺序"></a>顺序</h2><p>git push之前先git pull<br>git checkout master之前先git add和commit</p>
+<h2 id="子模块"><a href="#子模块" class="headerlink" title="子模块"></a>子模块</h2><p>正在克隆子模块时就是在克隆，不会有进度条，跟卡住了似的是正常的</p>
+<p>riscv-gnu-toolchain中的子模块可换源<br><a href="https://www.bilibili.com/read/cv28486387/">https://www.bilibili.com/read/cv28486387/</a></p>
+<p>当更改了.gitmodules文件中的子模块 URL 时，Git 不会自动更新已经克隆的子模块。如果希望使用新的 URL 克隆子模块，则需要手动更新子模块的配置。</p>
+<p>要更新子模块的配置，可以运行以下命令：<br>git submodule sync</p>
+<p>这个命令将会更新本地存储库中的 .git&#x2F;config 文件以反映.gitmodules文件中的新 URL。<br>然后，可以运行以下命令来更新子模块：<br>git submodule update –init –recursive</p>
+<p>这个命令将会使用.gitmodules文件中的新 URL 克隆或更新子模块，并递归地更新任何子模块的子模块（如果有的话）。</p>
 ]]></content>
   </entry>
   <entry>
     <title>makefile的常用操作</title>
-    <url>/2024/02/10/makefile%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
+    <url>/2024/02/10/tools/makefile%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<span id="more"></span>
 
 <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><h4 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h4><p>如何将多个对象文件（.o文件，由${OBJS}变量表示）链接成一个可执行文件（os.elf），然后将该可执行文件转换成二进制格式的镜像文件（os.bin）<br>os.elf: ${OBJS}<br>    ${CC} ${CFLAGS} -T os.ld -o os.elf $^<br>    ${OBJCOPY} -O binary os.elf os.bin</p>
@@ -607,6 +431,27 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
 <h3 id=""><a href="#" class="headerlink" title="::"></a>::</h3><p>$(BINARY):: compile_git<br>这里定义了一个目标$(BINARY)，它有一个额外的依赖compile_git。$(BINARY)很可能是一个变量，表示要构建的二进制文件的名字。使用::而不是单个:定义规则，表示这是一个终端规则（Terminal Rule），它允许同一个目标有多个独立的规则定义，这些规则都会被执行。</p>
 <h2 id="MAKE"><a href="#MAKE" class="headerlink" title="$(MAKE)"></a>$(MAKE)</h2><p>$(MAKE) -C $(NEMU_HOME):</p>
 <p>$(MAKE)是一个特殊变量，代表make工具的名称，通常就是make。这允许在Makefile中递归地调用make。<br>-C $(NEMU_HOME)选项告诉make更改到目录$(NEMU_HOME)然后执行后续的make操作。$(NEMU_HOME)应该是一个变量，它指定了NEMU（一个可能的模拟器或工具链）的根目录。</p>
+<h2 id="if-s"><a href="#if-s" class="headerlink" title="if [-s.. ]"></a>if [-s.. ]</h2><p>在 shell 脚本中，[ -s … ] 是一个条件测试，用于检查文件的大小是否非零（即文件是否存在且至少有一个字节）。-s 是这个测试中的特定选项。</p>
+<p>除了 -s 之外，还有很多其他的文件测试操作符可以在 [ … ] 或 [[ … ]] 中使用（注意 [ 和 ] 之间应有空格）。以下是一些常见的文件测试操作符：</p>
+<pre><code>-e：文件存在
+-f：文件是一个常规文件（不是目录、设备文件等）
+-d：文件是一个目录
+-r：文件存在且可读
+-w：文件存在且可写
+-x：文件存在且可执行
+-L：文件是一个符号链接
+-S：文件是一个套接字
+-b：文件是一个块特殊文件
+-c：文件是一个字符特殊文件
+-p：文件是一个命名管道（FIFO）
+-N：文件自上次读取后已被修改
+-O：文件由当前用户拥有
+-G：文件的组与当前用户相同
+</code></pre>
+<p>此外，还有一些数字比较和字符串比较操作符等。</p>
+<p>例如，如果你想检查一个文件是否存在并且是一个目录，你可以使用：</p>
+<p>bash<br>if [ -d “&#x2F;path&#x2F;to&#x2F;directory” ]; then<br>    echo “It’s a directory!”<br>fi</p>
+<p>希望这能帮助你理解 [ … ] 中的各种文件测试操作符。</p>
 ]]></content>
       <categories>
         <category>学习</category>
@@ -617,7 +462,7 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
   </entry>
   <entry>
     <title>x86的学习</title>
-    <url>/2024/04/16/x86%E7%9A%84%E5%AD%A6%E4%B9%A0/</url>
+    <url>/2024/04/16/os/x86%E7%9A%84%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<span id="more"></span>
 
 <h2 id="ebp和-esp"><a href="#ebp和-esp" class="headerlink" title="%ebp和%esp"></a>%ebp和%esp</h2><p><a href="https://blog.csdn.net/qq_41683305/article/details/104249224">https://blog.csdn.net/qq_41683305/article/details/104249224</a></p>
@@ -634,23 +479,8 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
       </tags>
   </entry>
   <entry>
-    <title>vscode的常用操作</title>
-    <url>/2024/02/07/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<span id="more"></span>
-
-
-<p>A: 你本地新增的文件（服务器上没有）.<br>C: 文件的一个新拷贝.<br>D: 你本地删除的文件（服务器上还在）.<br>M: 文件的内容或者mode被修改了.<br>R: 文件名被修改了。<br>T: 文件的类型被修改了。<br>U: 文件没有被合并(你需要完成合并才能进行提交)。<br>X: 未知状态(很可能是遇到git的bug了，你可以向git提交bug report)。<br>在man git diff-files中可以查到这些标志的说明。<br>这些状态标志在git的源代码的diff.h文件中被定义。</p>
-]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>riscv启动</title>
-    <url>/2024/02/14/riscv%E5%90%AF%E5%8A%A8/</url>
+    <url>/2024/02/14/os/riscv%E5%90%AF%E5%8A%A8/</url>
     <content><![CDATA[<span id="more"></span>
 
 <h2 id="网址"><a href="#网址" class="headerlink" title="网址"></a>网址</h2><p><a href="https://buildroot.org/">https://buildroot.org/</a><br><a href="https://github.com/riscv-software-src/opensbi">https://github.com/riscv-software-src/opensbi</a><br><a href="https://github.com/u-boot/u-boot">https://github.com/u-boot/u-boot</a><br><a href="https://kernel.org/">https://kernel.org/</a></p>
@@ -692,95 +522,51 @@ $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
       </tags>
   </entry>
   <entry>
-    <title>riscv的学习</title>
-    <url>/2023/12/07/riscv%E7%9A%84%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<p>RISC-V是由伯克利大学开发的一款开源架构，作为对课内的补充，在此记录学习过程</p>
-<span id="more"></span>
-<h2 id="1-完结-循序渐进，学习开发一个RISC-V上的操作系统-汪辰-2021春"><a href="#1-完结-循序渐进，学习开发一个RISC-V上的操作系统-汪辰-2021春" class="headerlink" title="1.[完结] 循序渐进，学习开发一个RISC-V上的操作系统 - 汪辰 - 2021春"></a>1.[完结] 循序渐进，学习开发一个RISC-V上的操作系统 - 汪辰 - 2021春</h2><iframe src="//player.bilibili.com/player.html?aid=459886905&bvid=BV1Q5411w7z5&cid=319792271&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+    <title>mysql</title>
+    <url>/2024/03/24/course/mysql/</url>
+    <content><![CDATA[<span id="more"></span>
 
-<h2 id="2-笔记"><a href="#2-笔记" class="headerlink" title="2.笔记"></a>2.笔记</h2><h4 id="安全中断（riscv架构）"><a href="#安全中断（riscv架构）" class="headerlink" title="安全中断（riscv架构）"></a>安全中断（riscv架构）</h4><p><a href="https://zhuanlan.zhihu.com/p/669734854">https://zhuanlan.zhihu.com/p/669734854</a></p>
-<h4 id="安全相关论文"><a href="#安全相关论文" class="headerlink" title="安全相关论文"></a>安全相关论文</h4><p><a href="https://s.wanfangdata.com.cn/patent?q=%E5%8F%91%E6%98%8E%E4%BA%BA/%E8%AE%BE%E8%AE%A1%E4%BA%BA:%22%E5%A4%8F%E8%99%9E%E6%96%8C%22&p=1">https://s.wanfangdata.com.cn/patent?q=%E5%8F%91%E6%98%8E%E4%BA%BA%2F%E8%AE%BE%E8%AE%A1%E4%BA%BA%3A%22%E5%A4%8F%E8%99%9E%E6%96%8C%22&amp;p=1</a></p>
-<h4 id="标准扩展"><a href="#标准扩展" class="headerlink" title="标准扩展"></a>标准扩展</h4><p>RISC-V指令集架构（ISA）是模块化的，由基础整数指令集（如RV32I、RV64I）和一系列可选的扩展组成。这些扩展使得RISC-V能够灵活地适应不同的应用需求，从简单的嵌入式设备到复杂的服务器系统。截至我最后更新的信息（2023年4月），以下是RISC-V常见的一些扩展：</p>
-<p>标准扩展<br>I - 基本整数指令集<br>M - 整数乘法和除法扩展，为整数算术提供乘法、除法和取模运算指令。<br>A - 原子指令扩展，支持原子内存访问操作，用于构建多线程和并发程序。<br>F - 单精度浮点扩展，提供32位单精度浮点运算指令。<br>D - 双精度浮点扩展，提供64位双精度浮点运算指令。<br>C - 压缩指令扩展，提供更短的指令格式，以减小代码大小和提高性能。<br>G - 通用扩展，一个便捷的缩写，包含了I、M、A、F、D和C扩展，适用于需要通用计算能力的应用。<br>Q - 四精度浮点扩展，提供128位四精度浮点运算指令。<br>H - 表示半精度浮点指令。<br>L - 十进制浮点扩展，提供十进制浮点运算指令。<br>B - 位操作扩展，提供位操作和位字段操作指令，用于提高位操作的效率。<br>J - 动态跳转扩展，提供更灵活的跳转和分支指令。<br>T - 事务内存扩展，提供硬件事务内存支持，用于改进并发程序的性能和简化并发控制。<br>P - DSP扩展，提供数字信号处理（DSP）相关指令，优化多媒体处理等应用。<br>V - 向量扩展，为数据并行计算提供支持，通过向量操作指令优化大规模数据处理性能。<br>特殊扩展<br>Z系列扩展，为特定的功能或用途定义的细粒度扩展。例如：<br>Zifencei - 指令流水线栅栏指令扩展，用于同步指令和数据流水线。<br>Zmmul - 仅包含乘法指令的整数乘法扩展子集。<br>Zicsr - 控制和状态寄存器（CSR）指令扩展，为访问CSR提供指令。<br>注意</p>
-<p>ilp32&#x2F;lp64<br>i：int类型为32位。<br>l：long类型为32位。<br>p：指针类型为32位。</p>
-<p>ilp32d和lp64d：在ilp32和lp64的基础上增加了对双精度浮点数的支持。<br>ilp32f和lp64f：在ilp32和lp64的基础上增加了对单精度浮点数的支持。</p>
-<p>eg<br>COMMON_CFLAGS +&#x3D; -march&#x3D;rv32im -mabi&#x3D;ilp32   # overwrite<br>这样的设置指示编译器生成适用于具有整数、乘法和除法指令集的RISC-V 32位架构的代码，使用ilp32ABI，其中整数、长整型和指针都是32位的。</p>
-<h4 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h4><h6 id="riscv64-linux-gnu-gcc-g"><a href="#riscv64-linux-gnu-gcc-g" class="headerlink" title="riscv64-linux-gnu-gcc&#x2F;-g++"></a>riscv64-linux-gnu-gcc&#x2F;-g++</h6><p>目标环境：它生成的代码是为了在支持Linux的RISC-V 64位系统上运行。<br>命名解释：<br>linux-gnu：表示目标操作系统是Linux，使用GNU的libc（glibc）。<br>适用场景：开发Linux应用程序或者在RISC-V 64位Linux系统上运行的任何软件。<br>Installation (glib)<br>.&#x2F;configure –prefix&#x3D;&#x2F;opt&#x2F;riscv<br>make linux</p>
-<h6 id="riscv64-unknown-elf-gcc-g"><a href="#riscv64-unknown-elf-gcc-g" class="headerlink" title="riscv64-unknown-elf-gcc&#x2F;-g++"></a>riscv64-unknown-elf-gcc&#x2F;-g++</h6><p>目标环境：它生成的代码适用于没有标准操作系统支持的环境，如嵌入式系统或特定的硬件。<br>unknown-elf：表示目标环境是未知的，通常用于裸机或特定的运行时环境，使用ELF（Executable and Linkable Format）作为二进制格式。<br>适用场景：开发嵌入式系统、固件、或需要直接与硬件交互的程序</p>
-<p>Installation (Newlib)<br>.&#x2F;configure –prefix&#x3D;&#x2F;opt&#x2F;riscv #指定安装路径。rm -rf &#x2F;opt&#x2F;riscv<br>make</p>
-<h6 id="riscv64-unknown-linux-gnu-gcc"><a href="#riscv64-unknown-linux-gnu-gcc" class="headerlink" title="riscv64-unknown-linux-gnu-gcc"></a>riscv64-unknown-linux-gnu-gcc</h6><p>目标系统：与riscv64-linux-gnu-gcc相同，也是面向运行Linux的RISC-V 64位架构。<br>“unknown”：unknown部分通常是目标三元组（target triple）中的供应商字段。在这里，unknown表示没有特定的供应商信息。这是交叉编译工具链的常见约定，用于表示工具链是针对通用或未指定供应商的目标系统。<br>GNU前缀：同样表示目标系统使用GNU的libc。<br>用途：用途与riscv64-linux-gnu-gcc相同，用于编译能在RISC-V 64位Linux系统上运行的程序。</p>
-<p>g++：表示这是GCC的C++编译器。</p>
-<p>$ riscv64-linux-gnu-gcc –help<br>  –help                   Display this information.<br>  –target-help            Display target specific command line options.<br>  –help&#x3D;{common|optimizers|params|target|warnings|[^]{joined|separate|undocumented}}[,…].<br>                           Display specific types of command line options</p>
-<p>这些列出的工具都是RISC-V工具链的一部分，专门用于RISC-V架构的嵌入式开发。这个工具链提供了从代码编译到程序调试所需的全部工具。下面是对每个工具的简要说明：</p>
-<h2 id="编译和链接工具"><a href="#编译和链接工具" class="headerlink" title="编译和链接工具"></a>编译和链接工具</h2><ul>
-<li><strong>riscv64-unknown-elf-gcc</strong>: GNU C 编译器，用于编译C语言源文件。</li>
-<li><strong>riscv64-unknown-elf-g++ &#x2F; riscv64-unknown-elf-c++</strong>: GNU C++ 编译器，用于编译C++语言源文件。</li>
-<li><strong>riscv64-unknown-elf-as</strong>: 汇编器，用于将汇编语言源文件转换为机器代码。</li>
-<li><strong>riscv64-unknown-elf-ld &#x2F; riscv64-unknown-elf-ld.bfd</strong>: 链接器，用于将多个对象文件和库文件链接成一个可执行文件或库文件。</li>
-<li><strong>riscv64-unknown-elf-ar</strong>: 归档工具，用于创建、修改和提取静态库文件。</li>
-<li><strong>riscv64-unknown-elf-ranlib</strong>: 生成静态库的索引，以提高链接时的查找速度。</li>
-</ul>
-<h3 id="调试和分析工具"><a href="#调试和分析工具" class="headerlink" title="调试和分析工具"></a>调试和分析工具</h3><ul>
-<li><strong>riscv64-unknown-elf-gdb</strong>: GNU 调试器，用于调试程序。</li>
-<li><strong>riscv64-unknown-elf-gprof</strong>: 性能分析工具，用于收集程序运行时的性能数据。</li>
-<li><strong>riscv64-unknown-elf-addr2line</strong>: 将地址转换为文件名和行号，有助于调试。</li>
-<li><strong>riscv64-unknown-elf-objdump</strong>: 显示二进制文件的信息，如反汇编输出。</li>
-<li><strong>riscv64-unknown-elf-readelf</strong>: 显示ELF格式文件的信息。</li>
-<li><strong>riscv64-unknown-elf-size</strong>: 显示目标文件或归档文件中各个部分的大小。</li>
-<li><strong>riscv64-unknown-elf-strings</strong>: 从二进制文件中提取可打印的字符串。</li>
-<li><strong>riscv64-unknown-elf-strip</strong>: 从目标文件中移除符号信息，减小文件大小。</li>
-<li><strong>riscv64-unknown-elf-nm</strong>: 列出目标文件中的符号。</li>
-<li><strong>riscv64-unknown-elf-objcopy</strong>: 复制和转换目标文件的格式。</li>
-<li><strong>riscv64-unknown-elf-c++filt</strong>: 用于美化C++符号名称。</li>
-</ul>
-<h3 id="其他工具"><a href="#其他工具" class="headerlink" title="其他工具"></a>其他工具</h3><ul>
-<li><strong>riscv64-unknown-elf-cpp</strong>: C预处理器。</li>
-<li><strong>riscv64-unknown-elf-elfedit</strong>: 修改ELF文件的工具。</li>
-<li><strong>riscv64-unknown-elf-gcc-ar &#x2F; riscv64-unknown-elf-gcc-nm &#x2F; riscv64-unknown-elf-gcc-ranlib</strong>: 这些是为了与LTO(Link Time Optimization，链接时优化)一起使用而特别设计的GCC工具。</li>
-<li><strong>riscv64-unknown-elf-gcov &#x2F; riscv64-unknown-elf-gcov-dump &#x2F; riscv64-unknown-elf-gcov-tool</strong>: 覆盖率测试工具，用于分析程序的代码覆盖率。</li>
-<li><strong>riscv64-unknown-elf-lto-dump</strong>: 用于检查LTO生成的中间文件。</li>
-</ul>
-<p>这些工具使得RISC-V嵌入式开发者能够编译、链接、调试和分析他们的代码，以及对生成的程序进行各种操作和优化。</p>
-<h2 id="trap"><a href="#trap" class="headerlink" title="trap"></a>trap</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">trap-&gt;&#123;</span><br><span class="line">	interupt-&gt;&#123;</span><br><span class="line">		software interupt</span><br><span class="line">		timer interupt (可用于抢占式多任务)</span><br><span class="line">		external interupt</span><br><span class="line">	&#125;</span><br><span class="line">	exception-&gt;&#123;</span><br><span class="line">		除零之类的</span><br><span class="line">		ecall (可用于切换模式，执行M-mode指令)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="RISC-V-安全拓展与可信执行-任老师"><a href="#RISC-V-安全拓展与可信执行-任老师" class="headerlink" title="RISC-V 安全拓展与可信执行 - 任老师"></a>RISC-V 安全拓展与可信执行 - 任老师</h2><iframe src="//player.bilibili.com/player.html?aid=274925919&bvid=BV1pF41117op&cid=1240016606&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
-####  pmp
-页表 - s-mode
-pmp生效于 s-mode,u-mode
-若无pmp，则s-mode可以访问任何内存
-
-<p>pmp（i）的i越小,优先级越高<br>TOR,NA4,NATOR</p>
-<p>DMA<br><img src="/../images/riscv%E7%9A%84%E5%AD%A6%E4%B9%A0/image.png" alt="alt text"></p>
-<h4 id="iopmp"><a href="#iopmp" class="headerlink" title="iopmp"></a>iopmp</h4><p>使用PMP（Physical Memory Protection）限制MMIO访问，可能会有overlapping 攻击</p>
-<p>kernel ROP攻击:<br>SMAP,SMEP防护</p>
-<p>covert channel:<br>mstateen (stable enable)</p>
+<p><a href="https://www.zhihu.com/question/620270343">https://www.zhihu.com/question/620270343</a></p>
 ]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>riscv</tag>
-        <tag>安全</tag>
-      </tags>
   </entry>
   <entry>
-    <title>内存检测</title>
-    <url>/2024/04/16/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/</url>
-    <content><![CDATA[<span id="more"></span>
-<h2 id="nuttx"><a href="#nuttx" class="headerlink" title="nuttx"></a>nuttx</h2><p><a href="https://nuttx.apache.org/docs/latest/">https://nuttx.apache.org/docs/latest/</a></p>
-<h2 id="kfence"><a href="#kfence" class="headerlink" title="kfence"></a>kfence</h2><p><a href="https://www.cnblogs.com/sky-heaven/p/16527927.html">https://www.cnblogs.com/sky-heaven/p/16527927.html</a></p>
+    <title>人工智能</title>
+    <url>/2023/12/08/course/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</url>
+    <content><![CDATA[<p>为应付期末人工智能论文，记录一下有用的网站，以防忘记</p>
+<span id="more"></span>
+
+<h2 id="1-大模型网站"><a href="#1-大模型网站" class="headerlink" title="1.大模型网站"></a>1.大模型网站</h2><h4 id="ChatGPT"><a href="#ChatGPT" class="headerlink" title="ChatGPT"></a>ChatGPT</h4><p><a href="https://chat.openai.com/">https://chat.openai.com/</a><br><a href="https://openai.com/">https://openai.com/</a></p>
+<h4 id="文心一言"><a href="#文心一言" class="headerlink" title="文心一言"></a>文心一言</h4><p><a href="https://yiyan.baidu.com/">https://yiyan.baidu.com/</a><br>飞桨AI(调用文心一言)<br><a href="https://aistudio.baidu.com/cooperate/erniebotsdk">https://aistudio.baidu.com/cooperate/erniebotsdk</a></p>
+<h4 id="智谱AI"><a href="#智谱AI" class="headerlink" title="智谱AI"></a>智谱AI</h4><p><a href="https://open.bigmodel.cn/">https://open.bigmodel.cn/</a></p>
+<h4 id="星火大模型"><a href="#星火大模型" class="headerlink" title="星火大模型"></a>星火大模型</h4><p><a href="https://xinghuo.xfyun.cn/">https://xinghuo.xfyun.cn/</a></p>
+<h2 id="2-调用API-python"><a href="#2-调用API-python" class="headerlink" title="2.调用API(python)"></a>2.调用API(python)</h2><h4 id="用飞桨AI调用文心大模型"><a href="#用飞桨AI调用文心大模型" class="headerlink" title="用飞桨AI调用文心大模型"></a>用飞桨AI调用文心大模型</h4><p><a href="https://zhuanlan.zhihu.com/p/661241466">https://zhuanlan.zhihu.com/p/661241466</a></p>
+<h4 id="智谱AI官方调用文档"><a href="#智谱AI官方调用文档" class="headerlink" title="智谱AI官方调用文档"></a>智谱AI官方调用文档</h4><p><a href="https://open.bigmodel.cn/dev/api#chatglm_turbo">https://open.bigmodel.cn/dev/api#chatglm_turbo</a></p>
+<h4 id="星火大模型-1"><a href="#星火大模型-1" class="headerlink" title="星火大模型"></a>星火大模型</h4><p><a href="https://zhuanlan.zhihu.com/p/671067886">https://zhuanlan.zhihu.com/p/671067886</a></p>
+<h2 id="3-prompt"><a href="#3-prompt" class="headerlink" title="3.prompt"></a>3.prompt</h2><h4 id="大模型时代的科研基础之：Prompt-Engineering"><a href="#大模型时代的科研基础之：Prompt-Engineering" class="headerlink" title="大模型时代的科研基础之：Prompt Engineering"></a>大模型时代的科研基础之：Prompt Engineering</h4><iframe src="//player.bilibili.com/player.html?aid=313877142&bvid=BV13P41197c6&cid=1137176592&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+可以当作研究过程写进论文
+
+<h2 id="4-评估模型好坏的方法"><a href="#4-评估模型好坏的方法" class="headerlink" title="4.评估模型好坏的方法"></a>4.评估模型好坏的方法</h2><h4 id="干货分享！如何评估-大型语言模型（LLMs）的输出质量？评估方法大盘点！"><a href="#干货分享！如何评估-大型语言模型（LLMs）的输出质量？评估方法大盘点！" class="headerlink" title="干货分享！如何评估 大型语言模型（LLMs）的输出质量？评估方法大盘点！"></a>干货分享！如何评估 大型语言模型（LLMs）的输出质量？评估方法大盘点！</h4><p><a href="https://zhuanlan.zhihu.com/p/660777460">https://zhuanlan.zhihu.com/p/660777460</a></p>
+<h4 id="【Mo-人工智能技术博客】联邦学习鲁棒性及相关论文分享"><a href="#【Mo-人工智能技术博客】联邦学习鲁棒性及相关论文分享" class="headerlink" title="【Mo 人工智能技术博客】联邦学习鲁棒性及相关论文分享"></a>【Mo 人工智能技术博客】联邦学习鲁棒性及相关论文分享</h4><p><a href="https://zhuanlan.zhihu.com/p/337048283">https://zhuanlan.zhihu.com/p/337048283</a></p>
+<h4 id="《大模型时代的科研》之2-Prompt-Engineering-提示词工程"><a href="#《大模型时代的科研》之2-Prompt-Engineering-提示词工程" class="headerlink" title="《大模型时代的科研》之2: Prompt Engineering (提示词工程)"></a>《大模型时代的科研》之2: Prompt Engineering (提示词工程)</h4><p>这个是在讲怎么构造好的prompt,与本次论文关系不大<br><a href="https://zhuanlan.zhihu.com/p/631922240">https://zhuanlan.zhihu.com/p/631922240</a></p>
+<h4 id="大模型鲁棒不鲁棒，PromptBench测一测-首个大语言模型提示鲁棒性的评测基准PromptBench"><a href="#大模型鲁棒不鲁棒，PromptBench测一测-首个大语言模型提示鲁棒性的评测基准PromptBench" class="headerlink" title="大模型鲁棒不鲁棒，PromptBench测一测: 首个大语言模型提示鲁棒性的评测基准PromptBench"></a>大模型鲁棒不鲁棒，PromptBench测一测: 首个大语言模型提示鲁棒性的评测基准PromptBench</h4><p><a href="https://zhuanlan.zhihu.com/p/637219127">https://zhuanlan.zhihu.com/p/637219127</a></p>
+<h2 id="5-debug"><a href="#5-debug" class="headerlink" title="5.debug"></a>5.debug</h2><h4 id="python文件名不能与包名重复"><a href="#python文件名不能与包名重复" class="headerlink" title="python文件名不能与包名重复"></a>python文件名不能与包名重复</h4><p><a href="https://blog.csdn.net/long_songs/article/details/129070598">https://blog.csdn.net/long_songs/article/details/129070598</a></p>
+<h4 id="windows中为终端设置代理"><a href="#windows中为终端设置代理" class="headerlink" title="windows中为终端设置代理"></a>windows中为终端设置代理</h4><p><a href="https://blog.csdn.net/qq_43651168/article/details/131074308">https://blog.csdn.net/qq_43651168/article/details/131074308</a></p>
+<h4 id="python同步遍历两个列表"><a href="#python同步遍历两个列表" class="headerlink" title="python同步遍历两个列表"></a>python同步遍历两个列表</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for prompt, reference in zip(test_accuarcy_cases, test_accuarcy_reference):</span><br><span class="line">	#balbala</span><br><span class="line">	#</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-短信接收代理"><a href="#6-短信接收代理" class="headerlink" title="6.短信接收代理"></a>6.短信接收代理</h2><p><a href="https://sms-activate.org/">https://sms-activate.org/</a></p>
+<h2 id="f1score"><a href="#f1score" class="headerlink" title="f1score"></a>f1score</h2><p><a href="https://www.flyai.com/article/683">https://www.flyai.com/article/683</a></p>
 ]]></content>
       <categories>
         <category>学习</category>
       </categories>
       <tags>
         <tag>开发</tag>
-        <tag>系统</tag>
+        <tag>ai</tag>
       </tags>
   </entry>
   <entry>
     <title>学习硬件安全的网站</title>
-    <url>/2023/12/06/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/</url>
+    <url>/2023/12/06/course/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/</url>
     <content><![CDATA[<p>作为一名信息安全的学生，由于更喜欢与真实的世界打交道，选择了深入了解硬件安全。这里就将用来记录一些关于<em>硬件安全</em>的学习网站</p>
 <span id="more"></span>
 
@@ -804,111 +590,8 @@ pmp生效于 s-mode,u-mode
       </tags>
   </entry>
   <entry>
-    <title>编译原理</title>
-    <url>/2024/04/09/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<p><a href="https://blog.csdn.net/qq_40618816/article/details/105094138/">https://blog.csdn.net/qq_40618816/article/details/105094138/</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>一生一芯相关资料</title>
-    <url>/2023/12/09/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99/</url>
-    <content><![CDATA[<p>准备寒假有空研究一下</p>
-<span id="more"></span>
-
-<h2 id="报名参与"><a href="#报名参与" class="headerlink" title="报名参与"></a>报名参与</h2><p><a href="https://ysyx.oscc.cc/signup/">https://ysyx.oscc.cc/signup/</a><br>填写问卷-&gt;进入课程群-&gt;预学习-&gt;申请答辩-&gt;获得专属学号-&gt;.etc</p>
-<h2 id="深圳理工训练营"><a href="#深圳理工训练营" class="headerlink" title="深圳理工训练营"></a>深圳理工训练营</h2><p><a href="https://tqdy06h5fq.feishu.cn/wiki/OWagweHaoiEYKWkCKEAcuMW6nMd">https://tqdy06h5fq.feishu.cn/wiki/OWagweHaoiEYKWkCKEAcuMW6nMd</a></p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
-      <categories>
-        <category>综述</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
-        <tag>硬件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>虚拟机配置</title>
-    <url>/2024/04/01/%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h2 id="配置静态ip"><a href="#配置静态ip" class="headerlink" title="配置静态ip"></a>配置静态ip</h2><h4 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h4><p><a href="https://blog.csdn.net/Un1qu3/article/details/126155766">https://blog.csdn.net/Un1qu3/article/details/126155766</a><br><a href="https://blog.csdn.net/Conquer_l/article/details/124989551">https://blog.csdn.net/Conquer_l/article/details/124989551</a><br><a href="https://blog.csdn.net/lk142500/article/details/88386651">https://blog.csdn.net/lk142500/article/details/88386651</a><br><img src="/2146089-20200911223717884-1559586693.png" alt="alt text"><br><a href="https://www.cnblogs.com/yansunda/p/13654632.html">https://www.cnblogs.com/yansunda/p/13654632.html</a></p>
-<p>vim &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-eth33<br>sudo systemctl restart NetworkManager</p>
-<h4 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h4><p><a href="https://blog.csdn.net/weixin_58305495/article/details/130554393">https://blog.csdn.net/weixin_58305495/article/details/130554393</a></p>
-<p>1:查看防火状态<br>systemctl status firewalld<br>service  iptables status<br>2:暂时关闭防火墙<br>systemctl stop firewalld<br>service  iptables stop<br>3:永久关闭防火墙<br>systemctl disable firewalld<br>chkconfig iptables off<br>4:重启防火墙<br>systemctl enable firewalld<br>service iptables restart<br>5:永久关闭后重启<br>chkconfig iptables on  </p>
-<p>关闭selinux<br>暂时：<br>setenforce 0<br>永久：<br>输入命令 <code>vi /etc/selinux/config</code>。<br>在打开的文件中，找到 <code>SELINUX=</code> 这一行，将其从 <code>enforcing</code> 或 <code>permissive</code> 修改为 <code>disabled</code>。</p>
-<p>arp -a<br>展示运行过的ping</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>计算机组成原理</title>
-    <url>/2024/04/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<p><a href="https://blog.csdn.net/qq_62325622/article/details/134804522?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-134804522-blog-124206736.235%5Ev43%5Epc_blog_bottom_relevance_base9&spm=1001.2101.3001.4242.1&utm_relevant_index=3">https://blog.csdn.net/qq_62325622/article/details/134804522?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-134804522-blog-124206736.235^v43^pc_blog_bottom_relevance_base9&amp;spm=1001.2101.3001.4242.1&amp;utm_relevant_index=3</a></p>
-]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
-        <tag>硬件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>人工智能</title>
-    <url>/2023/12/08/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</url>
-    <content><![CDATA[<p>为应付期末人工智能论文，记录一下有用的网站，以防忘记</p>
-<span id="more"></span>
-
-<h2 id="1-大模型网站"><a href="#1-大模型网站" class="headerlink" title="1.大模型网站"></a>1.大模型网站</h2><h4 id="ChatGPT"><a href="#ChatGPT" class="headerlink" title="ChatGPT"></a>ChatGPT</h4><p><a href="https://chat.openai.com/">https://chat.openai.com/</a><br><a href="https://openai.com/">https://openai.com/</a></p>
-<h4 id="文心一言"><a href="#文心一言" class="headerlink" title="文心一言"></a>文心一言</h4><p><a href="https://yiyan.baidu.com/">https://yiyan.baidu.com/</a><br>飞桨AI(调用文心一言)<br><a href="https://aistudio.baidu.com/cooperate/erniebotsdk">https://aistudio.baidu.com/cooperate/erniebotsdk</a></p>
-<h4 id="智谱AI"><a href="#智谱AI" class="headerlink" title="智谱AI"></a>智谱AI</h4><p><a href="https://open.bigmodel.cn/">https://open.bigmodel.cn/</a></p>
-<h4 id="星火大模型"><a href="#星火大模型" class="headerlink" title="星火大模型"></a>星火大模型</h4><p><a href="https://xinghuo.xfyun.cn/">https://xinghuo.xfyun.cn/</a></p>
-<h2 id="2-调用API-python"><a href="#2-调用API-python" class="headerlink" title="2.调用API(python)"></a>2.调用API(python)</h2><h4 id="用飞桨AI调用文心大模型"><a href="#用飞桨AI调用文心大模型" class="headerlink" title="用飞桨AI调用文心大模型"></a>用飞桨AI调用文心大模型</h4><p><a href="https://zhuanlan.zhihu.com/p/661241466">https://zhuanlan.zhihu.com/p/661241466</a></p>
-<h4 id="智谱AI官方调用文档"><a href="#智谱AI官方调用文档" class="headerlink" title="智谱AI官方调用文档"></a>智谱AI官方调用文档</h4><p><a href="https://open.bigmodel.cn/dev/api#chatglm_turbo">https://open.bigmodel.cn/dev/api#chatglm_turbo</a></p>
-<h4 id="星火大模型-1"><a href="#星火大模型-1" class="headerlink" title="星火大模型"></a>星火大模型</h4><p><a href="https://zhuanlan.zhihu.com/p/671067886">https://zhuanlan.zhihu.com/p/671067886</a></p>
-<h2 id="3-prompt"><a href="#3-prompt" class="headerlink" title="3.prompt"></a>3.prompt</h2><h4 id="大模型时代的科研基础之：Prompt-Engineering"><a href="#大模型时代的科研基础之：Prompt-Engineering" class="headerlink" title="大模型时代的科研基础之：Prompt Engineering"></a>大模型时代的科研基础之：Prompt Engineering</h4><iframe src="//player.bilibili.com/player.html?aid=313877142&bvid=BV13P41197c6&cid=1137176592&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
-可以当作研究过程写进论文
-
-<h2 id="4-评估模型好坏的方法"><a href="#4-评估模型好坏的方法" class="headerlink" title="4.评估模型好坏的方法"></a>4.评估模型好坏的方法</h2><h4 id="干货分享！如何评估-大型语言模型（LLMs）的输出质量？评估方法大盘点！"><a href="#干货分享！如何评估-大型语言模型（LLMs）的输出质量？评估方法大盘点！" class="headerlink" title="干货分享！如何评估 大型语言模型（LLMs）的输出质量？评估方法大盘点！"></a>干货分享！如何评估 大型语言模型（LLMs）的输出质量？评估方法大盘点！</h4><p><a href="https://zhuanlan.zhihu.com/p/660777460">https://zhuanlan.zhihu.com/p/660777460</a></p>
-<h4 id="【Mo-人工智能技术博客】联邦学习鲁棒性及相关论文分享"><a href="#【Mo-人工智能技术博客】联邦学习鲁棒性及相关论文分享" class="headerlink" title="【Mo 人工智能技术博客】联邦学习鲁棒性及相关论文分享"></a>【Mo 人工智能技术博客】联邦学习鲁棒性及相关论文分享</h4><p><a href="https://zhuanlan.zhihu.com/p/337048283">https://zhuanlan.zhihu.com/p/337048283</a></p>
-<h4 id="《大模型时代的科研》之2-Prompt-Engineering-提示词工程"><a href="#《大模型时代的科研》之2-Prompt-Engineering-提示词工程" class="headerlink" title="《大模型时代的科研》之2: Prompt Engineering (提示词工程)"></a>《大模型时代的科研》之2: Prompt Engineering (提示词工程)</h4><p>这个是在讲怎么构造好的prompt,与本次论文关系不大<br><a href="https://zhuanlan.zhihu.com/p/631922240">https://zhuanlan.zhihu.com/p/631922240</a></p>
-<h4 id="大模型鲁棒不鲁棒，PromptBench测一测-首个大语言模型提示鲁棒性的评测基准PromptBench"><a href="#大模型鲁棒不鲁棒，PromptBench测一测-首个大语言模型提示鲁棒性的评测基准PromptBench" class="headerlink" title="大模型鲁棒不鲁棒，PromptBench测一测: 首个大语言模型提示鲁棒性的评测基准PromptBench"></a>大模型鲁棒不鲁棒，PromptBench测一测: 首个大语言模型提示鲁棒性的评测基准PromptBench</h4><p><a href="https://zhuanlan.zhihu.com/p/637219127">https://zhuanlan.zhihu.com/p/637219127</a></p>
-<h2 id="5-debug"><a href="#5-debug" class="headerlink" title="5.debug"></a>5.debug</h2><h4 id="python文件名不能与包名重复"><a href="#python文件名不能与包名重复" class="headerlink" title="python文件名不能与包名重复"></a>python文件名不能与包名重复</h4><p><a href="https://blog.csdn.net/long_songs/article/details/129070598">https://blog.csdn.net/long_songs/article/details/129070598</a></p>
-<h4 id="windows中为终端设置代理"><a href="#windows中为终端设置代理" class="headerlink" title="windows中为终端设置代理"></a>windows中为终端设置代理</h4><p><a href="https://blog.csdn.net/qq_43651168/article/details/131074308">https://blog.csdn.net/qq_43651168/article/details/131074308</a></p>
-<h4 id="python同步遍历两个列表"><a href="#python同步遍历两个列表" class="headerlink" title="python同步遍历两个列表"></a>python同步遍历两个列表</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for prompt, reference in zip(test_accuarcy_cases, test_accuarcy_reference):</span><br><span class="line">	#balbala</span><br><span class="line">	#</span><br></pre></td></tr></table></figure>
-
-<h2 id="6-短信接收"><a href="#6-短信接收" class="headerlink" title="6.短信接收"></a>6.短信接收</h2><p><a href="https://sms-activate.org/cn">https://sms-activate.org/cn</a></p>
-]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
-        <tag>ai</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>配置高级软件</title>
-    <url>/2023/12/26/%E9%85%8D%E7%BD%AE%E9%AB%98%E7%BA%A7%E8%BD%AF%E4%BB%B6/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h2 id="VSCode关联VIVADO编辑Verilog"><a href="#VSCode关联VIVADO编辑Verilog" class="headerlink" title="VSCode关联VIVADO编辑Verilog"></a>VSCode关联VIVADO编辑Verilog</h2><p><a href="https://blog.csdn.net/wd12306/article/details/128929552">https://blog.csdn.net/wd12306/article/details/128929552</a></p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>导入的文件可以不在{projectdir}\newcounter\newcounter.srcs中，<br><img src="/../images/%E9%85%8D%E7%BD%AEvivado/image.png" alt="Alt text"></p>
-]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>开发</tag>
-        <tag>硬件</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>操作系统</title>
-    <url>/2024/03/05/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
+    <url>/2024/03/05/course/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
     <content><![CDATA[<span id="more"></span>
 
 <p>SISD<br>MISD：可靠性<br>MIMD</p>
@@ -935,6 +618,330 @@ pmp生效于 s-mode,u-mode
 <h2 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h2><p><a href="https://blog.csdn.net/MengMengDeXiaoJi/article/details/136821507">https://blog.csdn.net/MengMengDeXiaoJi/article/details/136821507</a></p>
 <h2 id="内核模块"><a href="#内核模块" class="headerlink" title="内核模块"></a>内核模块</h2><p><a href="https://blog.csdn.net/m0_74282605/article/details/135866888">https://blog.csdn.net/m0_74282605/article/details/135866888</a></p>
 <h2 id="list宏"><a href="#list宏" class="headerlink" title="list宏"></a>list宏</h2><p><a href="https://blog.csdn.net/weixin_44498318/article/details/132275727">https://blog.csdn.net/weixin_44498318/article/details/132275727</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>计算机组成原理</title>
+    <url>/2024/04/20/course/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<p><a href="https://blog.csdn.net/qq_62325622/article/details/134804522?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-134804522-blog-124206736.235%5Ev43%5Epc_blog_bottom_relevance_base9&spm=1001.2101.3001.4242.1&utm_relevant_index=3">https://blog.csdn.net/qq_62325622/article/details/134804522?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-134804522-blog-124206736.235^v43^pc_blog_bottom_relevance_base9&amp;spm=1001.2101.3001.4242.1&amp;utm_relevant_index=3</a></p>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>开发</tag>
+        <tag>硬件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>编译原理</title>
+    <url>/2024/04/09/course/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<p><a href="https://blog.csdn.net/qq_40618816/article/details/105094138/">https://blog.csdn.net/qq_40618816/article/details/105094138/</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>内存检测</title>
+    <url>/2024/04/16/os/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/</url>
+    <content><![CDATA[<span id="more"></span>
+<h2 id="nuttx"><a href="#nuttx" class="headerlink" title="nuttx"></a>nuttx</h2><p><a href="https://nuttx.apache.org/docs/latest/">https://nuttx.apache.org/docs/latest/</a></p>
+<h2 id="kfence"><a href="#kfence" class="headerlink" title="kfence"></a>kfence</h2><p><a href="https://www.cnblogs.com/sky-heaven/p/16527927.html">https://www.cnblogs.com/sky-heaven/p/16527927.html</a></p>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>开发</tag>
+        <tag>系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2025/01/21/ysyx/rtthread/%E5%86%85%E5%AD%98/</url>
+    <content><![CDATA[<h1 id="把ubuntu升级到22了"><a href="#把ubuntu升级到22了" class="headerlink" title="把ubuntu升级到22了"></a>把ubuntu升级到22了</h1><p>sudo sed -i ‘s&#x2F;focal&#x2F;jammy&#x2F;g’ &#x2F;etc&#x2F;apt&#x2F;sources.list<br>sudo apt update<br>sudo apt upgrade<br>sudo apt dist-upgrade</p>
+<h1 id="重启后连不上网了"><a href="#重启后连不上网了" class="headerlink" title="重启后连不上网了"></a>重启后连不上网了</h1><ol>
+<li>查看所有网络接口的状态：<br>ip link show</li>
+<li>检查它们是否为 DOWN 状态（关闭状态），如果是，可以尝试启用它们<br>sudo ip link set eth0 up</li>
+<li>网络接口可能未正确配置 IP 地址。可以尝试动态分配 IP：<br>sudo dhclient eth0</li>
+</ol>
+<h1 id="cland配置运行命令"><a href="#cland配置运行命令" class="headerlink" title="cland配置运行命令"></a>cland配置运行命令</h1><p>bear – &lt;编译需要的命令&gt;</p>
+<h1 id="addressSentiser"><a href="#addressSentiser" class="headerlink" title="addressSentiser"></a>addressSentiser</h1><p>直接定位段错误的位置，除了地址越界的错误之外, Address Sanitizer还能检查use-after-free的错误<br>GCC提供了一个-fsanitize&#x3D;address的编译选项来启用它<br><img src="/image.png" alt="alt text"></p>
+<p>GCC还支持更多的sanitizer, 它们可以检查各种不同的错误, 你可以在man gcc中查阅-fsanitize相关的选项</p>
+<h1 id="valgrind"><a href="#valgrind" class="headerlink" title="valgrind"></a>valgrind</h1><p> Valgrind is a very powerful tool for such a need. Run rltest with valgrind:<br>$ valgrind .&#x2F;rltest</p>
+<h1 id="perf"><a href="#perf" class="headerlink" title="perf"></a>perf</h1><p>安装<br>sudo apt-get update<br>sudo apt-get install linux-tools-common linux-tools-generic linux-tools-$(uname -r)</p>
+<h1 id="linux上的slab"><a href="#linux上的slab" class="headerlink" title="linux上的slab"></a>linux上的slab</h1><p><a href="https://segmentfault.com/a/1190000043626203">https://segmentfault.com/a/1190000043626203</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2025/01/21/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/icache/</url>
+    <content><![CDATA[<p>变成两路后好像负优化了<br><img src="/image.png" alt="alt text"></p>
+<p>Icache配置切换</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">IcacheConfig</span></span>&#123;</span><br><span class="line">  <span class="comment">//Byte</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">BlockSize</span>: <span class="type">Int</span> = <span class="number">8</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">WayNum</span> : <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">SetNum</span>: <span class="type">Int</span> = <span class="number">16</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">Strategy</span>: <span class="type">String</span> = <span class="string">&quot;RANDOM&quot;</span> <span class="comment">//LRU,FIFO</span></span><br><span class="line">  <span class="keyword">val</span> burst: <span class="type">String</span> = <span class="string">&quot;INCR&quot;</span> <span class="comment">//INCR,WRAP</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Icache的控制参数"><a href="#Icache的控制参数" class="headerlink" title="Icache的控制参数"></a>Icache的控制参数</h1><figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">wire</span>         _GEN = state == <span class="number">3&#x27;h0</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_0 = state == <span class="number">3&#x27;h1</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19, :193:17]</span></span><br><span class="line"><span class="keyword">wire</span> [<span class="number">7</span>:<span class="number">0</span>]   _GEN_1 = &#123;<span class="number">5&#x27;h0</span>, sizeReg&#125;;	<span class="comment">// @[src/main/AXI/AXI4.scala:143:56, :167:22]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_2 = _GEN | ~_GEN_0;	<span class="comment">// @[src/main/AXI/AXI4.scala:62:17, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_3 = state == <span class="number">3&#x27;h2</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19, :187:15]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_4 = _GEN | _GEN_0;	<span class="comment">// @[src/main/AXI/AXI4.scala:52:18, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         io_axi_wvalid_0 = ~_GEN_4 &amp; _GEN_3;	<span class="comment">// @[src/main/AXI/AXI4.scala:52:18, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span> [<span class="number">7</span>:<span class="number">0</span>]   _wstrbReg_T = <span class="number">8&#x27;h1</span> &lt;&lt; _GEN_1;	<span class="comment">// @[src/main/AXI/AXI4.scala:143:56, src/main/Cache/Icache.scala:94:26]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_5 = _GEN_4 | ~_GEN_3;	<span class="comment">// @[src/main/AXI/AXI4.scala:48:17, :52:18, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_6 = idx_beat == lenReg;	<span class="comment">// @[src/main/AXI/AXI4.scala:168:21, :170:23, :227:23]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_7 = io_axi_awready &amp; io_axi_wready;	<span class="comment">// @[src/main/AXI/AXI4.scala:231:27]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_8 = state == <span class="number">3&#x27;h3</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19, :210:17]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_9 = _GEN | _GEN_0 | _GEN_3;	<span class="comment">// @[src/main/AXI/AXI4.scala:68:17, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_10 = _GEN_8 &amp; io_axi_rvalid;	<span class="comment">// @[src/main/AXI/AXI4.scala:174:19, :182:19, :244:29, :246:27]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_11 = io_axi_rlast | _GEN_6;	<span class="comment">// @[src/main/AXI/AXI4.scala:227:23, :248:29]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_12 = state == <span class="number">3&#x27;h4</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:153:38, :162:24, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_13 = _GEN_8 | ~_GEN_12;	<span class="comment">// @[src/main/AXI/AXI4.scala:55:16, :182:19]</span></span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2025/01/21/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E6%A0%A1%E5%87%86%E5%BB%B6%E8%BF%9F/</url>
+    <content><![CDATA[<h2 id="为什么要校准"><a href="#为什么要校准" class="headerlink" title="为什么要校准"></a>为什么要校准</h2><p>事实上, 之前的ysyxSoC环境是假设处理器和各种外设运行在同一频率下: verilator仿真的一个周期, 既是处理器中的一个周期, 也是外设中的一个周期. 但实际上并非如此: 受电气特性的影响, 外设通常只能运行在低频率, 例如SDRAM颗粒通常只能运行在100MHz左右, 过高的频率会导致时序违例, 使得SDRAM颗粒无法正确工作; 但另一方面, 使用先进工艺的处理器通常能够运行在更高的频率, 例如, yzh某个版本的多周期NPC在yosys-sta项目默认提供的nangate45工艺下频率达到约1.2GHz. 在上述配置下, SDRAM控制器中经过1个周期, NPC应该经过12个周期, 但verilator感知不到两者的频率差异, 仍然按照两者频率相同的假设进行仿真, 使得仿真结果比真实芯片乐观很多, 从而也可能会使得一些优化措施无法在真实芯片中取得预期的效果.</p>
+<h2 id="我的仿真频率"><a href="#我的仿真频率" class="headerlink" title="我的仿真频率"></a>我的仿真频率</h2><table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Clock Group</th>
+<th>Delay Type</th>
+<th>Path Delay</th>
+<th>Path Required</th>
+<th>CPPR</th>
+<th>Slack</th>
+<th>Freq(MHz)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>clint&#x2F;<em>1870</em>:D</td>
+<td>core_clock</td>
+<td>max</td>
+<td>1.984r</td>
+<td>9.969</td>
+<td>0.000</td>
+<td>7.985</td>
+<td>496.197</td>
+</tr>
+<tr>
+<td>clint&#x2F;<em>1870</em>:D</td>
+<td>core_clock</td>
+<td>max</td>
+<td>1.966f</td>
+<td>9.961</td>
+<td>0.000</td>
+<td>7.995</td>
+<td>498.797</td>
+</tr>
+<tr>
+<td>clint&#x2F;<em>1869</em>:D</td>
+<td>core_clock</td>
+<td>max</td>
+<td>1.959f</td>
+<td>9.961</td>
+<td>0.000</td>
+<td>8.001</td>
+<td>500.367</td>
+</tr>
+<tr>
+<td>exu&#x2F;u_alu&#x2F;<em>2689</em>:D</td>
+<td>core_clock</td>
+<td>min</td>
+<td>0.079f</td>
+<td>0.002</td>
+<td>0.000</td>
+<td>0.078</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>exu&#x2F;u_alu&#x2F;<em>2689</em>:D</td>
+<td>core_clock</td>
+<td>min</td>
+<td>0.086r</td>
+<td>0.006</td>
+<td>0.000</td>
+<td>0.080</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>registerfile&#x2F;<em>7836</em>:D</td>
+<td>core_clock</td>
+<td>min</td>
+<td>0.114f</td>
+<td>0.002</td>
+<td>0.000</td>
+<td>0.112</td>
+<td>NA</td>
+</tr>
+</tbody></table>
+<h2 id="校准"><a href="#校准" class="headerlink" title="校准"></a>校准</h2><p>我的校准系数是5</p>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2025/01/21/ysyx/abstract-machine/cpu-test/</url>
+    <content><![CDATA[<h2 id="longlong-的cpu测试有时候过不了"><a href="#longlong-的cpu测试有时候过不了" class="headerlink" title="longlong 的cpu测试有时候过不了"></a>longlong 的cpu测试有时候过不了</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">long</span> <span class="type">long</span> test_data[] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0x7fffffffffffffff</span>LL, <span class="number">0x8000000000000000</span>LL, <span class="number">0x8000000000000001</span>LL, <span class="number">0xfffffffffffffffe</span>LL, <span class="number">0xffffffffffffffff</span>LL&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="longlong的打印"><a href="#longlong的打印" class="headerlink" title="longlong的打印"></a>longlong的打印</h3><p>在处理 long long 类型的负数时，特别是极值（如 0x8000000000000000LL），直接取反操作 value &#x3D; -value; 可能会导致溢出问题。因为 0x8000000000000000LL 是 long long 类型的最小值，其绝对值超出了 long long 类型的正数范围<br><img src="/image.png" alt="alt text"></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">long</span> <span class="type">long</span> value;</span><br><span class="line">   <span class="comment">// Set &#x27;-&#x27; for negative decimals.</span></span><br><span class="line">   <span class="keyword">if</span> (value &lt; <span class="number">0</span> &amp;&amp; base == <span class="number">10</span>) &#123;</span><br><span class="line">       *str++ = <span class="string">&#x27;-&#x27;</span>;</span><br><span class="line">       value = -value;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>使用无符号类型：在处理负数时，将其转换为无符号类型 unsigned long long，以避免溢出问题。<br><img src="/image-1.png" alt="alt text"></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span> uvalue;</span><br><span class="line">   <span class="comment">// Set &#x27;-&#x27; for negative decimals.</span></span><br><span class="line">   <span class="keyword">if</span> (value &lt; <span class="number">0</span> &amp;&amp; base == <span class="number">10</span>) &#123;</span><br><span class="line">       *str++ = <span class="string">&#x27;-&#x27;</span>;</span><br><span class="line">       uvalue = (<span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span>)(-value);</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       uvalue = (<span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span>)value;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="longlong必须8字节对齐"><a href="#longlong必须8字节对齐" class="headerlink" title="longlong必须8字节对齐"></a>longlong必须8字节对齐</h3><p>如果只是四字节对齐的话，longlong的指针8字节对齐，但flash中存储的longlong数据不会8字节对齐。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.data : &#123;</span><br><span class="line">  _data_start = .;</span><br><span class="line">  *(.data*)</span><br><span class="line">  *(.sdata*)</span><br><span class="line">  /* *(.data) */</span><br><span class="line">  _data_end = .;</span><br><span class="line">   . = ALIGN(4);</span><br><span class="line">&#125; &gt; sdram AT &gt;flash</span><br></pre></td></tr></table></figure>
+<p>可以看到数组指针8字节对齐，但数组数据没有<br><img src="/image-2.png" alt="alt text"><br>通过8字节对齐，让longlong对齐</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.data : &#123;</span><br><span class="line">  _data_start = .;</span><br><span class="line">  *(.data*)</span><br><span class="line">  *(.sdata*)</span><br><span class="line">  /* *(.data) */</span><br><span class="line">  _data_end = .;</span><br><span class="line">   . = ALIGN(8);</span><br><span class="line">&#125; &gt; sdram AT &gt;flash</span><br></pre></td></tr></table></figure>
+<p><img src="/image-3.png" alt="alt text"></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p><img src="/image-4.png" alt="alt text"></p>
+<h2 id="4-2-1访存未对齐"><a href="#4-2-1访存未对齐" class="headerlink" title="4-2-1访存未对齐"></a>4-2-1访存未对齐</h2><h4 id="问题现象展示"><a href="#问题现象展示" class="headerlink" title="问题现象展示"></a>问题现象展示</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a0000180:	fe042823          	sw	zero,-16(s0)</span><br><span class="line">a0000184:	0900006f          	j	a0000214 &lt;main+0x1d0&gt;</span><br><span class="line">a0000188:	ff042783          	lw	a5,-16(s0)</span><br><span class="line">a000018c:	00279793          	sll	a5,a5,0x2</span><br><span class="line">a0000190:	00178713          	add	a4,a5,1</span><br><span class="line">a0000194:	00001797          	auipc	a5,0x1</span><br><span class="line">a0000198:	4ec78793          	add	a5,a5,1260 # a0001680 &lt;mem&gt;</span><br><span class="line">a000019c:	00f707b3          	add	a5,a4,a5</span><br><span class="line">a00001a0:	0007a783          	lw	a5,0(a5)</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">short</span> mem[] = &#123;</span><br><span class="line">	<span class="number">0x0</span>, <span class="number">0x0258</span>, <span class="number">0x4abc</span>, <span class="number">0x7fff</span>, <span class="number">0x8000</span>, <span class="number">0x8100</span>, <span class="number">0xabcd</span>, <span class="number">0xffff</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">unsigned</span>  lwlr_ans[] = &#123;</span><br><span class="line">	<span class="number">0xbc025800</span>, <span class="number">0x7fff4a</span>, <span class="number">0xcd810080</span>, <span class="number">0xffffab</span></span><br><span class="line">&#125;;</span><br><span class="line">	<span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; ((LENGTH(mem) / <span class="number">2</span>) - <span class="number">1</span>); i ++) &#123;</span><br><span class="line">		<span class="type">unsigned</span> x = ((<span class="type">unsigned</span>*)((<span class="type">void</span>*)mem + <span class="number">1</span>))[i];</span><br><span class="line">		<span class="type">unsigned</span> y = lwlr_ans[i];</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;x=%x,y=%x\n&quot;</span>,x,y);</span><br><span class="line">		check(x == lwlr_ans[i]);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/image-6.png" alt="alt text"><br><img src="/image-5.png" alt="alt text"><br>使用nemu编译实锤编译出了非对齐访存</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[mtrace] read data 0xbc025800 from pmem 0x800012d5</span><br><span class="line">[mtrace] read data 0xfef42223 from pmem 0x80000178</span><br><span class="line">[mtrace] write data 0xbc025800 to pmem 0x80009fd4</span><br></pre></td></tr></table></figure>
+<p>difftest忘开了，不然也不至于找这么半天<br><img src="/image-7.png" alt="alt text"></p>
+<h4 id="gcc开启参数-mstrict-align"><a href="#gcc开启参数-mstrict-align" class="headerlink" title="gcc开启参数-mstrict-align"></a>gcc开启参数-mstrict-align</h4><p>但是使用下面编译器，参数无效，还能编译出非对齐访存，得使用上面的</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CROSS_COMPILE := /opt/riscv/bin/riscv64-unknown-elf-</span><br><span class="line">#CROSS_COMPILE := /opt/riscv/bin/riscv64-unknown-linux-gnu-</span><br><span class="line">COMMON_CFLAGS := -fno-pic -march=rv64g -mcmodel=medany -mstrict-align</span><br></pre></td></tr></table></figure>
+<h4 id="发现是写内存代码有问题，解决了就好了，编译器都可以使"><a href="#发现是写内存代码有问题，解决了就好了，编译器都可以使" class="headerlink" title="发现是写内存代码有问题，解决了就好了，编译器都可以使"></a>发现是写内存代码有问题，解决了就好了，编译器都可以使</h4><h2 id="-1"><a href="#-1" class="headerlink" title=""></a></h2><p>直接#include&lt;stido.h&gt;就是使用的gnu的stdio.h</p>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2025/01/21/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/nemu-npc-ysyxsoc/</url>
+    <content><![CDATA[<h1 id="切换清单"><a href="#切换清单" class="headerlink" title="切换清单"></a>切换清单</h1><p>1.npc-chisel&#x2F;nemu中make menuconfig切换SoC和nemu的运行target<br>2.npc-chisel 修改代码里的ysyxSoC &#x3D; true&#x2F;false</p>
+<p>#切换用几个sdram<br>1.ysyxsoc&#x2F;perip&#x2F;sdram<br>2.ysyxsoc&#x2F;src&#x2F;device&#x2F;SDRAM.scala</p>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2025/01/21/ysyx/abstract-machine/git/</url>
+    <content><![CDATA[<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>git add .的撤回<br>git reset</p>
+<h2 id="gitignore"><a href="#gitignore" class="headerlink" title="gitignore"></a>gitignore</h2><p>* 和 *.*：忽略所有文件。<br>!<em>&#x2F;：不忽略所有目录。<br>!Makefile：不忽略 Makefile 文件。<br>!</em>.mk：不忽略所有 .mk 文件。<br>!<em>.scala：不忽略所有 .scala 文件。<br>!</em>.[cSh]：不忽略所有 .c、.S 和 .h 文件。<br>!<em>.v：不忽略所有 .v 文件。<br>!</em>.cpp：不忽略所有 .cpp 文件。<br>!*.cc：不忽略所有 .cc 文件。<br>!.gitignore：不忽略 .gitignore 文件。<br>!.scalafmt.conf：不忽略 .scalafmt.conf 文件。<br>!build.sc：不忽略 build.sc 文件。<br>!README.md：不忽略 README.md 文件。<br>!&#x2F;src&#x2F;**：不忽略 src 目录及其所有子目录和文件。<br>!&#x2F;patch&#x2F;**：不忽略 patch 目录及其所有子目录和文件。<br>!&#x2F;perip&#x2F;**：不忽略 perip 目录及其所有子目录和文件。<br>!&#x2F;spec&#x2F;**：不忽略 spec 目录及其所有子目录和文件。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2025/01/21/ysyx/%E6%80%BB%E7%BA%BF/axi4/</url>
+    <content><![CDATA[<h2 id="wlast"><a href="#wlast" class="headerlink" title="wlast"></a>wlast</h2><p>使用sdram-axi后，写入flash出现的问题。xbar的auto_in没问题，但in_0的awvalid没有置1<br><img src="/image.png" alt="alt text"></p>
+<p>用到了队列，但io_deq_ready一直没有激活，一直无法从队列中弹出第一次axi事务的信号。<br><img src="/image-3.png" alt="alt text"><br>原因是wlast用于指示最后一个axi的transfer.如果只有一个transfer，那wlast要和wvalid同时为1<br><img src="/image-2.png" alt="alt text"><br>加上提前wlast的信号</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">when(idx_beat === num_beats(lenReg) <span class="number">-1.</span><span class="type">U</span>)&#123;</span><br><span class="line">	axi4.wlast := <span class="literal">true</span>.<span class="type">B</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="突发传输"><a href="#突发传输" class="headerlink" title="突发传输"></a>突发传输</h2><p>一次事务的结束以rlast&#x2F;wlast为标志，cpu中xbar和arbiter要做修改,在收到rlast&#x2F;wlast时切换道空闲状态。否则cpu中总线收不到rlast&#x2F;wlast<br><img src="/image-1.png" alt="alt text"></p>
+<h2 id="写的信号关系"><a href="#写的信号关系" class="headerlink" title="写的信号关系"></a>写的信号关系</h2><p>1.master的wvalid不能依赖awready<br><img src="/image-4.png" alt="alt text"></p>
+<h2 id="sdram的突发"><a href="#sdram的突发" class="headerlink" title="sdram的突发"></a>sdram的突发</h2><p>assign wlast_o &#x3D; axi_wlast_i;<br>assign rlast_o &#x3D; !resp_is_last_w | axi_arlen_i&#x3D;&#x3D;8’d0;<br>下图的state_q应该只用一个周期。一个周期后req_len_q&#x3D;&#x3D;ff,晚了一个周期。因此只能使用axi_arlen_i<br><img src="/image-7.png" alt="alt text"><br>突发成功了和突发没成功<br><img src="/image-6.png" alt="alt text"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2025/01/21/ysyx/ysyxsoc/psram/</url>
+    <content><![CDATA[<h2 id="二级加载"><a href="#二级加载" class="headerlink" title="二级加载"></a>二级加载</h2><table>
+<thead>
+<tr>
+<th>存储器</th>
+<th>flash</th>
+<th>sram</th>
+<th>psram</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>起始地址</td>
+<td>0x30000000</td>
+<td>0x0f000000</td>
+<td>0x80000000</td>
+</tr>
+<tr>
+<td>运行的程序</td>
+<td>fsbl</td>
+<td>bootloader</td>
+<td>trm_init</td>
+</tr>
+</tbody></table>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2025/01/21/ysyx/ysyxsoc/%E5%85%B6%E4%BB%96soc/</url>
+    <content><![CDATA[<h2 id="uart"><a href="#uart" class="headerlink" title="uart"></a>uart</h2><p>void putch(char ch) {<br>while (!(inb(UART16550_BASE + UART_LINE_STA_R) &amp; 0b00100000));<br>&#x2F;&#x2F;<strong>difftest时需注释外设的输入信号</strong>，不用注释了，因为difftest跳过外设的输入输出<br>  outb(UART16550_BASE, ch);<br>}</p>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2025/01/21/ysyx/ysyxsoc/sdram/</url>
+    <content><![CDATA[<h1 id="sdram配置切换"><a href="#sdram配置切换" class="headerlink" title="sdram配置切换"></a>sdram配置切换</h1><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">SDRAMConfig</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> <span class="type">SDRAM_2BYTE_NUM</span>: <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">SDRAM_WORD_NUM</span>: <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">val</span> awidth = <span class="keyword">if</span> (<span class="type">SDRAM_WORD_NUM</span> == <span class="number">2</span>) <span class="number">14</span> <span class="keyword">else</span> <span class="number">13</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">parameter</span> SDRAM_2BYTE_NUM             = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">parameter</span> SDRAM_WORD_NUM             = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>只有在使用sdram_axi时，才可以突发访问</p>
+<h1 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h1><h2 id="设置寄存器"><a href="#设置寄存器" class="headerlink" title="设置寄存器"></a>设置寄存器</h2><p><img src="/image.png" alt="alt text"><br><img src="/image-1.png" alt="alt text"><br>写入BurstLength和CASLatency，完全是硬件自动写入，代码没管<br><img src="/image-4.png" alt="alt text"></p>
+<h2 id="突发读时序"><a href="#突发读时序" class="headerlink" title="突发读时序"></a>突发读时序</h2><p><img src="/image-2.png" alt="alt text"><br>16位写入，原始实例化了1个dsramhelper。burstLength设置成为了，这里就突发的读入了两个16bit。因为无论是lb、lh、lw都是读入32bit</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 步骤 2：测试16位写入和读取</span></span><br><span class="line">read_memory_16bit((<span class="type">uint16_t</span> *)start, size);</span><br></pre></td></tr></table></figure>
+<p><img src="/image-5.png" alt="alt text"></p>
+<h2 id="突发写时序"><a href="#突发写时序" class="headerlink" title="突发写时序"></a>突发写时序</h2><p>尤其注意传col的时候也是传bank的。所以sdram支持4个bank的开放，active时基于其中一个bank，read&#x2F;write时选择一个bank。取巧的做法是锁存row地址而不是锁存row中的数据，等到read&#x2F;write时使用bank索引锁存的row，bank，col一起访存<br><img src="/image-3.png" alt="alt text"><br>16位写入，原始实例化了1个dsramhelper。burstLength很早就设置成1了，为的是32写入时可以突发，虽然后面的col写入需要放弃，但col该加还得加。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 步骤 2：测试16位写入和读取</span></span><br><span class="line">write_memory_16bit((<span class="type">uint16_t</span> *)start, size);</span><br></pre></td></tr></table></figure>
+<p><img src="/image-8.png" alt="alt text"><br>32位写入，突发的写入两个16bit<br><img src="/image-7.png" alt="alt text"></p>
+<h2 id="row-hit"><a href="#row-hit" class="headerlink" title="row hit"></a>row hit</h2><p>acitve的时候激活,如果rowhit了就不用active了，但是目前没实现row的寄存器（4bank*512col），所以只好禁止row hit了<br>以下图是因为row hit了所以没有active状态传入row和way和bank，就读错了<br><img src="/image-17.png" alt="alt text"></p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Open row hit</span></span><br><span class="line"><span class="keyword">if</span> (row_open_q[addr_bank_w] &amp;&amp; addr_row_w == active_row_q[addr_bank_w])</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span> (!ram_rd_w)</span><br><span class="line">        next_state_r = STATE_WRITE0;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        next_state_r = STATE_READ;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">// Row miss, close row, open new row</span></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (row_open_q[addr_bank_w])</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    next_state_r   = STATE_PRECHARGE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!ram_rd_w)</span><br><span class="line">        target_state_r = STATE_WRITE0;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        target_state_r = STATE_READ;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">// No open row, open row</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    next_state_r   = STATE_ACTIVATE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!ram_rd_w)</span><br><span class="line">        target_state_r = STATE_WRITE0;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        target_state_r = STATE_READ;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="位扩展"><a href="#位扩展" class="headerlink" title="位扩展"></a>位扩展</h2><p>还需要修改sdram控制器，最不想做的事情<br><img src="/image-9.png" alt="alt text"><br>col在一次传输中都是32bit对齐的，是0，2，4这样的数，因为在sdram的视角下，即使对col_1写16bit也是对col_0写32bit。只不过在第二次传输是将strb和wen置为有效</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Address bits</span></span><br><span class="line"><span class="keyword">wire</span> [SDRAM_ROW_W-<span class="number">1</span>:<span class="number">0</span>] addr_col_w = (SDRAM_2BYTE_NUM == <span class="number">1</span>) ?</span><br><span class="line">  &#123;&#123;(SDRAM_ROW_W-SDRAM_COL_W)&#123;<span class="number">1&#x27;b0</span>&#125;&#125;, ram_addr_w[SDRAM_COL_W:<span class="number">2</span>], <span class="number">1&#x27;b0</span>&#125; :</span><br><span class="line">  &#123;&#123;(SDRAM_ROW_W-SDRAM_COL_W)&#123;<span class="number">1&#x27;b0</span>&#125;&#125;, <span class="number">1&#x27;b0</span>,ram_addr_w[SDRAM_COL_W:<span class="number">2</span>]&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/image-14.png" alt="alt text"><br><img src="/image-13.png" alt="alt text"></p>
+<p>位扩展后32位读取不需要突发了，因此不用到state_write1，但state_write0仍需要检测突发以应对64位或更高位的突发访问。此时要精确控制ack_q-&gt;ram_ack_i(axi_core)-&gt; ram_ack_i(axi_pmem) -&gt; push_i(u_response) 的拍数。多一拍的话会多压入一个data，当axi_bvalid&#x2F;axi_rvalid-&gt;resp_accept_w-&gt;pop_i(u_response)时会弹出提前压入栈的数据。</p>
+<p><img src="/image-16.png" alt="alt text"></p>
+<h2 id="字扩展"><a href="#字扩展" class="headerlink" title="字扩展"></a>字扩展</h2><p>先来算一下一共能代表多少字节。</p>
+<p>原先2**25 &#x3D; 32MB</p>
+<table>
+<thead>
+<tr>
+<th><strong>地址空间位数</strong></th>
+<th><strong>地址位数</strong></th>
+<th><strong>way</strong></th>
+<th><strong>row</strong></th>
+<th><strong>bank</strong></th>
+<th><strong>col</strong></th>
+<th><strong>字节偏移</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>25</td>
+<td>24</td>
+<td>-</td>
+<td>13</td>
+<td>2</td>
+<td>9</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>在最不常用的地方扩展，在地址最前面加上一bit的way，2**27 &#x3D; 128MB</p>
+<table>
+<thead>
+<tr>
+<th><strong>地址空间位数</strong></th>
+<th><strong>地址位数</strong></th>
+<th><strong>way</strong></th>
+<th><strong>row</strong></th>
+<th><strong>bank</strong></th>
+<th><strong>col</strong></th>
+<th><strong>字节偏移</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>27</td>
+<td>25</td>
+<td>1</td>
+<td>13</td>
+<td>2</td>
+<td>9</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<p>但是ysyxsoc分配给sdram了2**29 &#x3D; 512MB空间</p>
+<h1 id="chisel"><a href="#chisel" class="headerlink" title="chisel"></a>chisel</h1><h2 id="vec"><a href="#vec" class="headerlink" title="vec"></a>vec</h2><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> sdram = <span class="type">VecInit</span>(<span class="type">Seq</span>(sdram0.io, sdram1.io))</span><br></pre></td></tr></table></figure>
+<p>Exception in thread “main” java.lang.IllegalArgumentException: requirement failed: can’t create Vec with heterogeneous types class ysyx.SDRAMHelper0$$anon$3 and class ysyx.SDRAMHelper1$$anon$4</p>
+<p>问题出在使用 VecInit 创建 Vec 时，传入的 Seq 包含了不同类型的元素：sdram0.io 和 sdram1.io，分别是 SDRAMHelper0 和 SDRAMHelper1 的 IO 类型。即使这两个IO内部元素相同也不算同一个类型。<br>解决方法：<br>统一使用SDRAMHelperIO</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> io = <span class="type">IO</span>(<span class="keyword">new</span> <span class="type">SDRAMHelperIO</span>)</span><br></pre></td></tr></table></figure>
+
+<p>(实例化的模板都是SDRAMHelper，verilator找不到SDRAMHelper_${instanceId})</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SDRAMHelper</span>(<span class="params">instanceId: <span class="type">Int</span></span>)</span></span><br><span class="line">  setInline(<span class="string">s&quot;SDRAMHelper_<span class="subst">$&#123;instanceId&#125;</span>.v&quot;</span>,</span><br><span class="line">    <span class="string">s&quot;&quot;</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">       |module SDRAMHelper_$&#123;instanceId&#125;(</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> rdata = <span class="type">Reg</span>(<span class="type">Vec</span>(<span class="type">SDRAMNum</span>,<span class="type">UInt</span>(<span class="number">16.</span><span class="type">W</span>)))</span><br><span class="line">dqout := rdata.asTypeOf(dqout)</span><br></pre></td></tr></table></figure>
+<p>Exception in thread “main” chisel3.package$ChiselException: Connection between sink (sdramChisel.dqout: Wire[UInt&lt;32&gt;]) and source (sdramChisel.rdata: Reg[UInt&lt;16&gt;[2]]) failed @: Sink (UInt&lt;32&gt;) and Source (UInt&lt;16&gt;[2]) have different types.</p>
+<p>asTypeOf 并不能直接将 Vec[UInt] 转换为 UInt，因为它们在结构上不兼容。如果需要将整个 Vec 转换为一个宽度为 32 位的 UInt，可以使用 asUInt。相反，UInt转换成vec就可以asTypeOf。<br>解决方法：</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> rdata = <span class="type">Reg</span>(<span class="type">Vec</span>(<span class="type">SDRAMNum</span>,<span class="type">UInt</span>(<span class="number">16.</span><span class="type">W</span>)))</span><br><span class="line">dqout := rdata.asUInt</span><br><span class="line"><span class="keyword">val</span> wdata = <span class="type">Reg</span>(<span class="type">Vec</span>(<span class="type">SDRAMNum</span>,<span class="type">UInt</span>(<span class="number">16.</span><span class="type">W</span>)))</span><br><span class="line">wdata := dqin.asTypeOf(wdata)</span><br><span class="line"><span class="keyword">val</span> mask = <span class="type">Reg</span>(<span class="type">Vec</span>(<span class="type">SDRAMNum</span>,<span class="type">UInt</span>(<span class="number">2.</span><span class="type">W</span>)))</span><br><span class="line">mask := (~io.dqm).asTypeOf(mask)</span><br></pre></td></tr></table></figure>
+
+<h2 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h2><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (i &lt;- <span class="number">0</span> until <span class="type">SDRAMNum</span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">  sdram.foreach &#123; sdram =&gt;</span><br><span class="line">    sdram.row := <span class="number">0.</span><span class="type">U</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="logic"><a href="#logic" class="headerlink" title="logic"></a>logic</h2><p>看似command是wire，但是却综合出了Reg</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> command =</span><br><span class="line">  <span class="type">MuxCase</span>(<span class="type">COMMAND_INHIBIT</span>, <span class="type">Seq</span>(</span><br><span class="line">    (!io.cs &amp;&amp; io.ras &amp;&amp; io.cas &amp;&amp; io.we) -&gt; <span class="type">NOP</span>,</span><br></pre></td></tr></table></figure>
+<p><img src="/image-10.png" alt="alt text"><br><img src="/image-6.png" alt="alt text"><br>automatic：<br>在 SystemVerilog 中，automatic 表示这个变量是 自动变量，即每次进入 always 块时重新创建，而不是在模块级别共享。<br>logic 是 SystemVerilog 中的新数据类型，类似于 Verilog 中的 reg<br>跨时钟域的always中，就会有这样的在新时钟域赋值的wire</p>
+<h1 id="运算优先级大于移位"><a href="#运算优先级大于移位" class="headerlink" title="运算优先级大于移位"></a>运算优先级大于移位</h1><p><img src="/image-11.png" alt="alt text"><br>要使用</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">(<span class="number">1.</span><span class="type">U</span> &lt;&lt; <span class="type">BurstLength</span>).asUInt <span class="number">-1.</span><span class="type">U</span> </span><br></pre></td></tr></table></figure>
+
+<p>make ARCH&#x3D;riscv32e-ysyxsoc run ALL&#x3D;printf | tee sdram</p>
+<p>make ARCH&#x3D;riscv32e-ysyxsoc run ALL&#x3D;printf | tee &gt;(grep “sdram” &gt;&gt; sdram)</p>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>sdram在最高地址开辟栈时，写入sp报错，因为做了字和位扩展会增大4被sdram空间<br><img src="/image-18.png" alt="alt text"></p>
 ]]></content>
   </entry>
 </search>
