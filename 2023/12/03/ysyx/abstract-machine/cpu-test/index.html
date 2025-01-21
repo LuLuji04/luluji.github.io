@@ -27,14 +27,14 @@
 <meta property="og:site_name" content="myBlog">
 <meta property="og:description" content="CPU功能测试过程中遇到的问题及解决方案，包括longlong测试、内存对齐等问题的分析。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/image.png">
-<meta property="og:image" content="http://example.com/image-1.png">
-<meta property="og:image" content="http://example.com/image-2.png">
-<meta property="og:image" content="http://example.com/image-3.png">
-<meta property="og:image" content="http://example.com/image-4.png">
-<meta property="og:image" content="http://example.com/image-6.png">
-<meta property="og:image" content="http://example.com/image-5.png">
-<meta property="og:image" content="http://example.com/image-7.png">
+<meta property="og:image" content="http://example.com/images/ysyx/abstract-machine/image.png">
+<meta property="og:image" content="http://example.com/images/ysyx/abstract-machine/image-1.png">
+<meta property="og:image" content="http://example.com/images/ysyx/abstract-machine/image-2.png">
+<meta property="og:image" content="http://example.com/images/ysyx/abstract-machine/image-3.png">
+<meta property="og:image" content="http://example.com/images/ysyx/abstract-machine/image-4.png">
+<meta property="og:image" content="http://example.com/images/ysyx/abstract-machine/image-6.png">
+<meta property="og:image" content="http://example.com/images/ysyx/abstract-machine/image-5.png">
+<meta property="og:image" content="http://example.com/images/ysyx/abstract-machine/image-7.png">
 <meta property="article:published_time" content="2023-12-02T16:00:00.000Z">
 <meta property="article:modified_time" content="2024-01-20T16:00:00.000Z">
 <meta property="article:author" content="luluji">
@@ -43,7 +43,7 @@
 <meta property="article:tag" content="功能验证">
 <meta property="article:tag" content="Abstract Machine">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/image.png">
+<meta name="twitter:image" content="http://example.com/images/ysyx/abstract-machine/image.png">
 
 <link rel="canonical" href="http://example.com/2023/12/03/ysyx/abstract-machine/cpu-test/">
 
@@ -268,21 +268,21 @@
 <span id="more"></span>
 
 <h2 id="longlong-的cpu测试有时候过不了"><a href="#longlong-的cpu测试有时候过不了" class="headerlink" title="longlong 的cpu测试有时候过不了"></a>longlong 的cpu测试有时候过不了</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> <span class="type">long</span> test_data[] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0x7fffffffffffffff</span>LL, <span class="number">0x8000000000000000</span>LL, <span class="number">0x8000000000000001</span>LL, <span class="number">0xfffffffffffffffe</span>LL, <span class="number">0xffffffffffffffff</span>LL&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="longlong的打印"><a href="#longlong的打印" class="headerlink" title="longlong的打印"></a>longlong的打印</h3><p>在处理 long long 类型的负数时，特别是极值（如 0x8000000000000000LL），直接取反操作 value &#x3D; -value; 可能会导致溢出问题。因为 0x8000000000000000LL 是 long long 类型的最小值，其绝对值超出了 long long 类型的正数范围<br><img src="/image.png" alt="alt text"></p>
+<h3 id="longlong的打印"><a href="#longlong的打印" class="headerlink" title="longlong的打印"></a>longlong的打印</h3><p>在处理 long long 类型的负数时，特别是极值（如 0x8000000000000000LL），直接取反操作 value &#x3D; -value; 可能会导致溢出问题。因为 0x8000000000000000LL 是 long long 类型的最小值，其绝对值超出了 long long 类型的正数范围<br><img src="/../../../images/ysyx/abstract-machine/image.png" alt="longlong打印问题"></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> <span class="type">long</span> value;</span><br><span class="line">   <span class="comment">// Set &#x27;-&#x27; for negative decimals.</span></span><br><span class="line">   <span class="keyword">if</span> (value &lt; <span class="number">0</span> &amp;&amp; base == <span class="number">10</span>) &#123;</span><br><span class="line">       *str++ = <span class="string">&#x27;-&#x27;</span>;</span><br><span class="line">       value = -value;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>使用无符号类型：在处理负数时，将其转换为无符号类型 unsigned long long，以避免溢出问题。<br><img src="/image-1.png" alt="alt text"></p>
+<p>使用无符号类型：在处理负数时，将其转换为无符号类型 unsigned long long，以避免溢出问题。<br><img src="/../../../images/ysyx/abstract-machine/image-1.png" alt="longlong打印修复"></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span> uvalue;</span><br><span class="line">   <span class="comment">// Set &#x27;-&#x27; for negative decimals.</span></span><br><span class="line">   <span class="keyword">if</span> (value &lt; <span class="number">0</span> &amp;&amp; base == <span class="number">10</span>) &#123;</span><br><span class="line">       *str++ = <span class="string">&#x27;-&#x27;</span>;</span><br><span class="line">       uvalue = (<span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span>)(-value);</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       uvalue = (<span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span>)value;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <h3 id="longlong必须8字节对齐"><a href="#longlong必须8字节对齐" class="headerlink" title="longlong必须8字节对齐"></a>longlong必须8字节对齐</h3><p>如果只是四字节对齐的话，longlong的指针8字节对齐，但flash中存储的longlong数据不会8字节对齐。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.data : &#123;</span><br><span class="line">  _data_start = .;</span><br><span class="line">  *(.data*)</span><br><span class="line">  *(.sdata*)</span><br><span class="line">  /* *(.data) */</span><br><span class="line">  _data_end = .;</span><br><span class="line">   . = ALIGN(4);</span><br><span class="line">&#125; &gt; sdram AT &gt;flash</span><br></pre></td></tr></table></figure>
-<p>可以看到数组指针8字节对齐，但数组数据没有<br><img src="/image-2.png" alt="alt text"><br>通过8字节对齐，让longlong对齐</p>
+<p>可以看到数组指针8字节对齐，但数组数据没有<br><img src="/../../../images/ysyx/abstract-machine/image-2.png" alt="数据未对齐"><br>通过8字节对齐，让longlong对齐</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.data : &#123;</span><br><span class="line">  _data_start = .;</span><br><span class="line">  *(.data*)</span><br><span class="line">  *(.sdata*)</span><br><span class="line">  /* *(.data) */</span><br><span class="line">  _data_end = .;</span><br><span class="line">   . = ALIGN(8);</span><br><span class="line">&#125; &gt; sdram AT &gt;flash</span><br></pre></td></tr></table></figure>
-<p><img src="/image-3.png" alt="alt text"></p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p><img src="/image-4.png" alt="alt text"></p>
+<p><img src="/../../../images/ysyx/abstract-machine/image-3.png" alt="数据已对齐"></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p><img src="/../../../images/ysyx/abstract-machine/image-4.png" alt="调试信息"></p>
 <h2 id="4-2-1访存未对齐"><a href="#4-2-1访存未对齐" class="headerlink" title="4-2-1访存未对齐"></a>4-2-1访存未对齐</h2><h4 id="问题现象展示"><a href="#问题现象展示" class="headerlink" title="问题现象展示"></a>问题现象展示</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a0000180:	fe042823          	sw	zero,-16(s0)</span><br><span class="line">a0000184:	0900006f          	j	a0000214 &lt;main+0x1d0&gt;</span><br><span class="line">a0000188:	ff042783          	lw	a5,-16(s0)</span><br><span class="line">a000018c:	00279793          	sll	a5,a5,0x2</span><br><span class="line">a0000190:	00178713          	add	a4,a5,1</span><br><span class="line">a0000194:	00001797          	auipc	a5,0x1</span><br><span class="line">a0000198:	4ec78793          	add	a5,a5,1260 # a0001680 &lt;mem&gt;</span><br><span class="line">a000019c:	00f707b3          	add	a5,a4,a5</span><br><span class="line">a00001a0:	0007a783          	lw	a5,0(a5)</span><br></pre></td></tr></table></figure>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">short</span> mem[] = &#123;</span><br><span class="line">	<span class="number">0x0</span>, <span class="number">0x0258</span>, <span class="number">0x4abc</span>, <span class="number">0x7fff</span>, <span class="number">0x8000</span>, <span class="number">0x8100</span>, <span class="number">0xabcd</span>, <span class="number">0xffff</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">unsigned</span>  lwlr_ans[] = &#123;</span><br><span class="line">	<span class="number">0xbc025800</span>, <span class="number">0x7fff4a</span>, <span class="number">0xcd810080</span>, <span class="number">0xffffab</span></span><br><span class="line">&#125;;</span><br><span class="line">	<span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; ((LENGTH(mem) / <span class="number">2</span>) - <span class="number">1</span>); i ++) &#123;</span><br><span class="line">		<span class="type">unsigned</span> x = ((<span class="type">unsigned</span>*)((<span class="type">void</span>*)mem + <span class="number">1</span>))[i];</span><br><span class="line">		<span class="type">unsigned</span> y = lwlr_ans[i];</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;x=%x,y=%x\n&quot;</span>,x,y);</span><br><span class="line">		check(x == lwlr_ans[i]);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/image-6.png" alt="alt text"><br><img src="/image-5.png" alt="alt text"><br>使用nemu编译实锤编译出了非对齐访存</p>
+<p><img src="/../../../images/ysyx/abstract-machine/image-6.png" alt="访存未对齐1"><br><img src="/../../../images/ysyx/abstract-machine/image-5.png" alt="访存未对齐2"><br>使用nemu编译实锤编译出了非对齐访存</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[mtrace] read data 0xbc025800 from pmem 0x800012d5</span><br><span class="line">[mtrace] read data 0xfef42223 from pmem 0x80000178</span><br><span class="line">[mtrace] write data 0xbc025800 to pmem 0x80009fd4</span><br></pre></td></tr></table></figure>
-<p>difftest忘开了，不然也不至于找这么半天<br><img src="/image-7.png" alt="alt text"></p>
+<p>difftest忘开了，不然也不至于找这么半天<br><img src="/../../../images/ysyx/abstract-machine/image-7.png" alt="difftest问题"></p>
 <h4 id="gcc开启参数-mstrict-align"><a href="#gcc开启参数-mstrict-align" class="headerlink" title="gcc开启参数-mstrict-align"></a>gcc开启参数-mstrict-align</h4><p>但是使用下面编译器，参数无效，还能编译出非对齐访存，得使用上面的</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CROSS_COMPILE := /opt/riscv/bin/riscv64-unknown-elf-</span><br><span class="line">#CROSS_COMPILE := /opt/riscv/bin/riscv64-unknown-linux-gnu-</span><br><span class="line">COMMON_CFLAGS := -fno-pic -march=rv64g -mcmodel=medany -mstrict-align</span><br></pre></td></tr></table></figure>
 <h4 id="发现是写内存代码有问题，解决了就好了，编译器都可以使"><a href="#发现是写内存代码有问题，解决了就好了，编译器都可以使" class="headerlink" title="发现是写内存代码有问题，解决了就好了，编译器都可以使"></a>发现是写内存代码有问题，解决了就好了，编译器都可以使</h4><h2 id="-1"><a href="#-1" class="headerlink" title=""></a></h2><p>直接#include&lt;stido.h&gt;就是使用的gnu的stdio.h</p>
@@ -400,7 +400,7 @@
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-count">78</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

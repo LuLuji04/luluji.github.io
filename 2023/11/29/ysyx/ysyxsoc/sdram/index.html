@@ -27,23 +27,23 @@
 <meta property="og:site_name" content="myBlog">
 <meta property="og:description" content="SDRAM控制器的实现与优化，包括配置切换、时序控制、突发传输等功能的详细说明。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/image.png">
-<meta property="og:image" content="http://example.com/image-1.png">
-<meta property="og:image" content="http://example.com/image-4.png">
-<meta property="og:image" content="http://example.com/image-2.png">
-<meta property="og:image" content="http://example.com/image-5.png">
-<meta property="og:image" content="http://example.com/image-3.png">
-<meta property="og:image" content="http://example.com/image-8.png">
-<meta property="og:image" content="http://example.com/image-7.png">
-<meta property="og:image" content="http://example.com/image-17.png">
-<meta property="og:image" content="http://example.com/image-9.png">
-<meta property="og:image" content="http://example.com/image-14.png">
-<meta property="og:image" content="http://example.com/image-13.png">
-<meta property="og:image" content="http://example.com/image-16.png">
-<meta property="og:image" content="http://example.com/image-10.png">
-<meta property="og:image" content="http://example.com/image-6.png">
-<meta property="og:image" content="http://example.com/image-11.png">
-<meta property="og:image" content="http://example.com/image-18.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image-1.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image-4.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image-2.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image-5.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image-3.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image-8.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image-7.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image-17.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image-9.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image-14.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image-13.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image-16.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image-10.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image-6.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image-11.png">
+<meta property="og:image" content="http://example.com/images/ysyx/ysyxsoc/image-18.png">
 <meta property="article:published_time" content="2023-11-28T16:00:00.000Z">
 <meta property="article:modified_time" content="2024-01-20T16:00:00.000Z">
 <meta property="article:author" content="luluji">
@@ -52,7 +52,7 @@
 <meta property="article:tag" content="存储控制器">
 <meta property="article:tag" content="SDRAM">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/image.png">
+<meta name="twitter:image" content="http://example.com/images/ysyx/ysyxsoc/image.png">
 
 <link rel="canonical" href="http://example.com/2023/11/29/ysyx/ysyxsoc/sdram/">
 
@@ -279,22 +279,22 @@
 <h1 id="sdram配置切换"><a href="#sdram配置切换" class="headerlink" title="sdram配置切换"></a>sdram配置切换</h1><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">SDRAMConfig</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> <span class="type">SDRAM_2BYTE_NUM</span>: <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">SDRAM_WORD_NUM</span>: <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">val</span> awidth = <span class="keyword">if</span> (<span class="type">SDRAM_WORD_NUM</span> == <span class="number">2</span>) <span class="number">14</span> <span class="keyword">else</span> <span class="number">13</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">parameter</span> SDRAM_2BYTE_NUM             = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">parameter</span> SDRAM_WORD_NUM             = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
 <p>只有在使用sdram_axi时，才可以突发访问</p>
-<h1 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h1><h2 id="设置寄存器"><a href="#设置寄存器" class="headerlink" title="设置寄存器"></a>设置寄存器</h2><p><img src="/image.png" alt="alt text"><br><img src="/image-1.png" alt="alt text"><br>写入BurstLength和CASLatency，完全是硬件自动写入，代码没管<br><img src="/image-4.png" alt="alt text"></p>
-<h2 id="突发读时序"><a href="#突发读时序" class="headerlink" title="突发读时序"></a>突发读时序</h2><p><img src="/image-2.png" alt="alt text"><br>16位写入，原始实例化了1个dsramhelper。burstLength设置成为了，这里就突发的读入了两个16bit。因为无论是lb、lh、lw都是读入32bit</p>
+<h1 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h1><h2 id="设置寄存器"><a href="#设置寄存器" class="headerlink" title="设置寄存器"></a>设置寄存器</h2><p><img src="/../../../images/ysyx/ysyxsoc/image.png" alt="寄存器设置"><br><img src="/../../../images/ysyx/ysyxsoc/image-1.png" alt="寄存器配置"><br>写入BurstLength和CASLatency，完全是硬件自动写入，代码没管<br><img src="/../../../images/ysyx/ysyxsoc/image-4.png" alt="硬件写入"></p>
+<h2 id="突发读时序"><a href="#突发读时序" class="headerlink" title="突发读时序"></a>突发读时序</h2><p><img src="/../../../images/ysyx/ysyxsoc/image-2.png" alt="突发读时序"><br>16位写入，原始实例化了1个dsramhelper。burstLength设置成为了，这里就突发的读入了两个16bit。因为无论是lb、lh、lw都是读入32bit</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 步骤 2：测试16位写入和读取</span></span><br><span class="line">read_memory_16bit((<span class="type">uint16_t</span> *)start, size);</span><br></pre></td></tr></table></figure>
-<p><img src="/image-5.png" alt="alt text"></p>
-<h2 id="突发写时序"><a href="#突发写时序" class="headerlink" title="突发写时序"></a>突发写时序</h2><p>尤其注意传col的时候也是传bank的。所以sdram支持4个bank的开放，active时基于其中一个bank，read&#x2F;write时选择一个bank。取巧的做法是锁存row地址而不是锁存row中的数据，等到read&#x2F;write时使用bank索引锁存的row，bank，col一起访存<br><img src="/image-3.png" alt="alt text"><br>16位写入，原始实例化了1个dsramhelper。burstLength很早就设置成1了，为的是32写入时可以突发，虽然后面的col写入需要放弃，但col该加还得加。</p>
+<p><img src="/../../../images/ysyx/ysyxsoc/image-5.png" alt="16位读取"></p>
+<h2 id="突发写时序"><a href="#突发写时序" class="headerlink" title="突发写时序"></a>突发写时序</h2><p>尤其注意传col的时候也是传bank的。所以sdram支持4个bank的开放，active时基于其中一个bank，read&#x2F;write时选择一个bank。取巧的做法是锁存row地址而不是锁存row中的数据，等到read&#x2F;write时使用bank索引锁存的row，bank，col一起访存<br><img src="/../../../images/ysyx/ysyxsoc/image-3.png" alt="突发写时序"><br>16位写入，原始实例化了1个dsramhelper。burstLength很早就设置成1了，为的是32写入时可以突发，虽然后面的col写入需要放弃，但col该加还得加。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 步骤 2：测试16位写入和读取</span></span><br><span class="line">write_memory_16bit((<span class="type">uint16_t</span> *)start, size);</span><br></pre></td></tr></table></figure>
-<p><img src="/image-8.png" alt="alt text"><br>32位写入，突发的写入两个16bit<br><img src="/image-7.png" alt="alt text"></p>
-<h2 id="row-hit"><a href="#row-hit" class="headerlink" title="row hit"></a>row hit</h2><p>acitve的时候激活,如果rowhit了就不用active了，但是目前没实现row的寄存器（4bank*512col），所以只好禁止row hit了<br>以下图是因为row hit了所以没有active状态传入row和way和bank，就读错了<br><img src="/image-17.png" alt="alt text"></p>
+<p><img src="/../../../images/ysyx/ysyxsoc/image-8.png" alt="16位写入"><br>32位写入，突发的写入两个16bit<br><img src="/../../../images/ysyx/ysyxsoc/image-7.png" alt="32位写入"></p>
+<h2 id="row-hit"><a href="#row-hit" class="headerlink" title="row hit"></a>row hit</h2><p>acitve的时候激活,如果rowhit了就不用active了，但是目前没实现row的寄存器（4bank*512col），所以只好禁止row hit了<br>以下图是因为row hit了所以没有active状态传入row和way和bank，就读错了<br><img src="/../../../images/ysyx/ysyxsoc/image-17.png" alt="Row Hit问题"></p>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Open row hit</span></span><br><span class="line"><span class="keyword">if</span> (row_open_q[addr_bank_w] &amp;&amp; addr_row_w == active_row_q[addr_bank_w])</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span> (!ram_rd_w)</span><br><span class="line">        next_state_r = STATE_WRITE0;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        next_state_r = STATE_READ;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">// Row miss, close row, open new row</span></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (row_open_q[addr_bank_w])</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    next_state_r   = STATE_PRECHARGE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!ram_rd_w)</span><br><span class="line">        target_state_r = STATE_WRITE0;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        target_state_r = STATE_READ;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">// No open row, open row</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    next_state_r   = STATE_ACTIVATE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!ram_rd_w)</span><br><span class="line">        target_state_r = STATE_WRITE0;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        target_state_r = STATE_READ;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="位扩展"><a href="#位扩展" class="headerlink" title="位扩展"></a>位扩展</h2><p>还需要修改sdram控制器，最不想做的事情<br><img src="/image-9.png" alt="alt text"><br>col在一次传输中都是32bit对齐的，是0，2，4这样的数，因为在sdram的视角下，即使对col_1写16bit也是对col_0写32bit。只不过在第二次传输是将strb和wen置为有效</p>
+<h2 id="位扩展"><a href="#位扩展" class="headerlink" title="位扩展"></a>位扩展</h2><p>还需要修改sdram控制器，最不想做的事情<br><img src="/../../../images/ysyx/ysyxsoc/image-9.png" alt="位扩展示意"><br>col在一次传输中都是32bit对齐的，是0，2，4这样的数，因为在sdram的视角下，即使对col_1写16bit也是对col_0写32bit。只不过在第二次传输是将strb和wen置为有效</p>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Address bits</span></span><br><span class="line"><span class="keyword">wire</span> [SDRAM_ROW_W-<span class="number">1</span>:<span class="number">0</span>] addr_col_w = (SDRAM_2BYTE_NUM == <span class="number">1</span>) ?</span><br><span class="line">  &#123;&#123;(SDRAM_ROW_W-SDRAM_COL_W)&#123;<span class="number">1&#x27;b0</span>&#125;&#125;, ram_addr_w[SDRAM_COL_W:<span class="number">2</span>], <span class="number">1&#x27;b0</span>&#125; :</span><br><span class="line">  &#123;&#123;(SDRAM_ROW_W-SDRAM_COL_W)&#123;<span class="number">1&#x27;b0</span>&#125;&#125;, <span class="number">1&#x27;b0</span>,ram_addr_w[SDRAM_COL_W:<span class="number">2</span>]&#125;;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/image-14.png" alt="alt text"><br><img src="/image-13.png" alt="alt text"></p>
+<p><img src="/../../../images/ysyx/ysyxsoc/image-14.png" alt="位扩展时序1"><br><img src="/../../../images/ysyx/ysyxsoc/image-13.png" alt="位扩展时序2"></p>
 <p>位扩展后32位读取不需要突发了，因此不用到state_write1，但state_write0仍需要检测突发以应对64位或更高位的突发访问。此时要精确控制ack_q-&gt;ram_ack_i(axi_core)-&gt; ram_ack_i(axi_pmem) -&gt; push_i(u_response) 的拍数。多一拍的话会多压入一个data，当axi_bvalid&#x2F;axi_rvalid-&gt;resp_accept_w-&gt;pop_i(u_response)时会弹出提前压入栈的数据。</p>
-<p><img src="/image-16.png" alt="alt text"></p>
+<p><img src="/../../../images/ysyx/ysyxsoc/image-16.png" alt="位扩展控制"></p>
 <h2 id="字扩展"><a href="#字扩展" class="headerlink" title="字扩展"></a>字扩展</h2><p>先来算一下一共能代表多少字节。</p>
 <p>原先2**25 &#x3D; 32MB</p>
 <table>
@@ -361,13 +361,13 @@
 
 <h2 id="logic"><a href="#logic" class="headerlink" title="logic"></a>logic</h2><p>看似command是wire，但是却综合出了Reg</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> command =</span><br><span class="line">  <span class="type">MuxCase</span>(<span class="type">COMMAND_INHIBIT</span>, <span class="type">Seq</span>(</span><br><span class="line">    (!io.cs &amp;&amp; io.ras &amp;&amp; io.cas &amp;&amp; io.we) -&gt; <span class="type">NOP</span>,</span><br></pre></td></tr></table></figure>
-<p><img src="/image-10.png" alt="alt text"><br><img src="/image-6.png" alt="alt text"><br>automatic：<br>在 SystemVerilog 中，automatic 表示这个变量是 自动变量，即每次进入 always 块时重新创建，而不是在模块级别共享。<br>logic 是 SystemVerilog 中的新数据类型，类似于 Verilog 中的 reg<br>跨时钟域的always中，就会有这样的在新时钟域赋值的wire</p>
-<h1 id="运算优先级大于移位"><a href="#运算优先级大于移位" class="headerlink" title="运算优先级大于移位"></a>运算优先级大于移位</h1><p><img src="/image-11.png" alt="alt text"><br>要使用</p>
+<p><img src="/../../../images/ysyx/ysyxsoc/image-10.png" alt="Logic综合1"><br><img src="/../../../images/ysyx/ysyxsoc/image-6.png" alt="Logic综合2"><br>automatic：<br>在 SystemVerilog 中，automatic 表示这个变量是 自动变量，即每次进入 always 块时重新创建，而不是在模块级别共享。<br>logic 是 SystemVerilog 中的新数据类型，类似于 Verilog 中的 reg<br>跨时钟域的always中，就会有这样的在新时钟域赋值的wire</p>
+<h1 id="运算优先级大于移位"><a href="#运算优先级大于移位" class="headerlink" title="运算优先级大于移位"></a>运算优先级大于移位</h1><p><img src="/../../../images/ysyx/ysyxsoc/image-11.png" alt="运算优先级"><br>要使用</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1.</span><span class="type">U</span> &lt;&lt; <span class="type">BurstLength</span>).asUInt <span class="number">-1.</span><span class="type">U</span> </span><br></pre></td></tr></table></figure>
 
 <p>make ARCH&#x3D;riscv32e-ysyxsoc run ALL&#x3D;printf | tee sdram</p>
 <p>make ARCH&#x3D;riscv32e-ysyxsoc run ALL&#x3D;printf | tee &gt;(grep “sdram” &gt;&gt; sdram)</p>
-<h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>sdram在最高地址开辟栈时，写入sp报错，因为做了字和位扩展会增大4被sdram空间<br><img src="/image-18.png" alt="alt text"></p>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>sdram在最高地址开辟栈时，写入sp报错，因为做了字和位扩展会增大4被sdram空间<br><img src="/../../../images/ysyx/ysyxsoc/image-18.png" alt="栈空间问题"></p>
 
     </div>
 
@@ -482,7 +482,7 @@
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-count">78</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

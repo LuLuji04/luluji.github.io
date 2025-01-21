@@ -302,13 +302,6 @@
 
               <time title="创建时间：2024-01-21 00:00:00" itemprop="dateCreated datePublished" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-01-21 15:08:38" itemprop="dateModified" datetime="2025-01-21T15:08:38+08:00">2025-01-21</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -334,7 +327,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>准备寒假有空研究一下</p>
+          <p>收集整理”一生一芯”计划的相关资料，包括报名流程、预学习材料、训练营信息等内容。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/01/21/ysyx/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99/#more" rel="contents">
@@ -412,148 +405,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <span id="more"></span>
-
-<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><h4 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h4><p>如何将多个对象文件（.o文件，由${OBJS}变量表示）链接成一个可执行文件（os.elf），然后将该可执行文件转换成二进制格式的镜像文件（os.bin）<br>os.elf: ${OBJS}<br>    ${CC} ${CFLAGS} -T os.ld -o os.elf $^<br>    ${OBJCOPY} -O binary os.elf os.bin</p>
-<p>-T os.ld：指定链接脚本os.ld。链接脚本用于控制链接过程，如指定各个段（如代码段、数据段）的位置。<br>-o os.elf：指定输出文件的名称为os.elf。<br>$^：这是Makefile的自动变量，表示所有的依赖项，这里指${OBJS}变量中列出的所有对象文件。</p>
-<p>${OBJCOPY}：这是GNU Binutils工具集中objcopy程序的变量，用于进行文件格式转换。<br>-O binary：指定输出格式为二进制。objcopy可以将ELF格式（或其他格式）的文件转换为纯二进制格式，这对于裸机程序来说是必需的，因为硬件通常直接执行二进制代码。<br>os.elf：输入文件，即上一步生成的ELF格式的可执行文件。<br>os.bin：输出文件，转换成二进制格式后的文件名。</p>
-<h4 id="定义编译核心数"><a href="#定义编译核心数" class="headerlink" title="定义编译核心数"></a>定义编译核心数</h4><p>NPROC			:&#x3D; $(shell nproc 2&gt;&#x2F;dev&#x2F;null || echo 1)</p>
-<p>这行Makefile代码定义了一个变量NPROC，它的目的是确定可以用于并行编译的处理器（CPU核心）数量。这个变量通常用于make命令的-j选项，以加速编译过程。让我们分解这行代码的各个部分：</p>
-<p>$(shell …)：shell函数执行一个Shell命令，并将输出作为结果返回。在这个上下文中，它尝试执行nproc命令。</p>
-<p>nproc：这是一个在多种Unix-like系统上可用的命令，用于打印系统上可用的处理单元数量（通常是CPU核心数量）。它是确定可用于并行编译作业数的常用方法。</p>
-<p>2&gt;&#x2F;dev&#x2F;null：这部分将标准错误（stderr）重定向到&#x2F;dev&#x2F;null，意味着如果命令失败（例如，在某些环境中nproc命令不存在），错误信息不会被显示。</p>
-<p>|| echo 1：这是一个逻辑或操作，如果nproc命令执行失败（返回非零退出状态），则执行echo 1。这意味着如果无法确定处理器数量，就假设只有1个可用的处理单元。</p>
-<p>:&#x3D;$(shell …)：使用:&#x3D;进行变量赋值表示立即求值，这意味着NPROC变量将在Makefile解析时被设置为nproc命令的输出，或者在nproc不可用的情况下被设置为1。</p>
-<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><p>这些是GCC编译器的选项，用于控制编译过程的各个方面。以下是每个选项的简要解释：</p>
-<h5 id="MMD"><a href="#MMD" class="headerlink" title="-MMD"></a><code>-MMD</code></h5><p>这个选项告诉编译器为每个源文件生成一个<code>.d</code>文件，其中包含了源文件中包含的头文件列表。这对于make工具自动解析文件依赖关系非常有用，帮助确保当头文件改变时，相关的源文件会被重新编译。</p>
-<h5 id="Werror"><a href="#Werror" class="headerlink" title="-Werror"></a><code>-Werror</code></h5><p>将所有的警告转化为错误。这意味着，如果编译器发现任何警告，它将停止编译过程，并将这些警告视为错误处理。这有助于维持代码质量，确保开发者不会忽略编译器的警告。</p>
-<h5 id="fno-asynchronous-unwind-tables"><a href="#fno-asynchronous-unwind-tables" class="headerlink" title="-fno-asynchronous-unwind-tables"></a><code>-fno-asynchronous-unwind-tables</code></h5><p>禁用生成异步异常展开表。这会减小生成的二进制文件大小，但可能会影响异常处理和程序调试。</p>
-<h5 id="fno-builtin"><a href="#fno-builtin" class="headerlink" title="-fno-builtin"></a><code>-fno-builtin</code></h5><p>告诉编译器不要认为任何函数是内建的，即使编译器有内建的优化版本。这确保了对函数的调用不会被替换为编译器的内建版本，有助于避免潜在的优化导致的问题。</p>
-<h5 id="fno-stack-protector"><a href="#fno-stack-protector" class="headerlink" title="-fno-stack-protector"></a><code>-fno-stack-protector</code></h5><p>禁用栈保护。默认情况下，GCC会为防止栈溢出攻击而插入特殊的安全检查代码。使用这个选项会禁用这些检查，可能会使得程序更容易受到栈溢出攻击。</p>
-<h5 id="Wno-main"><a href="#Wno-main" class="headerlink" title="-Wno-main"></a><code>-Wno-main</code></h5><p>禁止关于<code>main</code>函数的警告。正常情况下，如果编译器发现<code>main</code>函数的声明不符合标准，会发出警告。这个选项会禁止这类警告。</p>
-<h5 id="U-FORTIFY-SOURCE"><a href="#U-FORTIFY-SOURCE" class="headerlink" title="-U_FORTIFY_SOURCE"></a><code>-U_FORTIFY_SOURCE</code></h5><p>取消定义宏<code>_FORTIFY_SOURCE</code>。当定义了<code>_FORTIFY_SOURCE</code>宏时，GCC会启用一些额外的检查来防止缓冲区溢出等问题。使用<code>-U_FORTIFY_SOURCE</code>可以取消这些额外的检查。</p>
-<h5 id="fvisibility-hidden"><a href="#fvisibility-hidden" class="headerlink" title="-fvisibility=hidden"></a><code>-fvisibility=hidden</code></h5><p>设置默认的符号可见性为隐藏。这意味着，除非显式地标记为可见，否则链接时不会导出符号。这有助于减小最终二进制文件的大小，并可能改善加载时间和防止符号冲突。</p>
-<p>这些选项通常在构建需要精细控制编译过程的项目时使用，如操作系统内核、嵌入式系统或安全敏感的应用程序。它们有助于优化生成的代码，增强安全性和性能。</p>
-<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>在Makefile中，GNU <code>make</code> 提供了一系列内置函数，用于处理文件名、目标对象和依赖项。这些函数可以帮助你简化规则的书写、处理字符串和文件名、以及执行列表的操作等。以下是一些处理目标对象时常用的函数：</p>
-<h3 id="1-patsubst-pattern-replacement-text"><a href="#1-patsubst-pattern-replacement-text" class="headerlink" title="1. $(patsubst pattern,replacement,text)"></a>1. <code>$(patsubst pattern,replacement,text)</code></h3><p>用于模式字符串替换。它搜索<code>text</code>中的单词，将符合<code>pattern</code>的部分替换为<code>replacement</code>。</p>
-<p>例子：将所有的<code>.c</code>文件扩展名替换为<code>.o</code>。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OBJS := <span class="variable">$(<span class="built_in">patsubst</span> %.c,%.o,<span class="variable">$(SRCS)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-wildcard-pattern"><a href="#2-wildcard-pattern" class="headerlink" title="2. $(wildcard pattern)"></a>2. <code>$(wildcard pattern)</code></h3><p>用于匹配符合<code>pattern</code>的文件名。</p>
-<p>例子：获取当前目录下所有的<code>.c</code>文件。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SRCS := <span class="variable">$(<span class="built_in">wildcard</span> *.c)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-dir-names"><a href="#3-dir-names" class="headerlink" title="3. $(dir names...)"></a>3. <code>$(dir names...)</code></h3><p>提取文件名列表<code>names</code>中每个文件的目录部分。</p>
-<p>例子：获取所有源文件的目录。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SRC_DIRS := <span class="variable">$(<span class="built_in">dir</span> <span class="variable">$(SRCS)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="4-notdir-names"><a href="#4-notdir-names" class="headerlink" title="4. $(notdir names...)"></a>4. <code>$(notdir names...)</code></h3><p>从文件名列表<code>names</code>中去除所有的目录部分，只留下文件名。</p>
-<p>例子：从完整路径列表中提取文件名。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SRC_FILES := <span class="variable">$(<span class="built_in">notdir</span> <span class="variable">$(SRCS)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="5-addprefix-prefix-names"><a href="#5-addprefix-prefix-names" class="headerlink" title="5. $(addprefix prefix,names...)"></a>5. <code>$(addprefix prefix,names...)</code></h3><p>给<code>names</code>列表中的每个单词添加前缀<code>prefix</code>。</p>
-<p>例子：给所有目标文件添加路径前缀。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OBJS := <span class="variable">$(<span class="built_in">addprefix</span> obj/,$(<span class="built_in">notdir</span> $(SRCS:.c=.o)</span>))</span><br></pre></td></tr></table></figure>
-
-<h3 id="6-addsuffix-suffix-names"><a href="#6-addsuffix-suffix-names" class="headerlink" title="6. $(addsuffix suffix,names...)"></a>6. <code>$(addsuffix suffix,names...)</code></h3><p>给<code>names</code>列表中的每个单词添加后缀<code>suffix</code>。</p>
-<p>例子：给所有模块名添加<code>.o</code>后缀。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MOD_OBJS := <span class="variable">$(<span class="built_in">addsuffix</span> .o,<span class="variable">$(MODULES)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="7-filter-pattern-text"><a href="#7-filter-pattern-text" class="headerlink" title="7. $(filter pattern...,text)"></a>7. <code>$(filter pattern...,text)</code></h3><p>从<code>text</code>中选择符合<code>pattern</code>的单词。</p>
-<p>例子：从所有文件中筛选出<code>.c</code>和<code>.h</code>文件。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C_AND_H_FILES := <span class="variable">$(<span class="built_in">filter</span> %.c %.h,<span class="variable">$(FILES)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="8-filter-out-pattern-text"><a href="#8-filter-out-pattern-text" class="headerlink" title="8. $(filter-out pattern...,text)"></a>8. <code>$(filter-out pattern...,text)</code></h3><p>从<code>text</code>中去除符合<code>pattern</code>的单词。</p>
-<p>例子：从所有文件中去除<code>.o</code>文件。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NON_O_FILES := <span class="variable">$(<span class="built_in">filter</span>-out %.o,<span class="variable">$(FILES)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="9-sort-list"><a href="#9-sort-list" class="headerlink" title="9. $(sort list)"></a>9. <code>$(sort list)</code></h3><p>将<code>list</code>中的单词排序并去除重复的单词。</p>
-<p>例子：排序并去重源文件列表。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UNIQUE_SRCS := <span class="variable">$(<span class="built_in">sort</span> <span class="variable">$(SRCS)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="10-foreach-var-list-text"><a href="#10-foreach-var-list-text" class="headerlink" title="10. $(foreach var,list,text)"></a>10. <code>$(foreach var,list,text)</code></h3><p>对<code>list</code>中的每个单词执行<code>text</code>中的表达式，其中<code>var</code>作为当前单词的变量。</p>
-<p>例子：为每个源文件打印一条编译信息。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">foreach</span> src,<span class="variable">$(SRCS)</span>,echo Compiling <span class="variable">$(src)</span>;)</span></span><br></pre></td></tr></table></figure>
-
-<p>在Makefile中，使用一些高效的表达式和技巧可以大大提高构建系统的灵活性和可维护性。以下是一些常用的表达式和技巧，它们可以帮助你更有效地编写Makefile。</p>
-<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><h3 id="1-使用变量简化文件列表"><a href="#1-使用变量简化文件列表" class="headerlink" title="1. 使用变量简化文件列表"></a>1. 使用变量简化文件列表</h3><p>定义变量来简化文件列表的管理，使得在多个地方引用时不需要重复书写。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SRCS := main.c foo.c bar.c</span><br><span class="line">OBJS := $(SRCS:.c=.o)</span><br></pre></td></tr></table></figure>
-
-<p>这里，<code>.c</code>文件列表被赋值给<code>SRCS</code>变量，然后使用模式替换将<code>.c</code>后缀替换为<code>.o</code>生成对象文件列表，并赋值给<code>OBJS</code>变量。</p>
-<h3 id="2-使用通配符自动获取文件列表"><a href="#2-使用通配符自动获取文件列表" class="headerlink" title="2. 使用通配符自动获取文件列表"></a>2. 使用通配符自动获取文件列表</h3><p>使用<code>wildcard</code>函数自动获取目录下的文件列表，避免手动列出。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SRCS := <span class="variable">$(<span class="built_in">wildcard</span> src/*.c)</span></span><br><span class="line">OBJS := $(SRCS:.c=.o)</span><br></pre></td></tr></table></figure>
-
-<p>$(wildcard .config)是一个Makefile函数，用于查找当前目录下名为.config的文件。如果找到文件，则返回文件的完整路径；如果没有找到，则返回空。</p>
-<h3 id="3-自动变量简化规则"><a href="#3-自动变量简化规则" class="headerlink" title="3. 自动变量简化规则"></a>3. 自动变量简化规则</h3><p>使用自动变量简化规则的书写。例如<code>$@</code>代表规则的目标，<code>$&lt;</code>代表第一个依赖，<code>$^</code>代表所有依赖。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">app: <span class="variable">$(OBJS)</span></span></span><br><span class="line">	<span class="variable">$(CC)</span> -o <span class="variable">$@</span> <span class="variable">$^</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="4-使用模式规则"><a href="#4-使用模式规则" class="headerlink" title="4. 使用模式规则"></a>4. 使用模式规则</h3><p>模式规则可以应用于匹配模式的目标，使得规则更加通用。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">%.o: %.c</span></span><br><span class="line">	<span class="variable">$(CC)</span> -c <span class="variable">$&lt;</span> -o <span class="variable">$@</span></span><br></pre></td></tr></table></figure>
-
-<p>这条规则表示任何<code>.o</code>文件都依赖于同名的<code>.c</code>文件，并描述了如何从<code>.c</code>文件构建<code>.o</code>文件。</p>
-<p>$*，表示不带前缀的目标名称）<br>$&lt;，表示规则的第一个依赖</p>
-<h3 id="5-条件判断"><a href="#5-条件判断" class="headerlink" title="5. 条件判断"></a>5. 条件判断</h3><p>使用条件判断来根据不同的条件选择不同的操作。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ifeq</span> (<span class="variable">$(DEBUG)</span>,yes)</span><br><span class="line">CFLAGS += -g</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">CFLAGS += -O2</span><br><span class="line"><span class="keyword">endif</span></span><br></pre></td></tr></table></figure>
-
-<p>根据<code>DEBUG</code>变量的值，调整编译标志。</p>
-<h3 id="6-函数使用"><a href="#6-函数使用" class="headerlink" title="6. 函数使用"></a>6. 函数使用</h3><p>Makefile提供了许多内置函数，如<code>filter</code>、<code>patsubst</code>等，用于处理文本和文件名。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DEBUG_SRCS := <span class="variable">$(<span class="built_in">filter</span> %_debug.c,<span class="variable">$(SRCS)</span>)</span></span><br><span class="line">RELEASE_SRCS := <span class="variable">$(<span class="built_in">filter</span>-out %_debug.c,<span class="variable">$(SRCS)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>使用<code>filter</code>和<code>filter-out</code>函数来区分调试和发布的源文件。</p>
-<h3 id="8-多目标规则"><a href="#8-多目标规则" class="headerlink" title="8. 多目标规则"></a>8. 多目标规则</h3><p>一个规则可以有多个目标，用于执行相同的命令序列构建多个目标。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">all: prog1 prog2</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="9-PHONY目标"><a href="#9-PHONY目标" class="headerlink" title="9. .PHONY目标"></a>9. .PHONY目标</h3><p>使用<code>.PHONY</code>声明伪目标，以避免与同名文件冲突。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"><span class="keyword">.PHONY</span>: clean</span></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm -f <span class="variable">$(OBJS)</span> app</span><br></pre></td></tr></table></figure>
-
-
-
-<p>在Makefile中，处理字符串和变量的几个有用概念包括子集（<code>subset</code>）、单词（<code>word</code>）操作和变量类型的检查（<code>flavor</code>）。虽然Makefile本身不直接提供名为<code>subset</code>的函数，但是可以通过组合使用其他函数来实现子集选择等操作。下面是对<code>word</code>函数和<code>flavor</code>函数的解释，以及如何模拟实现子集选择的示例。</p>
-<p>在Makefile中，$(subst from,to,text)函数用于文本替换，它在text字符串中将所有出现的from字符串替换为to字符串。在你提供的表达式：</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ARCH_SPLIT = <span class="variable">$(<span class="built_in">subst</span> -, ,<span class="variable">$(ARCH)</span>)</span></span><br></pre></td></tr></table></figure>
-<p>这行代码的作用是将变量ARCH中的所有破折号（-）替换为空格。这种替换通常用于处理类似于x86_64-linux-gnu这样的复合体系结构名称或其他用破折号连接的字符串，目的是将它们拆分为由空格分隔的单词列表，以便于后续操作或查询。</p>
-<h3 id="word-函数"><a href="#word-函数" class="headerlink" title="word 函数"></a>word 函数</h3><p><code>word</code>函数用于从以空格分隔的单词列表中选取第<code>n</code>个单词。其语法如下：</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">word</span> n,text)</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>n</code>是要选取的单词的位置（从1开始计数）。</li>
-<li><code>text</code>是单词列表。</li>
-</ul>
-<p>例如，如果你有一个文件列表，想要选取第二个文件名，可以这样做：</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FILES := file1.c file2.c file3.c</span><br><span class="line">SECOND_FILE := <span class="variable">$(<span class="built_in">word</span> 2,<span class="variable">$(FILES)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>这里，<code>SECOND_FILE</code>的值将是<code>file2.c</code>。</p>
-<h3 id="flavor-函数"><a href="#flavor-函数" class="headerlink" title="flavor 函数"></a>flavor 函数</h3><p><code>flavor</code>函数用于查询变量的类型。Makefile中的变量可以是简单展开的（<code>simple</code>）、递归展开的（<code>recursive</code>）、环境变量（<code>environment</code>）、命令行定义的（<code>command line</code>）等。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">flavor</span> variable-name)</span></span><br></pre></td></tr></table></figure>
-<p>例如：</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">VAR := simple</span><br><span class="line">VAR2 = recursive</span><br><span class="line"><span class="variable">$(info $(<span class="built_in">flavor</span> VAR)</span>)  <span class="comment"># 输出 simple</span></span><br><span class="line"><span class="variable">$(info $(<span class="built_in">flavor</span> VAR2)</span>) <span class="comment"># 输出 recursive</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="override"><a href="#override" class="headerlink" title="override"></a>override</h3><p>override ARGS ?&#x3D; …行使用了条件赋值操作符?&#x3D;, 它只在ARGS未定义时设置值。override关键字用于确保即使在命令行中定义了ARGS变量，这个赋值也会生效。</p>
-<h3 id=""><a href="#" class="headerlink" title="::"></a>::</h3><p>$(BINARY):: compile_git<br>这里定义了一个目标$(BINARY)，它有一个额外的依赖compile_git。$(BINARY)很可能是一个变量，表示要构建的二进制文件的名字。使用::而不是单个:定义规则，表示这是一个终端规则（Terminal Rule），它允许同一个目标有多个独立的规则定义，这些规则都会被执行。</p>
-<h2 id="MAKE"><a href="#MAKE" class="headerlink" title="$(MAKE)"></a>$(MAKE)</h2><p>$(MAKE) -C $(NEMU_HOME):</p>
-<p>$(MAKE)是一个特殊变量，代表make工具的名称，通常就是make。这允许在Makefile中递归地调用make。<br>-C $(NEMU_HOME)选项告诉make更改到目录$(NEMU_HOME)然后执行后续的make操作。$(NEMU_HOME)应该是一个变量，它指定了NEMU（一个可能的模拟器或工具链）的根目录。</p>
-<h2 id="if-s"><a href="#if-s" class="headerlink" title="if [-s.. ]"></a>if [-s.. ]</h2><p>在 shell 脚本中，[ -s … ] 是一个条件测试，用于检查文件的大小是否非零（即文件是否存在且至少有一个字节）。-s 是这个测试中的特定选项。</p>
-<p>除了 -s 之外，还有很多其他的文件测试操作符可以在 [ … ] 或 [[ … ]] 中使用（注意 [ 和 ] 之间应有空格）。以下是一些常见的文件测试操作符：</p>
-<pre><code>-e：文件存在
--f：文件是一个常规文件（不是目录、设备文件等）
--d：文件是一个目录
--r：文件存在且可读
--w：文件存在且可写
--x：文件存在且可执行
--L：文件是一个符号链接
--S：文件是一个套接字
--b：文件是一个块特殊文件
--c：文件是一个字符特殊文件
--p：文件是一个命名管道（FIFO）
--N：文件自上次读取后已被修改
--O：文件由当前用户拥有
--G：文件的组与当前用户相同
-</code></pre>
-<p>此外，还有一些数字比较和字符串比较操作符等。</p>
-<p>例如，如果你想检查一个文件是否存在并且是一个目录，你可以使用：</p>
-<p>bash<br>if [ -d “&#x2F;path&#x2F;to&#x2F;directory” ]; then<br>    echo “It’s a directory!”<br>fi</p>
-<p>希望这能帮助你理解 [ … ] 中的各种文件测试操作符。</p>
-
+          <p>详细介绍Makefile的常用操作和最佳实践，包括编译链接、变量函数、条件判断、模式规则等核心概念的使用方法。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/01/21/tools/makefile%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -886,83 +746,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="为什么要校准"><a href="#为什么要校准" class="headerlink" title="为什么要校准"></a>为什么要校准</h2><p>事实上, 之前的ysyxSoC环境是假设处理器和各种外设运行在同一频率下: verilator仿真的一个周期, 既是处理器中的一个周期, 也是外设中的一个周期. 但实际上并非如此: 受电气特性的影响, 外设通常只能运行在低频率, 例如SDRAM颗粒通常只能运行在100MHz左右, 过高的频率会导致时序违例, 使得SDRAM颗粒无法正确工作; 但另一方面, 使用先进工艺的处理器通常能够运行在更高的频率, 例如, yzh某个版本的多周期NPC在yosys-sta项目默认提供的nangate45工艺下频率达到约1.2GHz. 在上述配置下, SDRAM控制器中经过1个周期, NPC应该经过12个周期, 但verilator感知不到两者的频率差异, 仍然按照两者频率相同的假设进行仿真, 使得仿真结果比真实芯片乐观很多, 从而也可能会使得一些优化措施无法在真实芯片中取得预期的效果.</p>
-<h2 id="我的仿真频率"><a href="#我的仿真频率" class="headerlink" title="我的仿真频率"></a>我的仿真频率</h2><table>
-<thead>
-<tr>
-<th>Endpoint</th>
-<th>Clock Group</th>
-<th>Delay Type</th>
-<th>Path Delay</th>
-<th>Path Required</th>
-<th>CPPR</th>
-<th>Slack</th>
-<th>Freq(MHz)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>clint&#x2F;<em>1870</em>:D</td>
-<td>core_clock</td>
-<td>max</td>
-<td>1.984r</td>
-<td>9.969</td>
-<td>0.000</td>
-<td>7.985</td>
-<td>496.197</td>
-</tr>
-<tr>
-<td>clint&#x2F;<em>1870</em>:D</td>
-<td>core_clock</td>
-<td>max</td>
-<td>1.966f</td>
-<td>9.961</td>
-<td>0.000</td>
-<td>7.995</td>
-<td>498.797</td>
-</tr>
-<tr>
-<td>clint&#x2F;<em>1869</em>:D</td>
-<td>core_clock</td>
-<td>max</td>
-<td>1.959f</td>
-<td>9.961</td>
-<td>0.000</td>
-<td>8.001</td>
-<td>500.367</td>
-</tr>
-<tr>
-<td>exu&#x2F;u_alu&#x2F;<em>2689</em>:D</td>
-<td>core_clock</td>
-<td>min</td>
-<td>0.079f</td>
-<td>0.002</td>
-<td>0.000</td>
-<td>0.078</td>
-<td>NA</td>
-</tr>
-<tr>
-<td>exu&#x2F;u_alu&#x2F;<em>2689</em>:D</td>
-<td>core_clock</td>
-<td>min</td>
-<td>0.086r</td>
-<td>0.006</td>
-<td>0.000</td>
-<td>0.080</td>
-<td>NA</td>
-</tr>
-<tr>
-<td>registerfile&#x2F;<em>7836</em>:D</td>
-<td>core_clock</td>
-<td>min</td>
-<td>0.114f</td>
-<td>0.002</td>
-<td>0.000</td>
-<td>0.112</td>
-<td>NA</td>
-</tr>
-</tbody></table>
-<h2 id="校准"><a href="#校准" class="headerlink" title="校准"></a>校准</h2><p>我的校准系数是5</p>
-
+          <p>分析CPU和外设之间的时序关系，探讨频率差异对仿真结果的影响，以及如何通过校准系数来更准确地模拟实际芯片的性能表现。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/12/03/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E6%A0%A1%E5%87%86%E5%BB%B6%E8%BF%9F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1124,11 +916,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>变成两路后好像负优化了<br><img src="/image.png" alt="alt text"></p>
-<p>Icache配置切换</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">IcacheConfig</span></span>&#123;</span><br><span class="line">  <span class="comment">//Byte</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">BlockSize</span>: <span class="type">Int</span> = <span class="number">8</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">WayNum</span> : <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">SetNum</span>: <span class="type">Int</span> = <span class="number">16</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">Strategy</span>: <span class="type">String</span> = <span class="string">&quot;RANDOM&quot;</span> <span class="comment">//LRU,FIFO</span></span><br><span class="line">  <span class="keyword">val</span> burst: <span class="type">String</span> = <span class="string">&quot;INCR&quot;</span> <span class="comment">//INCR,WRAP</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="Icache的控制参数"><a href="#Icache的控制参数" class="headerlink" title="Icache的控制参数"></a>Icache的控制参数</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">wire</span>         _GEN = state == <span class="number">3&#x27;h0</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_0 = state == <span class="number">3&#x27;h1</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19, :193:17]</span></span><br><span class="line"><span class="keyword">wire</span> [<span class="number">7</span>:<span class="number">0</span>]   _GEN_1 = &#123;<span class="number">5&#x27;h0</span>, sizeReg&#125;;	<span class="comment">// @[src/main/AXI/AXI4.scala:143:56, :167:22]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_2 = _GEN | ~_GEN_0;	<span class="comment">// @[src/main/AXI/AXI4.scala:62:17, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_3 = state == <span class="number">3&#x27;h2</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19, :187:15]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_4 = _GEN | _GEN_0;	<span class="comment">// @[src/main/AXI/AXI4.scala:52:18, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         io_axi_wvalid_0 = ~_GEN_4 &amp; _GEN_3;	<span class="comment">// @[src/main/AXI/AXI4.scala:52:18, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span> [<span class="number">7</span>:<span class="number">0</span>]   _wstrbReg_T = <span class="number">8&#x27;h1</span> &lt;&lt; _GEN_1;	<span class="comment">// @[src/main/AXI/AXI4.scala:143:56, src/main/Cache/Icache.scala:94:26]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_5 = _GEN_4 | ~_GEN_3;	<span class="comment">// @[src/main/AXI/AXI4.scala:48:17, :52:18, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_6 = idx_beat == lenReg;	<span class="comment">// @[src/main/AXI/AXI4.scala:168:21, :170:23, :227:23]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_7 = io_axi_awready &amp; io_axi_wready;	<span class="comment">// @[src/main/AXI/AXI4.scala:231:27]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_8 = state == <span class="number">3&#x27;h3</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19, :210:17]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_9 = _GEN | _GEN_0 | _GEN_3;	<span class="comment">// @[src/main/AXI/AXI4.scala:68:17, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_10 = _GEN_8 &amp; io_axi_rvalid;	<span class="comment">// @[src/main/AXI/AXI4.scala:174:19, :182:19, :244:29, :246:27]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_11 = io_axi_rlast | _GEN_6;	<span class="comment">// @[src/main/AXI/AXI4.scala:227:23, :248:29]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_12 = state == <span class="number">3&#x27;h4</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:153:38, :162:24, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_13 = _GEN_8 | ~_GEN_12;	<span class="comment">// @[src/main/AXI/AXI4.scala:55:16, :182:19]</span></span><br></pre></td></tr></table></figure>
-
+          <p>详细介绍指令缓存（ICache）的实现方法和优化策略，包括多路组相联、替换策略、突发传输等配置的影响分析。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/12/01/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/icache/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1205,13 +1001,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="wlast"><a href="#wlast" class="headerlink" title="wlast"></a>wlast</h2><p>使用sdram-axi后，写入flash出现的问题。xbar的auto_in没问题，但in_0的awvalid没有置1<br><img src="/image.png" alt="alt text"></p>
-<p>用到了队列，但io_deq_ready一直没有激活，一直无法从队列中弹出第一次axi事务的信号。<br><img src="/image-3.png" alt="alt text"><br>原因是wlast用于指示最后一个axi的transfer.如果只有一个transfer，那wlast要和wvalid同时为1<br><img src="/image-2.png" alt="alt text"><br>加上提前wlast的信号</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">when(idx_beat === num_beats(lenReg) <span class="number">-1.</span><span class="type">U</span>)&#123;</span><br><span class="line">	axi4.wlast := <span class="literal">true</span>.<span class="type">B</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="突发传输"><a href="#突发传输" class="headerlink" title="突发传输"></a>突发传输</h2><p>一次事务的结束以rlast&#x2F;wlast为标志，cpu中xbar和arbiter要做修改,在收到rlast&#x2F;wlast时切换道空闲状态。否则cpu中总线收不到rlast&#x2F;wlast<br><img src="/image-1.png" alt="alt text"></p>
-<h2 id="写的信号关系"><a href="#写的信号关系" class="headerlink" title="写的信号关系"></a>写的信号关系</h2><p>1.master的wvalid不能依赖awready<br><img src="/image-4.png" alt="alt text"></p>
-<h2 id="sdram的突发"><a href="#sdram的突发" class="headerlink" title="sdram的突发"></a>sdram的突发</h2><p>assign wlast_o &#x3D; axi_wlast_i;<br>assign rlast_o &#x3D; !resp_is_last_w | axi_arlen_i&#x3D;&#x3D;8’d0;<br>下图的state_q应该只用一个周期。一个周期后req_len_q&#x3D;&#x3D;ff,晚了一个周期。因此只能使用axi_arlen_i<br><img src="/image-7.png" alt="alt text"><br>突发成功了和突发没成功<br><img src="/image-6.png" alt="alt text"></p>
-
+          <p>深入分析AXI4总线协议的实现细节，包括突发传输、WLAST信号处理、SDRAM接口等关键问题的解决方案。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/11/30/ysyx/%E6%80%BB%E7%BA%BF/axi4/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1308,7 +1106,7 @@
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-count">78</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
