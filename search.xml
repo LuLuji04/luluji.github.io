@@ -20,9 +20,10 @@
       </tags>
   </entry>
   <entry>
-    <title>buildroot的使用</title>
-    <url>/2024/02/18/tools/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<span id="more"></span>
+    <title>Buildroot使用指南</title>
+    <url>/2023/04/09/tools/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>Buildroot工具的使用指南，包括系统构建、交叉编译、定制化配置等内容。</p>
+<span id="more"></span>
 <p>在使用Buildroot构建嵌入式Linux系统时，<code>BR2_EXTERNAL</code>是一个重要的机制，它允许用户将自定义的配置、包（packages）、板级支持包（board support packages，简称BSPs）、以及其他构建脚本和文件集成到Buildroot构建过程中，而不必直接修改Buildroot的主树。这种机制非常有用，因为它使得维护自定义修改和跟踪Buildroot官方更新变得更加容易。</p>
 <h3 id="使用BR2-EXTERNAL的优势"><a href="#使用BR2-EXTERNAL的优势" class="headerlink" title="使用BR2_EXTERNAL的优势"></a>使用BR2_EXTERNAL的优势</h3><ul>
 <li><strong>模块化</strong>：允许将自定义内容和Buildroot主树分开，便于管理。</li>
@@ -72,11 +73,21 @@
 <h3 id="7-fs"><a href="#7-fs" class="headerlink" title="7. fs&#x2F;"></a>7. fs&#x2F;</h3><p><code>fs/</code>目录用于添加自定义文件系统支持。这里可以放置生成特定类型文件系统镜像的脚本和配置。</p>
 <p>这些文件和目录为你提供了一个框架来扩展Buildroot，添加自定义板级支持、软件包和配置。确保遵循Buildroot的文档和现有的样板（boilerplate）代码来正确实现这些自定义扩展。</p>
 ]]></content>
+      <categories>
+        <category>tools</category>
+        <category>嵌入式</category>
+      </categories>
+      <tags>
+        <tag>Buildroot</tag>
+        <tag>嵌入式系统</tag>
+        <tag>交叉编译</tag>
+        <tag>Linux开发</tag>
+      </tags>
   </entry>
   <entry>
-    <title>hexo+github搭网站</title>
-    <url>/2023/12/06/tools/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/</url>
-    <content><![CDATA[<p>由于心血来潮，决定自己搭网站。又所谓<em>拿来主义</em>，对于别人的好东西就要拿来，在此记录我参考过的网站</p>
+    <title>Hexo+GitHub搭建个人博客教程</title>
+    <url>/2023/02/17/tools/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/</url>
+    <content><![CDATA[<p>使用Hexo和GitHub Pages搭建个人博客的详细教程，包括环境配置、主题设置、部署方法等内容。</p>
 <span id="more"></span>
 
 <h2 id="手把手从0-1"><a href="#手把手从0-1" class="headerlink" title="手把手从0-1"></a>手把手从0-1</h2><p><a href="https://www.jianshu.com/p/85f455afcfcf">https://www.jianshu.com/p/85f455afcfcf</a></p>
@@ -89,21 +100,21 @@
 <p><img src="/images/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/IMG_7006.JPG" alt="Alt text"></p>
 ]]></content>
       <categories>
-        <category>综述</category>
+        <category>tools</category>
+        <category>博客搭建</category>
       </categories>
       <tags>
-        <tag>网络</tag>
+        <tag>Hexo</tag>
+        <tag>GitHub Pages</tag>
+        <tag>网站搭建</tag>
+        <tag>博客系统</tag>
       </tags>
   </entry>
   <entry>
-    <title>tags</title>
-    <url>/2023/12/07/tools/index/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>linux的常用命令</title>
-    <url>/2024/02/02/tools/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<span id="more"></span>
+    <title>Linux常用命令速查</title>
+    <url>/2023/04/01/tools/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>Linux系统常用命令的整理和说明，包括文件操作、系统管理、网络配置等内容。</p>
+<span id="more"></span>
 
 <h2 id="Linux根目录"><a href="#Linux根目录" class="headerlink" title="Linux根目录"></a>Linux根目录</h2><p>Linux根目录(<code>/</code>)是文件系统的最顶层目录，它包含了系统的所有其他文件和目录。每个位于根目录下的目录都有其特定的用途和约定。以下是Linux根目录下常见目录的简要说明：</p>
 <h3 id="bin"><a href="#bin" class="headerlink" title="/bin"></a><code>/bin</code></h3><p>包含用户和系统操作所需的重要可执行文件（命令），如<code>ls</code>、<code>cp</code>等。这些命令对于系统的基本功能至关重要。</p>
@@ -113,7 +124,7 @@
 <h3 id="home"><a href="#home" class="headerlink" title="/home"></a><code>/home</code></h3><p>用户的主目录，通常每个用户在<code>/home</code>下有一个与其用户名同名的目录，用于存放个人文件、配置文件等。</p>
 <h3 id="lib"><a href="#lib" class="headerlink" title="/lib"></a><code>/lib</code></h3><p>包含系统和应用程序运行所需的共享库文件和内核模块。共享库类似于Windows中的DLL文件。</p>
 <h3 id="media和-mnt"><a href="#media和-mnt" class="headerlink" title="/media和/mnt"></a><code>/media</code>和<code>/mnt</code></h3><p><code>/media</code>通常用于挂载可移除媒体，如CD-ROMs、USB驱动器等，而<code>/mnt</code>经常被用作临时挂载文件系统的点。</p>
-<h3 id="opt"><a href="#opt" class="headerlink" title="/opt"></a><code>/opt</code></h3><p>用于安装“可选”的软件和第三方应用程序，这些应用程序通常以包的形式独立于系统默认的软件管理。</p>
+<h3 id="opt"><a href="#opt" class="headerlink" title="/opt"></a><code>/opt</code></h3><p>用于安装”可选”的软件和第三方应用程序，这些应用程序通常以包的形式独立于系统默认的软件管理。</p>
 <h3 id="proc"><a href="#proc" class="headerlink" title="/proc"></a><code>/proc</code></h3><p>一个虚拟的文件系统，提供对内核和进程信息的接口，如系统内存、配置参数（通过文件系统接口访问）。</p>
 <h3 id="root"><a href="#root" class="headerlink" title="/root"></a><code>/root</code></h3><p>超级用户（root用户）的主目录，类似于普通用户的<code>/home/用户名</code>目录，但位于根目录下。</p>
 <h3 id="sbin"><a href="#sbin" class="headerlink" title="/sbin"></a><code>/sbin</code></h3><p>包含系统管理和维护的重要可执行文件，通常只有root用户才能运行这些命令，如<code>fdisk</code>、<code>ifconfig</code>等。</p>
@@ -135,9 +146,9 @@
 <p>xargs主要用于将标准输入数据转换为命令行参数。在你的场景中，由于grep可以直接从标准输入读取数据进行搜索，实际上不需要xargs来实现这一功能。<br>qemu-system-riscv64 -help | grep “machine”</p>
 <p>查找当前目录及子目录下所有.log文件，并使用grep命令在它们中搜索”error”字符串：<br>$ find . -type f -name “*.log” | xargs grep “error”<br>xargs命令的-0（或–null）选项期望输入项以null字符（\0）分隔，这通常与find … -print0命令一起使用。</p>
 <p>性能：使用-exec时，find会为每个找到的文件启动一个新的进程来执行指定的命令。而管道到xargs的方式会尝试减少进程的数量，通过将多个文件名作为单个命令的参数来提高效率。<br>安全性：-exec直接由find处理，可以安全地处理文件名中的特殊字符。而使用管道到xargs时，如果不加-0选项（并且find使用-print0），可能会遇到文件名中包含空格、换行符等特殊字符的问题。<br>灵活性：管道允许你利用Shell的特性组合多个命令，可以实现更复杂的处理流程。<br>选择使用-exec还是管道（配合xargs），取决于具体的任务需求、对性能的考量以及对特殊文件名的处理需求。</p>
-<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>查看所有Git配置项：<br>$ git config –list<br>user.name&#x3D;LuLuji04<br>user.email&#x3D;<a href="mailto:&#108;&#105;&#117;&#x79;&#x75;&#106;&#105;&#x30;&#49;&#x30;&#x40;&#49;&#x32;&#54;&#46;&#x63;&#x6f;&#x6d;">&#108;&#105;&#117;&#x79;&#x75;&#106;&#105;&#x30;&#49;&#x30;&#x40;&#49;&#x32;&#54;&#46;&#x63;&#x6f;&#x6d;</a><br>https.proxy&#x3D;192.168.3.11:7890<br>credential.helper&#x3D;store<br>http.proxy&#x3D;192.168.3.11:7890<br>core.editor&#x3D;vim<br>color.ui&#x3D;true</p>
+<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>查看所有Git配置项：<br>$ git config –list<br>user.name&#x3D;LuLuji04<br>user.email&#x3D;<a href="mailto:&#108;&#x69;&#117;&#x79;&#117;&#x6a;&#105;&#x30;&#49;&#x30;&#64;&#x31;&#x32;&#54;&#x2e;&#x63;&#x6f;&#109;">&#108;&#x69;&#117;&#x79;&#117;&#x6a;&#105;&#x30;&#49;&#x30;&#64;&#x31;&#x32;&#54;&#x2e;&#x63;&#x6f;&#109;</a><br>https.proxy&#x3D;192.168.3.11:7890<br>credential.helper&#x3D;store<br>http.proxy&#x3D;192.168.3.11:7890<br>core.editor&#x3D;vim<br>color.ui&#x3D;true</p>
 <p>查看特定配置项的值，如user.name：<br>$ git config user.name</p>
-<p>$ git config –global user.name “Your Name”<br>$ git config –global user.email “<a href="mailto:&#121;&#x6f;&#x75;&#x72;&#x65;&#109;&#x61;&#105;&#108;&#x40;&#101;&#x78;&#97;&#x6d;&#x70;&#x6c;&#101;&#46;&#x63;&#x6f;&#x6d;">&#121;&#x6f;&#x75;&#x72;&#x65;&#109;&#x61;&#105;&#108;&#x40;&#101;&#x78;&#97;&#x6d;&#x70;&#x6c;&#101;&#46;&#x63;&#x6f;&#x6d;</a>“</p>
+<p>$ git config –global user.name “Your Name”<br>$ git config –global user.email “<a href="mailto:&#x79;&#x6f;&#x75;&#114;&#x65;&#x6d;&#97;&#105;&#108;&#x40;&#x65;&#120;&#x61;&#x6d;&#x70;&#x6c;&#101;&#46;&#99;&#x6f;&#x6d;">&#x79;&#x6f;&#x75;&#114;&#x65;&#x6d;&#97;&#105;&#108;&#x40;&#x65;&#120;&#x61;&#x6d;&#x70;&#x6c;&#101;&#46;&#99;&#x6f;&#x6d;</a>“</p>
 <h2 id="man"><a href="#man" class="headerlink" title="man"></a>man</h2><p>man 手册的数字编号</p>
 <p>man 1 kill、man 2 kill，这些命令都是查看 kill 命令的手册，但是文档却大不相同。</p>
 <p>因为 kill 是一个命令行的工具，which kill 看到 &#x2F;usr&#x2F;bin&#x2F;kill 是一个二进制文件；其实，也有一个系统调用叫做 kill。</p>
@@ -195,48 +206,61 @@
 <p>用户管理是Linux系统管理中的一个重要部分，了解和掌握基本的用户和组管理命令对于维护系统的安全性和有效性至关重要。</p>
 ]]></content>
       <categories>
-        <category>学习</category>
+        <category>tools</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>开发</tag>
+        <tag>开发工具</tag>
+        <tag>Linux</tag>
+        <tag>命令行</tag>
+        <tag>系统管理</tag>
       </tags>
   </entry>
   <entry>
-    <title>vscode的常用操作</title>
-    <url>/2024/02/07/tools/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<span id="more"></span>
-
+    <title>VSCode使用技巧与配置指南</title>
+    <url>/2023/02/07/tools/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<p>VSCode编辑器的使用技巧和配置方法，包括插件推荐、快捷键、调试技巧等内容。</p>
+<span id="more"></span>
 
 <p>A: 你本地新增的文件（服务器上没有）.<br>C: 文件的一个新拷贝.<br>D: 你本地删除的文件（服务器上还在）.<br>M: 文件的内容或者mode被修改了.<br>R: 文件名被修改了。<br>T: 文件的类型被修改了。<br>U: 文件没有被合并(你需要完成合并才能进行提交)。<br>X: 未知状态(很可能是遇到git的bug了，你可以向git提交bug report)。<br>在man git diff-files中可以查到这些标志的说明。<br>这些状态标志在git的源代码的diff.h文件中被定义。</p>
 ]]></content>
       <categories>
-        <category>学习</category>
+        <category>tools</category>
+        <category>IDE</category>
       </categories>
       <tags>
-        <tag>开发</tag>
+        <tag>开发工具</tag>
+        <tag>VSCode</tag>
+        <tag>编辑器</tag>
+        <tag>开发环境</tag>
       </tags>
   </entry>
   <entry>
-    <title>配置高级软件</title>
+    <title>高级开发软件配置指南</title>
     <url>/2023/12/26/tools/%E9%85%8D%E7%BD%AE%E9%AB%98%E7%BA%A7%E8%BD%AF%E4%BB%B6/</url>
-    <content><![CDATA[<span id="more"></span>
+    <content><![CDATA[<p>本文介绍了一些高级开发软件的配置方法，包括VSCode与Vivado的集成、项目导入等内容。</p>
+<span id="more"></span>
 
 <h2 id="VSCode关联VIVADO编辑Verilog"><a href="#VSCode关联VIVADO编辑Verilog" class="headerlink" title="VSCode关联VIVADO编辑Verilog"></a>VSCode关联VIVADO编辑Verilog</h2><p><a href="https://blog.csdn.net/wd12306/article/details/128929552">https://blog.csdn.net/wd12306/article/details/128929552</a></p>
 <h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>导入的文件可以不在{projectdir}\newcounter\newcounter.srcs中，<br><img src="/../images/%E9%85%8D%E7%BD%AEvivado/image.png" alt="Alt text"></p>
 <h2 id="vivado加入board和part"><a href="#vivado加入board和part" class="headerlink" title="vivado加入board和part"></a>vivado加入board和part</h2><p><a href="https://support.xilinx.com/s/question/0D52E00006lLBqpSAG/setting-board-file-fails-with-error-board-4971-the-boardpart-definition-was-not-found?language=en_US">https://support.xilinx.com/s/question/0D52E00006lLBqpSAG/setting-board-file-fails-with-error-board-4971-the-boardpart-definition-was-not-found?language=en_US</a></p>
 ]]></content>
       <categories>
-        <category>学习</category>
+        <category>tools</category>
+        <category>开发环境</category>
       </categories>
       <tags>
-        <tag>开发</tag>
-        <tag>硬件</tag>
+        <tag>开发工具</tag>
+        <tag>VSCode</tag>
+        <tag>Vivado</tag>
+        <tag>环境配置</tag>
       </tags>
   </entry>
   <entry>
-    <title>虚拟机配置</title>
+    <title>虚拟机环境配置指南</title>
     <url>/2024/04/01/tools/%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<span id="more"></span>
+    <content><![CDATA[<p>详细介绍虚拟机环境的配置方法，包括静态IP设置、防火墙管理、SELinux配置等内容。</p>
+<span id="more"></span>
 
 <h2 id="配置静态ip"><a href="#配置静态ip" class="headerlink" title="配置静态ip"></a>配置静态ip</h2><h4 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h4><p><a href="https://blog.csdn.net/Un1qu3/article/details/126155766">https://blog.csdn.net/Un1qu3/article/details/126155766</a><br><a href="https://blog.csdn.net/Conquer_l/article/details/124989551">https://blog.csdn.net/Conquer_l/article/details/124989551</a><br><a href="https://blog.csdn.net/lk142500/article/details/88386651">https://blog.csdn.net/lk142500/article/details/88386651</a><br><img src="/2146089-20200911223717884-1559586693.png" alt="alt text"><br><a href="https://www.cnblogs.com/yansunda/p/13654632.html">https://www.cnblogs.com/yansunda/p/13654632.html</a></p>
 <p>vim &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-eth33<br>sudo systemctl restart NetworkManager</p>
@@ -245,11 +269,22 @@
 <p>关闭selinux<br>暂时：<br>setenforce 0<br>永久：<br>输入命令 <code>vi /etc/selinux/config</code>。<br>在打开的文件中，找到 <code>SELINUX=</code> 这一行，将其从 <code>enforcing</code> 或 <code>permissive</code> 修改为 <code>disabled</code>。</p>
 <p>arp -a<br>展示运行过的ping</p>
 ]]></content>
+      <categories>
+        <category>tools</category>
+        <category>虚拟化</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>系统管理</tag>
+        <tag>虚拟机</tag>
+        <tag>网络配置</tag>
+      </tags>
   </entry>
   <entry>
-    <title>git的使用</title>
-    <url>/2024/03/02/tools/git%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<span id="more"></span>
+    <title>Git版本控制使用指南</title>
+    <url>/2023/05/07/tools/git%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>Git版本控制系统的使用指南，包括基本操作、分支管理、团队协作等内容。</p>
+<span id="more"></span>
 <h2 id="git-config"><a href="#git-config" class="headerlink" title="git config"></a>git config</h2><p>在 Git 中，你可以使用以下命令来查看和修改配置：<br>查看配置</p>
 <pre><code>查看全局配置：
 </code></pre>
@@ -308,7 +343,19 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
 <p>要更新子模块的配置，可以运行以下命令：<br>git submodule sync</p>
 <p>这个命令将会更新本地存储库中的 .git&#x2F;config 文件以反映.gitmodules文件中的新 URL。<br>然后，可以运行以下命令来更新子模块：<br>git submodule update –init –recursive</p>
 <p>这个命令将会使用.gitmodules文件中的新 URL 克隆或更新子模块，并递归地更新任何子模块的子模块（如果有的话）。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>git add .的撤回<br>git reset</p>
+<h2 id="gitignore"><a href="#gitignore" class="headerlink" title="gitignore"></a>gitignore</h2><p>* 和 *.*：忽略所有文件。<br>!<em>&#x2F;：不忽略所有目录。<br>!Makefile：不忽略 Makefile 文件。<br>!</em>.mk：不忽略所有 .mk 文件。<br>!<em>.scala：不忽略所有 .scala 文件。<br>!</em>.[cSh]：不忽略所有 .c、.S 和 .h 文件。<br>!<em>.v：不忽略所有 .v 文件。<br>!</em>.cpp：不忽略所有 .cpp 文件。<br>!*.cc：不忽略所有 .cc 文件。<br>!.gitignore：不忽略 .gitignore 文件。<br>!.scalafmt.conf：不忽略 .scalafmt.conf 文件。<br>!build.sc：不忽略 build.sc 文件。<br>!README.md：不忽略 README.md 文件。<br>!&#x2F;src&#x2F;**：不忽略 src 目录及其所有子目录和文件。<br>!&#x2F;patch&#x2F;**：不忽略 patch 目录及其所有子目录和文件。<br>!&#x2F;perip&#x2F;**：不忽略 perip 目录及其所有子目录和文件。<br>!&#x2F;spec&#x2F;**：不忽略 spec 目录及其所有子目录和文件。</p>
 ]]></content>
+      <categories>
+        <category>tools</category>
+        <category>版本控制</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+        <tag>版本控制</tag>
+        <tag>开发工具</tag>
+        <tag>团队协作</tag>
+      </tags>
   </entry>
   <entry>
     <title>Makefile的常用操作</title>
@@ -468,7 +515,8 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
   <entry>
     <title>x86架构学习笔记</title>
     <url>/2023/04/16/os/x86%E7%9A%84%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<span id="more"></span>
+    <content><![CDATA[<p>x86架构相关的学习笔记，包括寄存器使用、分段机制、特权级别等重要概念的详细说明。</p>
+<span id="more"></span>
 
 <h2 id="ebp和-esp"><a href="#ebp和-esp" class="headerlink" title="%ebp和%esp"></a>%ebp和%esp</h2><p><a href="https://blog.csdn.net/qq_41683305/article/details/104249224">https://blog.csdn.net/qq_41683305/article/details/104249224</a></p>
 <h2 id="分段机制"><a href="#分段机制" class="headerlink" title="分段机制"></a>分段机制</h2><p><a href="https://blog.csdn.net/cc_net/article/details/24726287">https://blog.csdn.net/cc_net/article/details/24726287</a></p>
@@ -488,7 +536,8 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
   <entry>
     <title>RISC-V启动流程详解</title>
     <url>/2023/04/09/os/riscv%E5%90%AF%E5%8A%A8/</url>
-    <content><![CDATA[<span id="more"></span>
+    <content><![CDATA[<p>详细介绍RISC-V架构的系统启动流程，包括OpenSBI、U-Boot等bootloader的配置和使用方法，以及各类固件文件的说明。</p>
+<span id="more"></span>
 
 <h2 id="网址"><a href="#网址" class="headerlink" title="网址"></a>网址</h2><p><a href="https://buildroot.org/">https://buildroot.org/</a><br><a href="https://github.com/riscv-software-src/opensbi">https://github.com/riscv-software-src/opensbi</a><br><a href="https://github.com/u-boot/u-boot">https://github.com/u-boot/u-boot</a><br><a href="https://kernel.org/">https://kernel.org/</a></p>
 <p>为了通过 U-Boot 启动 RISC-V 64 架构的 Linux，我们需要在编译时选择交叉编译工具链 riscv64-linux-gnu-gcc。在 U-Boot 目录下执行以下命令：<br>    $ cd u-boot<br>    $ export CROSS_COMPILE&#x3D;riscv64-linux-gnu-<br>    $ make qemu-riscv64_smode_defconfig<br>    $ make -j $(nproc)</p>
@@ -532,12 +581,23 @@ $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
       </tags>
   </entry>
   <entry>
-    <title>mysql</title>
-    <url>/2024/03/24/course/mysql/</url>
-    <content><![CDATA[<span id="more"></span>
+    <title>MySQL数据库学习笔记</title>
+    <url>/2023/04/09/course/mysql/</url>
+    <content><![CDATA[<p>MySQL数据库的基础知识和实践经验总结，包括数据库设计、SQL查询优化等内容。</p>
+<span id="more"></span>
 
 <p><a href="https://www.zhihu.com/question/620270343">https://www.zhihu.com/question/620270343</a></p>
 ]]></content>
+      <categories>
+        <category>course</category>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>课程笔记</tag>
+        <tag>MySQL</tag>
+        <tag>数据库</tag>
+        <tag>SQL</tag>
+      </tags>
   </entry>
   <entry>
     <title>人工智能课程笔记</title>
@@ -578,9 +638,10 @@ $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
       </tags>
   </entry>
   <entry>
-    <title>学习硬件安全的网站</title>
-    <url>/2023/12/06/course/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/</url>
-    <content><![CDATA[<p>作为一名信息安全的学生，由于更喜欢与真实的世界打交道，选择了深入了解硬件安全。这里就将用来记录一些关于<em>硬件安全</em>的学习网站</p>
+    <title>硬件安全学习资源汇总</title>
+    <url>/2023/12/10/course/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/</url>
+    <content><![CDATA[<p>收集和整理硬件安全领域的学习资源，包括网站、工具、教程等内容。</p>
+<p>作为一名信息安全的学生，由于更喜欢与真实的世界打交道，选择了深入了解硬件安全。这里就将用来记录一些关于<em>硬件安全</em>的学习网站</p>
 <span id="more"></span>
 
 <h2 id="黑客平台"><a href="#黑客平台" class="headerlink" title="黑客平台"></a>黑客平台</h2><h4 id="包含多层面的安全技术，其中有IoT安全"><a href="#包含多层面的安全技术，其中有IoT安全" class="headerlink" title="包含多层面的安全技术，其中有IoT安全"></a>包含多层面的安全技术，其中有IoT安全</h4><p><a href="https://paper.seebug.org/">https://paper.seebug.org/</a></p>
@@ -595,17 +656,21 @@ $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
 <h2 id="体系结构"><a href="#体系结构" class="headerlink" title="体系结构"></a>体系结构</h2><h4 id="计算机体系结构学习路线"><a href="#计算机体系结构学习路线" class="headerlink" title="计算机体系结构学习路线"></a>计算机体系结构学习路线</h4><p><a href="https://zhuanlan.zhihu.com/p/654821469">https://zhuanlan.zhihu.com/p/654821469</a></p>
 ]]></content>
       <categories>
-        <category>综述</category>
+        <category>course</category>
+        <category>硬件安全</category>
       </categories>
       <tags>
-        <tag>安全</tag>
-        <tag>硬件</tag>
+        <tag>课程笔记</tag>
+        <tag>硬件安全</tag>
+        <tag>安全设计</tag>
+        <tag>学习资源</tag>
       </tags>
   </entry>
   <entry>
-    <title>操作系统</title>
-    <url>/2024/03/05/course/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<span id="more"></span>
+    <title>操作系统原理与实践</title>
+    <url>/2023/04/09/course/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<p>操作系统核心概念和实践经验总结，包括进程管理、内存管理、文件系统等内容。</p>
+<span id="more"></span>
 
 <p>SISD<br>MISD：可靠性<br>MIMD</p>
 <p>多处理器：多个芯片<br>多核：多个执行单元</p>
@@ -632,11 +697,22 @@ $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
 <h2 id="内核模块"><a href="#内核模块" class="headerlink" title="内核模块"></a>内核模块</h2><p><a href="https://blog.csdn.net/m0_74282605/article/details/135866888">https://blog.csdn.net/m0_74282605/article/details/135866888</a></p>
 <h2 id="list宏"><a href="#list宏" class="headerlink" title="list宏"></a>list宏</h2><p><a href="https://blog.csdn.net/weixin_44498318/article/details/132275727">https://blog.csdn.net/weixin_44498318/article/details/132275727</a></p>
 ]]></content>
+      <categories>
+        <category>course</category>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>系统编程</tag>
+        <tag>操作系统</tag>
+        <tag>课程笔记</tag>
+        <tag>进程管理</tag>
+      </tags>
   </entry>
   <entry>
     <title>计算机组成原理课程笔记</title>
     <url>/2023/04/21/course/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<span id="more"></span>
+    <content><![CDATA[<p>本课程笔记涵盖了计算机组成原理的核心概念，包括CPU设计、存储系统、指令系统等内容，以及相关的实践经验。</p>
+<span id="more"></span>
 
 <p><a href="https://blog.csdn.net/qq_62325622/article/details/134804522?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-134804522-blog-124206736.235%5Ev43%5Epc_blog_bottom_relevance_base9&spm=1001.2101.3001.4242.1&utm_relevant_index=3">https://blog.csdn.net/qq_62325622/article/details/134804522?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-134804522-blog-124206736.235^v43^pc_blog_bottom_relevance_base9&amp;spm=1001.2101.3001.4242.1&amp;utm_relevant_index=3</a></p>
 ]]></content>
@@ -652,17 +728,29 @@ $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
       </tags>
   </entry>
   <entry>
-    <title>编译原理</title>
-    <url>/2024/04/09/course/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<span id="more"></span>
+    <title>编译原理学习笔记</title>
+    <url>/2023/04/09/course/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<p>编译原理的核心概念和实践总结，包括词法分析、语法分析、代码生成等内容。</p>
+<span id="more"></span>
 
 <p><a href="https://blog.csdn.net/qq_40618816/article/details/105094138/">https://blog.csdn.net/qq_40618816/article/details/105094138/</a></p>
 ]]></content>
+      <categories>
+        <category>course</category>
+        <category>编译原理</category>
+      </categories>
+      <tags>
+        <tag>课程笔记</tag>
+        <tag>编译原理</tag>
+        <tag>程序语言</tag>
+        <tag>编译器设计</tag>
+      </tags>
   </entry>
   <entry>
     <title>操作系统内存检测机制</title>
     <url>/2023/04/16/os/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/</url>
-    <content><![CDATA[<span id="more"></span>
+    <content><![CDATA[<p>介绍操作系统中的内存检测机制，包括NuttX系统的内存管理和KFENCE内存错误检测工具的使用方法。</p>
+<span id="more"></span>
 <h2 id="nuttx"><a href="#nuttx" class="headerlink" title="nuttx"></a>nuttx</h2><p><a href="https://nuttx.apache.org/docs/latest/">https://nuttx.apache.org/docs/latest/</a></p>
 <h2 id="kfence"><a href="#kfence" class="headerlink" title="kfence"></a>kfence</h2><p><a href="https://www.cnblogs.com/sky-heaven/p/16527927.html">https://www.cnblogs.com/sky-heaven/p/16527927.html</a></p>
 ]]></content>
@@ -677,9 +765,12 @@ $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
       </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2025/01/21/ysyx/rtthread/%E5%86%85%E5%AD%98/</url>
-    <content><![CDATA[<h1 id="把ubuntu升级到22了"><a href="#把ubuntu升级到22了" class="headerlink" title="把ubuntu升级到22了"></a>把ubuntu升级到22了</h1><p>sudo sed -i ‘s&#x2F;focal&#x2F;jammy&#x2F;g’ &#x2F;etc&#x2F;apt&#x2F;sources.list<br>sudo apt update<br>sudo apt upgrade<br>sudo apt dist-upgrade</p>
+    <title>RT-Thread内存管理分析</title>
+    <url>/2023/12/07/ysyx/rtthread/%E5%86%85%E5%AD%98/</url>
+    <content><![CDATA[<p>RT-Thread操作系统内存管理机制的分析，以及相关开发环境配置和调试工具的使用说明。</p>
+<span id="more"></span>
+
+<h1 id="把ubuntu升级到22了"><a href="#把ubuntu升级到22了" class="headerlink" title="把ubuntu升级到22了"></a>把ubuntu升级到22了</h1><p>sudo sed -i ‘s&#x2F;focal&#x2F;jammy&#x2F;g’ &#x2F;etc&#x2F;apt&#x2F;sources.list<br>sudo apt update<br>sudo apt upgrade<br>sudo apt dist-upgrade</p>
 <h1 id="重启后连不上网了"><a href="#重启后连不上网了" class="headerlink" title="重启后连不上网了"></a>重启后连不上网了</h1><ol>
 <li>查看所有网络接口的状态：<br>ip link show</li>
 <li>检查它们是否为 DOWN 状态（关闭状态），如果是，可以尝试启用它们<br>sudo ip link set eth0 up</li>
@@ -692,6 +783,16 @@ $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
 <h1 id="perf"><a href="#perf" class="headerlink" title="perf"></a>perf</h1><p>安装<br>sudo apt-get update<br>sudo apt-get install linux-tools-common linux-tools-generic linux-tools-$(uname -r)</p>
 <h1 id="linux上的slab"><a href="#linux上的slab" class="headerlink" title="linux上的slab"></a>linux上的slab</h1><p><a href="https://segmentfault.com/a/1190000043626203">https://segmentfault.com/a/1190000043626203</a></p>
 ]]></content>
+      <categories>
+        <category>ysyx</category>
+        <category>RTOS</category>
+      </categories>
+      <tags>
+        <tag>内存管理</tag>
+        <tag>一生一芯</tag>
+        <tag>RT-Thread</tag>
+        <tag>实时操作系统</tag>
+      </tags>
   </entry>
   <entry>
     <title>ICache实现与优化</title>
@@ -804,9 +905,12 @@ $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
       </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2025/01/21/ysyx/abstract-machine/cpu-test/</url>
-    <content><![CDATA[<h2 id="longlong-的cpu测试有时候过不了"><a href="#longlong-的cpu测试有时候过不了" class="headerlink" title="longlong 的cpu测试有时候过不了"></a>longlong 的cpu测试有时候过不了</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">long</span> <span class="type">long</span> test_data[] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0x7fffffffffffffff</span>LL, <span class="number">0x8000000000000000</span>LL, <span class="number">0x8000000000000001</span>LL, <span class="number">0xfffffffffffffffe</span>LL, <span class="number">0xffffffffffffffff</span>LL&#125;;</span><br></pre></td></tr></table></figure>
+    <title>CPU功能测试与验证</title>
+    <url>/2023/12/03/ysyx/abstract-machine/cpu-test/</url>
+    <content><![CDATA[<p>CPU功能测试过程中遇到的问题及解决方案，包括longlong测试、内存对齐等问题的分析。</p>
+<span id="more"></span>
+
+<h2 id="longlong-的cpu测试有时候过不了"><a href="#longlong-的cpu测试有时候过不了" class="headerlink" title="longlong 的cpu测试有时候过不了"></a>longlong 的cpu测试有时候过不了</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">long</span> <span class="type">long</span> test_data[] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0x7fffffffffffffff</span>LL, <span class="number">0x8000000000000000</span>LL, <span class="number">0x8000000000000001</span>LL, <span class="number">0xfffffffffffffffe</span>LL, <span class="number">0xffffffffffffffff</span>LL&#125;;</span><br></pre></td></tr></table></figure>
 <h3 id="longlong的打印"><a href="#longlong的打印" class="headerlink" title="longlong的打印"></a>longlong的打印</h3><p>在处理 long long 类型的负数时，特别是极值（如 0x8000000000000000LL），直接取反操作 value &#x3D; -value; 可能会导致溢出问题。因为 0x8000000000000000LL 是 long long 类型的最小值，其绝对值超出了 long long 类型的正数范围<br><img src="/image.png" alt="alt text"></p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">long</span> <span class="type">long</span> value;</span><br><span class="line">   <span class="comment">// Set &#x27;-&#x27; for negative decimals.</span></span><br><span class="line">   <span class="keyword">if</span> (value &lt; <span class="number">0</span> &amp;&amp; base == <span class="number">10</span>) &#123;</span><br><span class="line">       *str++ = <span class="string">&#x27;-&#x27;</span>;</span><br><span class="line">       value = -value;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>使用无符号类型：在处理负数时，将其转换为无符号类型 unsigned long long，以避免溢出问题。<br><img src="/image-1.png" alt="alt text"></p>
@@ -826,6 +930,16 @@ $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CROSS_COMPILE := /opt/riscv/bin/riscv64-unknown-elf-</span><br><span class="line">#CROSS_COMPILE := /opt/riscv/bin/riscv64-unknown-linux-gnu-</span><br><span class="line">COMMON_CFLAGS := -fno-pic -march=rv64g -mcmodel=medany -mstrict-align</span><br></pre></td></tr></table></figure>
 <h4 id="发现是写内存代码有问题，解决了就好了，编译器都可以使"><a href="#发现是写内存代码有问题，解决了就好了，编译器都可以使" class="headerlink" title="发现是写内存代码有问题，解决了就好了，编译器都可以使"></a>发现是写内存代码有问题，解决了就好了，编译器都可以使</h4><h2 id="-1"><a href="#-1" class="headerlink" title=""></a></h2><p>直接#include&lt;stido.h&gt;就是使用的gnu的stdio.h</p>
 ]]></content>
+      <categories>
+        <category>ysyx</category>
+        <category>验证测试</category>
+      </categories>
+      <tags>
+        <tag>一生一芯</tag>
+        <tag>CPU测试</tag>
+        <tag>功能验证</tag>
+        <tag>Abstract Machine</tag>
+      </tags>
   </entry>
   <entry>
     <title>NEMU-NPC-YSYXSoC性能对比</title>
@@ -843,13 +957,6 @@ $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
         <tag>性能测试</tag>
         <tag>仿真器</tag>
       </tags>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2025/01/21/ysyx/abstract-machine/git/</url>
-    <content><![CDATA[<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>git add .的撤回<br>git reset</p>
-<h2 id="gitignore"><a href="#gitignore" class="headerlink" title="gitignore"></a>gitignore</h2><p>* 和 *.*：忽略所有文件。<br>!<em>&#x2F;：不忽略所有目录。<br>!Makefile：不忽略 Makefile 文件。<br>!</em>.mk：不忽略所有 .mk 文件。<br>!<em>.scala：不忽略所有 .scala 文件。<br>!</em>.[cSh]：不忽略所有 .c、.S 和 .h 文件。<br>!<em>.v：不忽略所有 .v 文件。<br>!</em>.cpp：不忽略所有 .cpp 文件。<br>!*.cc：不忽略所有 .cc 文件。<br>!.gitignore：不忽略 .gitignore 文件。<br>!.scalafmt.conf：不忽略 .scalafmt.conf 文件。<br>!build.sc：不忽略 build.sc 文件。<br>!README.md：不忽略 README.md 文件。<br>!&#x2F;src&#x2F;**：不忽略 src 目录及其所有子目录和文件。<br>!&#x2F;patch&#x2F;**：不忽略 patch 目录及其所有子目录和文件。<br>!&#x2F;perip&#x2F;**：不忽略 perip 目录及其所有子目录和文件。<br>!&#x2F;spec&#x2F;**：不忽略 spec 目录及其所有子目录和文件。</p>
-]]></content>
   </entry>
   <entry>
     <title>AXI4总线协议详解</title>
@@ -873,9 +980,12 @@ $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
       </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2025/01/21/ysyx/ysyxsoc/psram/</url>
-    <content><![CDATA[<h2 id="二级加载"><a href="#二级加载" class="headerlink" title="二级加载"></a>二级加载</h2><table>
+    <title>PSRAM控制器实现</title>
+    <url>/2023/11/17/ysyx/ysyxsoc/psram/</url>
+    <content><![CDATA[<p>PSRAM控制器的实现与二级加载机制的详细说明。</p>
+<span id="more"></span>
+
+<h2 id="二级加载"><a href="#二级加载" class="headerlink" title="二级加载"></a>二级加载</h2><table>
 <thead>
 <tr>
 <th>存储器</th>
@@ -898,17 +1008,43 @@ $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
 </tr>
 </tbody></table>
 ]]></content>
+      <categories>
+        <category>ysyx</category>
+        <category>存储器</category>
+      </categories>
+      <tags>
+        <tag>一生一芯</tag>
+        <tag>硬件设计</tag>
+        <tag>PSRAM</tag>
+        <tag>存储控制器</tag>
+      </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2025/01/21/ysyx/ysyxsoc/%E5%85%B6%E4%BB%96soc/</url>
-    <content><![CDATA[<h2 id="uart"><a href="#uart" class="headerlink" title="uart"></a>uart</h2><p>void putch(char ch) {<br>while (!(inb(UART16550_BASE + UART_LINE_STA_R) &amp; 0b00100000));<br>&#x2F;&#x2F;<strong>difftest时需注释外设的输入信号</strong>，不用注释了，因为difftest跳过外设的输入输出<br>  outb(UART16550_BASE, ch);<br>}</p>
+    <title>其他开源SoC项目研究</title>
+    <url>/2023/11/29/ysyx/ysyxsoc/%E5%85%B6%E4%BB%96soc/</url>
+    <content><![CDATA[<p>研究和分析其他开源SoC项目的设计和实现，包括外设接口和系统架构。</p>
+<span id="more"></span>
+
+<h2 id="uart"><a href="#uart" class="headerlink" title="uart"></a>uart</h2><p>void putch(char ch) {<br>while (!(inb(UART16550_BASE + UART_LINE_STA_R) &amp; 0b00100000));<br>&#x2F;&#x2F;<strong>difftest时需注释外设的输入信号</strong>，不用注释了，因为difftest跳过外设的输入输出<br>  outb(UART16550_BASE, ch);<br>}</p>
 ]]></content>
+      <categories>
+        <category>ysyx</category>
+        <category>SoC设计</category>
+      </categories>
+      <tags>
+        <tag>RISC-V</tag>
+        <tag>一生一芯</tag>
+        <tag>SoC</tag>
+        <tag>开源硬件</tag>
+      </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2025/01/21/ysyx/ysyxsoc/sdram/</url>
-    <content><![CDATA[<h1 id="sdram配置切换"><a href="#sdram配置切换" class="headerlink" title="sdram配置切换"></a>sdram配置切换</h1><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">SDRAMConfig</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> <span class="type">SDRAM_2BYTE_NUM</span>: <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">SDRAM_WORD_NUM</span>: <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">val</span> awidth = <span class="keyword">if</span> (<span class="type">SDRAM_WORD_NUM</span> == <span class="number">2</span>) <span class="number">14</span> <span class="keyword">else</span> <span class="number">13</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>SDRAM控制器实现</title>
+    <url>/2023/11/29/ysyx/ysyxsoc/sdram/</url>
+    <content><![CDATA[<p>SDRAM控制器的实现与优化，包括配置切换、时序控制、突发传输等功能的详细说明。</p>
+<span id="more"></span>
+
+<h1 id="sdram配置切换"><a href="#sdram配置切换" class="headerlink" title="sdram配置切换"></a>sdram配置切换</h1><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">SDRAMConfig</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> <span class="type">SDRAM_2BYTE_NUM</span>: <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">SDRAM_WORD_NUM</span>: <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">val</span> awidth = <span class="keyword">if</span> (<span class="type">SDRAM_WORD_NUM</span> == <span class="number">2</span>) <span class="number">14</span> <span class="keyword">else</span> <span class="number">13</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">parameter</span> SDRAM_2BYTE_NUM             = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">parameter</span> SDRAM_WORD_NUM             = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
 <p>只有在使用sdram_axi时，才可以突发访问</p>
 <h1 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h1><h2 id="设置寄存器"><a href="#设置寄存器" class="headerlink" title="设置寄存器"></a>设置寄存器</h2><p><img src="/image.png" alt="alt text"><br><img src="/image-1.png" alt="alt text"><br>写入BurstLength和CASLatency，完全是硬件自动写入，代码没管<br><img src="/image-4.png" alt="alt text"></p>
@@ -1001,5 +1137,15 @@ $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
 <p>make ARCH&#x3D;riscv32e-ysyxsoc run ALL&#x3D;printf | tee &gt;(grep “sdram” &gt;&gt; sdram)</p>
 <h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>sdram在最高地址开辟栈时，写入sp报错，因为做了字和位扩展会增大4被sdram空间<br><img src="/image-18.png" alt="alt text"></p>
 ]]></content>
+      <categories>
+        <category>ysyx</category>
+        <category>存储器</category>
+      </categories>
+      <tags>
+        <tag>一生一芯</tag>
+        <tag>硬件设计</tag>
+        <tag>存储控制器</tag>
+        <tag>SDRAM</tag>
+      </tags>
   </entry>
 </search>

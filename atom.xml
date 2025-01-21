@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-11-29T02:56:31.168Z</updated>
+  <updated>2024-01-20T16:00:00.000Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,315 +17,31 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
-    <link href="http://example.com/2025/01/21/ysyx/ysyxsoc/%E5%85%B6%E4%BB%96soc/"/>
-    <id>http://example.com/2025/01/21/ysyx/ysyxsoc/%E5%85%B6%E4%BB%96soc/</id>
-    <published>2025-01-21T06:44:11.415Z</published>
-    <updated>2024-11-29T02:56:31.168Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="uart"><a href="#uart" class="headerlink" title="uart"></a>uart</h2><p>void putch(char ch) {<br>while (!(inb(UART16550_BASE + UART_LINE_STA_R) &amp; 0b00100000));<br>&#x2F;&#x2F;<strong>difftest时需注释外设的输入信号</strong>，不用注释了，因为difftest跳过外设的输入输出<br>  outb(UART16550_BASE, ch);<br>}</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;uart&quot;&gt;&lt;a href=&quot;#uart&quot; class=&quot;headerlink&quot; title=&quot;uart&quot;&gt;&lt;/a&gt;uart&lt;/h2&gt;&lt;p&gt;void putch(char ch) {&lt;br&gt;while (!(inb(UART16550_BASE + UART_LI</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://example.com/2025/01/21/ysyx/ysyxsoc/sdram/"/>
-    <id>http://example.com/2025/01/21/ysyx/ysyxsoc/sdram/</id>
-    <published>2025-01-21T06:44:11.413Z</published>
-    <updated>2024-11-29T04:08:44.779Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="sdram配置切换"><a href="#sdram配置切换" class="headerlink" title="sdram配置切换"></a>sdram配置切换</h1><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">SDRAMConfig</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> <span class="type">SDRAM_2BYTE_NUM</span>: <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">SDRAM_WORD_NUM</span>: <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">val</span> awidth = <span class="keyword">if</span> (<span class="type">SDRAM_WORD_NUM</span> == <span class="number">2</span>) <span class="number">14</span> <span class="keyword">else</span> <span class="number">13</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">parameter</span> SDRAM_2BYTE_NUM             = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">parameter</span> SDRAM_WORD_NUM             = <span class="number">1</span>;</span><br></pre></td></tr></table></figure><p>只有在使用sdram_axi时，才可以突发访问</p><h1 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h1><h2 id="设置寄存器"><a href="#设置寄存器" class="headerlink" title="设置寄存器"></a>设置寄存器</h2><p><img src="/image.png" alt="alt text"><br><img src="/image-1.png" alt="alt text"><br>写入BurstLength和CASLatency，完全是硬件自动写入，代码没管<br><img src="/image-4.png" alt="alt text"></p><h2 id="突发读时序"><a href="#突发读时序" class="headerlink" title="突发读时序"></a>突发读时序</h2><p><img src="/image-2.png" alt="alt text"><br>16位写入，原始实例化了1个dsramhelper。burstLength设置成为了，这里就突发的读入了两个16bit。因为无论是lb、lh、lw都是读入32bit</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 步骤 2：测试16位写入和读取</span></span><br><span class="line">read_memory_16bit((<span class="type">uint16_t</span> *)start, size);</span><br></pre></td></tr></table></figure><p><img src="/image-5.png" alt="alt text"></p><h2 id="突发写时序"><a href="#突发写时序" class="headerlink" title="突发写时序"></a>突发写时序</h2><p>尤其注意传col的时候也是传bank的。所以sdram支持4个bank的开放，active时基于其中一个bank，read&#x2F;write时选择一个bank。取巧的做法是锁存row地址而不是锁存row中的数据，等到read&#x2F;write时使用bank索引锁存的row，bank，col一起访存<br><img src="/image-3.png" alt="alt text"><br>16位写入，原始实例化了1个dsramhelper。burstLength很早就设置成1了，为的是32写入时可以突发，虽然后面的col写入需要放弃，但col该加还得加。</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 步骤 2：测试16位写入和读取</span></span><br><span class="line">write_memory_16bit((<span class="type">uint16_t</span> *)start, size);</span><br></pre></td></tr></table></figure><p><img src="/image-8.png" alt="alt text"><br>32位写入，突发的写入两个16bit<br><img src="/image-7.png" alt="alt text"></p><h2 id="row-hit"><a href="#row-hit" class="headerlink" title="row hit"></a>row hit</h2><p>acitve的时候激活,如果rowhit了就不用active了，但是目前没实现row的寄存器（4bank*512col），所以只好禁止row hit了<br>以下图是因为row hit了所以没有active状态传入row和way和bank，就读错了<br><img src="/image-17.png" alt="alt text"></p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Open row hit</span></span><br><span class="line"><span class="keyword">if</span> (row_open_q[addr_bank_w] &amp;&amp; addr_row_w == active_row_q[addr_bank_w])</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span> (!ram_rd_w)</span><br><span class="line">        next_state_r = STATE_WRITE0;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        next_state_r = STATE_READ;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">// Row miss, close row, open new row</span></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (row_open_q[addr_bank_w])</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    next_state_r   = STATE_PRECHARGE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!ram_rd_w)</span><br><span class="line">        target_state_r = STATE_WRITE0;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        target_state_r = STATE_READ;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">// No open row, open row</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    next_state_r   = STATE_ACTIVATE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!ram_rd_w)</span><br><span class="line">        target_state_r = STATE_WRITE0;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        target_state_r = STATE_READ;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure><h2 id="位扩展"><a href="#位扩展" class="headerlink" title="位扩展"></a>位扩展</h2><p>还需要修改sdram控制器，最不想做的事情<br><img src="/image-9.png" alt="alt text"><br>col在一次传输中都是32bit对齐的，是0，2，4这样的数，因为在sdram的视角下，即使对col_1写16bit也是对col_0写32bit。只不过在第二次传输是将strb和wen置为有效</p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Address bits</span></span><br><span class="line"><span class="keyword">wire</span> [SDRAM_ROW_W-<span class="number">1</span>:<span class="number">0</span>] addr_col_w = (SDRAM_2BYTE_NUM == <span class="number">1</span>) ?</span><br><span class="line">  &#123;&#123;(SDRAM_ROW_W-SDRAM_COL_W)&#123;<span class="number">1&#x27;b0</span>&#125;&#125;, ram_addr_w[SDRAM_COL_W:<span class="number">2</span>], <span class="number">1&#x27;b0</span>&#125; :</span><br><span class="line">  &#123;&#123;(SDRAM_ROW_W-SDRAM_COL_W)&#123;<span class="number">1&#x27;b0</span>&#125;&#125;, <span class="number">1&#x27;b0</span>,ram_addr_w[SDRAM_COL_W:<span class="number">2</span>]&#125;;</span><br></pre></td></tr></table></figure><p><img src="/image-14.png" alt="alt text"><br><img src="/image-13.png" alt="alt text"></p><p>位扩展后32位读取不需要突发了，因此不用到state_write1，但state_write0仍需要检测突发以应对64位或更高位的突发访问。此时要精确控制ack_q-&gt;ram_ack_i(axi_core)-&gt; ram_ack_i(axi_pmem) -&gt; push_i(u_response) 的拍数。多一拍的话会多压入一个data，当axi_bvalid&#x2F;axi_rvalid-&gt;resp_accept_w-&gt;pop_i(u_response)时会弹出提前压入栈的数据。</p><p><img src="/image-16.png" alt="alt text"></p><h2 id="字扩展"><a href="#字扩展" class="headerlink" title="字扩展"></a>字扩展</h2><p>先来算一下一共能代表多少字节。</p><p>原先2**25 &#x3D; 32MB</p><table><thead><tr><th><strong>地址空间位数</strong></th><th><strong>地址位数</strong></th><th><strong>way</strong></th><th><strong>row</strong></th><th><strong>bank</strong></th><th><strong>col</strong></th><th><strong>字节偏移</strong></th></tr></thead><tbody><tr><td>25</td><td>24</td><td>-</td><td>13</td><td>2</td><td>9</td><td>1</td></tr></tbody></table><p>在最不常用的地方扩展，在地址最前面加上一bit的way，2**27 &#x3D; 128MB</p><table><thead><tr><th><strong>地址空间位数</strong></th><th><strong>地址位数</strong></th><th><strong>way</strong></th><th><strong>row</strong></th><th><strong>bank</strong></th><th><strong>col</strong></th><th><strong>字节偏移</strong></th></tr></thead><tbody><tr><td>27</td><td>25</td><td>1</td><td>13</td><td>2</td><td>9</td><td>2</td></tr></tbody></table><p>但是ysyxsoc分配给sdram了2**29 &#x3D; 512MB空间</p><h1 id="chisel"><a href="#chisel" class="headerlink" title="chisel"></a>chisel</h1><h2 id="vec"><a href="#vec" class="headerlink" title="vec"></a>vec</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> sdram = <span class="type">VecInit</span>(<span class="type">Seq</span>(sdram0.io, sdram1.io))</span><br></pre></td></tr></table></figure><p>Exception in thread “main” java.lang.IllegalArgumentException: requirement failed: can’t create Vec with heterogeneous types class ysyx.SDRAMHelper0$$anon$3 and class ysyx.SDRAMHelper1$$anon$4</p><p>问题出在使用 VecInit 创建 Vec 时，传入的 Seq 包含了不同类型的元素：sdram0.io 和 sdram1.io，分别是 SDRAMHelper0 和 SDRAMHelper1 的 IO 类型。即使这两个IO内部元素相同也不算同一个类型。<br>解决方法：<br>统一使用SDRAMHelperIO</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> io = <span class="type">IO</span>(<span class="keyword">new</span> <span class="type">SDRAMHelperIO</span>)</span><br></pre></td></tr></table></figure><p>(实例化的模板都是SDRAMHelper，verilator找不到SDRAMHelper_${instanceId})</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SDRAMHelper</span>(<span class="params">instanceId: <span class="type">Int</span></span>)</span></span><br><span class="line">  setInline(<span class="string">s&quot;SDRAMHelper_<span class="subst">$&#123;instanceId&#125;</span>.v&quot;</span>,</span><br><span class="line">    <span class="string">s&quot;&quot;</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">       |module SDRAMHelper_$&#123;instanceId&#125;(</span></span><br></pre></td></tr></table></figure><h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> rdata = <span class="type">Reg</span>(<span class="type">Vec</span>(<span class="type">SDRAMNum</span>,<span class="type">UInt</span>(<span class="number">16.</span><span class="type">W</span>)))</span><br><span class="line">dqout := rdata.asTypeOf(dqout)</span><br></pre></td></tr></table></figure><p>Exception in thread “main” chisel3.package$ChiselException: Connection between sink (sdramChisel.dqout: Wire[UInt&lt;32&gt;]) and source (sdramChisel.rdata: Reg[UInt&lt;16&gt;[2]]) failed @: Sink (UInt&lt;32&gt;) and Source (UInt&lt;16&gt;[2]) have different types.</p><p>asTypeOf 并不能直接将 Vec[UInt] 转换为 UInt，因为它们在结构上不兼容。如果需要将整个 Vec 转换为一个宽度为 32 位的 UInt，可以使用 asUInt。相反，UInt转换成vec就可以asTypeOf。<br>解决方法：</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> rdata = <span class="type">Reg</span>(<span class="type">Vec</span>(<span class="type">SDRAMNum</span>,<span class="type">UInt</span>(<span class="number">16.</span><span class="type">W</span>)))</span><br><span class="line">dqout := rdata.asUInt</span><br><span class="line"><span class="keyword">val</span> wdata = <span class="type">Reg</span>(<span class="type">Vec</span>(<span class="type">SDRAMNum</span>,<span class="type">UInt</span>(<span class="number">16.</span><span class="type">W</span>)))</span><br><span class="line">wdata := dqin.asTypeOf(wdata)</span><br><span class="line"><span class="keyword">val</span> mask = <span class="type">Reg</span>(<span class="type">Vec</span>(<span class="type">SDRAMNum</span>,<span class="type">UInt</span>(<span class="number">2.</span><span class="type">W</span>)))</span><br><span class="line">mask := (~io.dqm).asTypeOf(mask)</span><br></pre></td></tr></table></figure><h2 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i &lt;- <span class="number">0</span> until <span class="type">SDRAMNum</span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  sdram.foreach &#123; sdram =&gt;</span><br><span class="line">    sdram.row := <span class="number">0.</span><span class="type">U</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="logic"><a href="#logic" class="headerlink" title="logic"></a>logic</h2><p>看似command是wire，但是却综合出了Reg</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> command =</span><br><span class="line">  <span class="type">MuxCase</span>(<span class="type">COMMAND_INHIBIT</span>, <span class="type">Seq</span>(</span><br><span class="line">    (!io.cs &amp;&amp; io.ras &amp;&amp; io.cas &amp;&amp; io.we) -&gt; <span class="type">NOP</span>,</span><br></pre></td></tr></table></figure><p><img src="/image-10.png" alt="alt text"><br><img src="/image-6.png" alt="alt text"><br>automatic：<br>在 SystemVerilog 中，automatic 表示这个变量是 自动变量，即每次进入 always 块时重新创建，而不是在模块级别共享。<br>logic 是 SystemVerilog 中的新数据类型，类似于 Verilog 中的 reg<br>跨时钟域的always中，就会有这样的在新时钟域赋值的wire</p><h1 id="运算优先级大于移位"><a href="#运算优先级大于移位" class="headerlink" title="运算优先级大于移位"></a>运算优先级大于移位</h1><p><img src="/image-11.png" alt="alt text"><br>要使用</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1.</span><span class="type">U</span> &lt;&lt; <span class="type">BurstLength</span>).asUInt <span class="number">-1.</span><span class="type">U</span> </span><br></pre></td></tr></table></figure><p>make ARCH&#x3D;riscv32e-ysyxsoc run ALL&#x3D;printf | tee sdram</p><p>make ARCH&#x3D;riscv32e-ysyxsoc run ALL&#x3D;printf | tee &gt;(grep “sdram” &gt;&gt; sdram)</p><h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>sdram在最高地址开辟栈时，写入sp报错，因为做了字和位扩展会增大4被sdram空间<br><img src="/image-18.png" alt="alt text"></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;sdram配置切换&quot;&gt;&lt;a href=&quot;#sdram配置切换&quot; class=&quot;headerlink&quot; title=&quot;sdram配置切换&quot;&gt;&lt;/a&gt;sdram配置切换&lt;/h1&gt;&lt;figure class=&quot;highlight scala&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;t</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://example.com/2025/01/21/ysyx/ysyxsoc/psram/"/>
-    <id>http://example.com/2025/01/21/ysyx/ysyxsoc/psram/</id>
-    <published>2025-01-21T06:44:11.410Z</published>
-    <updated>2024-11-17T07:46:30.965Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="二级加载"><a href="#二级加载" class="headerlink" title="二级加载"></a>二级加载</h2><table><thead><tr><th>存储器</th><th>flash</th><th>sram</th><th>psram</th></tr></thead><tbody><tr><td>起始地址</td><td>0x30000000</td><td>0x0f000000</td><td>0x80000000</td></tr><tr><td>运行的程序</td><td>fsbl</td><td>bootloader</td><td>trm_init</td></tr></tbody></table>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;二级加载&quot;&gt;&lt;a href=&quot;#二级加载&quot; class=&quot;headerlink&quot; title=&quot;二级加载&quot;&gt;&lt;/a&gt;二级加载&lt;/h2&gt;&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;存储器&lt;/th&gt;
-&lt;th&gt;flash&lt;/th&gt;
-&lt;th&gt;sram&lt;/th&gt;
-&lt;t</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://example.com/2025/01/21/ysyx/rtthread/%E5%86%85%E5%AD%98/"/>
-    <id>http://example.com/2025/01/21/ysyx/rtthread/%E5%86%85%E5%AD%98/</id>
-    <published>2025-01-21T06:44:11.306Z</published>
-    <updated>2024-12-07T02:33:42.550Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="把ubuntu升级到22了"><a href="#把ubuntu升级到22了" class="headerlink" title="把ubuntu升级到22了"></a>把ubuntu升级到22了</h1><p>sudo sed -i ‘s&#x2F;focal&#x2F;jammy&#x2F;g’ &#x2F;etc&#x2F;apt&#x2F;sources.list<br>sudo apt update<br>sudo apt upgrade<br>sudo apt dist-upgrade</p><h1 id="重启后连不上网了"><a href="#重启后连不上网了" class="headerlink" title="重启后连不上网了"></a>重启后连不上网了</h1><ol><li>查看所有网络接口的状态：<br>ip link show</li><li>检查它们是否为 DOWN 状态（关闭状态），如果是，可以尝试启用它们<br>sudo ip link set eth0 up</li><li>网络接口可能未正确配置 IP 地址。可以尝试动态分配 IP：<br>sudo dhclient eth0</li></ol><h1 id="cland配置运行命令"><a href="#cland配置运行命令" class="headerlink" title="cland配置运行命令"></a>cland配置运行命令</h1><p>bear – &lt;编译需要的命令&gt;</p><h1 id="addressSentiser"><a href="#addressSentiser" class="headerlink" title="addressSentiser"></a>addressSentiser</h1><p>直接定位段错误的位置，除了地址越界的错误之外, Address Sanitizer还能检查use-after-free的错误<br>GCC提供了一个-fsanitize&#x3D;address的编译选项来启用它<br><img src="/image.png" alt="alt text"></p><p>GCC还支持更多的sanitizer, 它们可以检查各种不同的错误, 你可以在man gcc中查阅-fsanitize相关的选项</p><h1 id="valgrind"><a href="#valgrind" class="headerlink" title="valgrind"></a>valgrind</h1><p> Valgrind is a very powerful tool for such a need. Run rltest with valgrind:<br>$ valgrind .&#x2F;rltest</p><h1 id="perf"><a href="#perf" class="headerlink" title="perf"></a>perf</h1><p>安装<br>sudo apt-get update<br>sudo apt-get install linux-tools-common linux-tools-generic linux-tools-$(uname -r)</p><h1 id="linux上的slab"><a href="#linux上的slab" class="headerlink" title="linux上的slab"></a>linux上的slab</h1><p><a href="https://segmentfault.com/a/1190000043626203">https://segmentfault.com/a/1190000043626203</a></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;把ubuntu升级到22了&quot;&gt;&lt;a href=&quot;#把ubuntu升级到22了&quot; class=&quot;headerlink&quot; title=&quot;把ubuntu升级到22了&quot;&gt;&lt;/a&gt;把ubuntu升级到22了&lt;/h1&gt;&lt;p&gt;sudo sed -i ‘s&amp;#x2F;focal&amp;</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://example.com/2025/01/21/ysyx/abstract-machine/git/"/>
-    <id>http://example.com/2025/01/21/ysyx/abstract-machine/git/</id>
-    <published>2025-01-21T06:44:11.211Z</published>
-    <updated>2024-12-03T08:17:14.265Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>git add .的撤回<br>git reset</p><h2 id="gitignore"><a href="#gitignore" class="headerlink" title="gitignore"></a>gitignore</h2><p>* 和 *.*：忽略所有文件。<br>!<em>&#x2F;：不忽略所有目录。<br>!Makefile：不忽略 Makefile 文件。<br>!</em>.mk：不忽略所有 .mk 文件。<br>!<em>.scala：不忽略所有 .scala 文件。<br>!</em>.[cSh]：不忽略所有 .c、.S 和 .h 文件。<br>!<em>.v：不忽略所有 .v 文件。<br>!</em>.cpp：不忽略所有 .cpp 文件。<br>!*.cc：不忽略所有 .cc 文件。<br>!.gitignore：不忽略 .gitignore 文件。<br>!.scalafmt.conf：不忽略 .scalafmt.conf 文件。<br>!build.sc：不忽略 build.sc 文件。<br>!README.md：不忽略 README.md 文件。<br>!&#x2F;src&#x2F;**：不忽略 src 目录及其所有子目录和文件。<br>!&#x2F;patch&#x2F;**：不忽略 patch 目录及其所有子目录和文件。<br>!&#x2F;perip&#x2F;**：不忽略 perip 目录及其所有子目录和文件。<br>!&#x2F;spec&#x2F;**：不忽略 spec 目录及其所有子目录和文件。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;git add .的撤回&lt;br&gt;git reset&lt;/p&gt;
-&lt;h2 id=&quot;gitignore&quot;&gt;&lt;a href=&quot;#gitignore&quot; class=&quot;h</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://example.com/2025/01/21/ysyx/abstract-machine/cpu-test/"/>
-    <id>http://example.com/2025/01/21/ysyx/abstract-machine/cpu-test/</id>
-    <published>2025-01-21T06:44:11.208Z</published>
-    <updated>2024-12-03T07:23:22.883Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="longlong-的cpu测试有时候过不了"><a href="#longlong-的cpu测试有时候过不了" class="headerlink" title="longlong 的cpu测试有时候过不了"></a>longlong 的cpu测试有时候过不了</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> <span class="type">long</span> test_data[] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0x7fffffffffffffff</span>LL, <span class="number">0x8000000000000000</span>LL, <span class="number">0x8000000000000001</span>LL, <span class="number">0xfffffffffffffffe</span>LL, <span class="number">0xffffffffffffffff</span>LL&#125;;</span><br></pre></td></tr></table></figure><h3 id="longlong的打印"><a href="#longlong的打印" class="headerlink" title="longlong的打印"></a>longlong的打印</h3><p>在处理 long long 类型的负数时，特别是极值（如 0x8000000000000000LL），直接取反操作 value &#x3D; -value; 可能会导致溢出问题。因为 0x8000000000000000LL 是 long long 类型的最小值，其绝对值超出了 long long 类型的正数范围<br><img src="/image.png" alt="alt text"></p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> <span class="type">long</span> value;</span><br><span class="line">   <span class="comment">// Set &#x27;-&#x27; for negative decimals.</span></span><br><span class="line">   <span class="keyword">if</span> (value &lt; <span class="number">0</span> &amp;&amp; base == <span class="number">10</span>) &#123;</span><br><span class="line">       *str++ = <span class="string">&#x27;-&#x27;</span>;</span><br><span class="line">       value = -value;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure><p>使用无符号类型：在处理负数时，将其转换为无符号类型 unsigned long long，以避免溢出问题。<br><img src="/image-1.png" alt="alt text"></p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span> uvalue;</span><br><span class="line">   <span class="comment">// Set &#x27;-&#x27; for negative decimals.</span></span><br><span class="line">   <span class="keyword">if</span> (value &lt; <span class="number">0</span> &amp;&amp; base == <span class="number">10</span>) &#123;</span><br><span class="line">       *str++ = <span class="string">&#x27;-&#x27;</span>;</span><br><span class="line">       uvalue = (<span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span>)(-value);</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       uvalue = (<span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span>)value;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure><h3 id="longlong必须8字节对齐"><a href="#longlong必须8字节对齐" class="headerlink" title="longlong必须8字节对齐"></a>longlong必须8字节对齐</h3><p>如果只是四字节对齐的话，longlong的指针8字节对齐，但flash中存储的longlong数据不会8字节对齐。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.data : &#123;</span><br><span class="line">  _data_start = .;</span><br><span class="line">  *(.data*)</span><br><span class="line">  *(.sdata*)</span><br><span class="line">  /* *(.data) */</span><br><span class="line">  _data_end = .;</span><br><span class="line">   . = ALIGN(4);</span><br><span class="line">&#125; &gt; sdram AT &gt;flash</span><br></pre></td></tr></table></figure><p>可以看到数组指针8字节对齐，但数组数据没有<br><img src="/image-2.png" alt="alt text"><br>通过8字节对齐，让longlong对齐</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.data : &#123;</span><br><span class="line">  _data_start = .;</span><br><span class="line">  *(.data*)</span><br><span class="line">  *(.sdata*)</span><br><span class="line">  /* *(.data) */</span><br><span class="line">  _data_end = .;</span><br><span class="line">   . = ALIGN(8);</span><br><span class="line">&#125; &gt; sdram AT &gt;flash</span><br></pre></td></tr></table></figure><p><img src="/image-3.png" alt="alt text"></p><h2 id=""><a href="#" class="headerlink" title=""></a></h2><p><img src="/image-4.png" alt="alt text"></p><h2 id="4-2-1访存未对齐"><a href="#4-2-1访存未对齐" class="headerlink" title="4-2-1访存未对齐"></a>4-2-1访存未对齐</h2><h4 id="问题现象展示"><a href="#问题现象展示" class="headerlink" title="问题现象展示"></a>问题现象展示</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a0000180:fe042823          swzero,-16(s0)</span><br><span class="line">a0000184:0900006f          ja0000214 &lt;main+0x1d0&gt;</span><br><span class="line">a0000188:ff042783          lwa5,-16(s0)</span><br><span class="line">a000018c:00279793          slla5,a5,0x2</span><br><span class="line">a0000190:00178713          adda4,a5,1</span><br><span class="line">a0000194:00001797          auipca5,0x1</span><br><span class="line">a0000198:4ec78793          adda5,a5,1260 # a0001680 &lt;mem&gt;</span><br><span class="line">a000019c:00f707b3          adda5,a4,a5</span><br><span class="line">a00001a0:0007a783          lwa5,0(a5)</span><br></pre></td></tr></table></figure><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">short</span> mem[] = &#123;</span><br><span class="line"><span class="number">0x0</span>, <span class="number">0x0258</span>, <span class="number">0x4abc</span>, <span class="number">0x7fff</span>, <span class="number">0x8000</span>, <span class="number">0x8100</span>, <span class="number">0xabcd</span>, <span class="number">0xffff</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">unsigned</span>  lwlr_ans[] = &#123;</span><br><span class="line"><span class="number">0xbc025800</span>, <span class="number">0x7fff4a</span>, <span class="number">0xcd810080</span>, <span class="number">0xffffab</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; ((LENGTH(mem) / <span class="number">2</span>) - <span class="number">1</span>); i ++) &#123;</span><br><span class="line"><span class="type">unsigned</span> x = ((<span class="type">unsigned</span>*)((<span class="type">void</span>*)mem + <span class="number">1</span>))[i];</span><br><span class="line"><span class="type">unsigned</span> y = lwlr_ans[i];</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;x=%x,y=%x\n&quot;</span>,x,y);</span><br><span class="line">check(x == lwlr_ans[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="/image-6.png" alt="alt text"><br><img src="/image-5.png" alt="alt text"><br>使用nemu编译实锤编译出了非对齐访存</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[mtrace] read data 0xbc025800 from pmem 0x800012d5</span><br><span class="line">[mtrace] read data 0xfef42223 from pmem 0x80000178</span><br><span class="line">[mtrace] write data 0xbc025800 to pmem 0x80009fd4</span><br></pre></td></tr></table></figure><p>difftest忘开了，不然也不至于找这么半天<br><img src="/image-7.png" alt="alt text"></p><h4 id="gcc开启参数-mstrict-align"><a href="#gcc开启参数-mstrict-align" class="headerlink" title="gcc开启参数-mstrict-align"></a>gcc开启参数-mstrict-align</h4><p>但是使用下面编译器，参数无效，还能编译出非对齐访存，得使用上面的</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CROSS_COMPILE := /opt/riscv/bin/riscv64-unknown-elf-</span><br><span class="line">#CROSS_COMPILE := /opt/riscv/bin/riscv64-unknown-linux-gnu-</span><br><span class="line">COMMON_CFLAGS := -fno-pic -march=rv64g -mcmodel=medany -mstrict-align</span><br></pre></td></tr></table></figure><h4 id="发现是写内存代码有问题，解决了就好了，编译器都可以使"><a href="#发现是写内存代码有问题，解决了就好了，编译器都可以使" class="headerlink" title="发现是写内存代码有问题，解决了就好了，编译器都可以使"></a>发现是写内存代码有问题，解决了就好了，编译器都可以使</h4><h2 id="-1"><a href="#-1" class="headerlink" title=""></a></h2><p>直接#include&lt;stido.h&gt;就是使用的gnu的stdio.h</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;longlong-的cpu测试有时候过不了&quot;&gt;&lt;a href=&quot;#longlong-的cpu测试有时候过不了&quot; class=&quot;headerlink&quot; title=&quot;longlong 的cpu测试有时候过不了&quot;&gt;&lt;/a&gt;longlong 的cpu测试有时候过不了&lt;/</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>编译原理</title>
-    <link href="http://example.com/2024/04/09/course/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
-    <id>http://example.com/2024/04/09/course/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</id>
-    <published>2024-04-09T14:26:40.000Z</published>
-    <updated>2024-04-09T14:28:54.002Z</updated>
-    
-    <content type="html"><![CDATA[<span id="more"></span><p><a href="https://blog.csdn.net/qq_40618816/article/details/105094138/">https://blog.csdn.net/qq_40618816/article/details/105094138/</a></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/qq_40618816/article/details/105094138/&quot;&gt;https://blog.csdn.net/qq_40618816/article</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>虚拟机配置</title>
+    <title>虚拟机环境配置指南</title>
     <link href="http://example.com/2024/04/01/tools/%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE/"/>
     <id>http://example.com/2024/04/01/tools/%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE/</id>
-    <published>2024-04-01T12:39:06.000Z</published>
-    <updated>2024-04-12T08:25:11.921Z</updated>
+    <published>2024-03-31T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
     
-    <content type="html"><![CDATA[<span id="more"></span><h2 id="配置静态ip"><a href="#配置静态ip" class="headerlink" title="配置静态ip"></a>配置静态ip</h2><h4 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h4><p><a href="https://blog.csdn.net/Un1qu3/article/details/126155766">https://blog.csdn.net/Un1qu3/article/details/126155766</a><br><a href="https://blog.csdn.net/Conquer_l/article/details/124989551">https://blog.csdn.net/Conquer_l/article/details/124989551</a><br><a href="https://blog.csdn.net/lk142500/article/details/88386651">https://blog.csdn.net/lk142500/article/details/88386651</a><br><img src="/2146089-20200911223717884-1559586693.png" alt="alt text"><br><a href="https://www.cnblogs.com/yansunda/p/13654632.html">https://www.cnblogs.com/yansunda/p/13654632.html</a></p><p>vim &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-eth33<br>sudo systemctl restart NetworkManager</p><h4 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h4><p><a href="https://blog.csdn.net/weixin_58305495/article/details/130554393">https://blog.csdn.net/weixin_58305495/article/details/130554393</a></p><p>1:查看防火状态<br>systemctl status firewalld<br>service  iptables status<br>2:暂时关闭防火墙<br>systemctl stop firewalld<br>service  iptables stop<br>3:永久关闭防火墙<br>systemctl disable firewalld<br>chkconfig iptables off<br>4:重启防火墙<br>systemctl enable firewalld<br>service iptables restart<br>5:永久关闭后重启<br>chkconfig iptables on  </p><p>关闭selinux<br>暂时：<br>setenforce 0<br>永久：<br>输入命令 <code>vi /etc/selinux/config</code>。<br>在打开的文件中，找到 <code>SELINUX=</code> 这一行，将其从 <code>enforcing</code> 或 <code>permissive</code> 修改为 <code>disabled</code>。</p><p>arp -a<br>展示运行过的ping</p>]]></content>
+    <content type="html"><![CDATA[<p>详细介绍虚拟机环境的配置方法，包括静态IP设置、防火墙管理、SELinux配置等内容。</p><span id="more"></span><h2 id="配置静态ip"><a href="#配置静态ip" class="headerlink" title="配置静态ip"></a>配置静态ip</h2><h4 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h4><p><a href="https://blog.csdn.net/Un1qu3/article/details/126155766">https://blog.csdn.net/Un1qu3/article/details/126155766</a><br><a href="https://blog.csdn.net/Conquer_l/article/details/124989551">https://blog.csdn.net/Conquer_l/article/details/124989551</a><br><a href="https://blog.csdn.net/lk142500/article/details/88386651">https://blog.csdn.net/lk142500/article/details/88386651</a><br><img src="/2146089-20200911223717884-1559586693.png" alt="alt text"><br><a href="https://www.cnblogs.com/yansunda/p/13654632.html">https://www.cnblogs.com/yansunda/p/13654632.html</a></p><p>vim &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-eth33<br>sudo systemctl restart NetworkManager</p><h4 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h4><p><a href="https://blog.csdn.net/weixin_58305495/article/details/130554393">https://blog.csdn.net/weixin_58305495/article/details/130554393</a></p><p>1:查看防火状态<br>systemctl status firewalld<br>service  iptables status<br>2:暂时关闭防火墙<br>systemctl stop firewalld<br>service  iptables stop<br>3:永久关闭防火墙<br>systemctl disable firewalld<br>chkconfig iptables off<br>4:重启防火墙<br>systemctl enable firewalld<br>service iptables restart<br>5:永久关闭后重启<br>chkconfig iptables on  </p><p>关闭selinux<br>暂时：<br>setenforce 0<br>永久：<br>输入命令 <code>vi /etc/selinux/config</code>。<br>在打开的文件中，找到 <code>SELINUX=</code> 这一行，将其从 <code>enforcing</code> 或 <code>permissive</code> 修改为 <code>disabled</code>。</p><p>arp -a<br>展示运行过的ping</p>]]></content>
     
     
-      
-      
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-
-&lt;h2 id=&quot;配置静态ip&quot;&gt;&lt;a href=&quot;#配置静态ip&quot; class=&quot;headerlink&quot; title=&quot;配置静态ip&quot;&gt;&lt;/a&gt;配置静态ip&lt;/h2&gt;&lt;h4 id=&quot;centos&quot;&gt;&lt;a href=&quot;#centos</summary>
-      
+    <summary type="html">&lt;p&gt;详细介绍虚拟机环境的配置方法，包括静态IP设置、防火墙管理、SELinux配置等内容。&lt;/p&gt;</summary>
     
     
     
+    <category term="tools" scheme="http://example.com/categories/tools/"/>
     
-  </entry>
-  
-  <entry>
-    <title>mysql</title>
-    <link href="http://example.com/2024/03/24/course/mysql/"/>
-    <id>http://example.com/2024/03/24/course/mysql/</id>
-    <published>2024-03-24T09:01:47.000Z</published>
-    <updated>2024-04-09T05:39:09.400Z</updated>
-    
-    <content type="html"><![CDATA[<span id="more"></span><p><a href="https://www.zhihu.com/question/620270343">https://www.zhihu.com/question/620270343</a></p>]]></content>
+    <category term="虚拟化" scheme="http://example.com/categories/tools/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
     
     
-      
-      
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.zhihu.com/question/620270343&quot;&gt;https://www.zhihu.com/question/620270343&lt;/a&gt;&lt;/p&gt;
-</summary>
-      
+    <category term="Linux" scheme="http://example.com/tags/Linux/"/>
     
+    <category term="系统管理" scheme="http://example.com/tags/%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/"/>
     
+    <category term="虚拟机" scheme="http://example.com/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>操作系统</title>
-    <link href="http://example.com/2024/03/05/course/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
-    <id>http://example.com/2024/03/05/course/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</id>
-    <published>2024-03-05T06:15:09.000Z</published>
-    <updated>2024-04-09T14:28:54.013Z</updated>
-    
-    <content type="html"><![CDATA[<span id="more"></span><p>SISD<br>MISD：可靠性<br>MIMD</p><p>多处理器：多个芯片<br>多核：多个执行单元</p><p>多处理器结构<br>超线程结构：一个处理器多个线程环境<br>多核结构：多个cache（缓冲）<br>多核超线程结构</p><p>特权指令：只供操作系统使用<br>设置定时器<br>清除内存<br>发起陷入指令<br>关中断<br>修改设备状态信息<br>用户与内核态切换<br>访问I&#x2F;O设备</p><p>SGX加密，用户内存加密隔离</p><p>切换步骤：保存处理器现场，根据终端号设置程序计数器，转换PSW</p><p>psw：程序状态字寄存器<br>pc，条件码，</p><p>程序：堆栈，函数：栈帧</p><p>海光的amd zen</p><p>内存管理寄存器{<br>    段描述符{<br>    GDTR 全局描述符寄存器<br>    } + ip<br>    IDTR：中断描述符寄存器 + 偏移<br>    TR：<br>}</p><p>psw：EFLAG和ip</p><p>bios在flash</p><p>启动规范<br>legacy bios<br>uefi</p><p>bios-&gt;bootloader</p><p>同步中断：异常，非法指令（page fault，内存错误，除零错误）<br>异步中断：中断，硬件设备<br>系统调用：应用程序</p><p>出错：page fault,重新执行<br>陷入：用于调试，下一指令</p><p>异常在内核中：挂了</p><p>关中断保证指令的原子性</p><h2 id="安装openeuler"><a href="#安装openeuler" class="headerlink" title="安装openeuler"></a>安装openeuler</h2><p><a href="https://blog.51cto.com/shuchaoyang/6604107">https://blog.51cto.com/shuchaoyang/6604107</a></p><h2 id="安装新内核"><a href="#安装新内核" class="headerlink" title="安装新内核"></a>安装新内核</h2><p><a href="https://blog.csdn.net/m0_51683653/article/details/124133370">https://blog.csdn.net/m0_51683653/article/details/124133370</a></p><h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>arch&#x2F;x86&#x2F;entry&#x2F;thunk_64.o: warning: objtool: missing symbol table<br><a href="https://www.spinics.net/lists/kernel/msg3797871.html">https://www.spinics.net/lists/kernel/msg3797871.html</a></p><h2 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h2><p><a href="https://blog.csdn.net/MengMengDeXiaoJi/article/details/136821507">https://blog.csdn.net/MengMengDeXiaoJi/article/details/136821507</a></p><h2 id="内核模块"><a href="#内核模块" class="headerlink" title="内核模块"></a>内核模块</h2><p><a href="https://blog.csdn.net/m0_74282605/article/details/135866888">https://blog.csdn.net/m0_74282605/article/details/135866888</a></p><h2 id="list宏"><a href="#list宏" class="headerlink" title="list宏"></a>list宏</h2><p><a href="https://blog.csdn.net/weixin_44498318/article/details/132275727">https://blog.csdn.net/weixin_44498318/article/details/132275727</a></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-
-&lt;p&gt;SISD&lt;br&gt;MISD：可靠性&lt;br&gt;MIMD&lt;/p&gt;
-&lt;p&gt;多处理器：多个芯片&lt;br&gt;多核：多个执行单元&lt;/p&gt;
-&lt;p&gt;多处理器结构&lt;br&gt;超线程结构：一个处理器多个线程环境&lt;br&gt;多核结构：多个cache（缓冲）&lt;br</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>git的使用</title>
-    <link href="http://example.com/2024/03/02/tools/git%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
-    <id>http://example.com/2024/03/02/tools/git%E7%9A%84%E4%BD%BF%E7%94%A8/</id>
-    <published>2024-03-01T17:20:46.000Z</published>
-    <updated>2024-05-07T04:26:32.965Z</updated>
-    
-    <content type="html"><![CDATA[<span id="more"></span><h2 id="git-config"><a href="#git-config" class="headerlink" title="git config"></a>git config</h2><p>在 Git 中，你可以使用以下命令来查看和修改配置：<br>查看配置</p><pre><code>查看全局配置：</code></pre><p>bash<br>git config –global –list</p><pre><code>查看当前仓库的配置：</code></pre><p>bash<br>git config –local –list</p><pre><code>查看系统配置：</code></pre><p>bash<br>git config –system –list</p><p>如果你只想知道某个特定配置的值，你可以这样做：</p><p>bash<br>git config &lt;配置项名称&gt;</p><p>例如，要查看全局的用户名配置：</p><p>bash<br>git config –global user.name</p><p>修改配置</p><pre><code>设置全局配置：    设置用户名：bash`git config --global user.name &quot;Your Name&quot;`    设置邮箱：bash`git config --global user.email &quot;your.email@example.com&quot;`设置当前仓库的配置：</code></pre><p>与全局配置类似，但使用 –local 代替 –global。<br>3. 设置系统配置：</p><p>通常不推荐修改系统配置，除非你有特定的理由。<br>4. 直接编辑配置文件：</p><p>你也可以直接编辑 Git 的配置文件。这些文件通常位于以下位置：</p><ul><li><strong>全局配置</strong>：<code>~/.gitconfig</code>  </li><li><strong>系统配置</strong>：<code>/etc/gitconfig</code>（Linux）或 <code>/usr/local/git/etc/gitconfig</code>（macOS）  </li><li><strong>当前仓库配置</strong>：仓库目录下的 <code>.git/config</code> 文件。使用文本编辑器打开这些文件，然后进行相应的修改。</li></ul><p>注意：当你设置或修改配置时，Git 会尝试从多个级别（系统、全局、本地）获取配置值。如果某个配置项在多个级别都有设置，Git 会优先使用本地仓库的配置，然后是全局配置，最后是系统配置。</p><h2 id="git-remote"><a href="#git-remote" class="headerlink" title="git remote"></a>git remote</h2><p><code>git remote</code>命令在Git中用于管理一组跟踪的远程仓库。它允许您查看、添加、修改和删除与您的本地仓库关联的远程仓库的配置。远程仓库通常是位于互联网或其他网络中的仓库，可以是一个中心仓库，也可以是另一个开发者的仓库，您可以从中拉取（pull）数据或向其推送（push）数据。使用<code>git remote</code>可以进行以下操作：</p><ul><li><p><strong>查看远程仓库</strong>：使用<code>git remote</code>或<code>git remote -v</code>命令可以列出所有已配置的远程仓库。<code>-v</code>（verbose，详细）选项会额外显示每个远程仓库的URL。</p></li><li><p><strong>添加远程仓库</strong>：使用<code>git remote add &lt;name&gt; &lt;url&gt;</code>命令可以添加新的远程仓库，其中<code>&lt;name&gt;</code>是您为远程仓库指定的简短名称（如<code>origin</code>），<code>&lt;url&gt;</code>是远程仓库的URL。</p></li><li><p><strong>更改远程仓库URL</strong>：使用<code>git remote set-url &lt;name&gt; &lt;newurl&gt;</code>命令可以更改已存在的远程仓库的URL。</p></li><li><p><strong>删除远程仓库</strong>：使用<code>git remote remove &lt;name&gt;</code>或<code>git remote rm &lt;name&gt;</code>命令可以删除一个远程仓库的引用。</p></li><li><p><strong>重命名远程仓库</strong>：使用<code>git remote rename &lt;oldname&gt; &lt;newname&gt;</code>命令可以重命名远程仓库的简称。</p></li></ul><p>在协同工作流中，<code>git remote</code>命令是非常重要的，它使得开发者能够与远程仓库交互，共享代码和协作。例如，<code>origin</code>通常是克隆仓库时自动创建的默认远程仓库名称，代表了克隆来源的仓库。通过管理远程仓库，您可以轻松地同步本地更改到远程服务器，或者拉取他人的更改到您的本地仓库中。</p><h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>luluji@luluji-virtual-machine:~&#x2F;nuttxspace$ git clone <a href="https://github.com/apache/nuttx.git">https://github.com/apache/nuttx.git</a> nuttx<br>正克隆到 ‘nuttx’…<br>fatal: 无法访问 ‘<a href="https://github.com/apache/nuttx.git/'%EF%BC%9Agnutls_handshake()">https://github.com/apache/nuttx.git/&#39;：gnutls_handshake()</a> failed: Error in the pull function.</p><p>通过安装这些库解决了：<br>sudo apt -y install build-essential nghttp2 libnghttp2-dev libssl-dev</p><h2 id="顺序"><a href="#顺序" class="headerlink" title="顺序"></a>顺序</h2><p>git push之前先git pull<br>git checkout master之前先git add和commit</p><h2 id="子模块"><a href="#子模块" class="headerlink" title="子模块"></a>子模块</h2><p>正在克隆子模块时就是在克隆，不会有进度条，跟卡住了似的是正常的</p><p>riscv-gnu-toolchain中的子模块可换源<br><a href="https://www.bilibili.com/read/cv28486387/">https://www.bilibili.com/read/cv28486387/</a></p><p>当更改了.gitmodules文件中的子模块 URL 时，Git 不会自动更新已经克隆的子模块。如果希望使用新的 URL 克隆子模块，则需要手动更新子模块的配置。</p><p>要更新子模块的配置，可以运行以下命令：<br>git submodule sync</p><p>这个命令将会更新本地存储库中的 .git&#x2F;config 文件以反映.gitmodules文件中的新 URL。<br>然后，可以运行以下命令来更新子模块：<br>git submodule update –init –recursive</p><p>这个命令将会使用.gitmodules文件中的新 URL 克隆或更新子模块，并递归地更新任何子模块的子模块（如果有的话）。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-&lt;h2 id=&quot;git-config&quot;&gt;&lt;a href=&quot;#git-config&quot; class=&quot;headerlink&quot; title=&quot;git config&quot;&gt;&lt;/a&gt;git config&lt;/h2&gt;&lt;p&gt;在 Git 中，你可以使用以</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>buildroot的使用</title>
-    <link href="http://example.com/2024/02/18/tools/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
-    <id>http://example.com/2024/02/18/tools/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/</id>
-    <published>2024-02-18T04:05:12.000Z</published>
-    <updated>2024-04-09T14:28:54.013Z</updated>
-    
-    <content type="html"><![CDATA[<span id="more"></span><p>在使用Buildroot构建嵌入式Linux系统时，<code>BR2_EXTERNAL</code>是一个重要的机制，它允许用户将自定义的配置、包（packages）、板级支持包（board support packages，简称BSPs）、以及其他构建脚本和文件集成到Buildroot构建过程中，而不必直接修改Buildroot的主树。这种机制非常有用，因为它使得维护自定义修改和跟踪Buildroot官方更新变得更加容易。</p><h3 id="使用BR2-EXTERNAL的优势"><a href="#使用BR2-EXTERNAL的优势" class="headerlink" title="使用BR2_EXTERNAL的优势"></a>使用BR2_EXTERNAL的优势</h3><ul><li><strong>模块化</strong>：允许将自定义内容和Buildroot主树分开，便于管理。</li><li><strong>易于维护</strong>：更新Buildroot版本时，可以避免合并冲突，简化维护工作。</li><li><strong>重用性</strong>：相同的自定义配置和包可以轻松地在多个项目之间共享和重用。</li></ul><h3 id="如何使用BR2-EXTERNAL"><a href="#如何使用BR2-EXTERNAL" class="headerlink" title="如何使用BR2_EXTERNAL"></a>如何使用BR2_EXTERNAL</h3><ol><li><p><strong>创建外部树结构</strong>：首先，你需要创建一个目录作为你的外部树，这个目录将包含你的自定义配置和文件。外部树的推荐目录结构如下：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">your-external-tree/</span><br><span class="line">├── Config.in</span><br><span class="line">├── external.desc</span><br><span class="line">├── external.mk</span><br><span class="line">├── configs/</span><br><span class="line">├── board/</span><br><span class="line">├── package/</span><br><span class="line">└── fs/</span><br></pre></td></tr></table></figure><p>其中<code>configs/</code>用于存放自定义的配置文件，<code>package/</code>用于存放自定义的软件包描述文件，<code>board/</code>可能包含板级特定文件，如启动脚本和覆盖层。</p></li><li><p><strong>设置BR2_EXTERNAL环境变量</strong>：在运行Buildroot的<code>make menuconfig</code>之前，通过环境变量<code>BR2_EXTERNAL</code>指向你的外部树目录。这可以通过在命令行中直接设置，或者添加到你的shell配置文件中：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export BR2_EXTERNAL=/path/to/your-external-tree</span><br></pre></td></tr></table></figure><p>或者，在make命令中直接指定：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make BR2_EXTERNAL=/path/to/your-external-tree menuconfig</span><br></pre></td></tr></table></figure></li><li><p><strong>使用自定义配置和包</strong>：一旦设置了<code>BR2_EXTERNAL</code>，Buildroot构建系统将自动识别外部树中的配置和包。你可以在<code>make menuconfig</code>中选择这些包，或者使用外部树中定义的配置作为构建的起点。</p></li><li><p><strong>构建系统</strong>：使用你的配置构建系统。如果一切设置正确，Buildroot将包含你的外部树中的自定义内容进行构建。</p></li></ol><h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul><li><strong>多个外部树</strong>：从Buildroot 2016.11版本开始，<code>BR2_EXTERNAL</code>支持指定多个外部树路径，使用冒号(<code>:</code>)分隔。</li><li><strong>版本兼容性</strong>：在使用<code>BR2_EXTERNAL</code>时，要确保外部树中的自定义内容与Buildroot的版本兼容。</li></ul><p>通过使用<code>BR2_EXTERNAL</code>，你可以灵活地扩展Buildroot，添加自定义功能和支持，同时保持与Buildroot主树的清晰分离，这对于项目的长期维护和升级非常有益。</p><p>当使用<code>BR2_EXTERNAL</code>机制在Buildroot中引入外部树时，你需要在外部树的根目录创建一些特定的文件和目录来定义你的自定义配置、板级支持包、软件包和文件系统扩展。以下是如何组织和编写这些文件的一些基本指导：</p><h3 id="1-Config-in"><a href="#1-Config-in" class="headerlink" title="1. Config.in"></a>1. Config.in</h3><p><code>Config.in</code>是一个Kconfig文件，它定义了在Buildroot配置界面中出现的选项。这个文件通常用来引入外部软件包的配置选项或者特定的配置界面。</p><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">menu <span class="string">&quot;My Custom Options&quot;</span></span><br><span class="line"></span><br><span class="line">config BR2_PACKAGE_MY_CUSTOM_PACKAGE</span><br><span class="line">    bool <span class="string">&quot;My custom package&quot;</span></span><br><span class="line">    help</span><br><span class="line">      This option will enable my custom package.</span><br><span class="line"></span><br><span class="line">endmenu</span><br></pre></td></tr></table></figure><p>此文件中定义的选项可以在Buildroot的配置界面中找到，并允许用户启用或禁用特定功能。</p><h3 id="2-external-desc"><a href="#2-external-desc" class="headerlink" title="2. external.desc"></a>2. external.desc</h3><p><code>external.desc</code>是Buildroot 2020.02版本后引入的新文件，用于描述外部树的元数据，如名称和描述。这个文件不是必需的，但有助于识别外部树。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">name: my-external-tree</span><br><span class="line">description: My custom external tree for Buildroot</span><br></pre></td></tr></table></figure><h3 id="3-external-mk"><a href="#3-external-mk" class="headerlink" title="3. external.mk"></a>3. external.mk</h3><p><code>external.mk</code>是Makefile片段，用于包含外部软件包的构建规则。这个文件会被Buildroot构建系统自动包含。</p><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Example of including a custom package</span></span><br><span class="line"><span class="keyword">ifeq</span> (<span class="variable">$(BR2_PACKAGE_MY_CUSTOM_PACKAGE)</span>,y)</span><br><span class="line"><span class="keyword">include</span> package/my_custom_package/my_custom_package.mk</span><br><span class="line"><span class="keyword">endif</span></span><br></pre></td></tr></table></figure><h3 id="4-configs"><a href="#4-configs" class="headerlink" title="4. configs&#x2F;"></a>4. configs&#x2F;</h3><p><code>configs/</code>目录包含预定义的Buildroot配置文件，这些文件可以通过<code>make &lt;config_name&gt;_defconfig</code>命令使用。这些配置文件通常用于快速配置Buildroot以使用特定的板级支持包或软件包组合。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Example of a custom defconfig file</span><br><span class="line">BR2_PACKAGE_MY_CUSTOM_PACKAGE=y</span><br></pre></td></tr></table></figure><h3 id="5-board"><a href="#5-board" class="headerlink" title="5. board&#x2F;"></a>5. board&#x2F;</h3><p><code>board/</code>目录包含特定于板级的文件，如启动脚本、内核配置片段或根文件系统覆盖层。</p><h3 id="6-package"><a href="#6-package" class="headerlink" title="6. package&#x2F;"></a>6. package&#x2F;</h3><p><code>package/</code>目录包含自定义软件包的描述和构建规则。每个软件包目录下通常包含两个文件：<code>Config.in</code>和<code>&lt;package_name&gt;.mk</code>。</p><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># package/my_custom_package/Config.in</span></span><br><span class="line">config BR2_PACKAGE_MY_CUSTOM_PACKAGE</span><br><span class="line">    bool <span class="string">&quot;My custom package&quot;</span></span><br><span class="line">    help</span><br><span class="line">      My custom package description.</span><br></pre></td></tr></table></figure><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># package/my_custom_package/my_custom_package.mk</span></span><br><span class="line">MY_CUSTOM_PACKAGE_VERSION = 1.0</span><br><span class="line">MY_CUSTOM_PACKAGE_SITE = <span class="variable">$(TOPDIR)</span>/path/to/my_custom_package/source</span><br><span class="line">MY_CUSTOM_PACKAGE_LICENSE = GPL-2.0+</span><br><span class="line"></span><br><span class="line"><span class="keyword">define</span> MY_CUSTOM_PACKAGE_BUILD_CMDS</span><br><span class="line">    <span class="variable">$(MAKE)</span> CC=<span class="string">&quot;<span class="variable">$(TARGET_CC)</span>&quot;</span> -C $(@D)</span><br><span class="line"><span class="keyword">endef</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">define</span> MY_CUSTOM_PACKAGE_INSTALL_TARGET_CMDS</span><br><span class="line">    <span class="variable">$(INSTALL)</span> -D -m 0755 $(@D)/my_custom_package <span class="variable">$(TARGET_DIR)</span>/usr/bin</span><br><span class="line"><span class="keyword">endef</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$(<span class="built_in">eval</span> $(generic-package)</span>)</span><br></pre></td></tr></table></figure><h3 id="7-fs"><a href="#7-fs" class="headerlink" title="7. fs&#x2F;"></a>7. fs&#x2F;</h3><p><code>fs/</code>目录用于添加自定义文件系统支持。这里可以放置生成特定类型文件系统镜像的脚本和配置。</p><p>这些文件和目录为你提供了一个框架来扩展Buildroot，添加自定义板级支持、软件包和配置。确保遵循Buildroot的文档和现有的样板（boilerplate）代码来正确实现这些自定义扩展。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-&lt;p&gt;在使用Buildroot构建嵌入式Linux系统时，&lt;code&gt;BR2_EXTERNAL&lt;/code&gt;是一个重要的机制，它允许用户将自定义的配置、包（packages）、板级支持包（board support packages</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>vscode的常用操作</title>
-    <link href="http://example.com/2024/02/07/tools/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/"/>
-    <id>http://example.com/2024/02/07/tools/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</id>
-    <published>2024-02-07T04:22:12.000Z</published>
-    <updated>2024-02-07T04:23:15.766Z</updated>
-    
-    <content type="html"><![CDATA[<span id="more"></span><p>A: 你本地新增的文件（服务器上没有）.<br>C: 文件的一个新拷贝.<br>D: 你本地删除的文件（服务器上还在）.<br>M: 文件的内容或者mode被修改了.<br>R: 文件名被修改了。<br>T: 文件的类型被修改了。<br>U: 文件没有被合并(你需要完成合并才能进行提交)。<br>X: 未知状态(很可能是遇到git的bug了，你可以向git提交bug report)。<br>在man git diff-files中可以查到这些标志的说明。<br>这些状态标志在git的源代码的diff.h文件中被定义。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-
-
-&lt;p&gt;A: 你本地新增的文件（服务器上没有）.&lt;br&gt;C: 文件的一个新拷贝.&lt;br&gt;D: 你本地删除的文件（服务器上还在）.&lt;br&gt;M: 文件的内容或者mode被修改了.&lt;br&gt;R: 文件名被修改了。&lt;br&gt;T: 文件的类型被</summary>
-      
-    
-    
-    
-    <category term="学习" scheme="http://example.com/categories/%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-    <category term="开发" scheme="http://example.com/tags/%E5%BC%80%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>linux的常用命令</title>
-    <link href="http://example.com/2024/02/02/tools/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
-    <id>http://example.com/2024/02/02/tools/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</id>
-    <published>2024-02-02T07:17:23.000Z</published>
-    <updated>2024-04-01T14:32:04.597Z</updated>
-    
-    <content type="html"><![CDATA[<span id="more"></span><h2 id="Linux根目录"><a href="#Linux根目录" class="headerlink" title="Linux根目录"></a>Linux根目录</h2><p>Linux根目录(<code>/</code>)是文件系统的最顶层目录，它包含了系统的所有其他文件和目录。每个位于根目录下的目录都有其特定的用途和约定。以下是Linux根目录下常见目录的简要说明：</p><h3 id="bin"><a href="#bin" class="headerlink" title="/bin"></a><code>/bin</code></h3><p>包含用户和系统操作所需的重要可执行文件（命令），如<code>ls</code>、<code>cp</code>等。这些命令对于系统的基本功能至关重要。</p><h3 id="boot"><a href="#boot" class="headerlink" title="/boot"></a><code>/boot</code></h3><p>存放启动Linux系统时使用的文件，包括Linux内核文件（通常是<code>vmlinuz</code>）、引导加载程序（如GRUB）的配置文件以及初始化RAM磁盘（initrd）。</p><h3 id="dev"><a href="#dev" class="headerlink" title="/dev"></a><code>/dev</code></h3><p>包含设备文件，这些文件代表系统中的硬件设备，允许程序和脚本与这些设备进行交互，如硬盘（<code>/dev/sda</code>）、终端（<code>/dev/tty</code>）等。</p><h3 id="etc"><a href="#etc" class="headerlink" title="/etc"></a><code>/etc</code></h3><p>存放系统全局配置文件，如启动脚本、网络配置文件以及各种服务和程序的配置文件。</p><h3 id="home"><a href="#home" class="headerlink" title="/home"></a><code>/home</code></h3><p>用户的主目录，通常每个用户在<code>/home</code>下有一个与其用户名同名的目录，用于存放个人文件、配置文件等。</p><h3 id="lib"><a href="#lib" class="headerlink" title="/lib"></a><code>/lib</code></h3><p>包含系统和应用程序运行所需的共享库文件和内核模块。共享库类似于Windows中的DLL文件。</p><h3 id="media和-mnt"><a href="#media和-mnt" class="headerlink" title="/media和/mnt"></a><code>/media</code>和<code>/mnt</code></h3><p><code>/media</code>通常用于挂载可移除媒体，如CD-ROMs、USB驱动器等，而<code>/mnt</code>经常被用作临时挂载文件系统的点。</p><h3 id="opt"><a href="#opt" class="headerlink" title="/opt"></a><code>/opt</code></h3><p>用于安装“可选”的软件和第三方应用程序，这些应用程序通常以包的形式独立于系统默认的软件管理。</p><h3 id="proc"><a href="#proc" class="headerlink" title="/proc"></a><code>/proc</code></h3><p>一个虚拟的文件系统，提供对内核和进程信息的接口，如系统内存、配置参数（通过文件系统接口访问）。</p><h3 id="root"><a href="#root" class="headerlink" title="/root"></a><code>/root</code></h3><p>超级用户（root用户）的主目录，类似于普通用户的<code>/home/用户名</code>目录，但位于根目录下。</p><h3 id="sbin"><a href="#sbin" class="headerlink" title="/sbin"></a><code>/sbin</code></h3><p>包含系统管理和维护的重要可执行文件，通常只有root用户才能运行这些命令，如<code>fdisk</code>、<code>ifconfig</code>等。</p><h3 id="srv"><a href="#srv" class="headerlink" title="/srv"></a><code>/srv</code></h3><p>用于存放一些服务启动之后需要的数据，这些服务直接提供给系统外部使用。</p><h3 id="sys"><a href="#sys" class="headerlink" title="/sys"></a><code>/sys</code></h3><p>像<code>/proc</code>一样，<code>/sys</code>也是一个虚拟的文件系统，提供了内核对象的接口，它允许内核和用户空间通信，以及配置内核。</p><h3 id="tmp"><a href="#tmp" class="headerlink" title="/tmp"></a><code>/tmp</code></h3><p>用于存放临时文件，任何用户都可以在此目录下创建和删除文件。系统可能在重启时清除此目录下的文件。</p><h3 id="usr"><a href="#usr" class="headerlink" title="/usr"></a><code>/usr</code></h3><p>包含用户级别的应用程序和文件，<code>/usr</code>目录下包含了许多子目录，如<code>/usr/bin</code>、<code>/usr/lib</code>、<code>/usr/local</code>等，用于存放非必需的应用程序、库文件、文档等。</p><h3 id="var"><a href="#var" class="headerlink" title="/var"></a><code>/var</code></h3><p>用于存放经常变化的文件，如日志文件（<code>/var/log</code>）、包和数据库文件（<code>/var/lib</code>）、临时电子邮件文件（<code>/var/mail</code>）等。</p><p>这些目录构成了Linux文件系统的标准布局，不同的发行版可能会有轻微的变化或扩展。</p><h2 id="重启网络（显示wifi图标）"><a href="#重启网络（显示wifi图标）" class="headerlink" title="重启网络（显示wifi图标）"></a>重启网络（显示wifi图标）</h2><p>$ 192.168.79.133<br>$ 192.168.79.133</p><p>$ sudo nmcli network on</p><h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><h4 id="find"><a href="#find" class="headerlink" title="find"></a>find</h4><p>查找特定名称的文件：<br>$ find &#x2F;path&#x2F;to&#x2F;search -name “filename.txt”<br>文件：<br>-type f<br>30天内被修改过<br>-mtime -30<br>处理深度：<br>可以通过-maxdepth和-mindepth选项控制搜索的深度。</p><h4 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h4><p>在文件中搜索文本：<br>$ grep “search pattern” filename</p><p>递归搜索目录中的所有文件：<br>$ grep -r “search pattern” &#x2F;path&#x2F;to&#x2F;search<br>忽略大小写地搜索文本:<br>-i<br>显示匹配行的行号：<br>-n</p><h2 id="exec"><a href="#exec" class="headerlink" title="exec"></a>exec</h2><p>-exec后面跟着要执行的命令，然后是{}，它代表当前处理的文件名，最后以;结束</p><p>查找名为config.php的文件，并使用chmod命令更改它们的权限：<br>$ find &#x2F;path&#x2F;to&#x2F;search -type f -name “config.php” -exec chmod 644 {} ;</p><p>使用;来终结-exec命令是必须的，因为没有它，find命令就不知道-exec选项的参数在哪里结束。</p><h2 id=""><a href="#" class="headerlink" title="|"></a>|</h2><p>管道（|）是一个Shell特性，它允许你将一个命令的输出作为另一个命令的输入。与-exec不同，管道通常与xargs命令一起使用，xargs可以将标准输入（stdin）转换为命令行参数。</p><p>xargs主要用于将标准输入数据转换为命令行参数。在你的场景中，由于grep可以直接从标准输入读取数据进行搜索，实际上不需要xargs来实现这一功能。<br>qemu-system-riscv64 -help | grep “machine”</p><p>查找当前目录及子目录下所有.log文件，并使用grep命令在它们中搜索”error”字符串：<br>$ find . -type f -name “*.log” | xargs grep “error”<br>xargs命令的-0（或–null）选项期望输入项以null字符（\0）分隔，这通常与find … -print0命令一起使用。</p><p>性能：使用-exec时，find会为每个找到的文件启动一个新的进程来执行指定的命令。而管道到xargs的方式会尝试减少进程的数量，通过将多个文件名作为单个命令的参数来提高效率。<br>安全性：-exec直接由find处理，可以安全地处理文件名中的特殊字符。而使用管道到xargs时，如果不加-0选项（并且find使用-print0），可能会遇到文件名中包含空格、换行符等特殊字符的问题。<br>灵活性：管道允许你利用Shell的特性组合多个命令，可以实现更复杂的处理流程。<br>选择使用-exec还是管道（配合xargs），取决于具体的任务需求、对性能的考量以及对特殊文件名的处理需求。</p><h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>查看所有Git配置项：<br>$ git config –list<br>user.name&#x3D;LuLuji04<br>user.email&#x3D;<a href="mailto:&#108;&#105;&#117;&#x79;&#x75;&#106;&#105;&#x30;&#49;&#x30;&#x40;&#49;&#x32;&#54;&#46;&#x63;&#x6f;&#x6d;">&#108;&#105;&#117;&#x79;&#x75;&#106;&#105;&#x30;&#49;&#x30;&#x40;&#49;&#x32;&#54;&#46;&#x63;&#x6f;&#x6d;</a><br>https.proxy&#x3D;192.168.3.11:7890<br>credential.helper&#x3D;store<br>http.proxy&#x3D;192.168.3.11:7890<br>core.editor&#x3D;vim<br>color.ui&#x3D;true</p><p>查看特定配置项的值，如user.name：<br>$ git config user.name</p><p>$ git config –global user.name “Your Name”<br>$ git config –global user.email “<a href="mailto:&#121;&#x6f;&#x75;&#x72;&#x65;&#109;&#x61;&#105;&#108;&#x40;&#101;&#x78;&#97;&#x6d;&#x70;&#x6c;&#101;&#46;&#x63;&#x6f;&#x6d;">&#121;&#x6f;&#x75;&#x72;&#x65;&#109;&#x61;&#105;&#108;&#x40;&#101;&#x78;&#97;&#x6d;&#x70;&#x6c;&#101;&#46;&#x63;&#x6f;&#x6d;</a>“</p><h2 id="man"><a href="#man" class="headerlink" title="man"></a>man</h2><p>man 手册的数字编号</p><p>man 1 kill、man 2 kill，这些命令都是查看 kill 命令的手册，但是文档却大不相同。</p><p>因为 kill 是一个命令行的工具，which kill 看到 &#x2F;usr&#x2F;bin&#x2F;kill 是一个二进制文件；其实，也有一个系统调用叫做 kill。</p><p>man 1 kill 显示的是命令行工具 kill 的手册；</p><p>man 2 kill 显示系统调用 kill 的手册；</p><p>显示什么类型的手册，由 man 和命令中间的数字决定，目前共有 9 个 man 支持的数字。<br>数字说明<br>1可执行程序或 Shell 命令<br>2系统调用（内核提供的函数）<br>3库调用<br>4特殊文件（通常位于 &#x2F;dev 目录）<br>5文件格式和约定（比如 &#x2F;etc&#x2F;passwd）<br>6游戏<br>7杂项（包和一些约定）Miscellaneous (including macro packages and conventions), e.g. man(7), groff(7)<br>8系统管理命令（通常是 root 用户执行的命令）<br>9内核相关的文件 Kernel routines [Non standard]</p><p>@&#x2F;bin&#x2F;echo -e “NAME &#x3D; $*\nSRCS &#x3D; $&lt;\ninclude $${AM_HOME}&#x2F;Makefile” &gt; $@:</p><p>这一行创建了一个新的Makefile，其中包含了被规则匹配的测试文件的名称（$*，表示不带前缀的目标名称）和路径（$&lt;，表示规则的第一个依赖）。<br>$${AM_HOME}是环境变量AM_HOME的引用，这里使用两个$是为了在Makefile中延迟变量的扩展。<br>输出重定向到$@，即目标文件Makefile.<name>。</p><h2 id="if"><a href="#if" class="headerlink" title="if"></a>if</h2><p>@if make -s -f $@ ARCH&#x3D;$(ARCH) $(MAKECMDGOALS); then <br>        printf “[%14s] $(COLOR_GREEN)PASS!$(COLOR_NONE)\n” $* &gt;&gt; $(RESULT); <br>    else <br>        printf “[%14s] $(COLOR_RED)FAIL!$(COLOR_NONE)\n” $* &gt;&gt; $(RESULT); <br>    fi<br>这里使用make命令来执行刚刚生成的Makefile（-f $@），传递ARCH变量和当前的目标（$(MAKECMDGOALS)）。<br>-s选项使make在执行时不打印命令，只显示错误和警告。</p><h2 id="tr"><a href="#tr" class="headerlink" title="tr"></a>tr</h2><p>这段代码是在 Makefile 中使用的，它的目的是根据 <code>ARCH</code> 变量的值生成一个编译器的预处理器定义。让我们逐步解析它的含义：</p><ul><li><code>$(shell command)</code>：Makefile 中的 <code>shell</code> 函数执行一个 shell 命令，并返回命令的输出。在这个上下文中，它执行了两次 <code>tr</code> 命令。</li><li><code>echo $(ARCH)</code>：输出 <code>ARCH</code> 变量的值。<code>ARCH</code> 是一个常见的环境变量，用于指示目标架构类型，如 <code>x86</code>、<code>arm</code> 等。</li><li><code>tr a-z A-Z</code>：将小写字母转换为大写字母。这意味着如果 <code>ARCH</code> 是小写的（如 <code>x86</code>），它会被转换为大写的（<code>X86</code>）。</li><li><code>tr - _</code>：将短划线（<code>-</code>）转换为下划线（<code>_</code>）。这是因为在C预处理器定义中，短划线不是一个有效的字符。</li></ul><p>将这些组合起来：</p><ul><li><code>-D__ARCH_$(shell echo $(ARCH) | tr a-z A-Z | tr - _)</code></li></ul><p>这将创建一个预处理器定义，其名称基于 <code>ARCH</code> 环境变量的值，但所有的小写字母都被转换成了大写，所有的短划线都被转换成了下划线，前缀为 <code>__ARCH_</code>。例如，如果 <code>ARCH=x86-64</code>，这个定义将会是 <code>-D__ARCH_X86_64</code>。</p><p>这样的预处理器定义可以在编译时提供目标架构的信息，使得源代码可以根据不同的架构进行条件编译。这是在跨平台开发中常见的做法，特别是在需要根据不同硬件架构调整编译选项和优化的情况下。</p><h2 id="grep-1"><a href="#grep-1" class="headerlink" title="grep"></a>grep</h2><p>grep -rnw ‘&#x2F;path&#x2F;to&#x2F;somewhere&#x2F;‘ -e ‘function_name’<br>这个命令会在指定路径</p><h2 id="用户管理基本操作"><a href="#用户管理基本操作" class="headerlink" title="用户管理基本操作"></a>用户管理基本操作</h2><p>以下是一些基本的用户管理操作：</p><h4 id="1-修改用户信息"><a href="#1-修改用户信息" class="headerlink" title="1. 修改用户信息"></a>1. 修改用户信息</h4><p>如果需要修改用户的信息（比如更改家目录、登录Shell等），可以使用 <code>usermod</code> 命令。例如，更改用户的Shell为 <code>/bin/zsh</code>：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -s /bin/zsh userl</span><br></pre></td></tr></table></figure><h4 id="2-更改密码"><a href="#2-更改密码" class="headerlink" title="2. 更改密码"></a>2. 更改密码</h4><p>更改用户密码，可以使用 <code>passwd</code> 命令：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo passwd userl</span><br></pre></td></tr></table></figure><p>然后按照提示输入新密码。</p><h4 id="3-删除用户"><a href="#3-删除用户" class="headerlink" title="3. 删除用户"></a>3. 删除用户</h4><p>如果要删除用户，可以使用 <code>userdel</code> 命令。如果同时想删除用户的家目录，可以添加 <code>-r</code> 选项：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo userdel -r userl</span><br></pre></td></tr></table></figure><h4 id="4-用户组管理"><a href="#4-用户组管理" class="headerlink" title="4. 用户组管理"></a>4. 用户组管理</h4><ul><li><p><strong>添加用户到组</strong>：使用 <code>usermod -aG</code> 命令将用户添加到一个或多个附加组中：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -aG groupname userl</span><br></pre></td></tr></table></figure></li><li><p><strong>创建新组</strong>：使用 <code>groupadd</code> 命令创建新组：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd groupname</span><br></pre></td></tr></table></figure></li><li><p><strong>删除组</strong>：使用 <code>groupdel</code> 命令删除现有组：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo groupdel groupname</span><br></pre></td></tr></table></figure></li></ul><h4 id="5-查看用户信息"><a href="#5-查看用户信息" class="headerlink" title="5. 查看用户信息"></a>5. 查看用户信息</h4><ul><li><p>查看用户的当前设置，包括用户ID、组ID、家目录等，可以使用 <code>id</code> 命令：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">id</span> userl</span><br></pre></td></tr></table></figure></li><li><p>查看系统中所有用户的列表，可以查看 <code>/etc/passwd</code> 文件：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /etc/passwd</span><br></pre></td></tr></table></figure></li><li><p>查看所有组的列表，可以查看 <code>/etc/group</code> 文件：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /etc/group</span><br></pre></td></tr></table></figure></li></ul><p>用户管理是Linux系统管理中的一个重要部分，了解和掌握基本的用户和组管理命令对于维护系统的安全性和有效性至关重要。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-
-&lt;h2 id=&quot;Linux根目录&quot;&gt;&lt;a href=&quot;#Linux根目录&quot; class=&quot;headerlink&quot; title=&quot;Linux根目录&quot;&gt;&lt;/a&gt;Linux根目录&lt;/h2&gt;&lt;p&gt;Linux根目录(&lt;code&gt;/&lt;/cod</summary>
-      
-    
-    
-    
-    <category term="学习" scheme="http://example.com/categories/%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-    <category term="开发" scheme="http://example.com/tags/%E5%BC%80%E5%8F%91/"/>
+    <category term="网络配置" scheme="http://example.com/tags/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/"/>
     
   </entry>
   
@@ -389,87 +105,506 @@
   </entry>
   
   <entry>
-    <title>配置高级软件</title>
+    <title>高级开发软件配置指南</title>
     <link href="http://example.com/2023/12/26/tools/%E9%85%8D%E7%BD%AE%E9%AB%98%E7%BA%A7%E8%BD%AF%E4%BB%B6/"/>
     <id>http://example.com/2023/12/26/tools/%E9%85%8D%E7%BD%AE%E9%AB%98%E7%BA%A7%E8%BD%AF%E4%BB%B6/</id>
-    <published>2023-12-26T08:07:25.000Z</published>
-    <updated>2024-05-08T14:11:32.557Z</updated>
+    <published>2023-12-25T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
     
-    <content type="html"><![CDATA[<span id="more"></span><h2 id="VSCode关联VIVADO编辑Verilog"><a href="#VSCode关联VIVADO编辑Verilog" class="headerlink" title="VSCode关联VIVADO编辑Verilog"></a>VSCode关联VIVADO编辑Verilog</h2><p><a href="https://blog.csdn.net/wd12306/article/details/128929552">https://blog.csdn.net/wd12306/article/details/128929552</a></p><h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>导入的文件可以不在{projectdir}\newcounter\newcounter.srcs中，<br><img src="/../images/%E9%85%8D%E7%BD%AEvivado/image.png" alt="Alt text"></p><h2 id="vivado加入board和part"><a href="#vivado加入board和part" class="headerlink" title="vivado加入board和part"></a>vivado加入board和part</h2><p><a href="https://support.xilinx.com/s/question/0D52E00006lLBqpSAG/setting-board-file-fails-with-error-board-4971-the-boardpart-definition-was-not-found?language=en_US">https://support.xilinx.com/s/question/0D52E00006lLBqpSAG/setting-board-file-fails-with-error-board-4971-the-boardpart-definition-was-not-found?language=en_US</a></p>]]></content>
+    <content type="html"><![CDATA[<p>本文介绍了一些高级开发软件的配置方法，包括VSCode与Vivado的集成、项目导入等内容。</p><span id="more"></span><h2 id="VSCode关联VIVADO编辑Verilog"><a href="#VSCode关联VIVADO编辑Verilog" class="headerlink" title="VSCode关联VIVADO编辑Verilog"></a>VSCode关联VIVADO编辑Verilog</h2><p><a href="https://blog.csdn.net/wd12306/article/details/128929552">https://blog.csdn.net/wd12306/article/details/128929552</a></p><h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>导入的文件可以不在{projectdir}\newcounter\newcounter.srcs中，<br><img src="/../images/%E9%85%8D%E7%BD%AEvivado/image.png" alt="Alt text"></p><h2 id="vivado加入board和part"><a href="#vivado加入board和part" class="headerlink" title="vivado加入board和part"></a>vivado加入board和part</h2><p><a href="https://support.xilinx.com/s/question/0D52E00006lLBqpSAG/setting-board-file-fails-with-error-board-4971-the-boardpart-definition-was-not-found?language=en_US">https://support.xilinx.com/s/question/0D52E00006lLBqpSAG/setting-board-file-fails-with-error-board-4971-the-boardpart-definition-was-not-found?language=en_US</a></p>]]></content>
     
     
-      
-      
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-
-&lt;h2 id=&quot;VSCode关联VIVADO编辑Verilog&quot;&gt;&lt;a href=&quot;#VSCode关联VIVADO编辑Verilog&quot; class=&quot;headerlink&quot; title=&quot;VSCode关联VIVADO编辑Veril</summary>
-      
+    <summary type="html">&lt;p&gt;本文介绍了一些高级开发软件的配置方法，包括VSCode与Vivado的集成、项目导入等内容。&lt;/p&gt;</summary>
     
     
     
-    <category term="学习" scheme="http://example.com/categories/%E5%AD%A6%E4%B9%A0/"/>
+    <category term="tools" scheme="http://example.com/categories/tools/"/>
+    
+    <category term="开发环境" scheme="http://example.com/categories/tools/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/"/>
     
     
-    <category term="开发" scheme="http://example.com/tags/%E5%BC%80%E5%8F%91/"/>
+    <category term="开发工具" scheme="http://example.com/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
     
-    <category term="硬件" scheme="http://example.com/tags/%E7%A1%AC%E4%BB%B6/"/>
+    <category term="VSCode" scheme="http://example.com/tags/VSCode/"/>
     
-  </entry>
-  
-  <entry>
-    <title>tags</title>
-    <link href="http://example.com/2023/12/07/tools/index/"/>
-    <id>http://example.com/2023/12/07/tools/index/</id>
-    <published>2023-12-06T16:48:39.000Z</published>
-    <updated>2023-12-06T16:52:34.394Z</updated>
+    <category term="Vivado" scheme="http://example.com/tags/Vivado/"/>
     
-    
-    
-    
+    <category term="环境配置" scheme="http://example.com/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
     
   </entry>
   
   <entry>
-    <title>学习硬件安全的网站</title>
-    <link href="http://example.com/2023/12/06/course/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/"/>
-    <id>http://example.com/2023/12/06/course/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/</id>
-    <published>2023-12-06T08:50:38.000Z</published>
-    <updated>2023-12-10T13:15:47.603Z</updated>
+    <title>硬件安全学习资源汇总</title>
+    <link href="http://example.com/2023/12/10/course/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/"/>
+    <id>http://example.com/2023/12/10/course/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/</id>
+    <published>2023-12-09T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
     
-    <content type="html"><![CDATA[<p>作为一名信息安全的学生，由于更喜欢与真实的世界打交道，选择了深入了解硬件安全。这里就将用来记录一些关于<em>硬件安全</em>的学习网站</p><span id="more"></span><h2 id="黑客平台"><a href="#黑客平台" class="headerlink" title="黑客平台"></a>黑客平台</h2><h4 id="包含多层面的安全技术，其中有IoT安全"><a href="#包含多层面的安全技术，其中有IoT安全" class="headerlink" title="包含多层面的安全技术，其中有IoT安全"></a>包含多层面的安全技术，其中有IoT安全</h4><p><a href="https://paper.seebug.org/">https://paper.seebug.org/</a></p><h2 id="keystone"><a href="#keystone" class="headerlink" title="keystone"></a>keystone</h2><h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><p><a href="http://docs.keystone-enclave.org/en/latest/">http://docs.keystone-enclave.org/en/latest/</a></p><h4 id="【TEE自学随笔】keystone代码略读"><a href="#【TEE自学随笔】keystone代码略读" class="headerlink" title="【TEE自学随笔】keystone代码略读"></a>【TEE自学随笔】keystone代码略读</h4><p><a href="https://blog.csdn.net/BOWS7RING/article/details/116906211?spm=1001.2014.3001.5502">https://blog.csdn.net/BOWS7RING/article/details/116906211?spm=1001.2014.3001.5502</a></p><h4 id="一文知悉RISC-V可信执行环境：Keystone"><a href="#一文知悉RISC-V可信执行环境：Keystone" class="headerlink" title="一文知悉RISC-V可信执行环境：Keystone"></a>一文知悉RISC-V可信执行环境：Keystone</h4><p><a href="https://blog.csdn.net/weixin_45264425/article/details/134326170">https://blog.csdn.net/weixin_45264425/article/details/134326170</a></p><h2 id="trustzone"><a href="#trustzone" class="headerlink" title="trustzone"></a>trustzone</h2><h4 id="ARM-A64架构TrustZone学习"><a href="#ARM-A64架构TrustZone学习" class="headerlink" title="ARM A64架构TrustZone学习"></a>ARM A64架构TrustZone学习</h4><p><a href="https://blog.csdn.net/pslyunhai3255/article/details/129229732">https://blog.csdn.net/pslyunhai3255/article/details/129229732</a></p><h2 id="侧信道攻击"><a href="#侧信道攻击" class="headerlink" title="侧信道攻击"></a>侧信道攻击</h2><h4 id="RISC-V-CPU侧信道攻击原理与实践"><a href="#RISC-V-CPU侧信道攻击原理与实践" class="headerlink" title="RISC-V CPU侧信道攻击原理与实践"></a>RISC-V CPU侧信道攻击原理与实践</h4><p><a href="https://www.zhihu.com/people/shawn-82-88-4">https://www.zhihu.com/people/shawn-82-88-4</a></p><h2 id="数字ic"><a href="#数字ic" class="headerlink" title="数字ic"></a>数字ic</h2><h4 id="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"><a href="#手把手教你蜂鸟e203移植（以Nexys4DDR为例）" class="headerlink" title="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"></a>手把手教你蜂鸟e203移植（以Nexys4DDR为例）</h4><p><a href="https://www.cnblogs.com/Qzzz/p/17201475.html">https://www.cnblogs.com/Qzzz/p/17201475.html</a></p><h4 id="数字IC基础学这些就够了"><a href="#数字IC基础学这些就够了" class="headerlink" title="数字IC基础学这些就够了"></a>数字IC基础学这些就够了</h4><p><a href="https://zhuanlan.zhihu.com/p/670736813">https://zhuanlan.zhihu.com/p/670736813</a></p><h4 id="国产安全芯片，请关注他们！"><a href="#国产安全芯片，请关注他们！" class="headerlink" title="国产安全芯片，请关注他们！"></a>国产安全芯片，请关注他们！</h4><p><a href="https://zhuanlan.zhihu.com/p/627643776">https://zhuanlan.zhihu.com/p/627643776</a></p><h2 id="体系结构"><a href="#体系结构" class="headerlink" title="体系结构"></a>体系结构</h2><h4 id="计算机体系结构学习路线"><a href="#计算机体系结构学习路线" class="headerlink" title="计算机体系结构学习路线"></a>计算机体系结构学习路线</h4><p><a href="https://zhuanlan.zhihu.com/p/654821469">https://zhuanlan.zhihu.com/p/654821469</a></p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;作为一名信息安全的学生，由于更喜欢与真实的世界打交道，选择了深入了解硬件安全。这里就将用来记录一些关于&lt;em&gt;硬件安全&lt;/em&gt;的学习网站&lt;/p&gt;</summary>
+    <content type="html"><![CDATA[<p>收集和整理硬件安全领域的学习资源，包括网站、工具、教程等内容。</p><p>作为一名信息安全的学生，由于更喜欢与真实的世界打交道，选择了深入了解硬件安全。这里就将用来记录一些关于<em>硬件安全</em>的学习网站</p><span id="more"></span><h2 id="黑客平台"><a href="#黑客平台" class="headerlink" title="黑客平台"></a>黑客平台</h2><h4 id="包含多层面的安全技术，其中有IoT安全"><a href="#包含多层面的安全技术，其中有IoT安全" class="headerlink" title="包含多层面的安全技术，其中有IoT安全"></a>包含多层面的安全技术，其中有IoT安全</h4><p><a href="https://paper.seebug.org/">https://paper.seebug.org/</a></p><h2 id="keystone"><a href="#keystone" class="headerlink" title="keystone"></a>keystone</h2><h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><p><a href="http://docs.keystone-enclave.org/en/latest/">http://docs.keystone-enclave.org/en/latest/</a></p><h4 id="【TEE自学随笔】keystone代码略读"><a href="#【TEE自学随笔】keystone代码略读" class="headerlink" title="【TEE自学随笔】keystone代码略读"></a>【TEE自学随笔】keystone代码略读</h4><p><a href="https://blog.csdn.net/BOWS7RING/article/details/116906211?spm=1001.2014.3001.5502">https://blog.csdn.net/BOWS7RING/article/details/116906211?spm=1001.2014.3001.5502</a></p><h4 id="一文知悉RISC-V可信执行环境：Keystone"><a href="#一文知悉RISC-V可信执行环境：Keystone" class="headerlink" title="一文知悉RISC-V可信执行环境：Keystone"></a>一文知悉RISC-V可信执行环境：Keystone</h4><p><a href="https://blog.csdn.net/weixin_45264425/article/details/134326170">https://blog.csdn.net/weixin_45264425/article/details/134326170</a></p><h2 id="trustzone"><a href="#trustzone" class="headerlink" title="trustzone"></a>trustzone</h2><h4 id="ARM-A64架构TrustZone学习"><a href="#ARM-A64架构TrustZone学习" class="headerlink" title="ARM A64架构TrustZone学习"></a>ARM A64架构TrustZone学习</h4><p><a href="https://blog.csdn.net/pslyunhai3255/article/details/129229732">https://blog.csdn.net/pslyunhai3255/article/details/129229732</a></p><h2 id="侧信道攻击"><a href="#侧信道攻击" class="headerlink" title="侧信道攻击"></a>侧信道攻击</h2><h4 id="RISC-V-CPU侧信道攻击原理与实践"><a href="#RISC-V-CPU侧信道攻击原理与实践" class="headerlink" title="RISC-V CPU侧信道攻击原理与实践"></a>RISC-V CPU侧信道攻击原理与实践</h4><p><a href="https://www.zhihu.com/people/shawn-82-88-4">https://www.zhihu.com/people/shawn-82-88-4</a></p><h2 id="数字ic"><a href="#数字ic" class="headerlink" title="数字ic"></a>数字ic</h2><h4 id="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"><a href="#手把手教你蜂鸟e203移植（以Nexys4DDR为例）" class="headerlink" title="手把手教你蜂鸟e203移植（以Nexys4DDR为例）"></a>手把手教你蜂鸟e203移植（以Nexys4DDR为例）</h4><p><a href="https://www.cnblogs.com/Qzzz/p/17201475.html">https://www.cnblogs.com/Qzzz/p/17201475.html</a></p><h4 id="数字IC基础学这些就够了"><a href="#数字IC基础学这些就够了" class="headerlink" title="数字IC基础学这些就够了"></a>数字IC基础学这些就够了</h4><p><a href="https://zhuanlan.zhihu.com/p/670736813">https://zhuanlan.zhihu.com/p/670736813</a></p><h4 id="国产安全芯片，请关注他们！"><a href="#国产安全芯片，请关注他们！" class="headerlink" title="国产安全芯片，请关注他们！"></a>国产安全芯片，请关注他们！</h4><p><a href="https://zhuanlan.zhihu.com/p/627643776">https://zhuanlan.zhihu.com/p/627643776</a></p><h2 id="体系结构"><a href="#体系结构" class="headerlink" title="体系结构"></a>体系结构</h2><h4 id="计算机体系结构学习路线"><a href="#计算机体系结构学习路线" class="headerlink" title="计算机体系结构学习路线"></a>计算机体系结构学习路线</h4><p><a href="https://zhuanlan.zhihu.com/p/654821469">https://zhuanlan.zhihu.com/p/654821469</a></p>]]></content>
     
     
+    <summary type="html">&lt;p&gt;收集和整理硬件安全领域的学习资源，包括网站、工具、教程等内容。&lt;/p&gt;
+&lt;p&gt;作为一名信息安全的学生，由于更喜欢与真实的世界打交道，选择了深入了解硬件安全。这里就将用来记录一些关于&lt;em&gt;硬件安全&lt;/em&gt;的学习网站&lt;/p&gt;</summary>
     
-    <category term="综述" scheme="http://example.com/categories/%E7%BB%BC%E8%BF%B0/"/>
     
     
-    <category term="安全" scheme="http://example.com/tags/%E5%AE%89%E5%85%A8/"/>
+    <category term="course" scheme="http://example.com/categories/course/"/>
     
-    <category term="硬件" scheme="http://example.com/tags/%E7%A1%AC%E4%BB%B6/"/>
+    <category term="硬件安全" scheme="http://example.com/categories/course/%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8/"/>
+    
+    
+    <category term="课程笔记" scheme="http://example.com/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/"/>
+    
+    <category term="硬件安全" scheme="http://example.com/tags/%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8/"/>
+    
+    <category term="安全设计" scheme="http://example.com/tags/%E5%AE%89%E5%85%A8%E8%AE%BE%E8%AE%A1/"/>
+    
+    <category term="学习资源" scheme="http://example.com/tags/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90/"/>
     
   </entry>
   
   <entry>
-    <title>hexo+github搭网站</title>
-    <link href="http://example.com/2023/12/06/tools/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/"/>
-    <id>http://example.com/2023/12/06/tools/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/</id>
-    <published>2023-12-06T08:20:38.000Z</published>
-    <updated>2024-02-17T03:25:18.857Z</updated>
+    <title>RT-Thread内存管理分析</title>
+    <link href="http://example.com/2023/12/07/ysyx/rtthread/%E5%86%85%E5%AD%98/"/>
+    <id>http://example.com/2023/12/07/ysyx/rtthread/%E5%86%85%E5%AD%98/</id>
+    <published>2023-12-06T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
     
-    <content type="html"><![CDATA[<p>由于心血来潮，决定自己搭网站。又所谓<em>拿来主义</em>，对于别人的好东西就要拿来，在此记录我参考过的网站</p><span id="more"></span><h2 id="手把手从0-1"><a href="#手把手从0-1" class="headerlink" title="手把手从0-1"></a>手把手从0-1</h2><p><a href="https://www.jianshu.com/p/85f455afcfcf">https://www.jianshu.com/p/85f455afcfcf</a></p><p>创建<br>$ hexo new post(default)&#x2F;draft&#x2F;page [文章名]<br>清除缓存<br>$ hexo clean<br>远端生效<br>$ hexo d -g</p><h2 id="使用主题next"><a href="#使用主题next" class="headerlink" title="使用主题next"></a>使用主题next</h2><p><a href="https://zhuanlan.zhihu.com/p/150737388">https://zhuanlan.zhihu.com/p/150737388</a></p><h2 id="RSS订阅功能"><a href="#RSS订阅功能" class="headerlink" title="RSS订阅功能"></a>RSS订阅功能</h2><p><a href="https://segmentfault.com/a/1190000012647294">https://segmentfault.com/a/1190000012647294</a></p><h2 id="Hexo博客Next主题bilibili视频Markdown插入文章"><a href="#Hexo博客Next主题bilibili视频Markdown插入文章" class="headerlink" title="Hexo博客Next主题bilibili视频Markdown插入文章"></a>Hexo博客Next主题bilibili视频Markdown插入文章</h2><p><a href="https://www.freesion.com/article/9552475946/">https://www.freesion.com/article/9552475946/</a></p><h2 id="HEXO-基本使用（讲解文章格式的）"><a href="#HEXO-基本使用（讲解文章格式的）" class="headerlink" title="HEXO 基本使用（讲解文章格式的）"></a>HEXO 基本使用（讲解文章格式的）</h2><p><a href="https://blog.csdn.net/xq151750111/article/details/133043466">https://blog.csdn.net/xq151750111/article/details/133043466</a></p><h2 id="Hexo教程，看这一篇就够了-How-to系列（有空研读一下）"><a href="#Hexo教程，看这一篇就够了-How-to系列（有空研读一下）" class="headerlink" title="Hexo教程，看这一篇就够了- How to系列（有空研读一下）"></a>Hexo教程，看这一篇就够了- How to系列（有空研读一下）</h2><p><a href="https://blog.csdn.net/cat_bayi/article/details/128725230">https://blog.csdn.net/cat_bayi/article/details/128725230</a></p><p><img src="/images/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/IMG_7006.JPG" alt="Alt text"></p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;由于心血来潮，决定自己搭网站。又所谓&lt;em&gt;拿来主义&lt;/em&gt;，对于别人的好东西就要拿来，在此记录我参考过的网站&lt;/p&gt;</summary>
+    <content type="html"><![CDATA[<p>RT-Thread操作系统内存管理机制的分析，以及相关开发环境配置和调试工具的使用说明。</p><span id="more"></span><h1 id="把ubuntu升级到22了"><a href="#把ubuntu升级到22了" class="headerlink" title="把ubuntu升级到22了"></a>把ubuntu升级到22了</h1><p>sudo sed -i ‘s&#x2F;focal&#x2F;jammy&#x2F;g’ &#x2F;etc&#x2F;apt&#x2F;sources.list<br>sudo apt update<br>sudo apt upgrade<br>sudo apt dist-upgrade</p><h1 id="重启后连不上网了"><a href="#重启后连不上网了" class="headerlink" title="重启后连不上网了"></a>重启后连不上网了</h1><ol><li>查看所有网络接口的状态：<br>ip link show</li><li>检查它们是否为 DOWN 状态（关闭状态），如果是，可以尝试启用它们<br>sudo ip link set eth0 up</li><li>网络接口可能未正确配置 IP 地址。可以尝试动态分配 IP：<br>sudo dhclient eth0</li></ol><h1 id="cland配置运行命令"><a href="#cland配置运行命令" class="headerlink" title="cland配置运行命令"></a>cland配置运行命令</h1><p>bear – &lt;编译需要的命令&gt;</p><h1 id="addressSentiser"><a href="#addressSentiser" class="headerlink" title="addressSentiser"></a>addressSentiser</h1><p>直接定位段错误的位置，除了地址越界的错误之外, Address Sanitizer还能检查use-after-free的错误<br>GCC提供了一个-fsanitize&#x3D;address的编译选项来启用它<br><img src="/image.png" alt="alt text"></p><p>GCC还支持更多的sanitizer, 它们可以检查各种不同的错误, 你可以在man gcc中查阅-fsanitize相关的选项</p><h1 id="valgrind"><a href="#valgrind" class="headerlink" title="valgrind"></a>valgrind</h1><p> Valgrind is a very powerful tool for such a need. Run rltest with valgrind:<br>$ valgrind .&#x2F;rltest</p><h1 id="perf"><a href="#perf" class="headerlink" title="perf"></a>perf</h1><p>安装<br>sudo apt-get update<br>sudo apt-get install linux-tools-common linux-tools-generic linux-tools-$(uname -r)</p><h1 id="linux上的slab"><a href="#linux上的slab" class="headerlink" title="linux上的slab"></a>linux上的slab</h1><p><a href="https://segmentfault.com/a/1190000043626203">https://segmentfault.com/a/1190000043626203</a></p>]]></content>
     
     
+    <summary type="html">&lt;p&gt;RT-Thread操作系统内存管理机制的分析，以及相关开发环境配置和调试工具的使用说明。&lt;/p&gt;</summary>
     
-    <category term="综述" scheme="http://example.com/categories/%E7%BB%BC%E8%BF%B0/"/>
     
     
-    <category term="网络" scheme="http://example.com/tags/%E7%BD%91%E7%BB%9C/"/>
+    <category term="ysyx" scheme="http://example.com/categories/ysyx/"/>
+    
+    <category term="RTOS" scheme="http://example.com/categories/ysyx/RTOS/"/>
+    
+    
+    <category term="内存管理" scheme="http://example.com/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
+    
+    <category term="一生一芯" scheme="http://example.com/tags/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF/"/>
+    
+    <category term="RT-Thread" scheme="http://example.com/tags/RT-Thread/"/>
+    
+    <category term="实时操作系统" scheme="http://example.com/tags/%E5%AE%9E%E6%97%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CPU时序校准与延迟优化</title>
+    <link href="http://example.com/2023/12/03/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E6%A0%A1%E5%87%86%E5%BB%B6%E8%BF%9F/"/>
+    <id>http://example.com/2023/12/03/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E6%A0%A1%E5%87%86%E5%BB%B6%E8%BF%9F/</id>
+    <published>2023-12-02T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="为什么要校准"><a href="#为什么要校准" class="headerlink" title="为什么要校准"></a>为什么要校准</h2><p>事实上, 之前的ysyxSoC环境是假设处理器和各种外设运行在同一频率下: verilator仿真的一个周期, 既是处理器中的一个周期, 也是外设中的一个周期. 但实际上并非如此: 受电气特性的影响, 外设通常只能运行在低频率, 例如SDRAM颗粒通常只能运行在100MHz左右, 过高的频率会导致时序违例, 使得SDRAM颗粒无法正确工作; 但另一方面, 使用先进工艺的处理器通常能够运行在更高的频率, 例如, yzh某个版本的多周期NPC在yosys-sta项目默认提供的nangate45工艺下频率达到约1.2GHz. 在上述配置下, SDRAM控制器中经过1个周期, NPC应该经过12个周期, 但verilator感知不到两者的频率差异, 仍然按照两者频率相同的假设进行仿真, 使得仿真结果比真实芯片乐观很多, 从而也可能会使得一些优化措施无法在真实芯片中取得预期的效果.</p><h2 id="我的仿真频率"><a href="#我的仿真频率" class="headerlink" title="我的仿真频率"></a>我的仿真频率</h2><table><thead><tr><th>Endpoint</th><th>Clock Group</th><th>Delay Type</th><th>Path Delay</th><th>Path Required</th><th>CPPR</th><th>Slack</th><th>Freq(MHz)</th></tr></thead><tbody><tr><td>clint&#x2F;<em>1870</em>:D</td><td>core_clock</td><td>max</td><td>1.984r</td><td>9.969</td><td>0.000</td><td>7.985</td><td>496.197</td></tr><tr><td>clint&#x2F;<em>1870</em>:D</td><td>core_clock</td><td>max</td><td>1.966f</td><td>9.961</td><td>0.000</td><td>7.995</td><td>498.797</td></tr><tr><td>clint&#x2F;<em>1869</em>:D</td><td>core_clock</td><td>max</td><td>1.959f</td><td>9.961</td><td>0.000</td><td>8.001</td><td>500.367</td></tr><tr><td>exu&#x2F;u_alu&#x2F;<em>2689</em>:D</td><td>core_clock</td><td>min</td><td>0.079f</td><td>0.002</td><td>0.000</td><td>0.078</td><td>NA</td></tr><tr><td>exu&#x2F;u_alu&#x2F;<em>2689</em>:D</td><td>core_clock</td><td>min</td><td>0.086r</td><td>0.006</td><td>0.000</td><td>0.080</td><td>NA</td></tr><tr><td>registerfile&#x2F;<em>7836</em>:D</td><td>core_clock</td><td>min</td><td>0.114f</td><td>0.002</td><td>0.000</td><td>0.112</td><td>NA</td></tr></tbody></table><h2 id="校准"><a href="#校准" class="headerlink" title="校准"></a>校准</h2><p>我的校准系数是5</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;为什么要校准&quot;&gt;&lt;a href=&quot;#为什么要校准&quot; class=&quot;headerlink&quot; title=&quot;为什么要校准&quot;&gt;&lt;/a&gt;为什么要校准&lt;/h2&gt;&lt;p&gt;事实上, 之前的ysyxSoC环境是假设处理器和各种外设运行在同一频率下: verilator仿真的一个周期</summary>
+      
+    
+    
+    
+    <category term="ysyx" scheme="http://example.com/categories/ysyx/"/>
+    
+    <category term="性能优化" scheme="http://example.com/categories/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+    
+    
+    <category term="一生一芯" scheme="http://example.com/tags/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF/"/>
+    
+    <category term="CPU设计" scheme="http://example.com/tags/CPU%E8%AE%BE%E8%AE%A1/"/>
+    
+    <category term="时序优化" scheme="http://example.com/tags/%E6%97%B6%E5%BA%8F%E4%BC%98%E5%8C%96/"/>
+    
+    <category term="性能优化" scheme="http://example.com/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CPU功能测试与验证</title>
+    <link href="http://example.com/2023/12/03/ysyx/abstract-machine/cpu-test/"/>
+    <id>http://example.com/2023/12/03/ysyx/abstract-machine/cpu-test/</id>
+    <published>2023-12-02T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>CPU功能测试过程中遇到的问题及解决方案，包括longlong测试、内存对齐等问题的分析。</p><span id="more"></span><h2 id="longlong-的cpu测试有时候过不了"><a href="#longlong-的cpu测试有时候过不了" class="headerlink" title="longlong 的cpu测试有时候过不了"></a>longlong 的cpu测试有时候过不了</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> <span class="type">long</span> test_data[] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0x7fffffffffffffff</span>LL, <span class="number">0x8000000000000000</span>LL, <span class="number">0x8000000000000001</span>LL, <span class="number">0xfffffffffffffffe</span>LL, <span class="number">0xffffffffffffffff</span>LL&#125;;</span><br></pre></td></tr></table></figure><h3 id="longlong的打印"><a href="#longlong的打印" class="headerlink" title="longlong的打印"></a>longlong的打印</h3><p>在处理 long long 类型的负数时，特别是极值（如 0x8000000000000000LL），直接取反操作 value &#x3D; -value; 可能会导致溢出问题。因为 0x8000000000000000LL 是 long long 类型的最小值，其绝对值超出了 long long 类型的正数范围<br><img src="/image.png" alt="alt text"></p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> <span class="type">long</span> value;</span><br><span class="line">   <span class="comment">// Set &#x27;-&#x27; for negative decimals.</span></span><br><span class="line">   <span class="keyword">if</span> (value &lt; <span class="number">0</span> &amp;&amp; base == <span class="number">10</span>) &#123;</span><br><span class="line">       *str++ = <span class="string">&#x27;-&#x27;</span>;</span><br><span class="line">       value = -value;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure><p>使用无符号类型：在处理负数时，将其转换为无符号类型 unsigned long long，以避免溢出问题。<br><img src="/image-1.png" alt="alt text"></p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span> uvalue;</span><br><span class="line">   <span class="comment">// Set &#x27;-&#x27; for negative decimals.</span></span><br><span class="line">   <span class="keyword">if</span> (value &lt; <span class="number">0</span> &amp;&amp; base == <span class="number">10</span>) &#123;</span><br><span class="line">       *str++ = <span class="string">&#x27;-&#x27;</span>;</span><br><span class="line">       uvalue = (<span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span>)(-value);</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       uvalue = (<span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span>)value;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure><h3 id="longlong必须8字节对齐"><a href="#longlong必须8字节对齐" class="headerlink" title="longlong必须8字节对齐"></a>longlong必须8字节对齐</h3><p>如果只是四字节对齐的话，longlong的指针8字节对齐，但flash中存储的longlong数据不会8字节对齐。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.data : &#123;</span><br><span class="line">  _data_start = .;</span><br><span class="line">  *(.data*)</span><br><span class="line">  *(.sdata*)</span><br><span class="line">  /* *(.data) */</span><br><span class="line">  _data_end = .;</span><br><span class="line">   . = ALIGN(4);</span><br><span class="line">&#125; &gt; sdram AT &gt;flash</span><br></pre></td></tr></table></figure><p>可以看到数组指针8字节对齐，但数组数据没有<br><img src="/image-2.png" alt="alt text"><br>通过8字节对齐，让longlong对齐</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.data : &#123;</span><br><span class="line">  _data_start = .;</span><br><span class="line">  *(.data*)</span><br><span class="line">  *(.sdata*)</span><br><span class="line">  /* *(.data) */</span><br><span class="line">  _data_end = .;</span><br><span class="line">   . = ALIGN(8);</span><br><span class="line">&#125; &gt; sdram AT &gt;flash</span><br></pre></td></tr></table></figure><p><img src="/image-3.png" alt="alt text"></p><h2 id=""><a href="#" class="headerlink" title=""></a></h2><p><img src="/image-4.png" alt="alt text"></p><h2 id="4-2-1访存未对齐"><a href="#4-2-1访存未对齐" class="headerlink" title="4-2-1访存未对齐"></a>4-2-1访存未对齐</h2><h4 id="问题现象展示"><a href="#问题现象展示" class="headerlink" title="问题现象展示"></a>问题现象展示</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a0000180:fe042823          swzero,-16(s0)</span><br><span class="line">a0000184:0900006f          ja0000214 &lt;main+0x1d0&gt;</span><br><span class="line">a0000188:ff042783          lwa5,-16(s0)</span><br><span class="line">a000018c:00279793          slla5,a5,0x2</span><br><span class="line">a0000190:00178713          adda4,a5,1</span><br><span class="line">a0000194:00001797          auipca5,0x1</span><br><span class="line">a0000198:4ec78793          adda5,a5,1260 # a0001680 &lt;mem&gt;</span><br><span class="line">a000019c:00f707b3          adda5,a4,a5</span><br><span class="line">a00001a0:0007a783          lwa5,0(a5)</span><br></pre></td></tr></table></figure><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">short</span> mem[] = &#123;</span><br><span class="line"><span class="number">0x0</span>, <span class="number">0x0258</span>, <span class="number">0x4abc</span>, <span class="number">0x7fff</span>, <span class="number">0x8000</span>, <span class="number">0x8100</span>, <span class="number">0xabcd</span>, <span class="number">0xffff</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">unsigned</span>  lwlr_ans[] = &#123;</span><br><span class="line"><span class="number">0xbc025800</span>, <span class="number">0x7fff4a</span>, <span class="number">0xcd810080</span>, <span class="number">0xffffab</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; ((LENGTH(mem) / <span class="number">2</span>) - <span class="number">1</span>); i ++) &#123;</span><br><span class="line"><span class="type">unsigned</span> x = ((<span class="type">unsigned</span>*)((<span class="type">void</span>*)mem + <span class="number">1</span>))[i];</span><br><span class="line"><span class="type">unsigned</span> y = lwlr_ans[i];</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;x=%x,y=%x\n&quot;</span>,x,y);</span><br><span class="line">check(x == lwlr_ans[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="/image-6.png" alt="alt text"><br><img src="/image-5.png" alt="alt text"><br>使用nemu编译实锤编译出了非对齐访存</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[mtrace] read data 0xbc025800 from pmem 0x800012d5</span><br><span class="line">[mtrace] read data 0xfef42223 from pmem 0x80000178</span><br><span class="line">[mtrace] write data 0xbc025800 to pmem 0x80009fd4</span><br></pre></td></tr></table></figure><p>difftest忘开了，不然也不至于找这么半天<br><img src="/image-7.png" alt="alt text"></p><h4 id="gcc开启参数-mstrict-align"><a href="#gcc开启参数-mstrict-align" class="headerlink" title="gcc开启参数-mstrict-align"></a>gcc开启参数-mstrict-align</h4><p>但是使用下面编译器，参数无效，还能编译出非对齐访存，得使用上面的</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CROSS_COMPILE := /opt/riscv/bin/riscv64-unknown-elf-</span><br><span class="line">#CROSS_COMPILE := /opt/riscv/bin/riscv64-unknown-linux-gnu-</span><br><span class="line">COMMON_CFLAGS := -fno-pic -march=rv64g -mcmodel=medany -mstrict-align</span><br></pre></td></tr></table></figure><h4 id="发现是写内存代码有问题，解决了就好了，编译器都可以使"><a href="#发现是写内存代码有问题，解决了就好了，编译器都可以使" class="headerlink" title="发现是写内存代码有问题，解决了就好了，编译器都可以使"></a>发现是写内存代码有问题，解决了就好了，编译器都可以使</h4><h2 id="-1"><a href="#-1" class="headerlink" title=""></a></h2><p>直接#include&lt;stido.h&gt;就是使用的gnu的stdio.h</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;CPU功能测试过程中遇到的问题及解决方案，包括longlong测试、内存对齐等问题的分析。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="ysyx" scheme="http://example.com/categories/ysyx/"/>
+    
+    <category term="验证测试" scheme="http://example.com/categories/ysyx/%E9%AA%8C%E8%AF%81%E6%B5%8B%E8%AF%95/"/>
+    
+    
+    <category term="一生一芯" scheme="http://example.com/tags/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF/"/>
+    
+    <category term="CPU测试" scheme="http://example.com/tags/CPU%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="功能验证" scheme="http://example.com/tags/%E5%8A%9F%E8%83%BD%E9%AA%8C%E8%AF%81/"/>
+    
+    <category term="Abstract Machine" scheme="http://example.com/tags/Abstract-Machine/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ICache实现与优化</title>
+    <link href="http://example.com/2023/12/01/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/icache/"/>
+    <id>http://example.com/2023/12/01/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/icache/</id>
+    <published>2023-11-30T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>变成两路后好像负优化了<br><img src="/image.png" alt="alt text"></p><p>Icache配置切换</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">IcacheConfig</span></span>&#123;</span><br><span class="line">  <span class="comment">//Byte</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">BlockSize</span>: <span class="type">Int</span> = <span class="number">8</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">WayNum</span> : <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">SetNum</span>: <span class="type">Int</span> = <span class="number">16</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">Strategy</span>: <span class="type">String</span> = <span class="string">&quot;RANDOM&quot;</span> <span class="comment">//LRU,FIFO</span></span><br><span class="line">  <span class="keyword">val</span> burst: <span class="type">String</span> = <span class="string">&quot;INCR&quot;</span> <span class="comment">//INCR,WRAP</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h1 id="Icache的控制参数"><a href="#Icache的控制参数" class="headerlink" title="Icache的控制参数"></a>Icache的控制参数</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">wire</span>         _GEN = state == <span class="number">3&#x27;h0</span>;<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_0 = state == <span class="number">3&#x27;h1</span>;<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19, :193:17]</span></span><br><span class="line"><span class="keyword">wire</span> [<span class="number">7</span>:<span class="number">0</span>]   _GEN_1 = &#123;<span class="number">5&#x27;h0</span>, sizeReg&#125;;<span class="comment">// @[src/main/AXI/AXI4.scala:143:56, :167:22]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_2 = _GEN | ~_GEN_0;<span class="comment">// @[src/main/AXI/AXI4.scala:62:17, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_3 = state == <span class="number">3&#x27;h2</span>;<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19, :187:15]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_4 = _GEN | _GEN_0;<span class="comment">// @[src/main/AXI/AXI4.scala:52:18, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         io_axi_wvalid_0 = ~_GEN_4 &amp; _GEN_3;<span class="comment">// @[src/main/AXI/AXI4.scala:52:18, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span> [<span class="number">7</span>:<span class="number">0</span>]   _wstrbReg_T = <span class="number">8&#x27;h1</span> &lt;&lt; _GEN_1;<span class="comment">// @[src/main/AXI/AXI4.scala:143:56, src/main/Cache/Icache.scala:94:26]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_5 = _GEN_4 | ~_GEN_3;<span class="comment">// @[src/main/AXI/AXI4.scala:48:17, :52:18, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_6 = idx_beat == lenReg;<span class="comment">// @[src/main/AXI/AXI4.scala:168:21, :170:23, :227:23]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_7 = io_axi_awready &amp; io_axi_wready;<span class="comment">// @[src/main/AXI/AXI4.scala:231:27]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_8 = state == <span class="number">3&#x27;h3</span>;<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19, :210:17]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_9 = _GEN | _GEN_0 | _GEN_3;<span class="comment">// @[src/main/AXI/AXI4.scala:68:17, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_10 = _GEN_8 &amp; io_axi_rvalid;<span class="comment">// @[src/main/AXI/AXI4.scala:174:19, :182:19, :244:29, :246:27]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_11 = io_axi_rlast | _GEN_6;<span class="comment">// @[src/main/AXI/AXI4.scala:227:23, :248:29]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_12 = state == <span class="number">3&#x27;h4</span>;<span class="comment">// @[src/main/AXI/AXI4.scala:153:38, :162:24, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_13 = _GEN_8 | ~_GEN_12;<span class="comment">// @[src/main/AXI/AXI4.scala:55:16, :182:19]</span></span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;变成两路后好像负优化了&lt;br&gt;&lt;img src=&quot;/image.png&quot; alt=&quot;alt text&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Icache配置切换&lt;/p&gt;
+&lt;figure class=&quot;highlight scala&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;</summary>
+      
+    
+    
+    
+    <category term="ysyx" scheme="http://example.com/categories/ysyx/"/>
+    
+    <category term="性能优化" scheme="http://example.com/categories/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+    
+    
+    <category term="一生一芯" scheme="http://example.com/tags/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF/"/>
+    
+    <category term="CPU设计" scheme="http://example.com/tags/CPU%E8%AE%BE%E8%AE%A1/"/>
+    
+    <category term="性能优化" scheme="http://example.com/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+    
+    <category term="Cache" scheme="http://example.com/tags/Cache/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AXI4总线协议详解</title>
+    <link href="http://example.com/2023/11/30/ysyx/%E6%80%BB%E7%BA%BF/axi4/"/>
+    <id>http://example.com/2023/11/30/ysyx/%E6%80%BB%E7%BA%BF/axi4/</id>
+    <published>2023-11-29T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="wlast"><a href="#wlast" class="headerlink" title="wlast"></a>wlast</h2><p>使用sdram-axi后，写入flash出现的问题。xbar的auto_in没问题，但in_0的awvalid没有置1<br><img src="/image.png" alt="alt text"></p><p>用到了队列，但io_deq_ready一直没有激活，一直无法从队列中弹出第一次axi事务的信号。<br><img src="/image-3.png" alt="alt text"><br>原因是wlast用于指示最后一个axi的transfer.如果只有一个transfer，那wlast要和wvalid同时为1<br><img src="/image-2.png" alt="alt text"><br>加上提前wlast的信号</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">when(idx_beat === num_beats(lenReg) <span class="number">-1.</span><span class="type">U</span>)&#123;</span><br><span class="line">axi4.wlast := <span class="literal">true</span>.<span class="type">B</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="突发传输"><a href="#突发传输" class="headerlink" title="突发传输"></a>突发传输</h2><p>一次事务的结束以rlast&#x2F;wlast为标志，cpu中xbar和arbiter要做修改,在收到rlast&#x2F;wlast时切换道空闲状态。否则cpu中总线收不到rlast&#x2F;wlast<br><img src="/image-1.png" alt="alt text"></p><h2 id="写的信号关系"><a href="#写的信号关系" class="headerlink" title="写的信号关系"></a>写的信号关系</h2><p>1.master的wvalid不能依赖awready<br><img src="/image-4.png" alt="alt text"></p><h2 id="sdram的突发"><a href="#sdram的突发" class="headerlink" title="sdram的突发"></a>sdram的突发</h2><p>assign wlast_o &#x3D; axi_wlast_i;<br>assign rlast_o &#x3D; !resp_is_last_w | axi_arlen_i&#x3D;&#x3D;8’d0;<br>下图的state_q应该只用一个周期。一个周期后req_len_q&#x3D;&#x3D;ff,晚了一个周期。因此只能使用axi_arlen_i<br><img src="/image-7.png" alt="alt text"><br>突发成功了和突发没成功<br><img src="/image-6.png" alt="alt text"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;wlast&quot;&gt;&lt;a href=&quot;#wlast&quot; class=&quot;headerlink&quot; title=&quot;wlast&quot;&gt;&lt;/a&gt;wlast&lt;/h2&gt;&lt;p&gt;使用sdram-axi后，写入flash出现的问题。xbar的auto_in没问题，但in_0的awvalid没有置</summary>
+      
+    
+    
+    
+    <category term="ysyx" scheme="http://example.com/categories/ysyx/"/>
+    
+    <category term="总线" scheme="http://example.com/categories/ysyx/%E6%80%BB%E7%BA%BF/"/>
+    
+    
+    <category term="一生一芯" scheme="http://example.com/tags/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF/"/>
+    
+    <category term="AXI4" scheme="http://example.com/tags/AXI4/"/>
+    
+    <category term="总线协议" scheme="http://example.com/tags/%E6%80%BB%E7%BA%BF%E5%8D%8F%E8%AE%AE/"/>
+    
+    <category term="硬件设计" scheme="http://example.com/tags/%E7%A1%AC%E4%BB%B6%E8%AE%BE%E8%AE%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>其他开源SoC项目研究</title>
+    <link href="http://example.com/2023/11/29/ysyx/ysyxsoc/%E5%85%B6%E4%BB%96soc/"/>
+    <id>http://example.com/2023/11/29/ysyx/ysyxsoc/%E5%85%B6%E4%BB%96soc/</id>
+    <published>2023-11-28T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>研究和分析其他开源SoC项目的设计和实现，包括外设接口和系统架构。</p><span id="more"></span><h2 id="uart"><a href="#uart" class="headerlink" title="uart"></a>uart</h2><p>void putch(char ch) {<br>while (!(inb(UART16550_BASE + UART_LINE_STA_R) &amp; 0b00100000));<br>&#x2F;&#x2F;<strong>difftest时需注释外设的输入信号</strong>，不用注释了，因为difftest跳过外设的输入输出<br>  outb(UART16550_BASE, ch);<br>}</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;研究和分析其他开源SoC项目的设计和实现，包括外设接口和系统架构。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="ysyx" scheme="http://example.com/categories/ysyx/"/>
+    
+    <category term="SoC设计" scheme="http://example.com/categories/ysyx/SoC%E8%AE%BE%E8%AE%A1/"/>
+    
+    
+    <category term="RISC-V" scheme="http://example.com/tags/RISC-V/"/>
+    
+    <category term="一生一芯" scheme="http://example.com/tags/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF/"/>
+    
+    <category term="SoC" scheme="http://example.com/tags/SoC/"/>
+    
+    <category term="开源硬件" scheme="http://example.com/tags/%E5%BC%80%E6%BA%90%E7%A1%AC%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SDRAM控制器实现</title>
+    <link href="http://example.com/2023/11/29/ysyx/ysyxsoc/sdram/"/>
+    <id>http://example.com/2023/11/29/ysyx/ysyxsoc/sdram/</id>
+    <published>2023-11-28T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>SDRAM控制器的实现与优化，包括配置切换、时序控制、突发传输等功能的详细说明。</p><span id="more"></span><h1 id="sdram配置切换"><a href="#sdram配置切换" class="headerlink" title="sdram配置切换"></a>sdram配置切换</h1><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">SDRAMConfig</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> <span class="type">SDRAM_2BYTE_NUM</span>: <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">SDRAM_WORD_NUM</span>: <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">val</span> awidth = <span class="keyword">if</span> (<span class="type">SDRAM_WORD_NUM</span> == <span class="number">2</span>) <span class="number">14</span> <span class="keyword">else</span> <span class="number">13</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">parameter</span> SDRAM_2BYTE_NUM             = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">parameter</span> SDRAM_WORD_NUM             = <span class="number">1</span>;</span><br></pre></td></tr></table></figure><p>只有在使用sdram_axi时，才可以突发访问</p><h1 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h1><h2 id="设置寄存器"><a href="#设置寄存器" class="headerlink" title="设置寄存器"></a>设置寄存器</h2><p><img src="/image.png" alt="alt text"><br><img src="/image-1.png" alt="alt text"><br>写入BurstLength和CASLatency，完全是硬件自动写入，代码没管<br><img src="/image-4.png" alt="alt text"></p><h2 id="突发读时序"><a href="#突发读时序" class="headerlink" title="突发读时序"></a>突发读时序</h2><p><img src="/image-2.png" alt="alt text"><br>16位写入，原始实例化了1个dsramhelper。burstLength设置成为了，这里就突发的读入了两个16bit。因为无论是lb、lh、lw都是读入32bit</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 步骤 2：测试16位写入和读取</span></span><br><span class="line">read_memory_16bit((<span class="type">uint16_t</span> *)start, size);</span><br></pre></td></tr></table></figure><p><img src="/image-5.png" alt="alt text"></p><h2 id="突发写时序"><a href="#突发写时序" class="headerlink" title="突发写时序"></a>突发写时序</h2><p>尤其注意传col的时候也是传bank的。所以sdram支持4个bank的开放，active时基于其中一个bank，read&#x2F;write时选择一个bank。取巧的做法是锁存row地址而不是锁存row中的数据，等到read&#x2F;write时使用bank索引锁存的row，bank，col一起访存<br><img src="/image-3.png" alt="alt text"><br>16位写入，原始实例化了1个dsramhelper。burstLength很早就设置成1了，为的是32写入时可以突发，虽然后面的col写入需要放弃，但col该加还得加。</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 步骤 2：测试16位写入和读取</span></span><br><span class="line">write_memory_16bit((<span class="type">uint16_t</span> *)start, size);</span><br></pre></td></tr></table></figure><p><img src="/image-8.png" alt="alt text"><br>32位写入，突发的写入两个16bit<br><img src="/image-7.png" alt="alt text"></p><h2 id="row-hit"><a href="#row-hit" class="headerlink" title="row hit"></a>row hit</h2><p>acitve的时候激活,如果rowhit了就不用active了，但是目前没实现row的寄存器（4bank*512col），所以只好禁止row hit了<br>以下图是因为row hit了所以没有active状态传入row和way和bank，就读错了<br><img src="/image-17.png" alt="alt text"></p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Open row hit</span></span><br><span class="line"><span class="keyword">if</span> (row_open_q[addr_bank_w] &amp;&amp; addr_row_w == active_row_q[addr_bank_w])</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">if</span> (!ram_rd_w)</span><br><span class="line">        next_state_r = STATE_WRITE0;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        next_state_r = STATE_READ;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">// Row miss, close row, open new row</span></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (row_open_q[addr_bank_w])</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    next_state_r   = STATE_PRECHARGE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!ram_rd_w)</span><br><span class="line">        target_state_r = STATE_WRITE0;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        target_state_r = STATE_READ;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">// No open row, open row</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    next_state_r   = STATE_ACTIVATE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!ram_rd_w)</span><br><span class="line">        target_state_r = STATE_WRITE0;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        target_state_r = STATE_READ;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure><h2 id="位扩展"><a href="#位扩展" class="headerlink" title="位扩展"></a>位扩展</h2><p>还需要修改sdram控制器，最不想做的事情<br><img src="/image-9.png" alt="alt text"><br>col在一次传输中都是32bit对齐的，是0，2，4这样的数，因为在sdram的视角下，即使对col_1写16bit也是对col_0写32bit。只不过在第二次传输是将strb和wen置为有效</p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Address bits</span></span><br><span class="line"><span class="keyword">wire</span> [SDRAM_ROW_W-<span class="number">1</span>:<span class="number">0</span>] addr_col_w = (SDRAM_2BYTE_NUM == <span class="number">1</span>) ?</span><br><span class="line">  &#123;&#123;(SDRAM_ROW_W-SDRAM_COL_W)&#123;<span class="number">1&#x27;b0</span>&#125;&#125;, ram_addr_w[SDRAM_COL_W:<span class="number">2</span>], <span class="number">1&#x27;b0</span>&#125; :</span><br><span class="line">  &#123;&#123;(SDRAM_ROW_W-SDRAM_COL_W)&#123;<span class="number">1&#x27;b0</span>&#125;&#125;, <span class="number">1&#x27;b0</span>,ram_addr_w[SDRAM_COL_W:<span class="number">2</span>]&#125;;</span><br></pre></td></tr></table></figure><p><img src="/image-14.png" alt="alt text"><br><img src="/image-13.png" alt="alt text"></p><p>位扩展后32位读取不需要突发了，因此不用到state_write1，但state_write0仍需要检测突发以应对64位或更高位的突发访问。此时要精确控制ack_q-&gt;ram_ack_i(axi_core)-&gt; ram_ack_i(axi_pmem) -&gt; push_i(u_response) 的拍数。多一拍的话会多压入一个data，当axi_bvalid&#x2F;axi_rvalid-&gt;resp_accept_w-&gt;pop_i(u_response)时会弹出提前压入栈的数据。</p><p><img src="/image-16.png" alt="alt text"></p><h2 id="字扩展"><a href="#字扩展" class="headerlink" title="字扩展"></a>字扩展</h2><p>先来算一下一共能代表多少字节。</p><p>原先2**25 &#x3D; 32MB</p><table><thead><tr><th><strong>地址空间位数</strong></th><th><strong>地址位数</strong></th><th><strong>way</strong></th><th><strong>row</strong></th><th><strong>bank</strong></th><th><strong>col</strong></th><th><strong>字节偏移</strong></th></tr></thead><tbody><tr><td>25</td><td>24</td><td>-</td><td>13</td><td>2</td><td>9</td><td>1</td></tr></tbody></table><p>在最不常用的地方扩展，在地址最前面加上一bit的way，2**27 &#x3D; 128MB</p><table><thead><tr><th><strong>地址空间位数</strong></th><th><strong>地址位数</strong></th><th><strong>way</strong></th><th><strong>row</strong></th><th><strong>bank</strong></th><th><strong>col</strong></th><th><strong>字节偏移</strong></th></tr></thead><tbody><tr><td>27</td><td>25</td><td>1</td><td>13</td><td>2</td><td>9</td><td>2</td></tr></tbody></table><p>但是ysyxsoc分配给sdram了2**29 &#x3D; 512MB空间</p><h1 id="chisel"><a href="#chisel" class="headerlink" title="chisel"></a>chisel</h1><h2 id="vec"><a href="#vec" class="headerlink" title="vec"></a>vec</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> sdram = <span class="type">VecInit</span>(<span class="type">Seq</span>(sdram0.io, sdram1.io))</span><br></pre></td></tr></table></figure><p>Exception in thread “main” java.lang.IllegalArgumentException: requirement failed: can’t create Vec with heterogeneous types class ysyx.SDRAMHelper0$$anon$3 and class ysyx.SDRAMHelper1$$anon$4</p><p>问题出在使用 VecInit 创建 Vec 时，传入的 Seq 包含了不同类型的元素：sdram0.io 和 sdram1.io，分别是 SDRAMHelper0 和 SDRAMHelper1 的 IO 类型。即使这两个IO内部元素相同也不算同一个类型。<br>解决方法：<br>统一使用SDRAMHelperIO</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> io = <span class="type">IO</span>(<span class="keyword">new</span> <span class="type">SDRAMHelperIO</span>)</span><br></pre></td></tr></table></figure><p>(实例化的模板都是SDRAMHelper，verilator找不到SDRAMHelper_${instanceId})</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SDRAMHelper</span>(<span class="params">instanceId: <span class="type">Int</span></span>)</span></span><br><span class="line">  setInline(<span class="string">s&quot;SDRAMHelper_<span class="subst">$&#123;instanceId&#125;</span>.v&quot;</span>,</span><br><span class="line">    <span class="string">s&quot;&quot;</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">       |module SDRAMHelper_$&#123;instanceId&#125;(</span></span><br></pre></td></tr></table></figure><h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> rdata = <span class="type">Reg</span>(<span class="type">Vec</span>(<span class="type">SDRAMNum</span>,<span class="type">UInt</span>(<span class="number">16.</span><span class="type">W</span>)))</span><br><span class="line">dqout := rdata.asTypeOf(dqout)</span><br></pre></td></tr></table></figure><p>Exception in thread “main” chisel3.package$ChiselException: Connection between sink (sdramChisel.dqout: Wire[UInt&lt;32&gt;]) and source (sdramChisel.rdata: Reg[UInt&lt;16&gt;[2]]) failed @: Sink (UInt&lt;32&gt;) and Source (UInt&lt;16&gt;[2]) have different types.</p><p>asTypeOf 并不能直接将 Vec[UInt] 转换为 UInt，因为它们在结构上不兼容。如果需要将整个 Vec 转换为一个宽度为 32 位的 UInt，可以使用 asUInt。相反，UInt转换成vec就可以asTypeOf。<br>解决方法：</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> rdata = <span class="type">Reg</span>(<span class="type">Vec</span>(<span class="type">SDRAMNum</span>,<span class="type">UInt</span>(<span class="number">16.</span><span class="type">W</span>)))</span><br><span class="line">dqout := rdata.asUInt</span><br><span class="line"><span class="keyword">val</span> wdata = <span class="type">Reg</span>(<span class="type">Vec</span>(<span class="type">SDRAMNum</span>,<span class="type">UInt</span>(<span class="number">16.</span><span class="type">W</span>)))</span><br><span class="line">wdata := dqin.asTypeOf(wdata)</span><br><span class="line"><span class="keyword">val</span> mask = <span class="type">Reg</span>(<span class="type">Vec</span>(<span class="type">SDRAMNum</span>,<span class="type">UInt</span>(<span class="number">2.</span><span class="type">W</span>)))</span><br><span class="line">mask := (~io.dqm).asTypeOf(mask)</span><br></pre></td></tr></table></figure><h2 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i &lt;- <span class="number">0</span> until <span class="type">SDRAMNum</span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  sdram.foreach &#123; sdram =&gt;</span><br><span class="line">    sdram.row := <span class="number">0.</span><span class="type">U</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="logic"><a href="#logic" class="headerlink" title="logic"></a>logic</h2><p>看似command是wire，但是却综合出了Reg</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> command =</span><br><span class="line">  <span class="type">MuxCase</span>(<span class="type">COMMAND_INHIBIT</span>, <span class="type">Seq</span>(</span><br><span class="line">    (!io.cs &amp;&amp; io.ras &amp;&amp; io.cas &amp;&amp; io.we) -&gt; <span class="type">NOP</span>,</span><br></pre></td></tr></table></figure><p><img src="/image-10.png" alt="alt text"><br><img src="/image-6.png" alt="alt text"><br>automatic：<br>在 SystemVerilog 中，automatic 表示这个变量是 自动变量，即每次进入 always 块时重新创建，而不是在模块级别共享。<br>logic 是 SystemVerilog 中的新数据类型，类似于 Verilog 中的 reg<br>跨时钟域的always中，就会有这样的在新时钟域赋值的wire</p><h1 id="运算优先级大于移位"><a href="#运算优先级大于移位" class="headerlink" title="运算优先级大于移位"></a>运算优先级大于移位</h1><p><img src="/image-11.png" alt="alt text"><br>要使用</p><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1.</span><span class="type">U</span> &lt;&lt; <span class="type">BurstLength</span>).asUInt <span class="number">-1.</span><span class="type">U</span> </span><br></pre></td></tr></table></figure><p>make ARCH&#x3D;riscv32e-ysyxsoc run ALL&#x3D;printf | tee sdram</p><p>make ARCH&#x3D;riscv32e-ysyxsoc run ALL&#x3D;printf | tee &gt;(grep “sdram” &gt;&gt; sdram)</p><h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>sdram在最高地址开辟栈时，写入sp报错，因为做了字和位扩展会增大4被sdram空间<br><img src="/image-18.png" alt="alt text"></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;SDRAM控制器的实现与优化，包括配置切换、时序控制、突发传输等功能的详细说明。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="ysyx" scheme="http://example.com/categories/ysyx/"/>
+    
+    <category term="存储器" scheme="http://example.com/categories/ysyx/%E5%AD%98%E5%82%A8%E5%99%A8/"/>
+    
+    
+    <category term="一生一芯" scheme="http://example.com/tags/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF/"/>
+    
+    <category term="硬件设计" scheme="http://example.com/tags/%E7%A1%AC%E4%BB%B6%E8%AE%BE%E8%AE%A1/"/>
+    
+    <category term="存储控制器" scheme="http://example.com/tags/%E5%AD%98%E5%82%A8%E6%8E%A7%E5%88%B6%E5%99%A8/"/>
+    
+    <category term="SDRAM" scheme="http://example.com/tags/SDRAM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>NEMU-NPC-YSYXSoC性能对比</title>
+    <link href="http://example.com/2023/11/27/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/nemu-npc-ysyxsoc/"/>
+    <id>http://example.com/2023/11/27/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/nemu-npc-ysyxsoc/</id>
+    <published>2023-11-26T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="切换清单"><a href="#切换清单" class="headerlink" title="切换清单"></a>切换清单</h1><p>1.npc-chisel&#x2F;nemu中make menuconfig切换SoC和nemu的运行target<br>2.npc-chisel 修改代码里的ysyxSoC &#x3D; true&#x2F;false</p><p>#切换用几个sdram<br>1.ysyxsoc&#x2F;perip&#x2F;sdram<br>2.ysyxsoc&#x2F;src&#x2F;device&#x2F;SDRAM.scala</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;切换清单&quot;&gt;&lt;a href=&quot;#切换清单&quot; class=&quot;headerlink&quot; title=&quot;切换清单&quot;&gt;&lt;/a&gt;切换清单&lt;/h1&gt;&lt;p&gt;1.npc-chisel&amp;#x2F;nemu中make menuconfig切换SoC和nemu的运行target&lt;br&gt;2</summary>
+      
+    
+    
+    
+    <category term="ysyx" scheme="http://example.com/categories/ysyx/"/>
+    
+    <category term="性能优化" scheme="http://example.com/categories/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+    
+    
+    <category term="一生一芯" scheme="http://example.com/tags/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF/"/>
+    
+    <category term="CPU设计" scheme="http://example.com/tags/CPU%E8%AE%BE%E8%AE%A1/"/>
+    
+    <category term="性能测试" scheme="http://example.com/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="仿真器" scheme="http://example.com/tags/%E4%BB%BF%E7%9C%9F%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PSRAM控制器实现</title>
+    <link href="http://example.com/2023/11/17/ysyx/ysyxsoc/psram/"/>
+    <id>http://example.com/2023/11/17/ysyx/ysyxsoc/psram/</id>
+    <published>2023-11-16T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>PSRAM控制器的实现与二级加载机制的详细说明。</p><span id="more"></span><h2 id="二级加载"><a href="#二级加载" class="headerlink" title="二级加载"></a>二级加载</h2><table><thead><tr><th>存储器</th><th>flash</th><th>sram</th><th>psram</th></tr></thead><tbody><tr><td>起始地址</td><td>0x30000000</td><td>0x0f000000</td><td>0x80000000</td></tr><tr><td>运行的程序</td><td>fsbl</td><td>bootloader</td><td>trm_init</td></tr></tbody></table>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;PSRAM控制器的实现与二级加载机制的详细说明。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="ysyx" scheme="http://example.com/categories/ysyx/"/>
+    
+    <category term="存储器" scheme="http://example.com/categories/ysyx/%E5%AD%98%E5%82%A8%E5%99%A8/"/>
+    
+    
+    <category term="一生一芯" scheme="http://example.com/tags/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF/"/>
+    
+    <category term="硬件设计" scheme="http://example.com/tags/%E7%A1%AC%E4%BB%B6%E8%AE%BE%E8%AE%A1/"/>
+    
+    <category term="PSRAM" scheme="http://example.com/tags/PSRAM/"/>
+    
+    <category term="存储控制器" scheme="http://example.com/tags/%E5%AD%98%E5%82%A8%E6%8E%A7%E5%88%B6%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>人工智能课程笔记</title>
+    <link href="http://example.com/2023/05/09/course/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
+    <id>http://example.com/2023/05/09/course/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</id>
+    <published>2023-05-08T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>为应付期末人工智能论文，记录一下有用的网站，以防忘记</p><span id="more"></span><h2 id="1-大模型网站"><a href="#1-大模型网站" class="headerlink" title="1.大模型网站"></a>1.大模型网站</h2><h4 id="ChatGPT"><a href="#ChatGPT" class="headerlink" title="ChatGPT"></a>ChatGPT</h4><p><a href="https://chat.openai.com/">https://chat.openai.com/</a><br><a href="https://openai.com/">https://openai.com/</a></p><h4 id="文心一言"><a href="#文心一言" class="headerlink" title="文心一言"></a>文心一言</h4><p><a href="https://yiyan.baidu.com/">https://yiyan.baidu.com/</a><br>飞桨AI(调用文心一言)<br><a href="https://aistudio.baidu.com/cooperate/erniebotsdk">https://aistudio.baidu.com/cooperate/erniebotsdk</a></p><h4 id="智谱AI"><a href="#智谱AI" class="headerlink" title="智谱AI"></a>智谱AI</h4><p><a href="https://open.bigmodel.cn/">https://open.bigmodel.cn/</a></p><h4 id="星火大模型"><a href="#星火大模型" class="headerlink" title="星火大模型"></a>星火大模型</h4><p><a href="https://xinghuo.xfyun.cn/">https://xinghuo.xfyun.cn/</a></p><h2 id="2-调用API-python"><a href="#2-调用API-python" class="headerlink" title="2.调用API(python)"></a>2.调用API(python)</h2><h4 id="用飞桨AI调用文心大模型"><a href="#用飞桨AI调用文心大模型" class="headerlink" title="用飞桨AI调用文心大模型"></a>用飞桨AI调用文心大模型</h4><p><a href="https://zhuanlan.zhihu.com/p/661241466">https://zhuanlan.zhihu.com/p/661241466</a></p><h4 id="智谱AI官方调用文档"><a href="#智谱AI官方调用文档" class="headerlink" title="智谱AI官方调用文档"></a>智谱AI官方调用文档</h4><p><a href="https://open.bigmodel.cn/dev/api#chatglm_turbo">https://open.bigmodel.cn/dev/api#chatglm_turbo</a></p><h4 id="星火大模型-1"><a href="#星火大模型-1" class="headerlink" title="星火大模型"></a>星火大模型</h4><p><a href="https://zhuanlan.zhihu.com/p/671067886">https://zhuanlan.zhihu.com/p/671067886</a></p><h2 id="3-prompt"><a href="#3-prompt" class="headerlink" title="3.prompt"></a>3.prompt</h2><h4 id="大模型时代的科研基础之：Prompt-Engineering"><a href="#大模型时代的科研基础之：Prompt-Engineering" class="headerlink" title="大模型时代的科研基础之：Prompt Engineering"></a>大模型时代的科研基础之：Prompt Engineering</h4><iframe src="//player.bilibili.com/player.html?aid=313877142&bvid=BV13P41197c6&cid=1137176592&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>可以当作研究过程写进论文<h2 id="4-评估模型好坏的方法"><a href="#4-评估模型好坏的方法" class="headerlink" title="4.评估模型好坏的方法"></a>4.评估模型好坏的方法</h2><h4 id="干货分享！如何评估-大型语言模型（LLMs）的输出质量？评估方法大盘点！"><a href="#干货分享！如何评估-大型语言模型（LLMs）的输出质量？评估方法大盘点！" class="headerlink" title="干货分享！如何评估 大型语言模型（LLMs）的输出质量？评估方法大盘点！"></a>干货分享！如何评估 大型语言模型（LLMs）的输出质量？评估方法大盘点！</h4><p><a href="https://zhuanlan.zhihu.com/p/660777460">https://zhuanlan.zhihu.com/p/660777460</a></p><h4 id="【Mo-人工智能技术博客】联邦学习鲁棒性及相关论文分享"><a href="#【Mo-人工智能技术博客】联邦学习鲁棒性及相关论文分享" class="headerlink" title="【Mo 人工智能技术博客】联邦学习鲁棒性及相关论文分享"></a>【Mo 人工智能技术博客】联邦学习鲁棒性及相关论文分享</h4><p><a href="https://zhuanlan.zhihu.com/p/337048283">https://zhuanlan.zhihu.com/p/337048283</a></p><h4 id="《大模型时代的科研》之2-Prompt-Engineering-提示词工程"><a href="#《大模型时代的科研》之2-Prompt-Engineering-提示词工程" class="headerlink" title="《大模型时代的科研》之2: Prompt Engineering (提示词工程)"></a>《大模型时代的科研》之2: Prompt Engineering (提示词工程)</h4><p>这个是在讲怎么构造好的prompt,与本次论文关系不大<br><a href="https://zhuanlan.zhihu.com/p/631922240">https://zhuanlan.zhihu.com/p/631922240</a></p><h4 id="大模型鲁棒不鲁棒，PromptBench测一测-首个大语言模型提示鲁棒性的评测基准PromptBench"><a href="#大模型鲁棒不鲁棒，PromptBench测一测-首个大语言模型提示鲁棒性的评测基准PromptBench" class="headerlink" title="大模型鲁棒不鲁棒，PromptBench测一测: 首个大语言模型提示鲁棒性的评测基准PromptBench"></a>大模型鲁棒不鲁棒，PromptBench测一测: 首个大语言模型提示鲁棒性的评测基准PromptBench</h4><p><a href="https://zhuanlan.zhihu.com/p/637219127">https://zhuanlan.zhihu.com/p/637219127</a></p><h2 id="5-debug"><a href="#5-debug" class="headerlink" title="5.debug"></a>5.debug</h2><h4 id="python文件名不能与包名重复"><a href="#python文件名不能与包名重复" class="headerlink" title="python文件名不能与包名重复"></a>python文件名不能与包名重复</h4><p><a href="https://blog.csdn.net/long_songs/article/details/129070598">https://blog.csdn.net/long_songs/article/details/129070598</a></p><h4 id="windows中为终端设置代理"><a href="#windows中为终端设置代理" class="headerlink" title="windows中为终端设置代理"></a>windows中为终端设置代理</h4><p><a href="https://blog.csdn.net/qq_43651168/article/details/131074308">https://blog.csdn.net/qq_43651168/article/details/131074308</a></p><h4 id="python同步遍历两个列表"><a href="#python同步遍历两个列表" class="headerlink" title="python同步遍历两个列表"></a>python同步遍历两个列表</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for prompt, reference in zip(test_accuarcy_cases, test_accuarcy_reference):</span><br><span class="line">#balbala</span><br><span class="line">#</span><br></pre></td></tr></table></figure><h2 id="6-短信接收代理"><a href="#6-短信接收代理" class="headerlink" title="6.短信接收代理"></a>6.短信接收代理</h2><p><a href="https://sms-activate.org/">https://sms-activate.org/</a></p><h2 id="f1score"><a href="#f1score" class="headerlink" title="f1score"></a>f1score</h2><p><a href="https://www.flyai.com/article/683">https://www.flyai.com/article/683</a></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;为应付期末人工智能论文，记录一下有用的网站，以防忘记&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="course" scheme="http://example.com/categories/course/"/>
+    
+    <category term="AI" scheme="http://example.com/categories/course/AI/"/>
+    
+    
+    <category term="人工智能" scheme="http://example.com/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
+    
+    <category term="机器学习" scheme="http://example.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="深度学习" scheme="http://example.com/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="课程笔记" scheme="http://example.com/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Git版本控制使用指南</title>
+    <link href="http://example.com/2023/05/07/tools/git%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
+    <id>http://example.com/2023/05/07/tools/git%E7%9A%84%E4%BD%BF%E7%94%A8/</id>
+    <published>2023-05-06T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Git版本控制系统的使用指南，包括基本操作、分支管理、团队协作等内容。</p><span id="more"></span><h2 id="git-config"><a href="#git-config" class="headerlink" title="git config"></a>git config</h2><p>在 Git 中，你可以使用以下命令来查看和修改配置：<br>查看配置</p><pre><code>查看全局配置：</code></pre><p>bash<br>git config –global –list</p><pre><code>查看当前仓库的配置：</code></pre><p>bash<br>git config –local –list</p><pre><code>查看系统配置：</code></pre><p>bash<br>git config –system –list</p><p>如果你只想知道某个特定配置的值，你可以这样做：</p><p>bash<br>git config &lt;配置项名称&gt;</p><p>例如，要查看全局的用户名配置：</p><p>bash<br>git config –global user.name</p><p>修改配置</p><pre><code>设置全局配置：    设置用户名：bash`git config --global user.name &quot;Your Name&quot;`    设置邮箱：bash`git config --global user.email &quot;your.email@example.com&quot;`设置当前仓库的配置：</code></pre><p>与全局配置类似，但使用 –local 代替 –global。<br>3. 设置系统配置：</p><p>通常不推荐修改系统配置，除非你有特定的理由。<br>4. 直接编辑配置文件：</p><p>你也可以直接编辑 Git 的配置文件。这些文件通常位于以下位置：</p><ul><li><strong>全局配置</strong>：<code>~/.gitconfig</code>  </li><li><strong>系统配置</strong>：<code>/etc/gitconfig</code>（Linux）或 <code>/usr/local/git/etc/gitconfig</code>（macOS）  </li><li><strong>当前仓库配置</strong>：仓库目录下的 <code>.git/config</code> 文件。使用文本编辑器打开这些文件，然后进行相应的修改。</li></ul><p>注意：当你设置或修改配置时，Git 会尝试从多个级别（系统、全局、本地）获取配置值。如果某个配置项在多个级别都有设置，Git 会优先使用本地仓库的配置，然后是全局配置，最后是系统配置。</p><h2 id="git-remote"><a href="#git-remote" class="headerlink" title="git remote"></a>git remote</h2><p><code>git remote</code>命令在Git中用于管理一组跟踪的远程仓库。它允许您查看、添加、修改和删除与您的本地仓库关联的远程仓库的配置。远程仓库通常是位于互联网或其他网络中的仓库，可以是一个中心仓库，也可以是另一个开发者的仓库，您可以从中拉取（pull）数据或向其推送（push）数据。使用<code>git remote</code>可以进行以下操作：</p><ul><li><p><strong>查看远程仓库</strong>：使用<code>git remote</code>或<code>git remote -v</code>命令可以列出所有已配置的远程仓库。<code>-v</code>（verbose，详细）选项会额外显示每个远程仓库的URL。</p></li><li><p><strong>添加远程仓库</strong>：使用<code>git remote add &lt;name&gt; &lt;url&gt;</code>命令可以添加新的远程仓库，其中<code>&lt;name&gt;</code>是您为远程仓库指定的简短名称（如<code>origin</code>），<code>&lt;url&gt;</code>是远程仓库的URL。</p></li><li><p><strong>更改远程仓库URL</strong>：使用<code>git remote set-url &lt;name&gt; &lt;newurl&gt;</code>命令可以更改已存在的远程仓库的URL。</p></li><li><p><strong>删除远程仓库</strong>：使用<code>git remote remove &lt;name&gt;</code>或<code>git remote rm &lt;name&gt;</code>命令可以删除一个远程仓库的引用。</p></li><li><p><strong>重命名远程仓库</strong>：使用<code>git remote rename &lt;oldname&gt; &lt;newname&gt;</code>命令可以重命名远程仓库的简称。</p></li></ul><p>在协同工作流中，<code>git remote</code>命令是非常重要的，它使得开发者能够与远程仓库交互，共享代码和协作。例如，<code>origin</code>通常是克隆仓库时自动创建的默认远程仓库名称，代表了克隆来源的仓库。通过管理远程仓库，您可以轻松地同步本地更改到远程服务器，或者拉取他人的更改到您的本地仓库中。</p><h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>luluji@luluji-virtual-machine:~&#x2F;nuttxspace$ git clone <a href="https://github.com/apache/nuttx.git">https://github.com/apache/nuttx.git</a> nuttx<br>正克隆到 ‘nuttx’…<br>fatal: 无法访问 ‘<a href="https://github.com/apache/nuttx.git/'%EF%BC%9Agnutls_handshake()">https://github.com/apache/nuttx.git/&#39;：gnutls_handshake()</a> failed: Error in the pull function.</p><p>通过安装这些库解决了：<br>sudo apt -y install build-essential nghttp2 libnghttp2-dev libssl-dev</p><h2 id="顺序"><a href="#顺序" class="headerlink" title="顺序"></a>顺序</h2><p>git push之前先git pull<br>git checkout master之前先git add和commit</p><h2 id="子模块"><a href="#子模块" class="headerlink" title="子模块"></a>子模块</h2><p>正在克隆子模块时就是在克隆，不会有进度条，跟卡住了似的是正常的</p><p>riscv-gnu-toolchain中的子模块可换源<br><a href="https://www.bilibili.com/read/cv28486387/">https://www.bilibili.com/read/cv28486387/</a></p><p>当更改了.gitmodules文件中的子模块 URL 时，Git 不会自动更新已经克隆的子模块。如果希望使用新的 URL 克隆子模块，则需要手动更新子模块的配置。</p><p>要更新子模块的配置，可以运行以下命令：<br>git submodule sync</p><p>这个命令将会更新本地存储库中的 .git&#x2F;config 文件以反映.gitmodules文件中的新 URL。<br>然后，可以运行以下命令来更新子模块：<br>git submodule update –init –recursive</p><p>这个命令将会使用.gitmodules文件中的新 URL 克隆或更新子模块，并递归地更新任何子模块的子模块（如果有的话）。</p><h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>git add .的撤回<br>git reset</p><h2 id="gitignore"><a href="#gitignore" class="headerlink" title="gitignore"></a>gitignore</h2><p>* 和 *.*：忽略所有文件。<br>!<em>&#x2F;：不忽略所有目录。<br>!Makefile：不忽略 Makefile 文件。<br>!</em>.mk：不忽略所有 .mk 文件。<br>!<em>.scala：不忽略所有 .scala 文件。<br>!</em>.[cSh]：不忽略所有 .c、.S 和 .h 文件。<br>!<em>.v：不忽略所有 .v 文件。<br>!</em>.cpp：不忽略所有 .cpp 文件。<br>!*.cc：不忽略所有 .cc 文件。<br>!.gitignore：不忽略 .gitignore 文件。<br>!.scalafmt.conf：不忽略 .scalafmt.conf 文件。<br>!build.sc：不忽略 build.sc 文件。<br>!README.md：不忽略 README.md 文件。<br>!&#x2F;src&#x2F;**：不忽略 src 目录及其所有子目录和文件。<br>!&#x2F;patch&#x2F;**：不忽略 patch 目录及其所有子目录和文件。<br>!&#x2F;perip&#x2F;**：不忽略 perip 目录及其所有子目录和文件。<br>!&#x2F;spec&#x2F;**：不忽略 spec 目录及其所有子目录和文件。</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;Git版本控制系统的使用指南，包括基本操作、分支管理、团队协作等内容。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="tools" scheme="http://example.com/categories/tools/"/>
+    
+    <category term="版本控制" scheme="http://example.com/categories/tools/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/"/>
+    
+    
+    <category term="Git" scheme="http://example.com/tags/Git/"/>
+    
+    <category term="版本控制" scheme="http://example.com/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/"/>
+    
+    <category term="开发工具" scheme="http://example.com/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+    
+    <category term="团队协作" scheme="http://example.com/tags/%E5%9B%A2%E9%98%9F%E5%8D%8F%E4%BD%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>计算机组成原理课程笔记</title>
+    <link href="http://example.com/2023/04/21/course/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/"/>
+    <id>http://example.com/2023/04/21/course/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/</id>
+    <published>2023-04-20T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>本课程笔记涵盖了计算机组成原理的核心概念，包括CPU设计、存储系统、指令系统等内容，以及相关的实践经验。</p><span id="more"></span><p><a href="https://blog.csdn.net/qq_62325622/article/details/134804522?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-134804522-blog-124206736.235%5Ev43%5Epc_blog_bottom_relevance_base9&spm=1001.2101.3001.4242.1&utm_relevant_index=3">https://blog.csdn.net/qq_62325622/article/details/134804522?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-134804522-blog-124206736.235^v43^pc_blog_bottom_relevance_base9&amp;spm=1001.2101.3001.4242.1&amp;utm_relevant_index=3</a></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;本课程笔记涵盖了计算机组成原理的核心概念，包括CPU设计、存储系统、指令系统等内容，以及相关的实践经验。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="course" scheme="http://example.com/categories/course/"/>
+    
+    <category term="体系结构" scheme="http://example.com/categories/course/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"/>
+    
+    
+    <category term="CPU设计" scheme="http://example.com/tags/CPU%E8%AE%BE%E8%AE%A1/"/>
+    
+    <category term="课程笔记" scheme="http://example.com/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/"/>
+    
+    <category term="计算机组成原理" scheme="http://example.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/"/>
+    
+    <category term="数字电路" scheme="http://example.com/tags/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>x86架构学习笔记</title>
+    <link href="http://example.com/2023/04/16/os/x86%E7%9A%84%E5%AD%A6%E4%B9%A0/"/>
+    <id>http://example.com/2023/04/16/os/x86%E7%9A%84%E5%AD%A6%E4%B9%A0/</id>
+    <published>2023-04-15T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>x86架构相关的学习笔记，包括寄存器使用、分段机制、特权级别等重要概念的详细说明。</p><span id="more"></span><h2 id="ebp和-esp"><a href="#ebp和-esp" class="headerlink" title="%ebp和%esp"></a>%ebp和%esp</h2><p><a href="https://blog.csdn.net/qq_41683305/article/details/104249224">https://blog.csdn.net/qq_41683305/article/details/104249224</a></p><h2 id="分段机制"><a href="#分段机制" class="headerlink" title="分段机制"></a>分段机制</h2><p><a href="https://blog.csdn.net/cc_net/article/details/24726287">https://blog.csdn.net/cc_net/article/details/24726287</a></p><h2 id="RPL-CPL-DPL"><a href="#RPL-CPL-DPL" class="headerlink" title="RPL CPL DPL"></a>RPL CPL DPL</h2><p><a href="https://blog.csdn.net/qq_37414405/article/details/84535145">https://blog.csdn.net/qq_37414405/article/details/84535145</a></p><h2 id="xv6启动"><a href="#xv6启动" class="headerlink" title="xv6启动"></a>xv6启动</h2><p><a href="https://zhuanlan.zhihu.com/p/164684999">https://zhuanlan.zhihu.com/p/164684999</a></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;x86架构相关的学习笔记，包括寄存器使用、分段机制、特权级别等重要概念的详细说明。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="os" scheme="http://example.com/categories/os/"/>
+    
+    <category term="体系结构" scheme="http://example.com/categories/os/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"/>
+    
+    
+    <category term="x86" scheme="http://example.com/tags/x86/"/>
+    
+    <category term="CPU架构" scheme="http://example.com/tags/CPU%E6%9E%B6%E6%9E%84/"/>
+    
+    <category term="汇编语言" scheme="http://example.com/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>操作系统内存检测机制</title>
+    <link href="http://example.com/2023/04/16/os/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/"/>
+    <id>http://example.com/2023/04/16/os/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/</id>
+    <published>2023-04-15T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>介绍操作系统中的内存检测机制，包括NuttX系统的内存管理和KFENCE内存错误检测工具的使用方法。</p><span id="more"></span><h2 id="nuttx"><a href="#nuttx" class="headerlink" title="nuttx"></a>nuttx</h2><p><a href="https://nuttx.apache.org/docs/latest/">https://nuttx.apache.org/docs/latest/</a></p><h2 id="kfence"><a href="#kfence" class="headerlink" title="kfence"></a>kfence</h2><p><a href="https://www.cnblogs.com/sky-heaven/p/16527927.html">https://www.cnblogs.com/sky-heaven/p/16527927.html</a></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;介绍操作系统中的内存检测机制，包括NuttX系统的内存管理和KFENCE内存错误检测工具的使用方法。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="os" scheme="http://example.com/categories/os/"/>
+    
+    <category term="内存管理" scheme="http://example.com/categories/os/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
+    
+    
+    <category term="系统编程" scheme="http://example.com/tags/%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/"/>
+    
+    <category term="操作系统" scheme="http://example.com/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    <category term="内存管理" scheme="http://example.com/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Buildroot使用指南</title>
+    <link href="http://example.com/2023/04/09/tools/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
+    <id>http://example.com/2023/04/09/tools/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/</id>
+    <published>2023-04-08T16:00:00.000Z</published>
+    <updated>2024-01-20T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Buildroot工具的使用指南，包括系统构建、交叉编译、定制化配置等内容。</p><span id="more"></span><p>在使用Buildroot构建嵌入式Linux系统时，<code>BR2_EXTERNAL</code>是一个重要的机制，它允许用户将自定义的配置、包（packages）、板级支持包（board support packages，简称BSPs）、以及其他构建脚本和文件集成到Buildroot构建过程中，而不必直接修改Buildroot的主树。这种机制非常有用，因为它使得维护自定义修改和跟踪Buildroot官方更新变得更加容易。</p><h3 id="使用BR2-EXTERNAL的优势"><a href="#使用BR2-EXTERNAL的优势" class="headerlink" title="使用BR2_EXTERNAL的优势"></a>使用BR2_EXTERNAL的优势</h3><ul><li><strong>模块化</strong>：允许将自定义内容和Buildroot主树分开，便于管理。</li><li><strong>易于维护</strong>：更新Buildroot版本时，可以避免合并冲突，简化维护工作。</li><li><strong>重用性</strong>：相同的自定义配置和包可以轻松地在多个项目之间共享和重用。</li></ul><h3 id="如何使用BR2-EXTERNAL"><a href="#如何使用BR2-EXTERNAL" class="headerlink" title="如何使用BR2_EXTERNAL"></a>如何使用BR2_EXTERNAL</h3><ol><li><p><strong>创建外部树结构</strong>：首先，你需要创建一个目录作为你的外部树，这个目录将包含你的自定义配置和文件。外部树的推荐目录结构如下：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">your-external-tree/</span><br><span class="line">├── Config.in</span><br><span class="line">├── external.desc</span><br><span class="line">├── external.mk</span><br><span class="line">├── configs/</span><br><span class="line">├── board/</span><br><span class="line">├── package/</span><br><span class="line">└── fs/</span><br></pre></td></tr></table></figure><p>其中<code>configs/</code>用于存放自定义的配置文件，<code>package/</code>用于存放自定义的软件包描述文件，<code>board/</code>可能包含板级特定文件，如启动脚本和覆盖层。</p></li><li><p><strong>设置BR2_EXTERNAL环境变量</strong>：在运行Buildroot的<code>make menuconfig</code>之前，通过环境变量<code>BR2_EXTERNAL</code>指向你的外部树目录。这可以通过在命令行中直接设置，或者添加到你的shell配置文件中：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export BR2_EXTERNAL=/path/to/your-external-tree</span><br></pre></td></tr></table></figure><p>或者，在make命令中直接指定：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make BR2_EXTERNAL=/path/to/your-external-tree menuconfig</span><br></pre></td></tr></table></figure></li><li><p><strong>使用自定义配置和包</strong>：一旦设置了<code>BR2_EXTERNAL</code>，Buildroot构建系统将自动识别外部树中的配置和包。你可以在<code>make menuconfig</code>中选择这些包，或者使用外部树中定义的配置作为构建的起点。</p></li><li><p><strong>构建系统</strong>：使用你的配置构建系统。如果一切设置正确，Buildroot将包含你的外部树中的自定义内容进行构建。</p></li></ol><h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul><li><strong>多个外部树</strong>：从Buildroot 2016.11版本开始，<code>BR2_EXTERNAL</code>支持指定多个外部树路径，使用冒号(<code>:</code>)分隔。</li><li><strong>版本兼容性</strong>：在使用<code>BR2_EXTERNAL</code>时，要确保外部树中的自定义内容与Buildroot的版本兼容。</li></ul><p>通过使用<code>BR2_EXTERNAL</code>，你可以灵活地扩展Buildroot，添加自定义功能和支持，同时保持与Buildroot主树的清晰分离，这对于项目的长期维护和升级非常有益。</p><p>当使用<code>BR2_EXTERNAL</code>机制在Buildroot中引入外部树时，你需要在外部树的根目录创建一些特定的文件和目录来定义你的自定义配置、板级支持包、软件包和文件系统扩展。以下是如何组织和编写这些文件的一些基本指导：</p><h3 id="1-Config-in"><a href="#1-Config-in" class="headerlink" title="1. Config.in"></a>1. Config.in</h3><p><code>Config.in</code>是一个Kconfig文件，它定义了在Buildroot配置界面中出现的选项。这个文件通常用来引入外部软件包的配置选项或者特定的配置界面。</p><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">menu <span class="string">&quot;My Custom Options&quot;</span></span><br><span class="line"></span><br><span class="line">config BR2_PACKAGE_MY_CUSTOM_PACKAGE</span><br><span class="line">    bool <span class="string">&quot;My custom package&quot;</span></span><br><span class="line">    help</span><br><span class="line">      This option will enable my custom package.</span><br><span class="line"></span><br><span class="line">endmenu</span><br></pre></td></tr></table></figure><p>此文件中定义的选项可以在Buildroot的配置界面中找到，并允许用户启用或禁用特定功能。</p><h3 id="2-external-desc"><a href="#2-external-desc" class="headerlink" title="2. external.desc"></a>2. external.desc</h3><p><code>external.desc</code>是Buildroot 2020.02版本后引入的新文件，用于描述外部树的元数据，如名称和描述。这个文件不是必需的，但有助于识别外部树。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">name: my-external-tree</span><br><span class="line">description: My custom external tree for Buildroot</span><br></pre></td></tr></table></figure><h3 id="3-external-mk"><a href="#3-external-mk" class="headerlink" title="3. external.mk"></a>3. external.mk</h3><p><code>external.mk</code>是Makefile片段，用于包含外部软件包的构建规则。这个文件会被Buildroot构建系统自动包含。</p><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Example of including a custom package</span></span><br><span class="line"><span class="keyword">ifeq</span> (<span class="variable">$(BR2_PACKAGE_MY_CUSTOM_PACKAGE)</span>,y)</span><br><span class="line"><span class="keyword">include</span> package/my_custom_package/my_custom_package.mk</span><br><span class="line"><span class="keyword">endif</span></span><br></pre></td></tr></table></figure><h3 id="4-configs"><a href="#4-configs" class="headerlink" title="4. configs&#x2F;"></a>4. configs&#x2F;</h3><p><code>configs/</code>目录包含预定义的Buildroot配置文件，这些文件可以通过<code>make &lt;config_name&gt;_defconfig</code>命令使用。这些配置文件通常用于快速配置Buildroot以使用特定的板级支持包或软件包组合。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Example of a custom defconfig file</span><br><span class="line">BR2_PACKAGE_MY_CUSTOM_PACKAGE=y</span><br></pre></td></tr></table></figure><h3 id="5-board"><a href="#5-board" class="headerlink" title="5. board&#x2F;"></a>5. board&#x2F;</h3><p><code>board/</code>目录包含特定于板级的文件，如启动脚本、内核配置片段或根文件系统覆盖层。</p><h3 id="6-package"><a href="#6-package" class="headerlink" title="6. package&#x2F;"></a>6. package&#x2F;</h3><p><code>package/</code>目录包含自定义软件包的描述和构建规则。每个软件包目录下通常包含两个文件：<code>Config.in</code>和<code>&lt;package_name&gt;.mk</code>。</p><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># package/my_custom_package/Config.in</span></span><br><span class="line">config BR2_PACKAGE_MY_CUSTOM_PACKAGE</span><br><span class="line">    bool <span class="string">&quot;My custom package&quot;</span></span><br><span class="line">    help</span><br><span class="line">      My custom package description.</span><br></pre></td></tr></table></figure><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># package/my_custom_package/my_custom_package.mk</span></span><br><span class="line">MY_CUSTOM_PACKAGE_VERSION = 1.0</span><br><span class="line">MY_CUSTOM_PACKAGE_SITE = <span class="variable">$(TOPDIR)</span>/path/to/my_custom_package/source</span><br><span class="line">MY_CUSTOM_PACKAGE_LICENSE = GPL-2.0+</span><br><span class="line"></span><br><span class="line"><span class="keyword">define</span> MY_CUSTOM_PACKAGE_BUILD_CMDS</span><br><span class="line">    <span class="variable">$(MAKE)</span> CC=<span class="string">&quot;<span class="variable">$(TARGET_CC)</span>&quot;</span> -C $(@D)</span><br><span class="line"><span class="keyword">endef</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">define</span> MY_CUSTOM_PACKAGE_INSTALL_TARGET_CMDS</span><br><span class="line">    <span class="variable">$(INSTALL)</span> -D -m 0755 $(@D)/my_custom_package <span class="variable">$(TARGET_DIR)</span>/usr/bin</span><br><span class="line"><span class="keyword">endef</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$(<span class="built_in">eval</span> $(generic-package)</span>)</span><br></pre></td></tr></table></figure><h3 id="7-fs"><a href="#7-fs" class="headerlink" title="7. fs&#x2F;"></a>7. fs&#x2F;</h3><p><code>fs/</code>目录用于添加自定义文件系统支持。这里可以放置生成特定类型文件系统镜像的脚本和配置。</p><p>这些文件和目录为你提供了一个框架来扩展Buildroot，添加自定义板级支持、软件包和配置。确保遵循Buildroot的文档和现有的样板（boilerplate）代码来正确实现这些自定义扩展。</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;Buildroot工具的使用指南，包括系统构建、交叉编译、定制化配置等内容。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="tools" scheme="http://example.com/categories/tools/"/>
+    
+    <category term="嵌入式" scheme="http://example.com/categories/tools/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
+    
+    
+    <category term="Buildroot" scheme="http://example.com/tags/Buildroot/"/>
+    
+    <category term="嵌入式系统" scheme="http://example.com/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F/"/>
+    
+    <category term="交叉编译" scheme="http://example.com/tags/%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/"/>
+    
+    <category term="Linux开发" scheme="http://example.com/tags/Linux%E5%BC%80%E5%8F%91/"/>
     
   </entry>
   

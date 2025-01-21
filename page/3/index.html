@@ -191,730 +191,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/03/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E6%A0%A1%E5%87%86%E5%BB%B6%E8%BF%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/03/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E6%A0%A1%E5%87%86%E5%BB%B6%E8%BF%9F/" class="post-title-link" itemprop="url">CPU时序校准与延迟优化</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-12-03 00:00:00" itemprop="dateCreated datePublished" datetime="2023-12-03T00:00:00+08:00">2023-12-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ysyx/" itemprop="url" rel="index"><span itemprop="name">ysyx</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="为什么要校准"><a href="#为什么要校准" class="headerlink" title="为什么要校准"></a>为什么要校准</h2><p>事实上, 之前的ysyxSoC环境是假设处理器和各种外设运行在同一频率下: verilator仿真的一个周期, 既是处理器中的一个周期, 也是外设中的一个周期. 但实际上并非如此: 受电气特性的影响, 外设通常只能运行在低频率, 例如SDRAM颗粒通常只能运行在100MHz左右, 过高的频率会导致时序违例, 使得SDRAM颗粒无法正确工作; 但另一方面, 使用先进工艺的处理器通常能够运行在更高的频率, 例如, yzh某个版本的多周期NPC在yosys-sta项目默认提供的nangate45工艺下频率达到约1.2GHz. 在上述配置下, SDRAM控制器中经过1个周期, NPC应该经过12个周期, 但verilator感知不到两者的频率差异, 仍然按照两者频率相同的假设进行仿真, 使得仿真结果比真实芯片乐观很多, 从而也可能会使得一些优化措施无法在真实芯片中取得预期的效果.</p>
-<h2 id="我的仿真频率"><a href="#我的仿真频率" class="headerlink" title="我的仿真频率"></a>我的仿真频率</h2><table>
-<thead>
-<tr>
-<th>Endpoint</th>
-<th>Clock Group</th>
-<th>Delay Type</th>
-<th>Path Delay</th>
-<th>Path Required</th>
-<th>CPPR</th>
-<th>Slack</th>
-<th>Freq(MHz)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>clint&#x2F;<em>1870</em>:D</td>
-<td>core_clock</td>
-<td>max</td>
-<td>1.984r</td>
-<td>9.969</td>
-<td>0.000</td>
-<td>7.985</td>
-<td>496.197</td>
-</tr>
-<tr>
-<td>clint&#x2F;<em>1870</em>:D</td>
-<td>core_clock</td>
-<td>max</td>
-<td>1.966f</td>
-<td>9.961</td>
-<td>0.000</td>
-<td>7.995</td>
-<td>498.797</td>
-</tr>
-<tr>
-<td>clint&#x2F;<em>1869</em>:D</td>
-<td>core_clock</td>
-<td>max</td>
-<td>1.959f</td>
-<td>9.961</td>
-<td>0.000</td>
-<td>8.001</td>
-<td>500.367</td>
-</tr>
-<tr>
-<td>exu&#x2F;u_alu&#x2F;<em>2689</em>:D</td>
-<td>core_clock</td>
-<td>min</td>
-<td>0.079f</td>
-<td>0.002</td>
-<td>0.000</td>
-<td>0.078</td>
-<td>NA</td>
-</tr>
-<tr>
-<td>exu&#x2F;u_alu&#x2F;<em>2689</em>:D</td>
-<td>core_clock</td>
-<td>min</td>
-<td>0.086r</td>
-<td>0.006</td>
-<td>0.000</td>
-<td>0.080</td>
-<td>NA</td>
-</tr>
-<tr>
-<td>registerfile&#x2F;<em>7836</em>:D</td>
-<td>core_clock</td>
-<td>min</td>
-<td>0.114f</td>
-<td>0.002</td>
-<td>0.000</td>
-<td>0.112</td>
-<td>NA</td>
-</tr>
-</tbody></table>
-<h2 id="校准"><a href="#校准" class="headerlink" title="校准"></a>校准</h2><p>我的校准系数是5</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/01/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/icache/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/01/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/icache/" class="post-title-link" itemprop="url">ICache实现与优化</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-12-01 00:00:00" itemprop="dateCreated datePublished" datetime="2023-12-01T00:00:00+08:00">2023-12-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ysyx/" itemprop="url" rel="index"><span itemprop="name">ysyx</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>变成两路后好像负优化了<br><img src="/image.png" alt="alt text"></p>
-<p>Icache配置切换</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">IcacheConfig</span></span>&#123;</span><br><span class="line">  <span class="comment">//Byte</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">BlockSize</span>: <span class="type">Int</span> = <span class="number">8</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">WayNum</span> : <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">SetNum</span>: <span class="type">Int</span> = <span class="number">16</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">Strategy</span>: <span class="type">String</span> = <span class="string">&quot;RANDOM&quot;</span> <span class="comment">//LRU,FIFO</span></span><br><span class="line">  <span class="keyword">val</span> burst: <span class="type">String</span> = <span class="string">&quot;INCR&quot;</span> <span class="comment">//INCR,WRAP</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="Icache的控制参数"><a href="#Icache的控制参数" class="headerlink" title="Icache的控制参数"></a>Icache的控制参数</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">wire</span>         _GEN = state == <span class="number">3&#x27;h0</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_0 = state == <span class="number">3&#x27;h1</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19, :193:17]</span></span><br><span class="line"><span class="keyword">wire</span> [<span class="number">7</span>:<span class="number">0</span>]   _GEN_1 = &#123;<span class="number">5&#x27;h0</span>, sizeReg&#125;;	<span class="comment">// @[src/main/AXI/AXI4.scala:143:56, :167:22]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_2 = _GEN | ~_GEN_0;	<span class="comment">// @[src/main/AXI/AXI4.scala:62:17, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_3 = state == <span class="number">3&#x27;h2</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19, :187:15]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_4 = _GEN | _GEN_0;	<span class="comment">// @[src/main/AXI/AXI4.scala:52:18, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         io_axi_wvalid_0 = ~_GEN_4 &amp; _GEN_3;	<span class="comment">// @[src/main/AXI/AXI4.scala:52:18, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span> [<span class="number">7</span>:<span class="number">0</span>]   _wstrbReg_T = <span class="number">8&#x27;h1</span> &lt;&lt; _GEN_1;	<span class="comment">// @[src/main/AXI/AXI4.scala:143:56, src/main/Cache/Icache.scala:94:26]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_5 = _GEN_4 | ~_GEN_3;	<span class="comment">// @[src/main/AXI/AXI4.scala:48:17, :52:18, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_6 = idx_beat == lenReg;	<span class="comment">// @[src/main/AXI/AXI4.scala:168:21, :170:23, :227:23]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_7 = io_axi_awready &amp; io_axi_wready;	<span class="comment">// @[src/main/AXI/AXI4.scala:231:27]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_8 = state == <span class="number">3&#x27;h3</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19, :210:17]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_9 = _GEN | _GEN_0 | _GEN_3;	<span class="comment">// @[src/main/AXI/AXI4.scala:68:17, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_10 = _GEN_8 &amp; io_axi_rvalid;	<span class="comment">// @[src/main/AXI/AXI4.scala:174:19, :182:19, :244:29, :246:27]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_11 = io_axi_rlast | _GEN_6;	<span class="comment">// @[src/main/AXI/AXI4.scala:227:23, :248:29]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_12 = state == <span class="number">3&#x27;h4</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:153:38, :162:24, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_13 = _GEN_8 | ~_GEN_12;	<span class="comment">// @[src/main/AXI/AXI4.scala:55:16, :182:19]</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/30/ysyx/%E6%80%BB%E7%BA%BF/axi4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/11/30/ysyx/%E6%80%BB%E7%BA%BF/axi4/" class="post-title-link" itemprop="url">AXI4总线协议详解</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-11-30 00:00:00" itemprop="dateCreated datePublished" datetime="2023-11-30T00:00:00+08:00">2023-11-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ysyx/" itemprop="url" rel="index"><span itemprop="name">ysyx</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ysyx/%E6%80%BB%E7%BA%BF/" itemprop="url" rel="index"><span itemprop="name">总线</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="wlast"><a href="#wlast" class="headerlink" title="wlast"></a>wlast</h2><p>使用sdram-axi后，写入flash出现的问题。xbar的auto_in没问题，但in_0的awvalid没有置1<br><img src="/image.png" alt="alt text"></p>
-<p>用到了队列，但io_deq_ready一直没有激活，一直无法从队列中弹出第一次axi事务的信号。<br><img src="/image-3.png" alt="alt text"><br>原因是wlast用于指示最后一个axi的transfer.如果只有一个transfer，那wlast要和wvalid同时为1<br><img src="/image-2.png" alt="alt text"><br>加上提前wlast的信号</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">when(idx_beat === num_beats(lenReg) <span class="number">-1.</span><span class="type">U</span>)&#123;</span><br><span class="line">	axi4.wlast := <span class="literal">true</span>.<span class="type">B</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="突发传输"><a href="#突发传输" class="headerlink" title="突发传输"></a>突发传输</h2><p>一次事务的结束以rlast&#x2F;wlast为标志，cpu中xbar和arbiter要做修改,在收到rlast&#x2F;wlast时切换道空闲状态。否则cpu中总线收不到rlast&#x2F;wlast<br><img src="/image-1.png" alt="alt text"></p>
-<h2 id="写的信号关系"><a href="#写的信号关系" class="headerlink" title="写的信号关系"></a>写的信号关系</h2><p>1.master的wvalid不能依赖awready<br><img src="/image-4.png" alt="alt text"></p>
-<h2 id="sdram的突发"><a href="#sdram的突发" class="headerlink" title="sdram的突发"></a>sdram的突发</h2><p>assign wlast_o &#x3D; axi_wlast_i;<br>assign rlast_o &#x3D; !resp_is_last_w | axi_arlen_i&#x3D;&#x3D;8’d0;<br>下图的state_q应该只用一个周期。一个周期后req_len_q&#x3D;&#x3D;ff,晚了一个周期。因此只能使用axi_arlen_i<br><img src="/image-7.png" alt="alt text"><br>突发成功了和突发没成功<br><img src="/image-6.png" alt="alt text"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/27/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/nemu-npc-ysyxsoc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/11/27/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/nemu-npc-ysyxsoc/" class="post-title-link" itemprop="url">NEMU-NPC-YSYXSoC性能对比</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-11-27 00:00:00" itemprop="dateCreated datePublished" datetime="2023-11-27T00:00:00+08:00">2023-11-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ysyx/" itemprop="url" rel="index"><span itemprop="name">ysyx</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="切换清单"><a href="#切换清单" class="headerlink" title="切换清单"></a>切换清单</h1><p>1.npc-chisel&#x2F;nemu中make menuconfig切换SoC和nemu的运行target<br>2.npc-chisel 修改代码里的ysyxSoC &#x3D; true&#x2F;false</p>
-<p>#切换用几个sdram<br>1.ysyxsoc&#x2F;perip&#x2F;sdram<br>2.ysyxsoc&#x2F;src&#x2F;device&#x2F;SDRAM.scala</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/09/course/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/05/09/course/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" class="post-title-link" itemprop="url">人工智能课程笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-05-09 00:00:00" itemprop="dateCreated datePublished" datetime="2023-05-09T00:00:00+08:00">2023-05-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/course/" itemprop="url" rel="index"><span itemprop="name">course</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/course/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>为应付期末人工智能论文，记录一下有用的网站，以防忘记</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/05/09/course/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/21/course/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/04/21/course/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">计算机组成原理课程笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-04-21 00:00:00" itemprop="dateCreated datePublished" datetime="2023-04-21T00:00:00+08:00">2023-04-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/course/" itemprop="url" rel="index"><span itemprop="name">course</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/course/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">体系结构</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <span id="more"></span>
-
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_62325622/article/details/134804522?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-134804522-blog-124206736.235%5Ev43%5Epc_blog_bottom_relevance_base9&spm=1001.2101.3001.4242.1&utm_relevant_index=3">https://blog.csdn.net/qq_62325622/article/details/134804522?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-134804522-blog-124206736.235^v43^pc_blog_bottom_relevance_base9&amp;spm=1001.2101.3001.4242.1&amp;utm_relevant_index=3</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/16/os/x86%E7%9A%84%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/04/16/os/x86%E7%9A%84%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">x86架构学习笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-04-16 00:00:00" itemprop="dateCreated datePublished" datetime="2023-04-16T00:00:00+08:00">2023-04-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/os/" itemprop="url" rel="index"><span itemprop="name">os</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/os/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">体系结构</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <span id="more"></span>
-
-<h2 id="ebp和-esp"><a href="#ebp和-esp" class="headerlink" title="%ebp和%esp"></a>%ebp和%esp</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41683305/article/details/104249224">https://blog.csdn.net/qq_41683305/article/details/104249224</a></p>
-<h2 id="分段机制"><a href="#分段机制" class="headerlink" title="分段机制"></a>分段机制</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cc_net/article/details/24726287">https://blog.csdn.net/cc_net/article/details/24726287</a></p>
-<h2 id="RPL-CPL-DPL"><a href="#RPL-CPL-DPL" class="headerlink" title="RPL CPL DPL"></a>RPL CPL DPL</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37414405/article/details/84535145">https://blog.csdn.net/qq_37414405/article/details/84535145</a></p>
-<h2 id="xv6启动"><a href="#xv6启动" class="headerlink" title="xv6启动"></a>xv6启动</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/164684999">https://zhuanlan.zhihu.com/p/164684999</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/16/os/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/04/16/os/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/" class="post-title-link" itemprop="url">操作系统内存检测机制</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-04-16 00:00:00" itemprop="dateCreated datePublished" datetime="2023-04-16T00:00:00+08:00">2023-04-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/os/" itemprop="url" rel="index"><span itemprop="name">os</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/os/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">内存管理</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <span id="more"></span>
-<h2 id="nuttx"><a href="#nuttx" class="headerlink" title="nuttx"></a>nuttx</h2><p><a target="_blank" rel="noopener" href="https://nuttx.apache.org/docs/latest/">https://nuttx.apache.org/docs/latest/</a></p>
-<h2 id="kfence"><a href="#kfence" class="headerlink" title="kfence"></a>kfence</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/sky-heaven/p/16527927.html">https://www.cnblogs.com/sky-heaven/p/16527927.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/09/os/riscv%E5%90%AF%E5%8A%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -973,38 +249,525 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <span id="more"></span>
+          <p>详细介绍RISC-V架构的系统启动流程，包括OpenSBI、U-Boot等bootloader的配置和使用方法，以及各类固件文件的说明。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/09/os/riscv%E5%90%AF%E5%8A%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
 
-<h2 id="网址"><a href="#网址" class="headerlink" title="网址"></a>网址</h2><p><a target="_blank" rel="noopener" href="https://buildroot.org/">https://buildroot.org/</a><br><a target="_blank" rel="noopener" href="https://github.com/riscv-software-src/opensbi">https://github.com/riscv-software-src/opensbi</a><br><a target="_blank" rel="noopener" href="https://github.com/u-boot/u-boot">https://github.com/u-boot/u-boot</a><br><a target="_blank" rel="noopener" href="https://kernel.org/">https://kernel.org/</a></p>
-<p>为了通过 U-Boot 启动 RISC-V 64 架构的 Linux，我们需要在编译时选择交叉编译工具链 riscv64-linux-gnu-gcc。在 U-Boot 目录下执行以下命令：<br>    $ cd u-boot<br>    $ export CROSS_COMPILE&#x3D;riscv64-linux-gnu-<br>    $ make qemu-riscv64_smode_defconfig<br>    $ make -j $(nproc)</p>
-<p>直接引导 S 模式下的 U-Boot 镜像，使用以下命令：</p>
-<pre><code>$ qemu-system-riscv64 -M virt -smp 4 -m 2G \
-    -display none -serial stdio \
-    -kernel /path/to/u-boot.bin
-</code></pre>
-<h2 id="FW-PAYLOAD"><a href="#FW-PAYLOAD" class="headerlink" title="FW_PAYLOAD"></a>FW_PAYLOAD</h2><p>如需启动 U-Boot 或 Linux，需要在 OpenSBI 编译时指定 U-Boot 或 Linux 的 payload 路径。以 U-Boot 为例，切换到 OpenSBI 目录下，编译命令如下：<br>    $ cd opensbi<br>    $ export CROSS_COMPILE&#x3D;riscv64-linux-gnu-<br>    $ make PLATFORM&#x3D;generic FW_PAYLOAD_PATH&#x3D;<uboot_build_directory>&#x2F;u-boot.bin</p>
-<p>运行：</p>
-<pre><code>$ qemu-system-riscv64 -M virt -m 256M -nographic \
-    -bios build/platform/generic/firmware/fw_payload.elf
-</code></pre>
-<h2 id="FW-JUMP"><a href="#FW-JUMP" class="headerlink" title="FW_JUMP"></a>FW_JUMP</h2><p>或是使用以下命令运行：</p>
-<pre><code>$ qemu-system-riscv64 -M virt -m 256M -nographic \
-    -bios build/platform/generic/firmware/fw_jump.bin \
-    -kernel &lt;uboot_build_directory&gt;/u-boot.bin
-</code></pre>
-<h2 id="FW-DYNAMIC"><a href="#FW-DYNAMIC" class="headerlink" title="FW_DYNAMIC"></a>FW_DYNAMIC</h2><p>如果要使用 U-Boot SPL，使用如下命令：<br>    $ cd u-boot<br>    $ export CROSS_COMPILE&#x3D;riscv64-linux-gnu-</p>
-<pre><code>$ export OPENSBI=/path/to/opensbi/build/platform/generic/firmware/fw_dynamic.bin
-$ make qemu-riscv64_spl_defconfig
-$ make -j $(nproc)
-$ qemu-system-riscv64 -M virt -smp 4 -m 2G \
-    -display none -serial stdio \
-    -bios /path/to/u-boot-spl \
-    -device loader,file=/path/to/u-boot.itb,addr=0x80200000
-</code></pre>
-<p>opensbi<br>固件和负载（Payload）文件<br>fw_dynamic.bin &#x2F; fw_jump.bin &#x2F; fw_payload.bin: 这些.bin文件是二进制格式的固件或负载文件，可以直接烧录到目标设备的Flash存储或通过引导加载程序（如U-Boot）加载。它们分别可能代表动态固件、跳转固件（用于引导加载程序中跳转到特定地址执行）、以及具体的负载（如操作系统内核、应用程序或服务）。<br>fw_dynamic.elf &#x2F; fw_jump.elf &#x2F; fw_payload.elf: .elf文件是可执行链接格式（Executable and Linkable Format）文件，它们包含了用于调试和执行的代码和数据，以及关于如何在目标系统上布局这些代码和数据的信息。ELF文件在开发过程中用于调试目的，因为它们包含了丰富的调试信息。<br>依赖和链接脚本文件<br>fw_dynamic.dep &#x2F; fw_jump.dep &#x2F; fw_payload.dep: .dep文件通常包含关于源文件之间依赖关系的信息。在构建过程中，这些依赖信息被用来确定哪些文件需要重新编译。这些文件对于管理大型项目中的依赖关系非常有用。<br>fw_dynamic.elf.dep &#x2F; fw_jump.elf.dep &#x2F; fw_payload.elf.dep: 这些文件可能包含了特定于ELF文件的依赖信息，指明了构建ELF文件所需的依赖项。<br>fw_dynamic.elf.ld &#x2F; fw_jump.elf.ld &#x2F; fw_payload.elf.ld: .ld文件是链接脚本，用于控制ELF文件的链接过程，包括指定各个代码和数据段在目标内存中的布局。这对于确保固件或负载正确地放置在目标设备的内存中非常重要。<br>对象文件<br>fw_dynamic.o &#x2F; fw_jump.o &#x2F; fw_payload.o: .o文件是对象文件，包含编译单个源文件后的机器代码和数据。在最终链接阶段，这些对象文件被合并生成最终的可执行文件或二进制固件。<br>负载目录<br>payloads: 这个目录可能包含一系列负载文件，这些文件可以是操作系统映像、应用程序或其他为特定目的准备的代码。在引导加载程序中，可以选择从这些负载中加载特定项。</p>
-<p>u-boot<br>u-boot：这是U-Boot的主可执行文件，通常为未压缩的ELF（Executable and Linkable Format）格式。<br>u-boot.bin：这是u-boot的二进制格式，通过将ELF文件中的可执行代码提取并转换成纯二进制数据得到。通常用于烧录到目标设备的引导存储器中。<br>u-boot.cfg：U-Boot的配置文件，包含了编译U-Boot时的配置选项。<br>u-boot.dtb（Device Tree Blob）：设备树文件，包含了硬件设备的结构和配置信息，U-Boot使用它来了解硬件的详细信息。<br>u-boot-dtb.bin：这是包含了设备树信息的u-boot.bin文件。它将U-Boot和对应的设备树合并为一个二进制文件。<br>u-boot-dtb.img：同u-boot-dtb.bin，是一个包含了设备树的U-Boot镜像，格式和用途可能略有不同，具体取决于构建系统。<br>u-boot.dtb.out：可能是在构建过程中生成的包含设备树的中间文件，用于调试或进一步处理。<br>u-boot.img：通常是一个为特定平台准备的U-Boot镜像，格式可能是二进制或其他特定格式。<br>u-boot.itb（Image Tree Blob）：一个FIT（Flattened Image Tree）格式的镜像，可以包含U-Boot、设备树和其他数据（如内核映像）。<br>u-boot.lds：链接脚本，用于控制U-Boot可执行文件的内存布局。<br>u-boot.map：生成的映射文件，详细列出了U-Boot中符号的地址和布局。<br>u-boot-nodtb.bin：这是不包含设备树信息的u-boot.bin文件，适用于系统不需要在引导加载程序阶段使用设备树的场景。<br>u-boot-spl.dtb.out：U-Boot的第二阶段加载程序（SPL）的设备树中间文件，用于较小的引导阶段。<br>u-boot.srec：SREC（S-record）格式的U-Boot文件，是一种用于表示二进制数据的ASCII文本格式。<br>u-boot.sym：符号文件，列出了U-Boot所有符号及其地址，有助于调试。</p>
-<p>u-boot&#x2F;spl<br>u-boot.cfg: 这是U-Boot构建过程中生成的配置文件，包含了编译U-Boot时使用的配置选项。它由make menuconfig、make savedefconfig等命令生成或修改。<br>u-boot-spl: 这可能是U-Boot的第一阶段引导加载程序（SPL）的未压缩的可执行文件。具体格式（如ELF格式）取决于构建配置。<br>u-boot-spl.bin: 这是u-boot-spl的二进制格式文件，通常通过将u-boot-spl的可执行文件转换成纯二进制形式来生成。这个文件适合直接烧录到启动介质（如SD卡、NOR Flash等）。<br>u-boot-spl.dtb: 设备树二进制文件（Device Tree Blob），包含了U-Boot SPL需要的硬件配置和布局信息。在某些系统上，SPL可能需要加载设备树来正确初始化硬件。<br>u-boot-spl-dtb.bin: 这是一个合并了设备树信息的u-boot-spl.bin文件。它将SPL和对应的设备树合并为一个单一的二进制文件，便于加载和执行。<br>u-boot-spl.lds: U-Boot SPL的链接脚本（Linker Script），定义了SPL二进制文件的内存布局。链接脚本指导链接器如何将代码和数据段映射到目标系统的地址空间。<br>u-boot-spl.map: 这是构建过程生成的内存映射文件，列出了SPL中所有符号的地址和布局信息。这对于调试和分析SPL非常有用。<br>u-boot-spl-nodtb.bin: 这是一个不包含设备树的u-boot-spl.bin文件。在系统中如果设备树以另一种方式提供（如通过另一个分区或在主U-Boot映像中），则可能会使用此版本。<br>u-boot-spl.sym: 符号文件，包含了SPL构建过程中生成的所有符号及其地址。这对于开发者在调试阶段定位问题非常有帮助。</p>
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/09/course/mysql/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/09/course/mysql/" class="post-title-link" itemprop="url">MySQL数据库学习笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-09 00:00:00" itemprop="dateCreated datePublished" datetime="2023-04-09T00:00:00+08:00">2023-04-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/course/" itemprop="url" rel="index"><span itemprop="name">course</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/course/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>MySQL数据库的基础知识和实践经验总结，包括数据库设计、SQL查询优化等内容。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/09/course/mysql/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/09/course/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/09/course/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">操作系统原理与实践</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-09 00:00:00" itemprop="dateCreated datePublished" datetime="2023-04-09T00:00:00+08:00">2023-04-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/course/" itemprop="url" rel="index"><span itemprop="name">course</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/course/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>操作系统核心概念和实践经验总结，包括进程管理、内存管理、文件系统等内容。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/09/course/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/09/course/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/09/course/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">编译原理学习笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-09 00:00:00" itemprop="dateCreated datePublished" datetime="2023-04-09T00:00:00+08:00">2023-04-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/course/" itemprop="url" rel="index"><span itemprop="name">course</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/course/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">编译原理</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>编译原理的核心概念和实践总结，包括词法分析、语法分析、代码生成等内容。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/09/course/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/01/tools/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/01/tools/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">Linux常用命令速查</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-01 00:00:00" itemprop="dateCreated datePublished" datetime="2023-04-01T00:00:00+08:00">2023-04-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tools/" itemprop="url" rel="index"><span itemprop="name">tools</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tools/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Linux系统常用命令的整理和说明，包括文件操作、系统管理、网络配置等内容。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/01/tools/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/17/tools/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/02/17/tools/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/" class="post-title-link" itemprop="url">Hexo+GitHub搭建个人博客教程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-02-17 00:00:00" itemprop="dateCreated datePublished" datetime="2023-02-17T00:00:00+08:00">2023-02-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tools/" itemprop="url" rel="index"><span itemprop="name">tools</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tools/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" itemprop="url" rel="index"><span itemprop="name">博客搭建</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>使用Hexo和GitHub Pages搭建个人博客的详细教程，包括环境配置、主题设置、部署方法等内容。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/02/17/tools/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/07/tools/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/02/07/tools/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">VSCode使用技巧与配置指南</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-02-07 00:00:00" itemprop="dateCreated datePublished" datetime="2023-02-07T00:00:00+08:00">2023-02-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tools/" itemprop="url" rel="index"><span itemprop="name">tools</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tools/IDE/" itemprop="url" rel="index"><span itemprop="name">IDE</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>VSCode编辑器的使用技巧和配置方法，包括插件推荐、快捷键、调试技巧等内容。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/02/07/tools/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1090,18 +853,18 @@ $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">77</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

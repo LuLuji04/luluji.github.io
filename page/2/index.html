@@ -191,7 +191,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/03/02/tools/git%E7%9A%84%E4%BD%BF%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/29/ysyx/ysyxsoc/%E5%85%B6%E4%BB%96soc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
@@ -205,7 +205,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2024/03/02/tools/git%E7%9A%84%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">git的使用</a>
+            <a href="/2023/11/29/ysyx/ysyxsoc/%E5%85%B6%E4%BB%96soc/" class="post-title-link" itemprop="url">其他开源SoC项目研究</a>
         </h2>
 
         <div class="post-meta">
@@ -215,484 +215,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2024-03-02 01:20:46" itemprop="dateCreated datePublished" datetime="2024-03-02T01:20:46+08:00">2024-03-02</time>
+              <time title="创建时间：2023-11-29 00:00:00" itemprop="dateCreated datePublished" datetime="2023-11-29T00:00:00+08:00">2023-11-29</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-05-07 12:26:32" itemprop="dateModified" datetime="2024-05-07T12:26:32+08:00">2024-05-07</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <span id="more"></span>
-<h2 id="git-config"><a href="#git-config" class="headerlink" title="git config"></a>git config</h2><p>在 Git 中，你可以使用以下命令来查看和修改配置：<br>查看配置</p>
-<pre><code>查看全局配置：
-</code></pre>
-<p>bash<br>git config –global –list</p>
-<pre><code>查看当前仓库的配置：
-</code></pre>
-<p>bash<br>git config –local –list</p>
-<pre><code>查看系统配置：
-</code></pre>
-<p>bash<br>git config –system –list</p>
-<p>如果你只想知道某个特定配置的值，你可以这样做：</p>
-<p>bash<br>git config &lt;配置项名称&gt;</p>
-<p>例如，要查看全局的用户名配置：</p>
-<p>bash<br>git config –global user.name</p>
-<p>修改配置</p>
-<pre><code>设置全局配置：
-    设置用户名：
-
-bash`git config --global user.name &quot;Your Name&quot;`
-
-    设置邮箱：
-
-bash`git config --global user.email &quot;your.email@example.com&quot;`
-
-设置当前仓库的配置：
-</code></pre>
-<p>与全局配置类似，但使用 –local 代替 –global。<br>3. 设置系统配置：</p>
-<p>通常不推荐修改系统配置，除非你有特定的理由。<br>4. 直接编辑配置文件：</p>
-<p>你也可以直接编辑 Git 的配置文件。这些文件通常位于以下位置：</p>
-<ul>
-<li><strong>全局配置</strong>：<code>~/.gitconfig</code>  </li>
-<li><strong>系统配置</strong>：<code>/etc/gitconfig</code>（Linux）或 <code>/usr/local/git/etc/gitconfig</code>（macOS）  </li>
-<li><strong>当前仓库配置</strong>：仓库目录下的 <code>.git/config</code> 文件。使用文本编辑器打开这些文件，然后进行相应的修改。</li>
-</ul>
-<p>注意：当你设置或修改配置时，Git 会尝试从多个级别（系统、全局、本地）获取配置值。如果某个配置项在多个级别都有设置，Git 会优先使用本地仓库的配置，然后是全局配置，最后是系统配置。</p>
-<h2 id="git-remote"><a href="#git-remote" class="headerlink" title="git remote"></a>git remote</h2><p><code>git remote</code>命令在Git中用于管理一组跟踪的远程仓库。它允许您查看、添加、修改和删除与您的本地仓库关联的远程仓库的配置。远程仓库通常是位于互联网或其他网络中的仓库，可以是一个中心仓库，也可以是另一个开发者的仓库，您可以从中拉取（pull）数据或向其推送（push）数据。使用<code>git remote</code>可以进行以下操作：</p>
-<ul>
-<li><p><strong>查看远程仓库</strong>：使用<code>git remote</code>或<code>git remote -v</code>命令可以列出所有已配置的远程仓库。<code>-v</code>（verbose，详细）选项会额外显示每个远程仓库的URL。</p>
-</li>
-<li><p><strong>添加远程仓库</strong>：使用<code>git remote add &lt;name&gt; &lt;url&gt;</code>命令可以添加新的远程仓库，其中<code>&lt;name&gt;</code>是您为远程仓库指定的简短名称（如<code>origin</code>），<code>&lt;url&gt;</code>是远程仓库的URL。</p>
-</li>
-<li><p><strong>更改远程仓库URL</strong>：使用<code>git remote set-url &lt;name&gt; &lt;newurl&gt;</code>命令可以更改已存在的远程仓库的URL。</p>
-</li>
-<li><p><strong>删除远程仓库</strong>：使用<code>git remote remove &lt;name&gt;</code>或<code>git remote rm &lt;name&gt;</code>命令可以删除一个远程仓库的引用。</p>
-</li>
-<li><p><strong>重命名远程仓库</strong>：使用<code>git remote rename &lt;oldname&gt; &lt;newname&gt;</code>命令可以重命名远程仓库的简称。</p>
-</li>
-</ul>
-<p>在协同工作流中，<code>git remote</code>命令是非常重要的，它使得开发者能够与远程仓库交互，共享代码和协作。例如，<code>origin</code>通常是克隆仓库时自动创建的默认远程仓库名称，代表了克隆来源的仓库。通过管理远程仓库，您可以轻松地同步本地更改到远程服务器，或者拉取他人的更改到您的本地仓库中。</p>
-<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>luluji@luluji-virtual-machine:~&#x2F;nuttxspace$ git clone <a target="_blank" rel="noopener" href="https://github.com/apache/nuttx.git">https://github.com/apache/nuttx.git</a> nuttx<br>正克隆到 ‘nuttx’…<br>fatal: 无法访问 ‘<a target="_blank" rel="noopener" href="https://github.com/apache/nuttx.git/'%EF%BC%9Agnutls_handshake()">https://github.com/apache/nuttx.git/&#39;：gnutls_handshake()</a> failed: Error in the pull function.</p>
-<p>通过安装这些库解决了：<br>sudo apt -y install build-essential nghttp2 libnghttp2-dev libssl-dev</p>
-<h2 id="顺序"><a href="#顺序" class="headerlink" title="顺序"></a>顺序</h2><p>git push之前先git pull<br>git checkout master之前先git add和commit</p>
-<h2 id="子模块"><a href="#子模块" class="headerlink" title="子模块"></a>子模块</h2><p>正在克隆子模块时就是在克隆，不会有进度条，跟卡住了似的是正常的</p>
-<p>riscv-gnu-toolchain中的子模块可换源<br><a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv28486387/">https://www.bilibili.com/read/cv28486387/</a></p>
-<p>当更改了.gitmodules文件中的子模块 URL 时，Git 不会自动更新已经克隆的子模块。如果希望使用新的 URL 克隆子模块，则需要手动更新子模块的配置。</p>
-<p>要更新子模块的配置，可以运行以下命令：<br>git submodule sync</p>
-<p>这个命令将会更新本地存储库中的 .git&#x2F;config 文件以反映.gitmodules文件中的新 URL。<br>然后，可以运行以下命令来更新子模块：<br>git submodule update –init –recursive</p>
-<p>这个命令将会使用.gitmodules文件中的新 URL 克隆或更新子模块，并递归地更新任何子模块的子模块（如果有的话）。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/02/18/tools/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/02/18/tools/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">buildroot的使用</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-02-18 12:05:12" itemprop="dateCreated datePublished" datetime="2024-02-18T12:05:12+08:00">2024-02-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-04-09 22:28:54" itemprop="dateModified" datetime="2024-04-09T22:28:54+08:00">2024-04-09</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <span id="more"></span>
-<p>在使用Buildroot构建嵌入式Linux系统时，<code>BR2_EXTERNAL</code>是一个重要的机制，它允许用户将自定义的配置、包（packages）、板级支持包（board support packages，简称BSPs）、以及其他构建脚本和文件集成到Buildroot构建过程中，而不必直接修改Buildroot的主树。这种机制非常有用，因为它使得维护自定义修改和跟踪Buildroot官方更新变得更加容易。</p>
-<h3 id="使用BR2-EXTERNAL的优势"><a href="#使用BR2-EXTERNAL的优势" class="headerlink" title="使用BR2_EXTERNAL的优势"></a>使用BR2_EXTERNAL的优势</h3><ul>
-<li><strong>模块化</strong>：允许将自定义内容和Buildroot主树分开，便于管理。</li>
-<li><strong>易于维护</strong>：更新Buildroot版本时，可以避免合并冲突，简化维护工作。</li>
-<li><strong>重用性</strong>：相同的自定义配置和包可以轻松地在多个项目之间共享和重用。</li>
-</ul>
-<h3 id="如何使用BR2-EXTERNAL"><a href="#如何使用BR2-EXTERNAL" class="headerlink" title="如何使用BR2_EXTERNAL"></a>如何使用BR2_EXTERNAL</h3><ol>
-<li><p><strong>创建外部树结构</strong>：首先，你需要创建一个目录作为你的外部树，这个目录将包含你的自定义配置和文件。外部树的推荐目录结构如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">your-external-tree/</span><br><span class="line">├── Config.in</span><br><span class="line">├── external.desc</span><br><span class="line">├── external.mk</span><br><span class="line">├── configs/</span><br><span class="line">├── board/</span><br><span class="line">├── package/</span><br><span class="line">└── fs/</span><br></pre></td></tr></table></figure>
-<p>其中<code>configs/</code>用于存放自定义的配置文件，<code>package/</code>用于存放自定义的软件包描述文件，<code>board/</code>可能包含板级特定文件，如启动脚本和覆盖层。</p>
-</li>
-<li><p><strong>设置BR2_EXTERNAL环境变量</strong>：在运行Buildroot的<code>make menuconfig</code>之前，通过环境变量<code>BR2_EXTERNAL</code>指向你的外部树目录。这可以通过在命令行中直接设置，或者添加到你的shell配置文件中：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export BR2_EXTERNAL=/path/to/your-external-tree</span><br></pre></td></tr></table></figure>
-<p>或者，在make命令中直接指定：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make BR2_EXTERNAL=/path/to/your-external-tree menuconfig</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>使用自定义配置和包</strong>：一旦设置了<code>BR2_EXTERNAL</code>，Buildroot构建系统将自动识别外部树中的配置和包。你可以在<code>make menuconfig</code>中选择这些包，或者使用外部树中定义的配置作为构建的起点。</p>
-</li>
-<li><p><strong>构建系统</strong>：使用你的配置构建系统。如果一切设置正确，Buildroot将包含你的外部树中的自定义内容进行构建。</p>
-</li>
-</ol>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
-<li><strong>多个外部树</strong>：从Buildroot 2016.11版本开始，<code>BR2_EXTERNAL</code>支持指定多个外部树路径，使用冒号(<code>:</code>)分隔。</li>
-<li><strong>版本兼容性</strong>：在使用<code>BR2_EXTERNAL</code>时，要确保外部树中的自定义内容与Buildroot的版本兼容。</li>
-</ul>
-<p>通过使用<code>BR2_EXTERNAL</code>，你可以灵活地扩展Buildroot，添加自定义功能和支持，同时保持与Buildroot主树的清晰分离，这对于项目的长期维护和升级非常有益。</p>
-<p>当使用<code>BR2_EXTERNAL</code>机制在Buildroot中引入外部树时，你需要在外部树的根目录创建一些特定的文件和目录来定义你的自定义配置、板级支持包、软件包和文件系统扩展。以下是如何组织和编写这些文件的一些基本指导：</p>
-<h3 id="1-Config-in"><a href="#1-Config-in" class="headerlink" title="1. Config.in"></a>1. Config.in</h3><p><code>Config.in</code>是一个Kconfig文件，它定义了在Buildroot配置界面中出现的选项。这个文件通常用来引入外部软件包的配置选项或者特定的配置界面。</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">menu <span class="string">&quot;My Custom Options&quot;</span></span><br><span class="line"></span><br><span class="line">config BR2_PACKAGE_MY_CUSTOM_PACKAGE</span><br><span class="line">    bool <span class="string">&quot;My custom package&quot;</span></span><br><span class="line">    help</span><br><span class="line">      This option will enable my custom package.</span><br><span class="line"></span><br><span class="line">endmenu</span><br></pre></td></tr></table></figure>
-
-<p>此文件中定义的选项可以在Buildroot的配置界面中找到，并允许用户启用或禁用特定功能。</p>
-<h3 id="2-external-desc"><a href="#2-external-desc" class="headerlink" title="2. external.desc"></a>2. external.desc</h3><p><code>external.desc</code>是Buildroot 2020.02版本后引入的新文件，用于描述外部树的元数据，如名称和描述。这个文件不是必需的，但有助于识别外部树。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">name: my-external-tree</span><br><span class="line">description: My custom external tree for Buildroot</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-external-mk"><a href="#3-external-mk" class="headerlink" title="3. external.mk"></a>3. external.mk</h3><p><code>external.mk</code>是Makefile片段，用于包含外部软件包的构建规则。这个文件会被Buildroot构建系统自动包含。</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Example of including a custom package</span></span><br><span class="line"><span class="keyword">ifeq</span> (<span class="variable">$(BR2_PACKAGE_MY_CUSTOM_PACKAGE)</span>,y)</span><br><span class="line"><span class="keyword">include</span> package/my_custom_package/my_custom_package.mk</span><br><span class="line"><span class="keyword">endif</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="4-configs"><a href="#4-configs" class="headerlink" title="4. configs&#x2F;"></a>4. configs&#x2F;</h3><p><code>configs/</code>目录包含预定义的Buildroot配置文件，这些文件可以通过<code>make &lt;config_name&gt;_defconfig</code>命令使用。这些配置文件通常用于快速配置Buildroot以使用特定的板级支持包或软件包组合。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Example of a custom defconfig file</span><br><span class="line">BR2_PACKAGE_MY_CUSTOM_PACKAGE=y</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-board"><a href="#5-board" class="headerlink" title="5. board&#x2F;"></a>5. board&#x2F;</h3><p><code>board/</code>目录包含特定于板级的文件，如启动脚本、内核配置片段或根文件系统覆盖层。</p>
-<h3 id="6-package"><a href="#6-package" class="headerlink" title="6. package&#x2F;"></a>6. package&#x2F;</h3><p><code>package/</code>目录包含自定义软件包的描述和构建规则。每个软件包目录下通常包含两个文件：<code>Config.in</code>和<code>&lt;package_name&gt;.mk</code>。</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># package/my_custom_package/Config.in</span></span><br><span class="line">config BR2_PACKAGE_MY_CUSTOM_PACKAGE</span><br><span class="line">    bool <span class="string">&quot;My custom package&quot;</span></span><br><span class="line">    help</span><br><span class="line">      My custom package description.</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># package/my_custom_package/my_custom_package.mk</span></span><br><span class="line">MY_CUSTOM_PACKAGE_VERSION = 1.0</span><br><span class="line">MY_CUSTOM_PACKAGE_SITE = <span class="variable">$(TOPDIR)</span>/path/to/my_custom_package/source</span><br><span class="line">MY_CUSTOM_PACKAGE_LICENSE = GPL-2.0+</span><br><span class="line"></span><br><span class="line"><span class="keyword">define</span> MY_CUSTOM_PACKAGE_BUILD_CMDS</span><br><span class="line">    <span class="variable">$(MAKE)</span> CC=<span class="string">&quot;<span class="variable">$(TARGET_CC)</span>&quot;</span> -C $(@D)</span><br><span class="line"><span class="keyword">endef</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">define</span> MY_CUSTOM_PACKAGE_INSTALL_TARGET_CMDS</span><br><span class="line">    <span class="variable">$(INSTALL)</span> -D -m 0755 $(@D)/my_custom_package <span class="variable">$(TARGET_DIR)</span>/usr/bin</span><br><span class="line"><span class="keyword">endef</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$(<span class="built_in">eval</span> $(generic-package)</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="7-fs"><a href="#7-fs" class="headerlink" title="7. fs&#x2F;"></a>7. fs&#x2F;</h3><p><code>fs/</code>目录用于添加自定义文件系统支持。这里可以放置生成特定类型文件系统镜像的脚本和配置。</p>
-<p>这些文件和目录为你提供了一个框架来扩展Buildroot，添加自定义板级支持、软件包和配置。确保遵循Buildroot的文档和现有的样板（boilerplate）代码来正确实现这些自定义扩展。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/02/07/tools/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/02/07/tools/vscode%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">vscode的常用操作</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-02-07 12:22:12 / 修改时间：12:23:15" itemprop="dateCreated datePublished" datetime="2024-02-07T12:22:12+08:00">2024-02-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <span id="more"></span>
-
-
-<p>A: 你本地新增的文件（服务器上没有）.<br>C: 文件的一个新拷贝.<br>D: 你本地删除的文件（服务器上还在）.<br>M: 文件的内容或者mode被修改了.<br>R: 文件名被修改了。<br>T: 文件的类型被修改了。<br>U: 文件没有被合并(你需要完成合并才能进行提交)。<br>X: 未知状态(很可能是遇到git的bug了，你可以向git提交bug report)。<br>在man git diff-files中可以查到这些标志的说明。<br>这些状态标志在git的源代码的diff.h文件中被定义。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/02/02/tools/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/02/02/tools/linux%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">linux的常用命令</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-02-02 15:17:23" itemprop="dateCreated datePublished" datetime="2024-02-02T15:17:23+08:00">2024-02-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-04-01 22:32:04" itemprop="dateModified" datetime="2024-04-01T22:32:04+08:00">2024-04-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <span id="more"></span>
-
-<h2 id="Linux根目录"><a href="#Linux根目录" class="headerlink" title="Linux根目录"></a>Linux根目录</h2><p>Linux根目录(<code>/</code>)是文件系统的最顶层目录，它包含了系统的所有其他文件和目录。每个位于根目录下的目录都有其特定的用途和约定。以下是Linux根目录下常见目录的简要说明：</p>
-<h3 id="bin"><a href="#bin" class="headerlink" title="/bin"></a><code>/bin</code></h3><p>包含用户和系统操作所需的重要可执行文件（命令），如<code>ls</code>、<code>cp</code>等。这些命令对于系统的基本功能至关重要。</p>
-<h3 id="boot"><a href="#boot" class="headerlink" title="/boot"></a><code>/boot</code></h3><p>存放启动Linux系统时使用的文件，包括Linux内核文件（通常是<code>vmlinuz</code>）、引导加载程序（如GRUB）的配置文件以及初始化RAM磁盘（initrd）。</p>
-<h3 id="dev"><a href="#dev" class="headerlink" title="/dev"></a><code>/dev</code></h3><p>包含设备文件，这些文件代表系统中的硬件设备，允许程序和脚本与这些设备进行交互，如硬盘（<code>/dev/sda</code>）、终端（<code>/dev/tty</code>）等。</p>
-<h3 id="etc"><a href="#etc" class="headerlink" title="/etc"></a><code>/etc</code></h3><p>存放系统全局配置文件，如启动脚本、网络配置文件以及各种服务和程序的配置文件。</p>
-<h3 id="home"><a href="#home" class="headerlink" title="/home"></a><code>/home</code></h3><p>用户的主目录，通常每个用户在<code>/home</code>下有一个与其用户名同名的目录，用于存放个人文件、配置文件等。</p>
-<h3 id="lib"><a href="#lib" class="headerlink" title="/lib"></a><code>/lib</code></h3><p>包含系统和应用程序运行所需的共享库文件和内核模块。共享库类似于Windows中的DLL文件。</p>
-<h3 id="media和-mnt"><a href="#media和-mnt" class="headerlink" title="/media和/mnt"></a><code>/media</code>和<code>/mnt</code></h3><p><code>/media</code>通常用于挂载可移除媒体，如CD-ROMs、USB驱动器等，而<code>/mnt</code>经常被用作临时挂载文件系统的点。</p>
-<h3 id="opt"><a href="#opt" class="headerlink" title="/opt"></a><code>/opt</code></h3><p>用于安装“可选”的软件和第三方应用程序，这些应用程序通常以包的形式独立于系统默认的软件管理。</p>
-<h3 id="proc"><a href="#proc" class="headerlink" title="/proc"></a><code>/proc</code></h3><p>一个虚拟的文件系统，提供对内核和进程信息的接口，如系统内存、配置参数（通过文件系统接口访问）。</p>
-<h3 id="root"><a href="#root" class="headerlink" title="/root"></a><code>/root</code></h3><p>超级用户（root用户）的主目录，类似于普通用户的<code>/home/用户名</code>目录，但位于根目录下。</p>
-<h3 id="sbin"><a href="#sbin" class="headerlink" title="/sbin"></a><code>/sbin</code></h3><p>包含系统管理和维护的重要可执行文件，通常只有root用户才能运行这些命令，如<code>fdisk</code>、<code>ifconfig</code>等。</p>
-<h3 id="srv"><a href="#srv" class="headerlink" title="/srv"></a><code>/srv</code></h3><p>用于存放一些服务启动之后需要的数据，这些服务直接提供给系统外部使用。</p>
-<h3 id="sys"><a href="#sys" class="headerlink" title="/sys"></a><code>/sys</code></h3><p>像<code>/proc</code>一样，<code>/sys</code>也是一个虚拟的文件系统，提供了内核对象的接口，它允许内核和用户空间通信，以及配置内核。</p>
-<h3 id="tmp"><a href="#tmp" class="headerlink" title="/tmp"></a><code>/tmp</code></h3><p>用于存放临时文件，任何用户都可以在此目录下创建和删除文件。系统可能在重启时清除此目录下的文件。</p>
-<h3 id="usr"><a href="#usr" class="headerlink" title="/usr"></a><code>/usr</code></h3><p>包含用户级别的应用程序和文件，<code>/usr</code>目录下包含了许多子目录，如<code>/usr/bin</code>、<code>/usr/lib</code>、<code>/usr/local</code>等，用于存放非必需的应用程序、库文件、文档等。</p>
-<h3 id="var"><a href="#var" class="headerlink" title="/var"></a><code>/var</code></h3><p>用于存放经常变化的文件，如日志文件（<code>/var/log</code>）、包和数据库文件（<code>/var/lib</code>）、临时电子邮件文件（<code>/var/mail</code>）等。</p>
-<p>这些目录构成了Linux文件系统的标准布局，不同的发行版可能会有轻微的变化或扩展。</p>
-<h2 id="重启网络（显示wifi图标）"><a href="#重启网络（显示wifi图标）" class="headerlink" title="重启网络（显示wifi图标）"></a>重启网络（显示wifi图标）</h2><p>$ 192.168.79.133<br>$ 192.168.79.133</p>
-<p>$ sudo nmcli network on</p>
-<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><h4 id="find"><a href="#find" class="headerlink" title="find"></a>find</h4><p>查找特定名称的文件：<br>$ find &#x2F;path&#x2F;to&#x2F;search -name “filename.txt”<br>文件：<br>-type f<br>30天内被修改过<br>-mtime -30<br>处理深度：<br>可以通过-maxdepth和-mindepth选项控制搜索的深度。</p>
-<h4 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h4><p>在文件中搜索文本：<br>$ grep “search pattern” filename</p>
-<p>递归搜索目录中的所有文件：<br>$ grep -r “search pattern” &#x2F;path&#x2F;to&#x2F;search<br>忽略大小写地搜索文本:<br>-i<br>显示匹配行的行号：<br>-n</p>
-<h2 id="exec"><a href="#exec" class="headerlink" title="exec"></a>exec</h2><p>-exec后面跟着要执行的命令，然后是{}，它代表当前处理的文件名，最后以;结束</p>
-<p>查找名为config.php的文件，并使用chmod命令更改它们的权限：<br>$ find &#x2F;path&#x2F;to&#x2F;search -type f -name “config.php” -exec chmod 644 {} ;</p>
-<p>使用;来终结-exec命令是必须的，因为没有它，find命令就不知道-exec选项的参数在哪里结束。</p>
-<h2 id=""><a href="#" class="headerlink" title="|"></a>|</h2><p>管道（|）是一个Shell特性，它允许你将一个命令的输出作为另一个命令的输入。与-exec不同，管道通常与xargs命令一起使用，xargs可以将标准输入（stdin）转换为命令行参数。</p>
-<p>xargs主要用于将标准输入数据转换为命令行参数。在你的场景中，由于grep可以直接从标准输入读取数据进行搜索，实际上不需要xargs来实现这一功能。<br>qemu-system-riscv64 -help | grep “machine”</p>
-<p>查找当前目录及子目录下所有.log文件，并使用grep命令在它们中搜索”error”字符串：<br>$ find . -type f -name “*.log” | xargs grep “error”<br>xargs命令的-0（或–null）选项期望输入项以null字符（\0）分隔，这通常与find … -print0命令一起使用。</p>
-<p>性能：使用-exec时，find会为每个找到的文件启动一个新的进程来执行指定的命令。而管道到xargs的方式会尝试减少进程的数量，通过将多个文件名作为单个命令的参数来提高效率。<br>安全性：-exec直接由find处理，可以安全地处理文件名中的特殊字符。而使用管道到xargs时，如果不加-0选项（并且find使用-print0），可能会遇到文件名中包含空格、换行符等特殊字符的问题。<br>灵活性：管道允许你利用Shell的特性组合多个命令，可以实现更复杂的处理流程。<br>选择使用-exec还是管道（配合xargs），取决于具体的任务需求、对性能的考量以及对特殊文件名的处理需求。</p>
-<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>查看所有Git配置项：<br>$ git config –list<br>user.name&#x3D;LuLuji04<br>user.email&#x3D;<a href="mailto:&#108;&#105;&#117;&#x79;&#x75;&#106;&#105;&#x30;&#49;&#x30;&#x40;&#49;&#x32;&#54;&#46;&#x63;&#x6f;&#x6d;">&#108;&#105;&#117;&#x79;&#x75;&#106;&#105;&#x30;&#49;&#x30;&#x40;&#49;&#x32;&#54;&#46;&#x63;&#x6f;&#x6d;</a><br>https.proxy&#x3D;192.168.3.11:7890<br>credential.helper&#x3D;store<br>http.proxy&#x3D;192.168.3.11:7890<br>core.editor&#x3D;vim<br>color.ui&#x3D;true</p>
-<p>查看特定配置项的值，如user.name：<br>$ git config user.name</p>
-<p>$ git config –global user.name “Your Name”<br>$ git config –global user.email “<a href="mailto:&#121;&#x6f;&#x75;&#x72;&#x65;&#109;&#x61;&#105;&#108;&#x40;&#101;&#x78;&#97;&#x6d;&#x70;&#x6c;&#101;&#46;&#x63;&#x6f;&#x6d;">&#121;&#x6f;&#x75;&#x72;&#x65;&#109;&#x61;&#105;&#108;&#x40;&#101;&#x78;&#97;&#x6d;&#x70;&#x6c;&#101;&#46;&#x63;&#x6f;&#x6d;</a>“</p>
-<h2 id="man"><a href="#man" class="headerlink" title="man"></a>man</h2><p>man 手册的数字编号</p>
-<p>man 1 kill、man 2 kill，这些命令都是查看 kill 命令的手册，但是文档却大不相同。</p>
-<p>因为 kill 是一个命令行的工具，which kill 看到 &#x2F;usr&#x2F;bin&#x2F;kill 是一个二进制文件；其实，也有一个系统调用叫做 kill。</p>
-<p>man 1 kill 显示的是命令行工具 kill 的手册；</p>
-<p>man 2 kill 显示系统调用 kill 的手册；</p>
-<p>显示什么类型的手册，由 man 和命令中间的数字决定，目前共有 9 个 man 支持的数字。<br>数字	说明<br>1	可执行程序或 Shell 命令<br>2	系统调用（内核提供的函数）<br>3	库调用<br>4	特殊文件（通常位于 &#x2F;dev 目录）<br>5	文件格式和约定（比如 &#x2F;etc&#x2F;passwd）<br>6	游戏<br>7	杂项（包和一些约定）Miscellaneous (including macro packages and conventions), e.g. man(7), groff(7)<br>8	系统管理命令（通常是 root 用户执行的命令）<br>9	内核相关的文件 Kernel routines [Non standard]</p>
-<p>@&#x2F;bin&#x2F;echo -e “NAME &#x3D; $*\nSRCS &#x3D; $&lt;\ninclude $${AM_HOME}&#x2F;Makefile” &gt; $@:</p>
-<p>这一行创建了一个新的Makefile，其中包含了被规则匹配的测试文件的名称（$*，表示不带前缀的目标名称）和路径（$&lt;，表示规则的第一个依赖）。<br>$${AM_HOME}是环境变量AM_HOME的引用，这里使用两个$是为了在Makefile中延迟变量的扩展。<br>输出重定向到$@，即目标文件Makefile.<name>。</p>
-<h2 id="if"><a href="#if" class="headerlink" title="if"></a>if</h2><p>@if make -s -f $@ ARCH&#x3D;$(ARCH) $(MAKECMDGOALS); then <br>        printf “[%14s] $(COLOR_GREEN)PASS!$(COLOR_NONE)\n” $* &gt;&gt; $(RESULT); <br>    else <br>        printf “[%14s] $(COLOR_RED)FAIL!$(COLOR_NONE)\n” $* &gt;&gt; $(RESULT); <br>    fi<br>这里使用make命令来执行刚刚生成的Makefile（-f $@），传递ARCH变量和当前的目标（$(MAKECMDGOALS)）。<br>-s选项使make在执行时不打印命令，只显示错误和警告。</p>
-<h2 id="tr"><a href="#tr" class="headerlink" title="tr"></a>tr</h2><p>这段代码是在 Makefile 中使用的，它的目的是根据 <code>ARCH</code> 变量的值生成一个编译器的预处理器定义。让我们逐步解析它的含义：</p>
-<ul>
-<li><code>$(shell command)</code>：Makefile 中的 <code>shell</code> 函数执行一个 shell 命令，并返回命令的输出。在这个上下文中，它执行了两次 <code>tr</code> 命令。</li>
-<li><code>echo $(ARCH)</code>：输出 <code>ARCH</code> 变量的值。<code>ARCH</code> 是一个常见的环境变量，用于指示目标架构类型，如 <code>x86</code>、<code>arm</code> 等。</li>
-<li><code>tr a-z A-Z</code>：将小写字母转换为大写字母。这意味着如果 <code>ARCH</code> 是小写的（如 <code>x86</code>），它会被转换为大写的（<code>X86</code>）。</li>
-<li><code>tr - _</code>：将短划线（<code>-</code>）转换为下划线（<code>_</code>）。这是因为在C预处理器定义中，短划线不是一个有效的字符。</li>
-</ul>
-<p>将这些组合起来：</p>
-<ul>
-<li><code>-D__ARCH_$(shell echo $(ARCH) | tr a-z A-Z | tr - _)</code></li>
-</ul>
-<p>这将创建一个预处理器定义，其名称基于 <code>ARCH</code> 环境变量的值，但所有的小写字母都被转换成了大写，所有的短划线都被转换成了下划线，前缀为 <code>__ARCH_</code>。例如，如果 <code>ARCH=x86-64</code>，这个定义将会是 <code>-D__ARCH_X86_64</code>。</p>
-<p>这样的预处理器定义可以在编译时提供目标架构的信息，使得源代码可以根据不同的架构进行条件编译。这是在跨平台开发中常见的做法，特别是在需要根据不同硬件架构调整编译选项和优化的情况下。</p>
-<h2 id="grep-1"><a href="#grep-1" class="headerlink" title="grep"></a>grep</h2><p>grep -rnw ‘&#x2F;path&#x2F;to&#x2F;somewhere&#x2F;‘ -e ‘function_name’<br>这个命令会在指定路径</p>
-<h2 id="用户管理基本操作"><a href="#用户管理基本操作" class="headerlink" title="用户管理基本操作"></a>用户管理基本操作</h2><p>以下是一些基本的用户管理操作：</p>
-<h4 id="1-修改用户信息"><a href="#1-修改用户信息" class="headerlink" title="1. 修改用户信息"></a>1. 修改用户信息</h4><p>如果需要修改用户的信息（比如更改家目录、登录Shell等），可以使用 <code>usermod</code> 命令。例如，更改用户的Shell为 <code>/bin/zsh</code>：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -s /bin/zsh userl</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-更改密码"><a href="#2-更改密码" class="headerlink" title="2. 更改密码"></a>2. 更改密码</h4><p>更改用户密码，可以使用 <code>passwd</code> 命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo passwd userl</span><br></pre></td></tr></table></figure>
-
-<p>然后按照提示输入新密码。</p>
-<h4 id="3-删除用户"><a href="#3-删除用户" class="headerlink" title="3. 删除用户"></a>3. 删除用户</h4><p>如果要删除用户，可以使用 <code>userdel</code> 命令。如果同时想删除用户的家目录，可以添加 <code>-r</code> 选项：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo userdel -r userl</span><br></pre></td></tr></table></figure>
-
-<h4 id="4-用户组管理"><a href="#4-用户组管理" class="headerlink" title="4. 用户组管理"></a>4. 用户组管理</h4><ul>
-<li><p><strong>添加用户到组</strong>：使用 <code>usermod -aG</code> 命令将用户添加到一个或多个附加组中：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -aG groupname userl</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>创建新组</strong>：使用 <code>groupadd</code> 命令创建新组：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd groupname</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>删除组</strong>：使用 <code>groupdel</code> 命令删除现有组：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo groupdel groupname</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="5-查看用户信息"><a href="#5-查看用户信息" class="headerlink" title="5. 查看用户信息"></a>5. 查看用户信息</h4><ul>
-<li><p>查看用户的当前设置，包括用户ID、组ID、家目录等，可以使用 <code>id</code> 命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">id</span> userl</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看系统中所有用户的列表，可以查看 <code>/etc/passwd</code> 文件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /etc/passwd</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看所有组的列表，可以查看 <code>/etc/group</code> 文件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /etc/group</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p>用户管理是Linux系统管理中的一个重要部分，了解和掌握基本的用户和组管理命令对于维护系统的安全性和有效性至关重要。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/21/ysyx/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/21/ysyx/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99/" class="post-title-link" itemprop="url">一生一芯相关资料</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-01-21 00:00:00" itemprop="dateCreated datePublished" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-01-21 15:08:38" itemprop="dateModified" datetime="2025-01-21T15:08:38+08:00">2025-01-21</time>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -704,7 +234,7 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ysyx/%E8%B5%84%E6%96%99/" itemprop="url" rel="index"><span itemprop="name">资料</span></a>
+                  <a href="/categories/ysyx/SoC%E8%AE%BE%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">SoC设计</span></a>
                 </span>
             </span>
 
@@ -719,10 +249,10 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>准备寒假有空研究一下</p>
+          <p>研究和分析其他开源SoC项目的设计和实现，包括外设接口和系统架构。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2024/01/21/ysyx/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99/#more" rel="contents">
+              <a class="btn" href="/2023/11/29/ysyx/ysyxsoc/%E5%85%B6%E4%BB%96soc/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -746,7 +276,7 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/21/tools/makefile%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/29/ysyx/ysyxsoc/sdram/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
@@ -760,7 +290,7 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2024/01/21/tools/makefile%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">Makefile的常用操作</a>
+            <a href="/2023/11/29/ysyx/ysyxsoc/sdram/" class="post-title-link" itemprop="url">SDRAM控制器实现</a>
         </h2>
 
         <div class="post-meta">
@@ -770,8 +300,349 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2024-01-21 00:00:00" itemprop="dateCreated datePublished" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
+              <time title="创建时间：2023-11-29 00:00:00" itemprop="dateCreated datePublished" datetime="2023-11-29T00:00:00+08:00">2023-11-29</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ysyx/" itemprop="url" rel="index"><span itemprop="name">ysyx</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ysyx/%E5%AD%98%E5%82%A8%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">存储器</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>SDRAM控制器的实现与优化，包括配置切换、时序控制、突发传输等功能的详细说明。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/11/29/ysyx/ysyxsoc/sdram/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/27/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/nemu-npc-ysyxsoc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/27/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/nemu-npc-ysyxsoc/" class="post-title-link" itemprop="url">NEMU-NPC-YSYXSoC性能对比</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-11-27 00:00:00" itemprop="dateCreated datePublished" datetime="2023-11-27T00:00:00+08:00">2023-11-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ysyx/" itemprop="url" rel="index"><span itemprop="name">ysyx</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="切换清单"><a href="#切换清单" class="headerlink" title="切换清单"></a>切换清单</h1><p>1.npc-chisel&#x2F;nemu中make menuconfig切换SoC和nemu的运行target<br>2.npc-chisel 修改代码里的ysyxSoC &#x3D; true&#x2F;false</p>
+<p>#切换用几个sdram<br>1.ysyxsoc&#x2F;perip&#x2F;sdram<br>2.ysyxsoc&#x2F;src&#x2F;device&#x2F;SDRAM.scala</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/17/ysyx/ysyxsoc/psram/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/17/ysyx/ysyxsoc/psram/" class="post-title-link" itemprop="url">PSRAM控制器实现</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-11-17 00:00:00" itemprop="dateCreated datePublished" datetime="2023-11-17T00:00:00+08:00">2023-11-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ysyx/" itemprop="url" rel="index"><span itemprop="name">ysyx</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ysyx/%E5%AD%98%E5%82%A8%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">存储器</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>PSRAM控制器的实现与二级加载机制的详细说明。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/11/17/ysyx/ysyxsoc/psram/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/09/course/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/09/course/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" class="post-title-link" itemprop="url">人工智能课程笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-09 00:00:00" itemprop="dateCreated datePublished" datetime="2023-05-09T00:00:00+08:00">2023-05-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/course/" itemprop="url" rel="index"><span itemprop="name">course</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/course/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>为应付期末人工智能论文，记录一下有用的网站，以防忘记</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/05/09/course/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/07/tools/git%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/07/tools/git%E7%9A%84%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">Git版本控制使用指南</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-07 00:00:00" itemprop="dateCreated datePublished" datetime="2023-05-07T00:00:00+08:00">2023-05-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -782,7 +653,7 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tools/build/" itemprop="url" rel="index"><span itemprop="name">build</span></a>
+                  <a href="/categories/tools/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" itemprop="url" rel="index"><span itemprop="name">版本控制</span></a>
                 </span>
             </span>
 
@@ -797,360 +668,10 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
     <div class="post-body" itemprop="articleBody">
 
       
-          <span id="more"></span>
-
-<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><h4 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h4><p>如何将多个对象文件（.o文件，由${OBJS}变量表示）链接成一个可执行文件（os.elf），然后将该可执行文件转换成二进制格式的镜像文件（os.bin）<br>os.elf: ${OBJS}<br>    ${CC} ${CFLAGS} -T os.ld -o os.elf $^<br>    ${OBJCOPY} -O binary os.elf os.bin</p>
-<p>-T os.ld：指定链接脚本os.ld。链接脚本用于控制链接过程，如指定各个段（如代码段、数据段）的位置。<br>-o os.elf：指定输出文件的名称为os.elf。<br>$^：这是Makefile的自动变量，表示所有的依赖项，这里指${OBJS}变量中列出的所有对象文件。</p>
-<p>${OBJCOPY}：这是GNU Binutils工具集中objcopy程序的变量，用于进行文件格式转换。<br>-O binary：指定输出格式为二进制。objcopy可以将ELF格式（或其他格式）的文件转换为纯二进制格式，这对于裸机程序来说是必需的，因为硬件通常直接执行二进制代码。<br>os.elf：输入文件，即上一步生成的ELF格式的可执行文件。<br>os.bin：输出文件，转换成二进制格式后的文件名。</p>
-<h4 id="定义编译核心数"><a href="#定义编译核心数" class="headerlink" title="定义编译核心数"></a>定义编译核心数</h4><p>NPROC			:&#x3D; $(shell nproc 2&gt;&#x2F;dev&#x2F;null || echo 1)</p>
-<p>这行Makefile代码定义了一个变量NPROC，它的目的是确定可以用于并行编译的处理器（CPU核心）数量。这个变量通常用于make命令的-j选项，以加速编译过程。让我们分解这行代码的各个部分：</p>
-<p>$(shell …)：shell函数执行一个Shell命令，并将输出作为结果返回。在这个上下文中，它尝试执行nproc命令。</p>
-<p>nproc：这是一个在多种Unix-like系统上可用的命令，用于打印系统上可用的处理单元数量（通常是CPU核心数量）。它是确定可用于并行编译作业数的常用方法。</p>
-<p>2&gt;&#x2F;dev&#x2F;null：这部分将标准错误（stderr）重定向到&#x2F;dev&#x2F;null，意味着如果命令失败（例如，在某些环境中nproc命令不存在），错误信息不会被显示。</p>
-<p>|| echo 1：这是一个逻辑或操作，如果nproc命令执行失败（返回非零退出状态），则执行echo 1。这意味着如果无法确定处理器数量，就假设只有1个可用的处理单元。</p>
-<p>:&#x3D;$(shell …)：使用:&#x3D;进行变量赋值表示立即求值，这意味着NPROC变量将在Makefile解析时被设置为nproc命令的输出，或者在nproc不可用的情况下被设置为1。</p>
-<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><p>这些是GCC编译器的选项，用于控制编译过程的各个方面。以下是每个选项的简要解释：</p>
-<h5 id="MMD"><a href="#MMD" class="headerlink" title="-MMD"></a><code>-MMD</code></h5><p>这个选项告诉编译器为每个源文件生成一个<code>.d</code>文件，其中包含了源文件中包含的头文件列表。这对于make工具自动解析文件依赖关系非常有用，帮助确保当头文件改变时，相关的源文件会被重新编译。</p>
-<h5 id="Werror"><a href="#Werror" class="headerlink" title="-Werror"></a><code>-Werror</code></h5><p>将所有的警告转化为错误。这意味着，如果编译器发现任何警告，它将停止编译过程，并将这些警告视为错误处理。这有助于维持代码质量，确保开发者不会忽略编译器的警告。</p>
-<h5 id="fno-asynchronous-unwind-tables"><a href="#fno-asynchronous-unwind-tables" class="headerlink" title="-fno-asynchronous-unwind-tables"></a><code>-fno-asynchronous-unwind-tables</code></h5><p>禁用生成异步异常展开表。这会减小生成的二进制文件大小，但可能会影响异常处理和程序调试。</p>
-<h5 id="fno-builtin"><a href="#fno-builtin" class="headerlink" title="-fno-builtin"></a><code>-fno-builtin</code></h5><p>告诉编译器不要认为任何函数是内建的，即使编译器有内建的优化版本。这确保了对函数的调用不会被替换为编译器的内建版本，有助于避免潜在的优化导致的问题。</p>
-<h5 id="fno-stack-protector"><a href="#fno-stack-protector" class="headerlink" title="-fno-stack-protector"></a><code>-fno-stack-protector</code></h5><p>禁用栈保护。默认情况下，GCC会为防止栈溢出攻击而插入特殊的安全检查代码。使用这个选项会禁用这些检查，可能会使得程序更容易受到栈溢出攻击。</p>
-<h5 id="Wno-main"><a href="#Wno-main" class="headerlink" title="-Wno-main"></a><code>-Wno-main</code></h5><p>禁止关于<code>main</code>函数的警告。正常情况下，如果编译器发现<code>main</code>函数的声明不符合标准，会发出警告。这个选项会禁止这类警告。</p>
-<h5 id="U-FORTIFY-SOURCE"><a href="#U-FORTIFY-SOURCE" class="headerlink" title="-U_FORTIFY_SOURCE"></a><code>-U_FORTIFY_SOURCE</code></h5><p>取消定义宏<code>_FORTIFY_SOURCE</code>。当定义了<code>_FORTIFY_SOURCE</code>宏时，GCC会启用一些额外的检查来防止缓冲区溢出等问题。使用<code>-U_FORTIFY_SOURCE</code>可以取消这些额外的检查。</p>
-<h5 id="fvisibility-hidden"><a href="#fvisibility-hidden" class="headerlink" title="-fvisibility=hidden"></a><code>-fvisibility=hidden</code></h5><p>设置默认的符号可见性为隐藏。这意味着，除非显式地标记为可见，否则链接时不会导出符号。这有助于减小最终二进制文件的大小，并可能改善加载时间和防止符号冲突。</p>
-<p>这些选项通常在构建需要精细控制编译过程的项目时使用，如操作系统内核、嵌入式系统或安全敏感的应用程序。它们有助于优化生成的代码，增强安全性和性能。</p>
-<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>在Makefile中，GNU <code>make</code> 提供了一系列内置函数，用于处理文件名、目标对象和依赖项。这些函数可以帮助你简化规则的书写、处理字符串和文件名、以及执行列表的操作等。以下是一些处理目标对象时常用的函数：</p>
-<h3 id="1-patsubst-pattern-replacement-text"><a href="#1-patsubst-pattern-replacement-text" class="headerlink" title="1. $(patsubst pattern,replacement,text)"></a>1. <code>$(patsubst pattern,replacement,text)</code></h3><p>用于模式字符串替换。它搜索<code>text</code>中的单词，将符合<code>pattern</code>的部分替换为<code>replacement</code>。</p>
-<p>例子：将所有的<code>.c</code>文件扩展名替换为<code>.o</code>。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OBJS := <span class="variable">$(<span class="built_in">patsubst</span> %.c,%.o,<span class="variable">$(SRCS)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-wildcard-pattern"><a href="#2-wildcard-pattern" class="headerlink" title="2. $(wildcard pattern)"></a>2. <code>$(wildcard pattern)</code></h3><p>用于匹配符合<code>pattern</code>的文件名。</p>
-<p>例子：获取当前目录下所有的<code>.c</code>文件。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SRCS := <span class="variable">$(<span class="built_in">wildcard</span> *.c)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-dir-names"><a href="#3-dir-names" class="headerlink" title="3. $(dir names...)"></a>3. <code>$(dir names...)</code></h3><p>提取文件名列表<code>names</code>中每个文件的目录部分。</p>
-<p>例子：获取所有源文件的目录。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SRC_DIRS := <span class="variable">$(<span class="built_in">dir</span> <span class="variable">$(SRCS)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="4-notdir-names"><a href="#4-notdir-names" class="headerlink" title="4. $(notdir names...)"></a>4. <code>$(notdir names...)</code></h3><p>从文件名列表<code>names</code>中去除所有的目录部分，只留下文件名。</p>
-<p>例子：从完整路径列表中提取文件名。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SRC_FILES := <span class="variable">$(<span class="built_in">notdir</span> <span class="variable">$(SRCS)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="5-addprefix-prefix-names"><a href="#5-addprefix-prefix-names" class="headerlink" title="5. $(addprefix prefix,names...)"></a>5. <code>$(addprefix prefix,names...)</code></h3><p>给<code>names</code>列表中的每个单词添加前缀<code>prefix</code>。</p>
-<p>例子：给所有目标文件添加路径前缀。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OBJS := <span class="variable">$(<span class="built_in">addprefix</span> obj/,$(<span class="built_in">notdir</span> $(SRCS:.c=.o)</span>))</span><br></pre></td></tr></table></figure>
-
-<h3 id="6-addsuffix-suffix-names"><a href="#6-addsuffix-suffix-names" class="headerlink" title="6. $(addsuffix suffix,names...)"></a>6. <code>$(addsuffix suffix,names...)</code></h3><p>给<code>names</code>列表中的每个单词添加后缀<code>suffix</code>。</p>
-<p>例子：给所有模块名添加<code>.o</code>后缀。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MOD_OBJS := <span class="variable">$(<span class="built_in">addsuffix</span> .o,<span class="variable">$(MODULES)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="7-filter-pattern-text"><a href="#7-filter-pattern-text" class="headerlink" title="7. $(filter pattern...,text)"></a>7. <code>$(filter pattern...,text)</code></h3><p>从<code>text</code>中选择符合<code>pattern</code>的单词。</p>
-<p>例子：从所有文件中筛选出<code>.c</code>和<code>.h</code>文件。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C_AND_H_FILES := <span class="variable">$(<span class="built_in">filter</span> %.c %.h,<span class="variable">$(FILES)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="8-filter-out-pattern-text"><a href="#8-filter-out-pattern-text" class="headerlink" title="8. $(filter-out pattern...,text)"></a>8. <code>$(filter-out pattern...,text)</code></h3><p>从<code>text</code>中去除符合<code>pattern</code>的单词。</p>
-<p>例子：从所有文件中去除<code>.o</code>文件。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NON_O_FILES := <span class="variable">$(<span class="built_in">filter</span>-out %.o,<span class="variable">$(FILES)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="9-sort-list"><a href="#9-sort-list" class="headerlink" title="9. $(sort list)"></a>9. <code>$(sort list)</code></h3><p>将<code>list</code>中的单词排序并去除重复的单词。</p>
-<p>例子：排序并去重源文件列表。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UNIQUE_SRCS := <span class="variable">$(<span class="built_in">sort</span> <span class="variable">$(SRCS)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="10-foreach-var-list-text"><a href="#10-foreach-var-list-text" class="headerlink" title="10. $(foreach var,list,text)"></a>10. <code>$(foreach var,list,text)</code></h3><p>对<code>list</code>中的每个单词执行<code>text</code>中的表达式，其中<code>var</code>作为当前单词的变量。</p>
-<p>例子：为每个源文件打印一条编译信息。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">foreach</span> src,<span class="variable">$(SRCS)</span>,echo Compiling <span class="variable">$(src)</span>;)</span></span><br></pre></td></tr></table></figure>
-
-<p>在Makefile中，使用一些高效的表达式和技巧可以大大提高构建系统的灵活性和可维护性。以下是一些常用的表达式和技巧，它们可以帮助你更有效地编写Makefile。</p>
-<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><h3 id="1-使用变量简化文件列表"><a href="#1-使用变量简化文件列表" class="headerlink" title="1. 使用变量简化文件列表"></a>1. 使用变量简化文件列表</h3><p>定义变量来简化文件列表的管理，使得在多个地方引用时不需要重复书写。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SRCS := main.c foo.c bar.c</span><br><span class="line">OBJS := $(SRCS:.c=.o)</span><br></pre></td></tr></table></figure>
-
-<p>这里，<code>.c</code>文件列表被赋值给<code>SRCS</code>变量，然后使用模式替换将<code>.c</code>后缀替换为<code>.o</code>生成对象文件列表，并赋值给<code>OBJS</code>变量。</p>
-<h3 id="2-使用通配符自动获取文件列表"><a href="#2-使用通配符自动获取文件列表" class="headerlink" title="2. 使用通配符自动获取文件列表"></a>2. 使用通配符自动获取文件列表</h3><p>使用<code>wildcard</code>函数自动获取目录下的文件列表，避免手动列出。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SRCS := <span class="variable">$(<span class="built_in">wildcard</span> src/*.c)</span></span><br><span class="line">OBJS := $(SRCS:.c=.o)</span><br></pre></td></tr></table></figure>
-
-<p>$(wildcard .config)是一个Makefile函数，用于查找当前目录下名为.config的文件。如果找到文件，则返回文件的完整路径；如果没有找到，则返回空。</p>
-<h3 id="3-自动变量简化规则"><a href="#3-自动变量简化规则" class="headerlink" title="3. 自动变量简化规则"></a>3. 自动变量简化规则</h3><p>使用自动变量简化规则的书写。例如<code>$@</code>代表规则的目标，<code>$&lt;</code>代表第一个依赖，<code>$^</code>代表所有依赖。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">app: <span class="variable">$(OBJS)</span></span></span><br><span class="line">	<span class="variable">$(CC)</span> -o <span class="variable">$@</span> <span class="variable">$^</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="4-使用模式规则"><a href="#4-使用模式规则" class="headerlink" title="4. 使用模式规则"></a>4. 使用模式规则</h3><p>模式规则可以应用于匹配模式的目标，使得规则更加通用。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">%.o: %.c</span></span><br><span class="line">	<span class="variable">$(CC)</span> -c <span class="variable">$&lt;</span> -o <span class="variable">$@</span></span><br></pre></td></tr></table></figure>
-
-<p>这条规则表示任何<code>.o</code>文件都依赖于同名的<code>.c</code>文件，并描述了如何从<code>.c</code>文件构建<code>.o</code>文件。</p>
-<p>$*，表示不带前缀的目标名称）<br>$&lt;，表示规则的第一个依赖</p>
-<h3 id="5-条件判断"><a href="#5-条件判断" class="headerlink" title="5. 条件判断"></a>5. 条件判断</h3><p>使用条件判断来根据不同的条件选择不同的操作。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ifeq</span> (<span class="variable">$(DEBUG)</span>,yes)</span><br><span class="line">CFLAGS += -g</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">CFLAGS += -O2</span><br><span class="line"><span class="keyword">endif</span></span><br></pre></td></tr></table></figure>
-
-<p>根据<code>DEBUG</code>变量的值，调整编译标志。</p>
-<h3 id="6-函数使用"><a href="#6-函数使用" class="headerlink" title="6. 函数使用"></a>6. 函数使用</h3><p>Makefile提供了许多内置函数，如<code>filter</code>、<code>patsubst</code>等，用于处理文本和文件名。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DEBUG_SRCS := <span class="variable">$(<span class="built_in">filter</span> %_debug.c,<span class="variable">$(SRCS)</span>)</span></span><br><span class="line">RELEASE_SRCS := <span class="variable">$(<span class="built_in">filter</span>-out %_debug.c,<span class="variable">$(SRCS)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>使用<code>filter</code>和<code>filter-out</code>函数来区分调试和发布的源文件。</p>
-<h3 id="8-多目标规则"><a href="#8-多目标规则" class="headerlink" title="8. 多目标规则"></a>8. 多目标规则</h3><p>一个规则可以有多个目标，用于执行相同的命令序列构建多个目标。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">all: prog1 prog2</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="9-PHONY目标"><a href="#9-PHONY目标" class="headerlink" title="9. .PHONY目标"></a>9. .PHONY目标</h3><p>使用<code>.PHONY</code>声明伪目标，以避免与同名文件冲突。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"><span class="keyword">.PHONY</span>: clean</span></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm -f <span class="variable">$(OBJS)</span> app</span><br></pre></td></tr></table></figure>
-
-
-
-<p>在Makefile中，处理字符串和变量的几个有用概念包括子集（<code>subset</code>）、单词（<code>word</code>）操作和变量类型的检查（<code>flavor</code>）。虽然Makefile本身不直接提供名为<code>subset</code>的函数，但是可以通过组合使用其他函数来实现子集选择等操作。下面是对<code>word</code>函数和<code>flavor</code>函数的解释，以及如何模拟实现子集选择的示例。</p>
-<p>在Makefile中，$(subst from,to,text)函数用于文本替换，它在text字符串中将所有出现的from字符串替换为to字符串。在你提供的表达式：</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ARCH_SPLIT = <span class="variable">$(<span class="built_in">subst</span> -, ,<span class="variable">$(ARCH)</span>)</span></span><br></pre></td></tr></table></figure>
-<p>这行代码的作用是将变量ARCH中的所有破折号（-）替换为空格。这种替换通常用于处理类似于x86_64-linux-gnu这样的复合体系结构名称或其他用破折号连接的字符串，目的是将它们拆分为由空格分隔的单词列表，以便于后续操作或查询。</p>
-<h3 id="word-函数"><a href="#word-函数" class="headerlink" title="word 函数"></a>word 函数</h3><p><code>word</code>函数用于从以空格分隔的单词列表中选取第<code>n</code>个单词。其语法如下：</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">word</span> n,text)</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>n</code>是要选取的单词的位置（从1开始计数）。</li>
-<li><code>text</code>是单词列表。</li>
-</ul>
-<p>例如，如果你有一个文件列表，想要选取第二个文件名，可以这样做：</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FILES := file1.c file2.c file3.c</span><br><span class="line">SECOND_FILE := <span class="variable">$(<span class="built_in">word</span> 2,<span class="variable">$(FILES)</span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>这里，<code>SECOND_FILE</code>的值将是<code>file2.c</code>。</p>
-<h3 id="flavor-函数"><a href="#flavor-函数" class="headerlink" title="flavor 函数"></a>flavor 函数</h3><p><code>flavor</code>函数用于查询变量的类型。Makefile中的变量可以是简单展开的（<code>simple</code>）、递归展开的（<code>recursive</code>）、环境变量（<code>environment</code>）、命令行定义的（<code>command line</code>）等。</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">flavor</span> variable-name)</span></span><br></pre></td></tr></table></figure>
-<p>例如：</p>
-<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">VAR := simple</span><br><span class="line">VAR2 = recursive</span><br><span class="line"><span class="variable">$(info $(<span class="built_in">flavor</span> VAR)</span>)  <span class="comment"># 输出 simple</span></span><br><span class="line"><span class="variable">$(info $(<span class="built_in">flavor</span> VAR2)</span>) <span class="comment"># 输出 recursive</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="override"><a href="#override" class="headerlink" title="override"></a>override</h3><p>override ARGS ?&#x3D; …行使用了条件赋值操作符?&#x3D;, 它只在ARGS未定义时设置值。override关键字用于确保即使在命令行中定义了ARGS变量，这个赋值也会生效。</p>
-<h3 id=""><a href="#" class="headerlink" title="::"></a>::</h3><p>$(BINARY):: compile_git<br>这里定义了一个目标$(BINARY)，它有一个额外的依赖compile_git。$(BINARY)很可能是一个变量，表示要构建的二进制文件的名字。使用::而不是单个:定义规则，表示这是一个终端规则（Terminal Rule），它允许同一个目标有多个独立的规则定义，这些规则都会被执行。</p>
-<h2 id="MAKE"><a href="#MAKE" class="headerlink" title="$(MAKE)"></a>$(MAKE)</h2><p>$(MAKE) -C $(NEMU_HOME):</p>
-<p>$(MAKE)是一个特殊变量，代表make工具的名称，通常就是make。这允许在Makefile中递归地调用make。<br>-C $(NEMU_HOME)选项告诉make更改到目录$(NEMU_HOME)然后执行后续的make操作。$(NEMU_HOME)应该是一个变量，它指定了NEMU（一个可能的模拟器或工具链）的根目录。</p>
-<h2 id="if-s"><a href="#if-s" class="headerlink" title="if [-s.. ]"></a>if [-s.. ]</h2><p>在 shell 脚本中，[ -s … ] 是一个条件测试，用于检查文件的大小是否非零（即文件是否存在且至少有一个字节）。-s 是这个测试中的特定选项。</p>
-<p>除了 -s 之外，还有很多其他的文件测试操作符可以在 [ … ] 或 [[ … ]] 中使用（注意 [ 和 ] 之间应有空格）。以下是一些常见的文件测试操作符：</p>
-<pre><code>-e：文件存在
--f：文件是一个常规文件（不是目录、设备文件等）
--d：文件是一个目录
--r：文件存在且可读
--w：文件存在且可写
--x：文件存在且可执行
--L：文件是一个符号链接
--S：文件是一个套接字
--b：文件是一个块特殊文件
--c：文件是一个字符特殊文件
--p：文件是一个命名管道（FIFO）
--N：文件自上次读取后已被修改
--O：文件由当前用户拥有
--G：文件的组与当前用户相同
-</code></pre>
-<p>此外，还有一些数字比较和字符串比较操作符等。</p>
-<p>例如，如果你想检查一个文件是否存在并且是一个目录，你可以使用：</p>
-<p>bash<br>if [ -d “&#x2F;path&#x2F;to&#x2F;directory” ]; then<br>    echo “It’s a directory!”<br>fi</p>
-<p>希望这能帮助你理解 [ … ] 中的各种文件测试操作符。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/26/tools/%E9%85%8D%E7%BD%AE%E9%AB%98%E7%BA%A7%E8%BD%AF%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/26/tools/%E9%85%8D%E7%BD%AE%E9%AB%98%E7%BA%A7%E8%BD%AF%E4%BB%B6/" class="post-title-link" itemprop="url">配置高级软件</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-12-26 16:07:25" itemprop="dateCreated datePublished" datetime="2023-12-26T16:07:25+08:00">2023-12-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-05-08 22:11:32" itemprop="dateModified" datetime="2024-05-08T22:11:32+08:00">2024-05-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <span id="more"></span>
-
-<h2 id="VSCode关联VIVADO编辑Verilog"><a href="#VSCode关联VIVADO编辑Verilog" class="headerlink" title="VSCode关联VIVADO编辑Verilog"></a>VSCode关联VIVADO编辑Verilog</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wd12306/article/details/128929552">https://blog.csdn.net/wd12306/article/details/128929552</a></p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>导入的文件可以不在{projectdir}\newcounter\newcounter.srcs中，<br><img src="/../images/%E9%85%8D%E7%BD%AEvivado/image.png" alt="Alt text"></p>
-<h2 id="vivado加入board和part"><a href="#vivado加入board和part" class="headerlink" title="vivado加入board和part"></a>vivado加入board和part</h2><p><a target="_blank" rel="noopener" href="https://support.xilinx.com/s/question/0D52E00006lLBqpSAG/setting-board-file-fails-with-error-board-4971-the-boardpart-definition-was-not-found?language=en_US">https://support.xilinx.com/s/question/0D52E00006lLBqpSAG/setting-board-file-fails-with-error-board-4971-the-boardpart-definition-was-not-found?language=en_US</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/07/tools/index/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/07/tools/index/" class="post-title-link" itemprop="url">tags</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-12-07 00:48:39 / 修改时间：00:52:34" itemprop="dateCreated datePublished" datetime="2023-12-07T00:48:39+08:00">2023-12-07</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/06/course/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/06/course/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/" class="post-title-link" itemprop="url">学习硬件安全的网站</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-12-06 16:50:38" itemprop="dateCreated datePublished" datetime="2023-12-06T16:50:38+08:00">2023-12-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-12-10 21:15:47" itemprop="dateModified" datetime="2023-12-10T21:15:47+08:00">2023-12-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BB%BC%E8%BF%B0/" itemprop="url" rel="index"><span itemprop="name">综述</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>作为一名信息安全的学生，由于更喜欢与真实的世界打交道，选择了深入了解硬件安全。这里就将用来记录一些关于<em>硬件安全</em>的学习网站</p>
+          <p>Git版本控制系统的使用指南，包括基本操作、分支管理、团队协作等内容。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2023/12/06/course/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/#more" rel="contents">
+              <a class="btn" href="/2023/05/07/tools/git%E7%9A%84%E4%BD%BF%E7%94%A8/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1174,7 +695,7 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/06/tools/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/21/course/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
@@ -1188,7 +709,7 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2023/12/06/tools/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/" class="post-title-link" itemprop="url">hexo+github搭网站</a>
+            <a href="/2023/04/21/course/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">计算机组成原理课程笔记</a>
         </h2>
 
         <div class="post-meta">
@@ -1198,14 +719,14 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-12-06 16:20:38" itemprop="dateCreated datePublished" datetime="2023-12-06T16:20:38+08:00">2023-12-06</time>
+              <time title="创建时间：2023-04-21 00:00:00" itemprop="dateCreated datePublished" datetime="2023-04-21T00:00:00+08:00">2023-04-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-02-17 11:25:18" itemprop="dateModified" datetime="2024-02-17T11:25:18+08:00">2024-02-17</time>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1213,7 +734,11 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BB%BC%E8%BF%B0/" itemprop="url" rel="index"><span itemprop="name">综述</span></a>
+                  <a href="/categories/course/" itemprop="url" rel="index"><span itemprop="name">course</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/course/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">体系结构</span></a>
                 </span>
             </span>
 
@@ -1228,10 +753,265 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>由于心血来潮，决定自己搭网站。又所谓<em>拿来主义</em>，对于别人的好东西就要拿来，在此记录我参考过的网站</p>
+          <p>本课程笔记涵盖了计算机组成原理的核心概念，包括CPU设计、存储系统、指令系统等内容，以及相关的实践经验。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2023/12/06/tools/hexo+github%E6%90%AD%E7%BD%91%E7%AB%99/#more" rel="contents">
+              <a class="btn" href="/2023/04/21/course/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/16/os/x86%E7%9A%84%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/16/os/x86%E7%9A%84%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">x86架构学习笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-16 00:00:00" itemprop="dateCreated datePublished" datetime="2023-04-16T00:00:00+08:00">2023-04-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/os/" itemprop="url" rel="index"><span itemprop="name">os</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/os/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">体系结构</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>x86架构相关的学习笔记，包括寄存器使用、分段机制、特权级别等重要概念的详细说明。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/16/os/x86%E7%9A%84%E5%AD%A6%E4%B9%A0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/16/os/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/16/os/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/" class="post-title-link" itemprop="url">操作系统内存检测机制</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-16 00:00:00" itemprop="dateCreated datePublished" datetime="2023-04-16T00:00:00+08:00">2023-04-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/os/" itemprop="url" rel="index"><span itemprop="name">os</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/os/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">内存管理</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>介绍操作系统中的内存检测机制，包括NuttX系统的内存管理和KFENCE内存错误检测工具的使用方法。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/16/os/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/09/tools/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/09/tools/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">Buildroot使用指南</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-09 00:00:00" itemprop="dateCreated datePublished" datetime="2023-04-09T00:00:00+08:00">2023-04-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tools/" itemprop="url" rel="index"><span itemprop="name">tools</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tools/%E5%B5%8C%E5%85%A5%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">嵌入式</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Buildroot工具的使用指南，包括系统构建、交叉编译、定制化配置等内容。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/09/tools/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1322,18 +1102,18 @@ bash`git config --global user.email &quot;your.email@example.com&quot;`
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">77</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

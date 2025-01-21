@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Buildroot工具的使用指南，包括系统构建、交叉编译、定制化配置等内容。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Buildroot使用指南">
+<meta property="og:url" content="http://example.com/2023/04/09/tools/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="myBlog">
+<meta property="og:description" content="Buildroot工具的使用指南，包括系统构建、交叉编译、定制化配置等内容。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-01-20T16:00:00.000Z">
+<meta property="article:author" content="luluji">
+<meta property="article:tag" content="Buildroot">
+<meta property="article:tag" content="嵌入式系统">
+<meta property="article:tag" content="交叉编译">
+<meta property="article:tag" content="Linux开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/04/09/tools/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Buildroot使用指南 | myBlog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="myBlog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">myBlog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/09/tools/buildroot%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Buildroot使用指南
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-09 00:00:00" itemprop="dateCreated datePublished" datetime="2023-04-09T00:00:00+08:00">2023-04-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 00:00:00" itemprop="dateModified" datetime="2024-01-21T00:00:00+08:00">2024-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tools/" itemprop="url" rel="index"><span itemprop="name">tools</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tools/%E5%B5%8C%E5%85%A5%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">嵌入式</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Buildroot工具的使用指南，包括系统构建、交叉编译、定制化配置等内容。</p>
+<span id="more"></span>
+<p>在使用Buildroot构建嵌入式Linux系统时，<code>BR2_EXTERNAL</code>是一个重要的机制，它允许用户将自定义的配置、包（packages）、板级支持包（board support packages，简称BSPs）、以及其他构建脚本和文件集成到Buildroot构建过程中，而不必直接修改Buildroot的主树。这种机制非常有用，因为它使得维护自定义修改和跟踪Buildroot官方更新变得更加容易。</p>
+<h3 id="使用BR2-EXTERNAL的优势"><a href="#使用BR2-EXTERNAL的优势" class="headerlink" title="使用BR2_EXTERNAL的优势"></a>使用BR2_EXTERNAL的优势</h3><ul>
+<li><strong>模块化</strong>：允许将自定义内容和Buildroot主树分开，便于管理。</li>
+<li><strong>易于维护</strong>：更新Buildroot版本时，可以避免合并冲突，简化维护工作。</li>
+<li><strong>重用性</strong>：相同的自定义配置和包可以轻松地在多个项目之间共享和重用。</li>
+</ul>
+<h3 id="如何使用BR2-EXTERNAL"><a href="#如何使用BR2-EXTERNAL" class="headerlink" title="如何使用BR2_EXTERNAL"></a>如何使用BR2_EXTERNAL</h3><ol>
+<li><p><strong>创建外部树结构</strong>：首先，你需要创建一个目录作为你的外部树，这个目录将包含你的自定义配置和文件。外部树的推荐目录结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">your-external-tree/</span><br><span class="line">├── Config.in</span><br><span class="line">├── external.desc</span><br><span class="line">├── external.mk</span><br><span class="line">├── configs/</span><br><span class="line">├── board/</span><br><span class="line">├── package/</span><br><span class="line">└── fs/</span><br></pre></td></tr></table></figure>
+<p>其中<code>configs/</code>用于存放自定义的配置文件，<code>package/</code>用于存放自定义的软件包描述文件，<code>board/</code>可能包含板级特定文件，如启动脚本和覆盖层。</p>
+</li>
+<li><p><strong>设置BR2_EXTERNAL环境变量</strong>：在运行Buildroot的<code>make menuconfig</code>之前，通过环境变量<code>BR2_EXTERNAL</code>指向你的外部树目录。这可以通过在命令行中直接设置，或者添加到你的shell配置文件中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export BR2_EXTERNAL=/path/to/your-external-tree</span><br></pre></td></tr></table></figure>
+<p>或者，在make命令中直接指定：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make BR2_EXTERNAL=/path/to/your-external-tree menuconfig</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>使用自定义配置和包</strong>：一旦设置了<code>BR2_EXTERNAL</code>，Buildroot构建系统将自动识别外部树中的配置和包。你可以在<code>make menuconfig</code>中选择这些包，或者使用外部树中定义的配置作为构建的起点。</p>
+</li>
+<li><p><strong>构建系统</strong>：使用你的配置构建系统。如果一切设置正确，Buildroot将包含你的外部树中的自定义内容进行构建。</p>
+</li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li><strong>多个外部树</strong>：从Buildroot 2016.11版本开始，<code>BR2_EXTERNAL</code>支持指定多个外部树路径，使用冒号(<code>:</code>)分隔。</li>
+<li><strong>版本兼容性</strong>：在使用<code>BR2_EXTERNAL</code>时，要确保外部树中的自定义内容与Buildroot的版本兼容。</li>
+</ul>
+<p>通过使用<code>BR2_EXTERNAL</code>，你可以灵活地扩展Buildroot，添加自定义功能和支持，同时保持与Buildroot主树的清晰分离，这对于项目的长期维护和升级非常有益。</p>
+<p>当使用<code>BR2_EXTERNAL</code>机制在Buildroot中引入外部树时，你需要在外部树的根目录创建一些特定的文件和目录来定义你的自定义配置、板级支持包、软件包和文件系统扩展。以下是如何组织和编写这些文件的一些基本指导：</p>
+<h3 id="1-Config-in"><a href="#1-Config-in" class="headerlink" title="1. Config.in"></a>1. Config.in</h3><p><code>Config.in</code>是一个Kconfig文件，它定义了在Buildroot配置界面中出现的选项。这个文件通常用来引入外部软件包的配置选项或者特定的配置界面。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">menu <span class="string">&quot;My Custom Options&quot;</span></span><br><span class="line"></span><br><span class="line">config BR2_PACKAGE_MY_CUSTOM_PACKAGE</span><br><span class="line">    bool <span class="string">&quot;My custom package&quot;</span></span><br><span class="line">    help</span><br><span class="line">      This option will enable my custom package.</span><br><span class="line"></span><br><span class="line">endmenu</span><br></pre></td></tr></table></figure>
+
+<p>此文件中定义的选项可以在Buildroot的配置界面中找到，并允许用户启用或禁用特定功能。</p>
+<h3 id="2-external-desc"><a href="#2-external-desc" class="headerlink" title="2. external.desc"></a>2. external.desc</h3><p><code>external.desc</code>是Buildroot 2020.02版本后引入的新文件，用于描述外部树的元数据，如名称和描述。这个文件不是必需的，但有助于识别外部树。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">name: my-external-tree</span><br><span class="line">description: My custom external tree for Buildroot</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-external-mk"><a href="#3-external-mk" class="headerlink" title="3. external.mk"></a>3. external.mk</h3><p><code>external.mk</code>是Makefile片段，用于包含外部软件包的构建规则。这个文件会被Buildroot构建系统自动包含。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Example of including a custom package</span></span><br><span class="line"><span class="keyword">ifeq</span> (<span class="variable">$(BR2_PACKAGE_MY_CUSTOM_PACKAGE)</span>,y)</span><br><span class="line"><span class="keyword">include</span> package/my_custom_package/my_custom_package.mk</span><br><span class="line"><span class="keyword">endif</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-configs"><a href="#4-configs" class="headerlink" title="4. configs&#x2F;"></a>4. configs&#x2F;</h3><p><code>configs/</code>目录包含预定义的Buildroot配置文件，这些文件可以通过<code>make &lt;config_name&gt;_defconfig</code>命令使用。这些配置文件通常用于快速配置Buildroot以使用特定的板级支持包或软件包组合。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Example of a custom defconfig file</span><br><span class="line">BR2_PACKAGE_MY_CUSTOM_PACKAGE=y</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-board"><a href="#5-board" class="headerlink" title="5. board&#x2F;"></a>5. board&#x2F;</h3><p><code>board/</code>目录包含特定于板级的文件，如启动脚本、内核配置片段或根文件系统覆盖层。</p>
+<h3 id="6-package"><a href="#6-package" class="headerlink" title="6. package&#x2F;"></a>6. package&#x2F;</h3><p><code>package/</code>目录包含自定义软件包的描述和构建规则。每个软件包目录下通常包含两个文件：<code>Config.in</code>和<code>&lt;package_name&gt;.mk</code>。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># package/my_custom_package/Config.in</span></span><br><span class="line">config BR2_PACKAGE_MY_CUSTOM_PACKAGE</span><br><span class="line">    bool <span class="string">&quot;My custom package&quot;</span></span><br><span class="line">    help</span><br><span class="line">      My custom package description.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># package/my_custom_package/my_custom_package.mk</span></span><br><span class="line">MY_CUSTOM_PACKAGE_VERSION = 1.0</span><br><span class="line">MY_CUSTOM_PACKAGE_SITE = <span class="variable">$(TOPDIR)</span>/path/to/my_custom_package/source</span><br><span class="line">MY_CUSTOM_PACKAGE_LICENSE = GPL-2.0+</span><br><span class="line"></span><br><span class="line"><span class="keyword">define</span> MY_CUSTOM_PACKAGE_BUILD_CMDS</span><br><span class="line">    <span class="variable">$(MAKE)</span> CC=<span class="string">&quot;<span class="variable">$(TARGET_CC)</span>&quot;</span> -C $(@D)</span><br><span class="line"><span class="keyword">endef</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">define</span> MY_CUSTOM_PACKAGE_INSTALL_TARGET_CMDS</span><br><span class="line">    <span class="variable">$(INSTALL)</span> -D -m 0755 $(@D)/my_custom_package <span class="variable">$(TARGET_DIR)</span>/usr/bin</span><br><span class="line"><span class="keyword">endef</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$(<span class="built_in">eval</span> $(generic-package)</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-fs"><a href="#7-fs" class="headerlink" title="7. fs&#x2F;"></a>7. fs&#x2F;</h3><p><code>fs/</code>目录用于添加自定义文件系统支持。这里可以放置生成特定类型文件系统镜像的脚本和配置。</p>
+<p>这些文件和目录为你提供了一个框架来扩展Buildroot，添加自定义板级支持、软件包和配置。确保遵循Buildroot的文档和现有的样板（boilerplate）代码来正确实现这些自定义扩展。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Buildroot/" rel="tag"># Buildroot</a>
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F/" rel="tag"># 嵌入式系统</a>
+              <a href="/tags/%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/" rel="tag"># 交叉编译</a>
+              <a href="/tags/Linux%E5%BC%80%E5%8F%91/" rel="tag"># Linux开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/04/09/os/riscv%E5%90%AF%E5%8A%A8/" rel="prev" title="RISC-V启动流程详解">
+      <i class="fa fa-chevron-left"></i> RISC-V启动流程详解
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/04/16/os/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/" rel="next" title="操作系统内存检测机制">
+      操作系统内存检测机制 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8BR2-EXTERNAL%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="nav-number">1.</span> <span class="nav-text">使用BR2_EXTERNAL的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8BR2-EXTERNAL"><span class="nav-number">2.</span> <span class="nav-text">如何使用BR2_EXTERNAL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">3.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Config-in"><span class="nav-number">4.</span> <span class="nav-text">1. Config.in</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-external-desc"><span class="nav-number">5.</span> <span class="nav-text">2. external.desc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-external-mk"><span class="nav-number">6.</span> <span class="nav-text">3. external.mk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-configs"><span class="nav-number">7.</span> <span class="nav-text">4. configs&#x2F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-board"><span class="nav-number">8.</span> <span class="nav-text">5. board&#x2F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-package"><span class="nav-number">9.</span> <span class="nav-text">6. package&#x2F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-fs"><span class="nav-number">10.</span> <span class="nav-text">7. fs&#x2F;</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="luluji"
+      src="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+  <p class="site-author-name" itemprop="name">luluji</p>
+  <div class="site-description" itemprop="description">whu信安er</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/LuLuji04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;LuLuji04" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/489481905" title="bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;489481905" rel="noopener" target="_blank"><i class="fab fa-bilibili fa-fw"></i>bilibili</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">luluji</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '956254f1a7da34696788',
+      clientSecret: 'f688b4d56316b37155f22f04cefaa142c63f9819',
+      repo        : 'blog-comment',
+      owner       : 'luluji04',
+      admin       : ['luluji04'],
+      id          : 'f1a24e4e49eddc97b31bdd97225ed618',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
