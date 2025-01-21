@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://example.com/2025/01/21/ysyx/rtthread/%E5%86%85%E5%AD%98/</loc>
-    <lastmod>2024-12-07</lastmod>
+    <loc>http://example.com/2024/01/21/ysyx/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99/</loc>
+    <lastmod>2025-01-21</lastmod>
   </url>
   <url>
-    <loc>http://example.com/2025/01/21/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E6%A0%A1%E5%87%86%E5%BB%B6%E8%BF%9F/</loc>
-    <lastmod>2024-12-03</lastmod>
+    <loc>http://example.com/2025/01/21/ysyx/rtthread/%E5%86%85%E5%AD%98/</loc>
+    <lastmod>2024-12-07</lastmod>
   </url>
   <url>
     <loc>http://example.com/2025/01/21/ysyx/abstract-machine/git/</loc>
@@ -17,14 +17,6 @@
     <lastmod>2024-12-03</lastmod>
   </url>
   <url>
-    <loc>http://example.com/2025/01/21/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/icache/</loc>
-    <lastmod>2024-12-01</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/2025/01/21/ysyx/%E6%80%BB%E7%BA%BF/axi4/</loc>
-    <lastmod>2024-11-30</lastmod>
-  </url>
-  <url>
     <loc>http://example.com/2025/01/21/ysyx/ysyxsoc/sdram/</loc>
     <lastmod>2024-11-29</lastmod>
   </url>
@@ -33,20 +25,8 @@
     <lastmod>2024-11-29</lastmod>
   </url>
   <url>
-    <loc>http://example.com/2025/01/21/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/nemu-npc-ysyxsoc/</loc>
-    <lastmod>2024-11-27</lastmod>
-  </url>
-  <url>
     <loc>http://example.com/2025/01/21/ysyx/ysyxsoc/psram/</loc>
     <lastmod>2024-11-17</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/2024/02/10/tools/makefile%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</loc>
-    <lastmod>2024-05-14</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/2023/12/08/course/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</loc>
-    <lastmod>2024-05-09</lastmod>
   </url>
   <url>
     <loc>http://example.com/2023/12/26/tools/%E9%85%8D%E7%BD%AE%E9%AB%98%E7%BA%A7%E8%BD%AF%E4%BB%B6/</loc>
@@ -55,18 +35,6 @@
   <url>
     <loc>http://example.com/2024/03/02/tools/git%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
     <lastmod>2024-05-07</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/2024/04/20/course/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/</loc>
-    <lastmod>2024-04-21</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/2024/04/16/os/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/</loc>
-    <lastmod>2024-04-16</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/2024/04/16/os/x86%E7%9A%84%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2024-04-16</lastmod>
   </url>
   <url>
     <loc>http://example.com/2024/04/01/tools/%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE/</loc>
@@ -82,10 +50,6 @@
   </url>
   <url>
     <loc>http://example.com/2024/04/09/course/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</loc>
-    <lastmod>2024-04-09</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/2024/02/14/os/riscv%E5%90%AF%E5%8A%A8/</loc>
     <lastmod>2024-04-09</lastmod>
   </url>
   <url>
@@ -105,8 +69,44 @@
     <lastmod>2024-02-07</lastmod>
   </url>
   <url>
-    <loc>http://example.com/2023/12/09/ysyx/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99/</loc>
-    <lastmod>2024-02-02</lastmod>
+    <loc>http://example.com/2024/01/21/tools/makefile%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</loc>
+    <lastmod>2024-01-20</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/2023/04/16/os/x86%E7%9A%84%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2024-01-20</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/2023/04/09/os/riscv%E5%90%AF%E5%8A%A8/</loc>
+    <lastmod>2024-01-20</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/2023/05/09/course/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</loc>
+    <lastmod>2024-01-20</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/2023/04/21/course/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/</loc>
+    <lastmod>2024-01-20</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/2023/04/16/os/%E5%86%85%E5%AD%98%E6%A3%80%E6%B5%8B/</loc>
+    <lastmod>2024-01-20</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/2023/12/01/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/icache/</loc>
+    <lastmod>2024-01-20</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/2023/12/03/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E6%A0%A1%E5%87%86%E5%BB%B6%E8%BF%9F/</loc>
+    <lastmod>2024-01-20</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/2023/11/27/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/nemu-npc-ysyxsoc/</loc>
+    <lastmod>2024-01-20</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/2023/11/30/ysyx/%E6%80%BB%E7%BA%BF/axi4/</loc>
+    <lastmod>2024-01-20</lastmod>
   </url>
   <url>
     <loc>http://example.com/2023/12/06/course/%E5%AD%A6%E4%B9%A0%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8%E7%9A%84%E7%BD%91%E7%AB%99/</loc>

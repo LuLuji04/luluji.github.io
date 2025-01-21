@@ -191,350 +191,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/01/21/ysyx/%E6%80%BB%E7%BA%BF/axi4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/21/ysyx/%E6%80%BB%E7%BA%BF/axi4/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2025-01-21 14:44:11" itemprop="dateCreated datePublished" datetime="2025-01-21T14:44:11+08:00">2025-01-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-12-01 03:59:01" itemprop="dateModified" datetime="2024-12-01T03:59:01+08:00">2024-12-01</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="wlast"><a href="#wlast" class="headerlink" title="wlast"></a>wlast</h2><p>使用sdram-axi后，写入flash出现的问题。xbar的auto_in没问题，但in_0的awvalid没有置1<br><img src="/image.png" alt="alt text"></p>
-<p>用到了队列，但io_deq_ready一直没有激活，一直无法从队列中弹出第一次axi事务的信号。<br><img src="/image-3.png" alt="alt text"><br>原因是wlast用于指示最后一个axi的transfer.如果只有一个transfer，那wlast要和wvalid同时为1<br><img src="/image-2.png" alt="alt text"><br>加上提前wlast的信号</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">when(idx_beat === num_beats(lenReg) <span class="number">-1.</span><span class="type">U</span>)&#123;</span><br><span class="line">	axi4.wlast := <span class="literal">true</span>.<span class="type">B</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="突发传输"><a href="#突发传输" class="headerlink" title="突发传输"></a>突发传输</h2><p>一次事务的结束以rlast&#x2F;wlast为标志，cpu中xbar和arbiter要做修改,在收到rlast&#x2F;wlast时切换道空闲状态。否则cpu中总线收不到rlast&#x2F;wlast<br><img src="/image-1.png" alt="alt text"></p>
-<h2 id="写的信号关系"><a href="#写的信号关系" class="headerlink" title="写的信号关系"></a>写的信号关系</h2><p>1.master的wvalid不能依赖awready<br><img src="/image-4.png" alt="alt text"></p>
-<h2 id="sdram的突发"><a href="#sdram的突发" class="headerlink" title="sdram的突发"></a>sdram的突发</h2><p>assign wlast_o &#x3D; axi_wlast_i;<br>assign rlast_o &#x3D; !resp_is_last_w | axi_arlen_i&#x3D;&#x3D;8’d0;<br>下图的state_q应该只用一个周期。一个周期后req_len_q&#x3D;&#x3D;ff,晚了一个周期。因此只能使用axi_arlen_i<br><img src="/image-7.png" alt="alt text"><br>突发成功了和突发没成功<br><img src="/image-6.png" alt="alt text"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/01/21/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E6%A0%A1%E5%87%86%E5%BB%B6%E8%BF%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/21/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E6%A0%A1%E5%87%86%E5%BB%B6%E8%BF%9F/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2025-01-21 14:44:11" itemprop="dateCreated datePublished" datetime="2025-01-21T14:44:11+08:00">2025-01-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-12-03 16:31:35" itemprop="dateModified" datetime="2024-12-03T16:31:35+08:00">2024-12-03</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="为什么要校准"><a href="#为什么要校准" class="headerlink" title="为什么要校准"></a>为什么要校准</h2><p>事实上, 之前的ysyxSoC环境是假设处理器和各种外设运行在同一频率下: verilator仿真的一个周期, 既是处理器中的一个周期, 也是外设中的一个周期. 但实际上并非如此: 受电气特性的影响, 外设通常只能运行在低频率, 例如SDRAM颗粒通常只能运行在100MHz左右, 过高的频率会导致时序违例, 使得SDRAM颗粒无法正确工作; 但另一方面, 使用先进工艺的处理器通常能够运行在更高的频率, 例如, yzh某个版本的多周期NPC在yosys-sta项目默认提供的nangate45工艺下频率达到约1.2GHz. 在上述配置下, SDRAM控制器中经过1个周期, NPC应该经过12个周期, 但verilator感知不到两者的频率差异, 仍然按照两者频率相同的假设进行仿真, 使得仿真结果比真实芯片乐观很多, 从而也可能会使得一些优化措施无法在真实芯片中取得预期的效果.</p>
-<h2 id="我的仿真频率"><a href="#我的仿真频率" class="headerlink" title="我的仿真频率"></a>我的仿真频率</h2><table>
-<thead>
-<tr>
-<th>Endpoint</th>
-<th>Clock Group</th>
-<th>Delay Type</th>
-<th>Path Delay</th>
-<th>Path Required</th>
-<th>CPPR</th>
-<th>Slack</th>
-<th>Freq(MHz)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>clint&#x2F;<em>1870</em>:D</td>
-<td>core_clock</td>
-<td>max</td>
-<td>1.984r</td>
-<td>9.969</td>
-<td>0.000</td>
-<td>7.985</td>
-<td>496.197</td>
-</tr>
-<tr>
-<td>clint&#x2F;<em>1870</em>:D</td>
-<td>core_clock</td>
-<td>max</td>
-<td>1.966f</td>
-<td>9.961</td>
-<td>0.000</td>
-<td>7.995</td>
-<td>498.797</td>
-</tr>
-<tr>
-<td>clint&#x2F;<em>1869</em>:D</td>
-<td>core_clock</td>
-<td>max</td>
-<td>1.959f</td>
-<td>9.961</td>
-<td>0.000</td>
-<td>8.001</td>
-<td>500.367</td>
-</tr>
-<tr>
-<td>exu&#x2F;u_alu&#x2F;<em>2689</em>:D</td>
-<td>core_clock</td>
-<td>min</td>
-<td>0.079f</td>
-<td>0.002</td>
-<td>0.000</td>
-<td>0.078</td>
-<td>NA</td>
-</tr>
-<tr>
-<td>exu&#x2F;u_alu&#x2F;<em>2689</em>:D</td>
-<td>core_clock</td>
-<td>min</td>
-<td>0.086r</td>
-<td>0.006</td>
-<td>0.000</td>
-<td>0.080</td>
-<td>NA</td>
-</tr>
-<tr>
-<td>registerfile&#x2F;<em>7836</em>:D</td>
-<td>core_clock</td>
-<td>min</td>
-<td>0.114f</td>
-<td>0.002</td>
-<td>0.000</td>
-<td>0.112</td>
-<td>NA</td>
-</tr>
-</tbody></table>
-<h2 id="校准"><a href="#校准" class="headerlink" title="校准"></a>校准</h2><p>我的校准系数是5</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/01/21/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/nemu-npc-ysyxsoc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/21/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/nemu-npc-ysyxsoc/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2025-01-21 14:44:11" itemprop="dateCreated datePublished" datetime="2025-01-21T14:44:11+08:00">2025-01-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-11-27 23:56:34" itemprop="dateModified" datetime="2024-11-27T23:56:34+08:00">2024-11-27</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="切换清单"><a href="#切换清单" class="headerlink" title="切换清单"></a>切换清单</h1><p>1.npc-chisel&#x2F;nemu中make menuconfig切换SoC和nemu的运行target<br>2.npc-chisel 修改代码里的ysyxSoC &#x3D; true&#x2F;false</p>
-<p>#切换用几个sdram<br>1.ysyxsoc&#x2F;perip&#x2F;sdram<br>2.ysyxsoc&#x2F;src&#x2F;device&#x2F;SDRAM.scala</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/01/21/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/icache/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
-      <meta itemprop="name" content="luluji">
-      <meta itemprop="description" content="whu信安er">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="myBlog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/21/ysyx/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/icache/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2025-01-21 14:44:11" itemprop="dateCreated datePublished" datetime="2025-01-21T14:44:11+08:00">2025-01-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-12-01 23:05:48" itemprop="dateModified" datetime="2024-12-01T23:05:48+08:00">2024-12-01</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>变成两路后好像负优化了<br><img src="/image.png" alt="alt text"></p>
-<p>Icache配置切换</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">IcacheConfig</span></span>&#123;</span><br><span class="line">  <span class="comment">//Byte</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">BlockSize</span>: <span class="type">Int</span> = <span class="number">8</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">WayNum</span> : <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">SetNum</span>: <span class="type">Int</span> = <span class="number">16</span></span><br><span class="line">  <span class="keyword">val</span> <span class="type">Strategy</span>: <span class="type">String</span> = <span class="string">&quot;RANDOM&quot;</span> <span class="comment">//LRU,FIFO</span></span><br><span class="line">  <span class="keyword">val</span> burst: <span class="type">String</span> = <span class="string">&quot;INCR&quot;</span> <span class="comment">//INCR,WRAP</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="Icache的控制参数"><a href="#Icache的控制参数" class="headerlink" title="Icache的控制参数"></a>Icache的控制参数</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">wire</span>         _GEN = state == <span class="number">3&#x27;h0</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_0 = state == <span class="number">3&#x27;h1</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19, :193:17]</span></span><br><span class="line"><span class="keyword">wire</span> [<span class="number">7</span>:<span class="number">0</span>]   _GEN_1 = &#123;<span class="number">5&#x27;h0</span>, sizeReg&#125;;	<span class="comment">// @[src/main/AXI/AXI4.scala:143:56, :167:22]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_2 = _GEN | ~_GEN_0;	<span class="comment">// @[src/main/AXI/AXI4.scala:62:17, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_3 = state == <span class="number">3&#x27;h2</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19, :187:15]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_4 = _GEN | _GEN_0;	<span class="comment">// @[src/main/AXI/AXI4.scala:52:18, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         io_axi_wvalid_0 = ~_GEN_4 &amp; _GEN_3;	<span class="comment">// @[src/main/AXI/AXI4.scala:52:18, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span> [<span class="number">7</span>:<span class="number">0</span>]   _wstrbReg_T = <span class="number">8&#x27;h1</span> &lt;&lt; _GEN_1;	<span class="comment">// @[src/main/AXI/AXI4.scala:143:56, src/main/Cache/Icache.scala:94:26]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_5 = _GEN_4 | ~_GEN_3;	<span class="comment">// @[src/main/AXI/AXI4.scala:48:17, :52:18, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_6 = idx_beat == lenReg;	<span class="comment">// @[src/main/AXI/AXI4.scala:168:21, :170:23, :227:23]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_7 = io_axi_awready &amp; io_axi_wready;	<span class="comment">// @[src/main/AXI/AXI4.scala:231:27]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_8 = state == <span class="number">3&#x27;h3</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:162:24, :182:19, :210:17]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_9 = _GEN | _GEN_0 | _GEN_3;	<span class="comment">// @[src/main/AXI/AXI4.scala:68:17, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_10 = _GEN_8 &amp; io_axi_rvalid;	<span class="comment">// @[src/main/AXI/AXI4.scala:174:19, :182:19, :244:29, :246:27]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_11 = io_axi_rlast | _GEN_6;	<span class="comment">// @[src/main/AXI/AXI4.scala:227:23, :248:29]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_12 = state == <span class="number">3&#x27;h4</span>;	<span class="comment">// @[src/main/AXI/AXI4.scala:153:38, :162:24, :182:19]</span></span><br><span class="line"><span class="keyword">wire</span>         _GEN_13 = _GEN_8 | ~_GEN_12;	<span class="comment">// @[src/main/AXI/AXI4.scala:55:16, :182:19]</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2025/01/21/ysyx/ysyxsoc/%E5%85%B6%E4%BB%96soc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1063,6 +719,296 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/04/09/course/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/04/09/course/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">编译原理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-04-09 22:26:40 / 修改时间：22:28:54" itemprop="dateCreated datePublished" datetime="2024-04-09T22:26:40+08:00">2024-04-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <span id="more"></span>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40618816/article/details/105094138/">https://blog.csdn.net/qq_40618816/article/details/105094138/</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/04/01/tools/%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/04/01/tools/%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">虚拟机配置</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-04-01 20:39:06" itemprop="dateCreated datePublished" datetime="2024-04-01T20:39:06+08:00">2024-04-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-04-12 16:25:11" itemprop="dateModified" datetime="2024-04-12T16:25:11+08:00">2024-04-12</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <span id="more"></span>
+
+<h2 id="配置静态ip"><a href="#配置静态ip" class="headerlink" title="配置静态ip"></a>配置静态ip</h2><h4 id="centos"><a href="#centos" class="headerlink" title="centos"></a>centos</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Un1qu3/article/details/126155766">https://blog.csdn.net/Un1qu3/article/details/126155766</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/Conquer_l/article/details/124989551">https://blog.csdn.net/Conquer_l/article/details/124989551</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/lk142500/article/details/88386651">https://blog.csdn.net/lk142500/article/details/88386651</a><br><img src="/2146089-20200911223717884-1559586693.png" alt="alt text"><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yansunda/p/13654632.html">https://www.cnblogs.com/yansunda/p/13654632.html</a></p>
+<p>vim &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-eth33<br>sudo systemctl restart NetworkManager</p>
+<h4 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_58305495/article/details/130554393">https://blog.csdn.net/weixin_58305495/article/details/130554393</a></p>
+<p>1:查看防火状态<br>systemctl status firewalld<br>service  iptables status<br>2:暂时关闭防火墙<br>systemctl stop firewalld<br>service  iptables stop<br>3:永久关闭防火墙<br>systemctl disable firewalld<br>chkconfig iptables off<br>4:重启防火墙<br>systemctl enable firewalld<br>service iptables restart<br>5:永久关闭后重启<br>chkconfig iptables on  </p>
+<p>关闭selinux<br>暂时：<br>setenforce 0<br>永久：<br>输入命令 <code>vi /etc/selinux/config</code>。<br>在打开的文件中，找到 <code>SELINUX=</code> 这一行，将其从 <code>enforcing</code> 或 <code>permissive</code> 修改为 <code>disabled</code>。</p>
+<p>arp -a<br>展示运行过的ping</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/03/24/course/mysql/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/03/24/course/mysql/" class="post-title-link" itemprop="url">mysql</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-03-24 17:01:47" itemprop="dateCreated datePublished" datetime="2024-03-24T17:01:47+08:00">2024-03-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-04-09 13:39:09" itemprop="dateModified" datetime="2024-04-09T13:39:09+08:00">2024-04-09</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <span id="more"></span>
+
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/620270343">https://www.zhihu.com/question/620270343</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/03/05/course/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8F%AF%E6%81%B6%E5%B0%8F%E6%81%90%E9%BE%99.jpg">
+      <meta itemprop="name" content="luluji">
+      <meta itemprop="description" content="whu信安er">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/03/05/course/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">操作系统</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-03-05 14:15:09" itemprop="dateCreated datePublished" datetime="2024-03-05T14:15:09+08:00">2024-03-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-04-09 22:28:54" itemprop="dateModified" datetime="2024-04-09T22:28:54+08:00">2024-04-09</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <span id="more"></span>
+
+<p>SISD<br>MISD：可靠性<br>MIMD</p>
+<p>多处理器：多个芯片<br>多核：多个执行单元</p>
+<p>多处理器结构<br>超线程结构：一个处理器多个线程环境<br>多核结构：多个cache（缓冲）<br>多核超线程结构</p>
+<p>特权指令：只供操作系统使用<br>设置定时器<br>清除内存<br>发起陷入指令<br>关中断<br>修改设备状态信息<br>用户与内核态切换<br>访问I&#x2F;O设备</p>
+<p>SGX加密，用户内存加密隔离</p>
+<p>切换步骤：保存处理器现场，根据终端号设置程序计数器，转换PSW</p>
+<p>psw：程序状态字寄存器<br>pc，条件码，</p>
+<p>程序：堆栈，函数：栈帧</p>
+<p>海光的amd zen</p>
+<p>内存管理寄存器{<br>    段描述符{<br>    GDTR 全局描述符寄存器<br>    } + ip<br>    IDTR：中断描述符寄存器 + 偏移<br>    TR：<br>}</p>
+<p>psw：EFLAG和ip</p>
+<p>bios在flash</p>
+<p>启动规范<br>legacy bios<br>uefi</p>
+<p>bios-&gt;bootloader</p>
+<p>同步中断：异常，非法指令（page fault，内存错误，除零错误）<br>异步中断：中断，硬件设备<br>系统调用：应用程序</p>
+<p>出错：page fault,重新执行<br>陷入：用于调试，下一指令</p>
+<p>异常在内核中：挂了</p>
+<p>关中断保证指令的原子性</p>
+<h2 id="安装openeuler"><a href="#安装openeuler" class="headerlink" title="安装openeuler"></a>安装openeuler</h2><p><a target="_blank" rel="noopener" href="https://blog.51cto.com/shuchaoyang/6604107">https://blog.51cto.com/shuchaoyang/6604107</a></p>
+<h2 id="安装新内核"><a href="#安装新内核" class="headerlink" title="安装新内核"></a>安装新内核</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_51683653/article/details/124133370">https://blog.csdn.net/m0_51683653/article/details/124133370</a></p>
+<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>arch&#x2F;x86&#x2F;entry&#x2F;thunk_64.o: warning: objtool: missing symbol table<br><a target="_blank" rel="noopener" href="https://www.spinics.net/lists/kernel/msg3797871.html">https://www.spinics.net/lists/kernel/msg3797871.html</a></p>
+<h2 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/MengMengDeXiaoJi/article/details/136821507">https://blog.csdn.net/MengMengDeXiaoJi/article/details/136821507</a></p>
+<h2 id="内核模块"><a href="#内核模块" class="headerlink" title="内核模块"></a>内核模块</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_74282605/article/details/135866888">https://blog.csdn.net/m0_74282605/article/details/135866888</a></p>
+<h2 id="list宏"><a href="#list宏" class="headerlink" title="list宏"></a>list宏</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44498318/article/details/132275727">https://blog.csdn.net/weixin_44498318/article/details/132275727</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -1141,11 +1087,11 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">35</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
